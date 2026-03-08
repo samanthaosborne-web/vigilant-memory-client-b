@@ -42,14 +42,15 @@
       z-index: 10000;
       background: #1d2958;
       border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-      line-height: 0;
-      padding-top: env(safe-area-inset-top);
+      line-height: 1.2;
+      padding: calc(18px + env(safe-area-inset-top)) calc(94px + env(safe-area-inset-right)) 18px 18px;
     }
 
-    .header-hero-img {
-      display: block;
-      width: 100%;
-      height: auto;
+    .main-app-header-title {
+      margin: 0;
+      color: #efde21;
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 800;
     }
 
     .menu-btn {
@@ -527,10 +528,12 @@
     }
 
     @media (max-width: 640px) {
-      .header-hero-img {
-        height: 220px;
-        object-fit: cover;
-        object-position: center center;
+      .site-header {
+        padding: calc(12px + env(safe-area-inset-top)) calc(72px + env(safe-area-inset-right)) 12px 12px;
+      }
+
+      .main-app-header-title {
+        font-size: 24px;
       }
 
       .menu-btn {
@@ -574,8 +577,8 @@
     }
 
     @media (max-width: 420px) {
-      .header-hero-img {
-        height: 200px;
+      .main-app-header-title {
+        font-size: 21px;
       }
     }
   </style>
@@ -585,7 +588,7 @@
   <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 
   <header class="site-header">
-    <img class="header-hero-img" src="./header-exact.png" alt="Profitable Tradie Business Toolkit" />
+    <h1 class="main-app-header-title">Main App Header</h1>
     <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
       <span class="menu-icon" aria-hidden="true">
         <span></span>
