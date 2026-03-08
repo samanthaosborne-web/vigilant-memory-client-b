@@ -690,11 +690,38 @@
             return;
           }
 
+          const accessToken = data.session.access_token;
+
+          // Verify email 2FA before allowing access
+          try {
+            const twoFaResp = await fetch("/api/verify-login-code", {
+              method: "POST",
+              headers: {
+                Authorization: "Bearer " + accessToken,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ check: true })
+            });
+            if (twoFaResp.ok) {
+              const twoFaResult = await twoFaResp.json();
+              if (!twoFaResult.verified) {
+                window.location.replace("./login.html");
+                return;
+              }
+            } else {
+              window.location.replace("./login.html");
+              return;
+            }
+          } catch (_twoFaError) {
+            window.location.replace("./login.html");
+            return;
+          }
+
           try {
             const syncResp = await fetch("/api/sync-subscription", {
               method: "POST",
               headers: {
-                Authorization: "Bearer " + data.session.access_token
+                Authorization: "Bearer " + accessToken
               }
             });
             if (syncResp.ok) {
