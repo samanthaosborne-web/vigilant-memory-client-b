@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdvisaStacks - AI Prompt Tools for Trade Businesses</title>
+  <meta name="description" content="AdvisaStacks provides prompt tools for trade businesses to draft practical customer and team communications faster." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #313131;
+      --surface: #f9faff;
+      --accent: #e75a00;
+      --text-dark: #313131;
+      --text-muted: #5a5a5a;
+      --text-light: #f9faff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Roboto", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-light);
+    }
+
+    .wrap {
+      width: min(1020px, 100%);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .hero {
+      background: var(--surface);
+      color: var(--text-dark);
+      border: 4px solid var(--accent);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: clamp(34px, 6vw, 56px);
+      line-height: 1;
+    }
+
+    .tagline {
+      margin: 0 0 16px;
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .desc {
+      margin: 0 0 18px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .card {
+      background: #fff;
+      border: 2px solid #313131;
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .card h2 {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 0;
+      color: #303030;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    a.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      background: var(--accent);
+      color: var(--text-light);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.24);
+    }
+
+    a.btn.secondary {
+      background: #fff;
+      color: var(--accent);
+    }
+
+    .footer {
+      margin-top: 14px;
+      font-size: 14px;
+      color: #3a3a3a;
+    }
+
+    .footer a {
+      color: var(--accent);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>AdvisaStacks</h1>
+      <p class="tagline">AI prompt tools for trade business communication workflows.</p>
+
+      <p class="desc">
+        AdvisaStacks helps trade businesses draft practical messages faster across quoting, follow-ups,
+        customer updates, payment reminders, and review/referral requests. Users remain responsible for
+        reviewing and approving all content before use.
+      </p>
+
+      <div class="cards">
+        <article class="card">
+          <h2>Monthly Plan</h2>
+          <p>AUD $9.99 per month.</p>
+        </article>
+        <article class="card">
+          <h2>Annual Plan</h2>
+          <p>AUD $99 per year (2 months free feel).</p>
+        </article>
+        <article class="card">
+          <h2>Contact</h2>
+          <p>Email: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a></p>
+        </article>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="./signup.html">Create account</a>
+        <a class="btn secondary" href="./login.html">Log in</a>
+        <a class="btn secondary" href="./billing.html">Billing</a>
+      </div>
+
+      <p class="footer">
+        Legal: <a href="./legal-disclaimer.html">Legal Disclaimer</a> |
+        Privacy: <a href="./privacy-policy.html">Privacy Policy</a>
+      </p>
+    </section>
+  </div>
+</body>
+</html>
