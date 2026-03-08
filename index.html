@@ -644,6 +644,7 @@
   <script src="./auth-config.js"></script>
   <script>
     (function () {
+      const ACTIVE_SUBSCRIPTION_STATUSES = new Set(["active", "trialing"]);
       const SUPABASE_URL = window.SUPABASE_URL || "";
       const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "";
       const missingConfig =
@@ -663,9 +664,27 @@
 
       supabaseClient.auth
         .getSession()
-        .then(({ data, error }) => {
+        .then(async ({ data, error }) => {
           if (error || !data.session) {
             window.location.replace("./login.html");
+            return;
+          }
+
+          const userId = data.session.user.id;
+          const { data: subscription, error: subscriptionError } = await supabaseClient
+            .from("billing_subscriptions")
+            .select("status")
+            .eq("user_id", userId)
+            .maybeSingle();
+
+          if (subscriptionError) {
+            window.location.replace("./billing.html");
+            return;
+          }
+
+          const isActive = ACTIVE_SUBSCRIPTION_STATUSES.has(subscription?.status || "inactive");
+          if (!isActive) {
+            window.location.replace("./billing.html");
             return;
           }
           document.body.classList.remove("auth-pending");
