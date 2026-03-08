@@ -1,7 +1,7 @@
 (function () {
-  const form = document.getElementById("loginForm");
+  const form = document.getElementById("forgotPasswordForm");
   const statusMessage = document.getElementById("statusMessage");
-  const loginBtn = document.getElementById("loginBtn");
+  const sendResetBtn = document.getElementById("sendResetBtn");
 
   function setStatus(message, type) {
     statusMessage.textContent = message;
@@ -23,33 +23,27 @@
     );
   }
 
-  if (!missingConfig) {
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    supabase.auth.getSession().then(({ data }) => {
-      if (data && data.session) {
-        window.location.replace("./index.html");
-      }
-    });
-  }
-
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
     setStatus("", "");
     if (missingConfig) return;
-    loginBtn.disabled = true;
 
+    sendResetBtn.disabled = true;
     const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + "/reset-password.html"
+    });
 
     if (error) {
       setStatus(error.message, "error");
-      loginBtn.disabled = false;
+      sendResetBtn.disabled = false;
       return;
     }
 
-    window.location.href = "./index.html";
+    setStatus("Reset link sent. Check your email inbox.", "ok");
+    form.reset();
+    sendResetBtn.disabled = false;
   });
 })();
