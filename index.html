@@ -18,12 +18,12 @@
   <title>Business Toolkit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #eeeff1;
-      --text: #000000;
-      --accent: #005792;
+      --bg: #313131;
+      --text: #f9faff;
+      --accent: #e75a00;
     }
 
     * {
@@ -32,7 +32,7 @@
 
     body {
       margin: 0;
-      font-family: "Poppins", system-ui, sans-serif;
+      font-family: "Roboto", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
     }
@@ -40,7 +40,7 @@
     .site-header {
       position: relative;
       z-index: 10000;
-      background: #1d2958;
+      background: #313131;
       border-bottom: 1px solid rgba(0, 0, 0, 0.15);
       line-height: 0;
       padding-top: env(safe-area-inset-top);
@@ -56,8 +56,8 @@
       position: absolute;
       right: calc(18px + env(safe-area-inset-right));
       top: calc(18px + env(safe-area-inset-top));
-      border: 2px solid #efde21;
-      background: rgba(18, 33, 83, 0.88);
+      border: 2px solid #e75a00;
+      background: #e75a00;
       padding: 14px;
       cursor: pointer;
       min-width: 64px;
@@ -69,7 +69,7 @@
     }
 
     .menu-btn:focus {
-      outline: 3px solid rgba(29, 41, 88, 0.25);
+      outline: 3px solid rgba(249, 250, 255, 0.35);
       outline-offset: 2px;
     }
 
@@ -86,7 +86,7 @@
       width: 100%;
       height: 4px;
       border-radius: 2px;
-      background: #efde21;
+      background: #f9faff;
     }
 
     .menu-panel {
@@ -145,7 +145,7 @@
       text-align: center;
       cursor: pointer;
       width: 100%;
-      font-family: "Poppins", sans-serif;
+      font-family: "Roboto", sans-serif;
     }
 
     .menu-item.active {
@@ -220,10 +220,10 @@
 
     .card {
       grid-column: span 12;
-      border: 4px solid #1d2958;
+      border: 4px solid #f9faff;
       border-radius: 18px;
       overflow: hidden;
-      background: #1d2958;
+      background: #f9faff;
       display: flex;
       flex-direction: column;
       box-shadow: 0 10px 24px rgba(12, 18, 44, 0.22);
@@ -237,15 +237,15 @@
     }
 
     .card.open {
-      background: #ffffff;
+      background: #313131;
       box-shadow: 0 14px 30px rgba(12, 18, 44, 0.28);
     }
 
     .card-head {
       padding: 16px;
       cursor: pointer;
-      background: #1d2958;
-      color: #ffffff;
+      background: #f9faff;
+      color: #313131;
       display: flex;
       flex-direction: column;
       height: auto;
@@ -256,7 +256,7 @@
       margin: 0 0 12px;
       font-size: 18px;
       font-weight: 700;
-      color: #ffffff;
+      color: #313131;
     }
 
     .kv {
@@ -264,7 +264,7 @@
       gap: 8px;
       font-size: 14px;
       line-height: 1.35;
-      color: #ffffff;
+      color: #313131;
     }
 
     .kv .row {
@@ -275,15 +275,15 @@
     .kv .label {
       min-width: 118px;
       font-weight: 400;
-      color: #efde21;
+      color: #e75a00;
     }
 
     .reveal-btn {
       margin-top: 14px;
       width: 100%;
-      background: #efde21;
-      color: #1d2958;
-      border: 2px solid #efde21;
+      background: #e75a00;
+      color: #313131;
+      border: 2px solid #e75a00;
       padding: 10px 12px;
       font-family: inherit;
       font-size: 14px;
@@ -296,14 +296,14 @@
     }
 
     .reveal-btn:focus {
-      outline: 3px solid rgba(239, 222, 33, 0.35);
+      outline: 3px solid rgba(231, 90, 0, 0.35);
       outline-offset: 2px;
     }
 
     .card-body {
       display: none;
-      background: #ffffff;
-      color: #1d2958;
+      background: #313131;
+      color: #f9faff;
       padding: 14px 16px 16px;
       flex: 0 0 auto;
       border: none;
@@ -327,6 +327,7 @@
       font-weight: 700;
       margin-bottom: 8px;
       opacity: 0.9;
+      color: #f9faff;
     }
 
     .chips,
@@ -349,7 +350,7 @@
     .chip-label span {
       display: inline-flex;
       padding: 8px 10px;
-      border: 2px solid #1d2958;
+      border: 2px solid #f9faff;
       background: #ffffff;
       color: #1d2958;
       font-size: 13px;
@@ -358,14 +359,14 @@
     }
 
     .chip-label input[type="radio"]:checked+span {
-      background: #1d2958;
-      color: #efde21;
+      background: #e75a00;
+      color: #313131;
     }
 
     .type-input,
     .custom-input {
       padding: 8px 10px;
-      border: 2px solid #1d2958;
+      border: 2px solid #f9faff;
       background: #ffffff;
       color: #1d2958;
       font-size: 13px;
@@ -387,7 +388,7 @@
 
     .type-input:focus,
     .custom-input:focus {
-      outline: 3px solid rgba(29, 41, 88, 0.25);
+      outline: 3px solid rgba(249, 250, 255, 0.35);
       outline-offset: 2px;
     }
 
@@ -400,7 +401,7 @@
       font-size: 13px;
       font-weight: 400;
       margin: 0 0 8px;
-      color: #1d2958;
+      color: #f9faff;
     }
 
     .prompt-text {
@@ -410,7 +411,7 @@
       line-height: 1.45;
       margin: 0 0 10px;
       font-weight: 400;
-      color: #1d2958;
+      color: #f9faff;
     }
 
     .copy-row {
@@ -422,9 +423,9 @@
     }
 
     .copy-btn {
-      background: #efde21;
-      color: #1d2958;
-      border: 2px solid #efde21;
+      background: #e75a00;
+      color: #313131;
+      border: 2px solid #e75a00;
       padding: 8px 14px;
       cursor: pointer;
       font-weight: 700;
@@ -445,9 +446,9 @@
     }
 
     .chatbot-badge a {
-      color: #1d2958;
+      color: #f9faff;
       text-decoration: none;
-      border-bottom: 1px solid #1d2958;
+      border-bottom: 1px solid #f9faff;
       padding-bottom: 1px;
       font-size: 14px;
     }
@@ -506,24 +507,6 @@
       width: 164px;
       height: auto;
       display: block;
-    }
-
-    body::before {
-      content: "SAMPLE";
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: min(18vw, 220px);
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: #000000;
-      opacity: 0.12;
-      transform: rotate(-20deg);
-      z-index: 9999;
-      pointer-events: none;
-      user-select: none;
     }
 
     @media (max-width: 640px) {
@@ -1798,8 +1781,8 @@
         if (btn) {
           const oldText = btn.innerHTML;
           btn.innerHTML = "Copied ✓";
-          btn.style.background = "#1d2958";
-          btn.style.color = "#efde21";
+          btn.style.background = "#e75a00";
+          btn.style.color = "#313131";
           setTimeout(() => {
             btn.innerHTML = oldText;
             btn.style.background = "";
@@ -2078,8 +2061,8 @@
               navigator.clipboard.writeText(textToCopy).then(() => {
                 const oldText = btn.innerHTML;
                 btn.innerHTML = "Copied ✓";
-                btn.style.background = "#1d2958";
-                btn.style.color = "#efde21";
+                btn.style.background = "#e75a00";
+                btn.style.color = "#313131";
                 setTimeout(() => {
                   btn.innerHTML = oldText;
                   btn.style.background = "";
