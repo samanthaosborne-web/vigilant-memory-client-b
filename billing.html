@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdvisaStacks - Billing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #313131;
+      --surface: #f9faff;
+      --accent: #e75a00;
+      --text-dark: #313131;
+      --text-muted: #5a5a5a;
+      --text-light: #f9faff;
+      --ok: #0f6e29;
+      --warn: #8a5100;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      display: grid;
+      place-items: center;
+      font-family: "Roboto", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-light);
+    }
+
+    .card {
+      width: min(900px, 100%);
+      background: var(--surface);
+      color: var(--text-dark);
+      border: 4px solid var(--accent);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(30px, 5vw, 46px);
+      line-height: 1.05;
+      color: var(--accent);
+    }
+
+    .sub {
+      margin: 0 0 18px;
+      font-size: 15px;
+      color: var(--text-muted);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      border: 2px solid #d8d8d8;
+      background: #fff;
+      color: var(--text-dark);
+    }
+
+    .status-pill.active {
+      border-color: var(--ok);
+      color: var(--ok);
+    }
+
+    .status-pill.inactive {
+      border-color: var(--warn);
+      color: var(--warn);
+    }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .plan {
+      border: 3px solid #313131;
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .plan h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      color: var(--accent);
+    }
+
+    .price {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .price small {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .plan p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: #333;
+      min-height: 38px;
+    }
+
+    button {
+      background: var(--accent);
+      color: var(--text-light);
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.24);
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--accent);
+    }
+
+    .message {
+      min-height: 22px;
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .message.error { color: #b30000; }
+    .message.ok { color: var(--ok); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Billing</h1>
+    <p class="sub">Choose a plan to access AdvisaStacks.</p>
+
+    <div id="statusPill" class="status-pill">Checking subscription status...</div>
+
+    <section class="plans">
+      <article class="plan">
+        <h2>Monthly</h2>
+        <div class="price">$9.99 <small>AUD / month</small></div>
+        <p>Flexible monthly billing.</p>
+        <button id="monthlyBtn">Start Monthly Plan</button>
+      </article>
+
+      <article class="plan">
+        <h2>Annual</h2>
+        <div class="price">$99 <small>AUD / year</small></div>
+        <p>2 months free feel compared to monthly.</p>
+        <button id="annualBtn">Start Annual Plan</button>
+      </article>
+    </section>
+
+    <div class="actions">
+      <button id="manageBtn" class="btn-secondary">Manage Billing</button>
+      <button id="openAppBtn" class="btn-secondary">Open App</button>
+      <button id="logoutBtn" class="btn-secondary">Log out</button>
+    </div>
+
+    <div id="billingMessage" class="message" aria-live="polite"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./auth-config.js"></script>
+  <script src="./billing.js"></script>
+</body>
+</html>
