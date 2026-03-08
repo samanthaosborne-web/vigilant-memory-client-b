@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Untitled</title>
-    
-
-  </head>
-    
-  <body>
-  <!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -220,6 +209,29 @@
 
     .global-field input::placeholder {
       color: rgba(231, 90, 0, 0.85);
+    }
+
+    .global-actions {
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .reset-defaults-btn {
+      padding: 10px 14px;
+      border: 2px solid #313131;
+      border-radius: 10px;
+      background: #313131;
+      color: #f9faff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 44px;
+    }
+
+    .reset-defaults-btn:focus {
+      outline: 3px solid rgba(49, 49, 49, 0.35);
+      outline-offset: 2px;
     }
 
     .grid {
@@ -586,7 +598,7 @@
 
   <header class="site-header">
     <img class="header-hero-img" src="./AdvisaStacks Header Final.png" alt="Main App Header" />
-    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
       <span class="menu-icon" aria-hidden="true">
         <span></span>
         <span></span>
@@ -596,7 +608,7 @@
   </header>
 
   <div class="menu-backdrop" id="menuBackdrop"></div>
-  <nav class="menu-panel" id="menuPanel" aria-label="Categories">
+  <nav class="menu-panel" id="menuPanel" aria-label="Categories" aria-hidden="true">
     <h2 class="nav-categories">Categories</h2>
     <button class="menu-item active" data-key="Winning Work">Winning Work</button>
     <button class="menu-item" data-key="Getting Paid">Getting Paid</button>
@@ -612,12 +624,15 @@
 
     <div class="global-inputs">
       <div class="global-field">
-        <label>Your First Name</label>
-        <input type="text" id="globalFirstName" placeholder="e.g. John" />
+        <label for="globalFirstName">Your First Name</label>
+        <input type="text" id="globalFirstName" placeholder="e.g. John" autocomplete="given-name" />
       </div>
       <div class="global-field">
-        <label>Business Name</label>
-        <input type="text" id="globalBizName" placeholder="e.g. Smith Plumbing" />
+        <label for="globalBizName">Business Name</label>
+        <input type="text" id="globalBizName" placeholder="e.g. Smith Plumbing" autocomplete="organization" />
+      </div>
+      <div class="global-actions">
+        <button type="button" class="reset-defaults-btn" id="resetDefaultsBtn">Reset defaults</button>
       </div>
     </div>
 
@@ -1784,6 +1799,58 @@
     let current = "Winning Work";
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
+    const PREFS_KEY = "businessToolkitPrefsV1";
+    const MENU_FOCUSABLE_SELECTOR = "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
+    let promptRefreshers = [];
+    let lastMenuFocused = null;
+
+    const globalFirstNameInput = document.getElementById("globalFirstName");
+    const globalBizNameInput = document.getElementById("globalBizName");
+    const resetDefaultsBtn = document.getElementById("resetDefaultsBtn");
+
+    function readPrefs() {
+      try {
+        const raw = localStorage.getItem(PREFS_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function writePrefs(patch) {
+      const next = Object.assign({}, readPrefs(), patch);
+      try {
+        localStorage.setItem(PREFS_KEY, JSON.stringify(next));
+      } catch (e) {
+        // Ignore write failures in restricted browser contexts.
+      }
+    }
+
+    function clearPrefs() {
+      try {
+        localStorage.removeItem(PREFS_KEY);
+      } catch (e) {
+        // Ignore clear failures in restricted browser contexts.
+      }
+    }
+
+    function getGlobalPromptPrefix() {
+      const fName = globalFirstNameInput.value.trim();
+      const bName = globalBizNameInput.value.trim();
+      let globalPrefix = "";
+      if (fName || bName) {
+        globalPrefix = "Context:\n";
+        globalPrefix += "I am an Australian trade business.\n";
+        if (fName) globalPrefix += "My Name: " + fName + "\n";
+        if (bName) globalPrefix += "My Business: " + bName + "\n";
+        globalPrefix += "\n";
+      }
+      return globalPrefix;
+    }
+
+    function refreshPromptText() {
+      promptRefreshers.forEach((refresh) => refresh());
+    }
 
     function fallbackCopy(text, btn) {
       const ta = document.createElement("textarea");
@@ -1862,11 +1929,15 @@
       helpEl.innerHTML = "<div class=\"help-block\"><div class=\"help-head\">Why this matters</div><div class=\"help-text\">" + c.why + "</div><div class=\"help-head\">How to use this page</div><div class=\"help-text\">" + c.how + "</div></div>";
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
+      const cardRefreshers = [];
       APP[current].cards.forEach((card, cIndex) => {
         const wrap = document.createElement("div");
         wrap.className = "card";
         const head = document.createElement("div");
         head.className = "card-head";
+        head.setAttribute("role", "button");
+        head.tabIndex = 0;
+        head.setAttribute("aria-expanded", "false");
         const h = document.createElement("h3");
         h.textContent = card.subtitle;
         head.appendChild(h);
@@ -1899,21 +1970,16 @@
         head.appendChild(revealBtn);
         const body = document.createElement("div");
         body.className = "card-body";
+        const bodyId = "card-body-" + current.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + cIndex;
+        body.id = bodyId;
+        body.hidden = true;
+        head.setAttribute("aria-controls", bodyId);
         // --- Dynamic Prompt Logic ---
         const selections = {};
         const originalPrompts = (card.prompts || []).map(p => p);
         const updatePromptsText = () => {
           const promptBlocks = body.querySelectorAll('.prompt-text');
-          const fName = document.getElementById("globalFirstName").value.trim();
-          const bName = document.getElementById("globalBizName").value.trim();
-          let globalPrefix = "";
-          if (fName || bName) {
-            globalPrefix = "Context:\n";
-            globalPrefix += "I am an Australian trade business.\n";
-            if (fName) globalPrefix += "My Name: " + fName + "\n";
-            if (bName) globalPrefix += "My Business: " + bName + "\n";
-            globalPrefix += "\n";
-          }
+          const globalPrefix = getGlobalPromptPrefix();
           originalPrompts.forEach((origText, idx) => {
             let newText = origText;
             if (card.ui) {
@@ -1939,9 +2005,6 @@
             if (promptBlocks[idx]) promptBlocks[idx].textContent = globalPrefix + newText;
           });
         };
-        // Listeners for global inputs so active cards update instantly
-        document.getElementById("globalFirstName").addEventListener("input", updatePromptsText);
-        document.getElementById("globalBizName").addEventListener("input", updatePromptsText);
         // --- UX Form Logic ---
         if (card.ui) {
           const ui = document.createElement("div");
@@ -2049,15 +2112,7 @@
           // Inject global fields on initial load
           let initialText = p;
           initialText = addVoiceToneInstruction(initialText, card);
-          const fName = document.getElementById("globalFirstName").value.trim();
-          const bName = document.getElementById("globalBizName").value.trim();
-          let globalPrefix = "";
-          if (fName || bName) {
-            globalPrefix = "Context:\nI am an Australian trade business.\n";
-            if (fName) globalPrefix += "My Name: " + fName + "\n";
-            if (bName) globalPrefix += "My Business: " + bName + "\n";
-            globalPrefix += "\n";
-          }
+          const globalPrefix = getGlobalPromptPrefix();
           pre.textContent = globalPrefix + initialText;
           // Bottom Row with Copy Button & ChatGPT Link
           const bottomBtnRow = document.createElement("div");
@@ -2099,13 +2154,20 @@
           block.appendChild(bottomBtnRow);
           body.appendChild(block);
         });
+        cardRefreshers.push(updatePromptsText);
         const toggleCard = () => {
           const isOpen = wrap.classList.contains("open");
           document.querySelectorAll(".card.open").forEach((el) => {
             el.classList.remove("open");
+            const openHead = el.querySelector(".card-head");
+            const openBody = el.querySelector(".card-body");
+            if (openHead) openHead.setAttribute("aria-expanded", "false");
+            if (openBody) openBody.hidden = true;
           });
           if (!isOpen) {
             wrap.classList.add("open");
+            head.setAttribute("aria-expanded", "true");
+            body.hidden = false;
             setTimeout(() => {
               const rect = wrap.getBoundingClientRect();
               const y = window.scrollY + rect.top - 16;
@@ -2120,6 +2182,12 @@
           if (e.target.closest(".reveal-btn")) return;
           toggleCard();
         });
+        head.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggleCard();
+          }
+        });
         revealBtn.addEventListener("click", (e) => {
           e.stopPropagation();
           toggleCard();
@@ -2128,6 +2196,7 @@
         wrap.appendChild(body);
         grid.appendChild(wrap);
       });
+      promptRefreshers = cardRefreshers;
       buildMenu();
       window.scrollTo({
         top: 0,
@@ -2137,6 +2206,9 @@
 
     function navigate(key) {
       current = key;
+      writePrefs({
+        lastCategory: key
+      });
       closeMenu();
       render();
     }
@@ -2145,15 +2217,25 @@
     const menuBackdrop = document.getElementById("menuBackdrop");
 
     function openMenu() {
+      lastMenuFocused = document.activeElement;
       menuPanel.classList.add("open");
       menuBackdrop.classList.add("open");
+      menuPanel.setAttribute("aria-hidden", "false");
       menuBtn.setAttribute("aria-expanded", "true");
+      menuBtn.setAttribute("aria-label", "Close menu");
+      const firstMenuItem = menuPanel.querySelector(".menu-item");
+      if (firstMenuItem) firstMenuItem.focus();
     }
 
     function closeMenu() {
       menuPanel.classList.remove("open");
       menuBackdrop.classList.remove("open");
+      menuPanel.setAttribute("aria-hidden", "true");
       menuBtn.setAttribute("aria-expanded", "false");
+      menuBtn.setAttribute("aria-label", "Open menu");
+      if (lastMenuFocused && typeof lastMenuFocused.focus === "function") {
+        lastMenuFocused.focus();
+      }
     }
     menuBtn.addEventListener("click", () => {
       if (menuPanel.classList.contains("open")) closeMenu();
@@ -2161,20 +2243,53 @@
     });
     menuBackdrop.addEventListener("click", closeMenu);
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeMenu();
+      if (e.key === "Escape" && menuPanel.classList.contains("open")) {
+        closeMenu();
+        return;
+      }
+      if (e.key === "Tab" && menuPanel.classList.contains("open")) {
+        const focusable = Array.from(menuPanel.querySelectorAll(MENU_FOCUSABLE_SELECTOR));
+        if (!focusable.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     });
     document.querySelectorAll(".menu-item").forEach((btn) => {
       btn.addEventListener("click", () => navigate(btn.dataset.key));
     });
-    // Update prompts automatically if global inputs change
-    document.getElementById("globalFirstName").addEventListener("input", render);
-    document.getElementById("globalBizName").addEventListener("input", render);
+
+    function handleGlobalDefaultsChange() {
+      writePrefs({
+        firstName: globalFirstNameInput.value,
+        businessName: globalBizNameInput.value
+      });
+      refreshPromptText();
+    }
+
+    globalFirstNameInput.addEventListener("input", handleGlobalDefaultsChange);
+    globalBizNameInput.addEventListener("input", handleGlobalDefaultsChange);
+    resetDefaultsBtn.addEventListener("click", () => {
+      clearPrefs();
+      globalFirstNameInput.value = "";
+      globalBizNameInput.value = "";
+      refreshPromptText();
+    });
+
+    const savedPrefs = readPrefs();
+    if (savedPrefs.firstName) globalFirstNameInput.value = savedPrefs.firstName;
+    if (savedPrefs.businessName) globalBizNameInput.value = savedPrefs.businessName;
+    if (savedPrefs.lastCategory && APP[savedPrefs.lastCategory]) {
+      current = savedPrefs.lastCategory;
+    }
     render();
   </script>
 </body>
 
-</html>
-    
-  </body>
-  
 </html>
