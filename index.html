@@ -690,6 +690,24 @@
             return;
           }
 
+          try {
+            const syncResp = await fetch("/api/sync-subscription", {
+              method: "POST",
+              headers: {
+                Authorization: "Bearer " + data.session.access_token
+              }
+            });
+            if (syncResp.ok) {
+              const syncPayload = await syncResp.json();
+              if (syncPayload && syncPayload.active) {
+                document.body.classList.remove("auth-pending");
+                return;
+              }
+            }
+          } catch (_syncError) {
+            // fall through to DB read path
+          }
+
           const userId = data.session.user.id;
           const { data: subscription, error: subscriptionError } = await supabaseClient
             .from("billing_subscriptions")

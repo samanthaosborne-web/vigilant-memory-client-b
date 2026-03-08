@@ -6,6 +6,7 @@ This project now includes:
 - `api/create-checkout-session.js`
 - `api/create-portal-session.js`
 - `api/stripe-webhook.js`
+- `api/sync-subscription.js` (on-demand Stripe -> Supabase sync for access checks)
 - `supabase-billing.sql` (billing tables + RLS)
 
 ## 1) Stripe products/prices
@@ -72,4 +73,14 @@ In Stripe Dashboard -> Developers -> Webhooks:
 5. After successful payment, confirm:
    - `billing_subscriptions.status` is `active` (or `trialing`)
 6. Open app and verify access is granted
+
+## 7) If webhook retries failed previously
+
+If you created subscriptions from Stripe Dashboard before webhook setup was correct, use the app flow:
+
+1. Log in
+2. Open `billing.html`
+3. Wait a few seconds for sync (or refresh once)
+
+`api/sync-subscription.js` will try to map customer by user email and update `billing_subscriptions`.
 

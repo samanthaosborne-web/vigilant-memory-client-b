@@ -66,12 +66,32 @@ module.exports = async (req, res) => {
   });
 
   let event;
+  let signatureVerificationError = null;
+  let rawBody = null;
   try {
     const signature = req.headers["stripe-signature"];
-    const rawBody = await readRawBody(req);
+    rawBody = await readRawBody(req);
     event = stripe.webhooks.constructEvent(rawBody, signature, STRIPE_WEBHOOK_SECRET);
   } catch (error) {
-    return json(res, 400, { error: `Webhook signature verification failed: ${error.message}` });
+    signatureVerificationError = error;
+  }
+
+  // Fallback path for platforms where raw body parsing may mutate payload.
+  // We recover by fetching the canonical event directly from Stripe by ID.
+  if (!event) {
+    try {
+      let candidate = null;
+      if (req.body && typeof req.body === "object" && req.body.id) {
+        candidate = req.body;
+      } else if (rawBody) {
+        candidate = JSON.parse(rawBody.toString("utf8"));
+      }
+      if (!candidate?.id) throw signatureVerificationError || new Error("No event id found in payload");
+      event = await stripe.events.retrieve(candidate.id);
+    } catch (fallbackError) {
+      const reason = signatureVerificationError?.message || fallbackError.message;
+      return json(res, 400, { error: `Webhook signature verification failed: ${reason}` });
+    }
   }
 
   try {

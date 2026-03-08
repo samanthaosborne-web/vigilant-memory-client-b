@@ -67,6 +67,26 @@
     return { active, rawStatus: status };
   }
 
+  async function syncSubscriptionFromServer(session) {
+    const response = await fetch("/api/sync-subscription", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + session.access_token
+      }
+    });
+    if (!response.ok) {
+      let details = "Subscription sync failed.";
+      try {
+        const payload = await response.json();
+        details = payload.error || details;
+      } catch (_error) {
+        // no-op
+      }
+      throw new Error(details);
+    }
+    return response.json();
+  }
+
   async function startCheckout(plan, supabase) {
     setMessage("Opening Stripe checkout...", "");
     monthlyBtn.disabled = true;
@@ -133,6 +153,12 @@
     if (!session) {
       window.location.replace("./login.html");
       return;
+    }
+
+    try {
+      await syncSubscriptionFromServer(session);
+    } catch (error) {
+      setMessage(error.message || "Unable to sync subscription status yet.", "error");
     }
 
     const { active } = await loadSubscriptionStatus(supabase, session.user.id);
