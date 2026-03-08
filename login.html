@@ -135,6 +135,22 @@
         <button id="loginBtn" type="submit">Log in</button>
         <div id="statusMessage" class="status" aria-live="polite"></div>
       </form>
+
+      <div id="mfaSection" style="display:none;">
+        <h2 style="color:var(--accent); margin:0 0 8px;">Check your email</h2>
+        <p style="font-size:14px; color:var(--text-muted); margin:0 0 16px;">We've sent a 6-digit verification code to your email address. Enter it below to complete sign-in.</p>
+        <form id="mfaForm" style="display:grid; gap:16px;">
+          <label for="mfaCode">
+            <span class="field-title">Verification Code</span>
+            <input id="mfaCode" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="000000" required style="letter-spacing:0.3em; text-align:center;" />
+          </label>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+            <button id="mfaVerifyBtn" type="submit">Verify</button>
+            <button id="resendBtn" type="button" style="background:#fff; color:var(--accent); font-size:16px; padding:10px 18px;">Resend code</button>
+          </div>
+        </form>
+      </div>
+
       <p class="links">No account yet? <a href="./signup.html">Create account</a> | <a href="./home.html">Learn more</a></p>
     </div>
   </main>
