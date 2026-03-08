@@ -37,6 +37,10 @@
       color: var(--text);
     }
 
+    body.auth-pending {
+      visibility: hidden;
+    }
+
     .site-header {
       position: relative;
       z-index: 10000;
@@ -581,7 +585,7 @@
   </style>
 </head>
 
-<body>
+<body class="auth-pending">
   <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 
   <header class="site-header">
@@ -636,6 +640,41 @@
 </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./auth-config.js"></script>
+  <script>
+    (function () {
+      const SUPABASE_URL = window.SUPABASE_URL || "";
+      const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "";
+      const missingConfig =
+        !SUPABASE_URL ||
+        !SUPABASE_ANON_KEY ||
+        SUPABASE_URL.includes("YOUR-PROJECT-ID") ||
+        SUPABASE_ANON_KEY.includes("YOUR_SUPABASE_ANON_KEY");
+
+      // Keep local editing usable until Supabase keys are configured.
+      if (missingConfig) {
+        document.body.classList.remove("auth-pending");
+        return;
+      }
+
+      const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      window.__supabase = supabaseClient;
+
+      supabaseClient.auth
+        .getSession()
+        .then(({ data, error }) => {
+          if (error || !data.session) {
+            window.location.replace("./login.html");
+            return;
+          }
+          document.body.classList.remove("auth-pending");
+        })
+        .catch(() => {
+          window.location.replace("./login.html");
+        });
+    })();
+  </script>
   <script>
     const APP = {
       "Winning Work": {
