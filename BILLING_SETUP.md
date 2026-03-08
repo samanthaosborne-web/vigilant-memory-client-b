@@ -1,4 +1,4 @@
-# AdvisaStacks Billing Setup (Stripe + Supabase + Vercel)
+# AdvisaStacks Billing & 2FA Setup (Stripe + Supabase + Vercel)
 
 This project now includes:
 
@@ -7,7 +7,10 @@ This project now includes:
 - `api/create-portal-session.js`
 - `api/stripe-webhook.js`
 - `api/sync-subscription.js` (on-demand Stripe -> Supabase sync for access checks)
+- `api/send-login-code.js` (email 2FA code sender)
+- `api/verify-login-code.js` (email 2FA code verifier + session check)
 - `supabase-billing.sql` (billing tables + RLS)
+- `supabase-2fa.sql` (email 2FA tables)
 
 ## 1) Stripe products/prices
 
@@ -21,18 +24,21 @@ In Stripe Dashboard:
 
 ## 2) Supabase SQL
 
-Run this file in Supabase SQL Editor:
+Run these files in Supabase SQL Editor (in order):
 
-- `supabase-billing.sql`
+1. `supabase-billing.sql` — creates `billing_customers` and `billing_subscriptions`
+2. `supabase-2fa.sql` — creates `login_verification_codes` and `login_verifications`
 
-This creates:
+## 3) Email service (Resend)
 
-- `billing_customers`
-- `billing_subscriptions`
+The 2FA system sends verification codes via [Resend](https://resend.com):
 
-and RLS policies for user-level reads.
+1. Create a free Resend account at https://resend.com
+2. Add and verify your sending domain (e.g. `advisastacks.com`)
+3. Create an API key
+4. Add it to Vercel env vars (see below)
 
-## 3) Vercel environment variables
+## 4) Vercel environment variables
 
 Set these in Vercel Project -> Settings -> Environment Variables:
 
@@ -43,8 +49,10 @@ Set these in Vercel Project -> Settings -> Environment Variables:
 - `STRIPE_WEBHOOK_SECRET` = Stripe webhook signing secret
 - `STRIPE_PRICE_MONTHLY` = Stripe monthly price ID
 - `STRIPE_PRICE_ANNUAL` = Stripe annual price ID
+- `RESEND_API_KEY` = Resend API key (for sending 2FA emails)
+- `FROM_EMAIL` = sender address, e.g. `AdvisaStacks <noreply@advisastacks.com>`
 
-## 4) Stripe webhook endpoint
+## 6) Stripe webhook endpoint
 
 In Stripe Dashboard -> Developers -> Webhooks:
 
@@ -58,27 +66,40 @@ In Stripe Dashboard -> Developers -> Webhooks:
    - `invoice.payment_failed`
 3. Copy signing secret to `STRIPE_WEBHOOK_SECRET`
 
-## 5) Access behavior
+## 7) Access behavior
+
+Every login requires two factors:
+
+1. **Password** — the user's email + password
+2. **Email code** — a 6-digit code sent to their email on each login
+
+This prevents credential sharing — even if someone shares their password,
+the other person still needs access to the email inbox to get the code.
+
+Access flow:
 
 - Unauthenticated users -> redirected to `login.html`
-- Authenticated but unpaid users -> redirected to `billing.html`
-- Active/trialing subscribers -> can access `index.html`
+- Authenticated but not 2FA-verified -> redirected to `login.html`
+- 2FA-verified but unpaid users -> redirected to `billing.html`
+- 2FA-verified + active/trialing subscribers -> can access `index.html`
 
-## 6) Test flow
+## 8) Test flow
 
 1. Sign up a user
-2. Log in
-3. Confirm redirect to `billing.html`
-4. Start test checkout for monthly/annual
-5. After successful payment, confirm:
+2. Log in with email + password
+3. Check email for 6-digit code
+4. Enter code on login page
+5. Confirm redirect to `billing.html`
+6. Start test checkout for monthly/annual
+7. After successful payment, confirm:
    - `billing_subscriptions.status` is `active` (or `trialing`)
-6. Open app and verify access is granted
+8. Open app and verify access is granted
 
-## 7) If webhook retries failed previously
+## 9) If webhook retries failed previously
 
 If you created subscriptions from Stripe Dashboard before webhook setup was correct, use the app flow:
 
-1. Log in
+1. Log in (with email + password + 2FA code)
 2. Open `billing.html`
 3. Wait a few seconds for sync (or refresh once)
 
