@@ -156,6 +156,30 @@
     }
 
     try {
+      const twoFaResp = await fetch("/api/verify-login-code", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + session.access_token,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ check: true })
+      });
+      if (twoFaResp.ok) {
+        const twoFaResult = await twoFaResp.json();
+        if (!twoFaResult.verified) {
+          window.location.replace("./login.html");
+          return;
+        }
+      } else {
+        window.location.replace("./login.html");
+        return;
+      }
+    } catch (_twoFaError) {
+      window.location.replace("./login.html");
+      return;
+    }
+
+    try {
       await syncSubscriptionFromServer(session);
     } catch (error) {
       setMessage(error.message || "Unable to sync subscription status yet.", "error");
