@@ -48,6 +48,10 @@ module.exports = async (req, res) => {
     return json(res, 500, { error: "Server configuration missing (Supabase/Stripe env vars)." });
   }
 
+  if (!STRIPE_PRICE_MONTHLY || !STRIPE_PRICE_ANNUAL) {
+    return json(res, 500, { error: "Stripe plan price IDs are not set." });
+  }
+
   const planToPrice = {
     monthly: STRIPE_PRICE_MONTHLY,
     annual: STRIPE_PRICE_ANNUAL
@@ -57,10 +61,6 @@ module.exports = async (req, res) => {
   const plan = body.plan;
   if (!planToPrice[plan]) {
     return json(res, 400, { error: "Invalid plan. Expected monthly or annual." });
-  }
-
-  if (!planToPrice.monthly || !planToPrice.annual) {
-    return json(res, 500, { error: "Stripe plan price IDs are not set." });
   }
 
   const supabaseAdmin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
