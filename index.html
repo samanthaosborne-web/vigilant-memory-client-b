@@ -661,6 +661,8 @@
     <button class="menu-item" data-key="Reviews & Referrals">Reviews & Referrals</button>
     <button class="menu-item" data-key="Get More Enquiries">Get More Enquiries</button>
     <button class="menu-item" data-key="Fix My Message">Fix My Message</button>
+    <div style="flex:1;"></div>
+    <button class="menu-item" id="logoutBtn" style="background:#313131; border-color:#313131; color:#f9faff;">Log out</button>
   </nav>
 
   <main>
@@ -2409,7 +2411,12 @@
       }
     });
     document.querySelectorAll(".menu-item").forEach((btn) => {
-      btn.addEventListener("click", () => navigate(btn.dataset.key));
+      if (btn.dataset.key) btn.addEventListener("click", () => navigate(btn.dataset.key));
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      if (window.__supabase) await window.__supabase.auth.signOut();
+      window.location.replace("./login.html");
     });
 
     function handleGlobalDefaultsChange() {
