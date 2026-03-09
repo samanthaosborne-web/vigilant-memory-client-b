@@ -84,46 +84,50 @@ module.exports = async (req, res) => {
     });
   }
 
-  let stripeCustomerId = customerRow?.stripe_customer_id || null;
-  if (!stripeCustomerId) {
-    const customer = await stripe.customers.create({
-      email: user.email || undefined,
-      metadata: { supabase_user_id: user.id }
-    });
-    stripeCustomerId = customer.id;
+  try {
+    let stripeCustomerId = customerRow?.stripe_customer_id || null;
+    if (!stripeCustomerId) {
+      const customer = await stripe.customers.create({
+        email: user.email || undefined,
+        metadata: { supabase_user_id: user.id }
+      });
+      stripeCustomerId = customer.id;
 
-    const { error: upsertError } = await supabaseAdmin.from("billing_customers").upsert(
-      {
-        user_id: user.id,
-        stripe_customer_id: stripeCustomerId,
-        updated_at: new Date().toISOString()
-      },
-      { onConflict: "user_id" }
-    );
-    if (upsertError) {
-      return json(res, 500, { error: "Unable to save billing customer mapping." });
+      const { error: upsertError } = await supabaseAdmin.from("billing_customers").upsert(
+        {
+          user_id: user.id,
+          stripe_customer_id: stripeCustomerId,
+          updated_at: new Date().toISOString()
+        },
+        { onConflict: "user_id" }
+      );
+      if (upsertError) {
+        return json(res, 500, { error: "Unable to save billing customer mapping." });
+      }
     }
-  }
 
-  const checkout = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    customer: stripeCustomerId,
-    line_items: [{ price: planToPrice[plan], quantity: 1 }],
-    allow_promotion_codes: true,
-    success_url: `${appUrl}/billing.html?checkout=success`,
-    cancel_url: `${appUrl}/billing.html?checkout=cancel`,
-    client_reference_id: user.id,
-    metadata: {
-      supabase_user_id: user.id,
-      plan
-    },
-    subscription_data: {
+    const checkout = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      customer: stripeCustomerId,
+      line_items: [{ price: planToPrice[plan], quantity: 1 }],
+      allow_promotion_codes: true,
+      success_url: `${appUrl}/billing.html?checkout=success`,
+      cancel_url: `${appUrl}/billing.html?checkout=cancel`,
+      client_reference_id: user.id,
       metadata: {
         supabase_user_id: user.id,
         plan
+      },
+      subscription_data: {
+        metadata: {
+          supabase_user_id: user.id,
+          plan
+        }
       }
-    }
-  });
+    });
 
-  return json(res, 200, { url: checkout.url });
+    return json(res, 200, { url: checkout.url });
+  } catch (err) {
+    return json(res, 500, { error: err.message || "Stripe checkout failed." });
+  }
 };
