@@ -515,7 +515,7 @@
       background: #f9faff;
       color: #313131;
       border-top: 1px solid rgba(0, 0, 0, 0.12);
-      padding: 16px 18px;
+      padding: 24px 18px;
     }
 
     .footer-inner {
@@ -524,27 +524,45 @@
       font-size: 14px;
       display: flex;
       flex-wrap: wrap;
-      gap: 14px 22px;
+      gap: 24px;
     }
 
     .footer-inner a {
-      color: inherit;
-    }
-
-    .made-by {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
+      color: var(--accent);
       font-weight: 600;
-      text-align: right;
     }
 
-    .made-by-logo {
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .footer-left div {
+      line-height: 1.5;
+    }
+
+    .footer-centre {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .footer-centre-logo {
       width: 164px;
       height: auto;
       display: block;
+    }
+
+    .footer-centre span {
+      font-weight: 600;
+      font-size: 13px;
     }
 
     @media (max-width: 640px) {
@@ -587,10 +605,18 @@
         padding: 10px 8px;
       }
 
-      .made-by {
-        width: 100%;
-        margin-left: 0;
-        justify-content: flex-end;
+      .footer-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .footer-left {
+        align-items: center;
+      }
+
+      .footer-centre {
+        order: -1;
       }
     }
 
@@ -649,15 +675,18 @@
   </main>
 
   <footer>
-  <div class="footer-inner">
-  <div>W: <a href="https://profitabletradie.com/" target="_blank" rel="noreferrer">https://profitabletradie.com/</a></div>
-  <div>P: +64 7 859 3425</div>
-  <div>E: <a href="mailto:info@profitabletradie.com">info@profitabletradie.com</a></div>
-  <div class="made-by">
-    <img src="./advisastacks-logo.png" alt="AdvisaStacks logo" class="made-by-logo" />
-    <span>Made by AdvisaStacks</span>
-  </div>
-</div>
+    <div class="footer-inner">
+      <div class="footer-left">
+        <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
+        <div>E: <a href="mailto:samanthaosborne@hotmail.com">samanthaosborne@hotmail.com</a></div>
+        <div>P: <a href="tel:+61434360660">+61 434 360 660</a></div>
+        <div>ABN: 37 131 434 727</div>
+      </div>
+      <div class="footer-centre">
+        <img src="./advisastacks-logo.png" alt="AdvisaStacks logo" class="footer-centre-logo" />
+        <span>Made by AdvisaStacks</span>
+      </div>
+    </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
