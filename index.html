@@ -326,6 +326,19 @@
       color: #e75a00;
     }
 
+    .favourite-btn {
+      margin-top: 12px;
+      margin-bottom: 8px;
+      background: #313131;
+      color: #f9faff;
+      border: 0;
+      border-radius: 8px;
+      font-weight: 700;
+      padding: 8px 12px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
     .reveal-btn {
       margin-top: 14px;
       width: fit-content;
@@ -740,6 +753,8 @@
     <button class="menu-item" data-key="Get More Enquiries">Get More Enquiries</button>
     <button class="menu-item" data-key="Fix My Message">Fix My Message</button>
     <button class="menu-item" data-key="Templates">Templates</button>
+    <button class="menu-item" data-key="Favourites">Favourites</button>
+    <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
     <div style="flex:1;"></div>
     <button class="menu-item" id="logoutBtn" style="background:#313131; border-color:#313131; color:#f9faff;">Log out</button>
   </nav>
@@ -2027,29 +2042,38 @@
         "title": "Templates",
         "cards": [
           {
-            "subtitle": "Quote Builder",
+            "subtitle": "Invoice Builder",
             "chatbot": "ChatGPT",
             "front": {
-              "outcome": "Create a structured quote prompt using an easy form layout.",
-              "when": "When you need a professional, client-ready quote draft fast.",
+              "outcome": "Create a structured invoice prompt using an easy form layout.",
+              "when": "When you need a professional, client-ready invoice draft fast.",
               "goodFor": "Building accurate and structured documents for AI to format.",
               "roi": "Saves admin time and guarantees consistent document styling.",
               "tip": "Add items and fill out the fields. Totals calculate automatically."
             },
             "ui": {
-              "customForm": "quoteBuilder"
+              "customForm": "invoiceBuilder"
             },
             "prompts": [
-              "Create an editable Quote using the details below.\n\nBUSINESS DETAILS\nBusiness Name: [Business / Your Name]\nPhone: [Phone]\nABN: [ABN]\nEmail: [Email]\n\nCLIENT DETAILS\nClient Name: [Client Name]\nQuote Number: [Quote Number]\nClient Address: [Client Address]\nClient Phone: [Client Phone]\n\nJOB DETAILS\n[Line Items String]\n\nPRICING\nSubtotal (ex GST): $[Subtotal]\nDiscount: $[Discount]\nInclude GST: [Include GST]\nTotal: $[Total]\n\nPAYMENT\nPayment Due: [Payment Due]\nAccount Name: [Account Name]\nBSB: [BSB]\nAccount Number: [Account Number]\n\n[Extras String]\n[Uploads String]\n\nRequirements:\n1. Write the output as a professional, client-ready Quote.\n2. Use clear headings, include all pricing details, and an approval section.\n3. CRITICAL: You must use your python data analysis tool to generate this quote as a downloadable Microsoft Word (.docx) document. Provide the download link in your response."
+              "Create an editable Invoice using the details below.\n\nBUSINESS DETAILS\nBusiness Name: [Business / Your Name]\nPhone: [Phone]\nABN: [ABN]\nEmail: [Email]\n\nCLIENT DETAILS\nClient Name: [Client Name]\nInvoice Number: [Invoice Number]\nClient Address: [Client Address]\nClient Phone: [Client Phone]\n\nJOB DETAILS\n[Line Items String]\n\nPRICING\nSubtotal (ex GST): $[Subtotal]\nDiscount: $[Discount]\nInclude GST: [Include GST]\nTotal: $[Total]\n\nPAYMENT\nPayment Due: [Payment Due]\nAccount Name: [Account Name]\nBSB: [BSB]\nAccount Number: [Account Number]\n\n[Extras String]\n[T&Cs Instructions]\n[Uploads String]\n\nRequirements:\n1. Write the output as a professional, client-ready Invoice.\n2. Use clear headings, include all pricing details, and an approval section.\n3. CRITICAL: You must use your python data analysis tool to generate this invoice as a downloadable Microsoft Word (.docx) document. Provide the download link in your response."
             ]
           }
         ]
+      },
+      "Favourites": {
+        "title": "Favourites",
+        "cards": []
+      },
+      "Prompt Library": {
+        "title": "Prompt Library",
+        "cards": []
       }
     };
     let current = "Winning Work";
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
     const PREFS_KEY = "businessToolkitPrefsV1";
+    const FAVOURITES_KEY = "businessToolkitFavouritesV1";
     const MENU_FOCUSABLE_SELECTOR = "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
     let promptRefreshers = [];
     let lastMenuFocused = null;
@@ -2142,11 +2166,11 @@
     }
 
     // --- Custom Builder Logic --- //
-    function buildQuoteBuilderDOM(container, card, selections, updatePromptsText) {
+    function buildInvoiceBuilderDOM(container, card, selections, updatePromptsText) {
       const wrapper = document.createElement('div');
       wrapper.className = 'qb-wrapper';
       wrapper.innerHTML = `
-        <h2 class="qb-header">Quote Builder</h2>
+        <h2 class="qb-header">Invoice Builder</h2>
         
         <div class="qb-section">
             <div class="qb-title">YOUR BUSINESS DETAILS</div>
@@ -2162,7 +2186,7 @@
             <div class="qb-title">CLIENT DETAILS</div>
             <div class="qb-grid-2">
                 <div class="qb-field"><label>Client Name</label><input type="text" class="qb-input" id="qb-client-name" placeholder="Client name"></div>
-                <div class="qb-field"><label>Quote Number</label><input type="text" class="qb-input" id="qb-quote-num" placeholder="Quote-001"></div>
+                <div class="qb-field"><label>Invoice Number</label><input type="text" class="qb-input" id="qb-invoice-num" placeholder="INV-001"></div>
                 <div class="qb-field"><label>Client Address</label><input type="text" class="qb-input" id="qb-client-address" placeholder="123 Main St, Sydney NSW"></div>
                 <div class="qb-field"><label>Client Phone</label><input type="text" class="qb-input" id="qb-client-phone" placeholder="0400 000 000"></div>
             </div>
@@ -2203,6 +2227,18 @@
         </div>
 
         <div class="qb-section">
+            <div class="qb-title">TERMS & CONDITIONS</div>
+            <div class="qb-toggle-row">
+                <div class="qb-toggle-label">Use AI generated T&amp;C's</div>
+                <label class="qb-toggle"><input type="checkbox" id="qb-ai-terms-toggle" checked><span class="qb-slider"></span></label>
+            </div>
+            <div class="qb-field" id="qb-terms-field" style="display:none;">
+                <label>Enter your T&amp;C's</label>
+                <textarea class="qb-input" id="qb-terms-text" placeholder="Type your payment terms, warranty and conditions..."></textarea>
+            </div>
+        </div>
+
+        <div class="qb-section">
             <div class="qb-title">UPLOADS</div>
             <div class="qb-toggle-row">
                 <div class="qb-toggle-label">Upload a logo</div>
@@ -2215,12 +2251,12 @@
             <input type="file" id="qb-logo-file" style="display:none;" accept="image/*">
 
             <div class="qb-toggle-row">
-                <div class="qb-toggle-label">Upload a past quote example</div>
+                <div class="qb-toggle-label">Upload a past invoice example</div>
                 <label class="qb-toggle"><input type="checkbox" id="qb-example-toggle" checked><span class="qb-slider"></span></label>
             </div>
             <button type="button" class="qb-upload-btn" id="qb-example-btn">
               <svg class="qb-upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> 
-              <span id="qb-example-btn-text">Upload quote example</span>
+              <span id="qb-example-btn-text">Upload invoice example</span>
             </button>
             <input type="file" id="qb-example-file" style="display:none;" accept=".pdf,.png,.jpg,.jpeg">
         </div>
@@ -2246,7 +2282,7 @@
       const bizAbn = $('qb-biz-abn');
       const bizEmail = $('qb-biz-email');
       const clientName = $('qb-client-name');
-      const quoteNum = $('qb-quote-num');
+      const invoiceNum = $('qb-invoice-num');
       const clientAddress = $('qb-client-address');
       const clientPhone = $('qb-client-phone');
       
@@ -2275,6 +2311,9 @@
       
       const ccToggle = $('qb-cc-toggle');
       const reviewToggle = $('qb-review-toggle');
+      const aiTermsToggle = $('qb-ai-terms-toggle');
+      const termsField = $('qb-terms-field');
+      const termsText = $('qb-terms-text');
 
       // Setup initial defaults
       if (globalBizNameInput.value) bizName.value = globalBizNameInput.value;
@@ -2308,7 +2347,7 @@
         selections["[ABN]"] = bizAbn.value || "[ABN]";
         selections["[Email]"] = bizEmail.value || "[Email]";
         selections["[Client Name]"] = clientName.value || "[Client Name]";
-        selections["[Quote Number]"] = quoteNum.value || "[Quote Number]";
+        selections["[Invoice Number]"] = invoiceNum.value || "[Invoice Number]";
         selections["[Client Address]"] = clientAddress.value || "[Client Address]";
         selections["[Client Phone]"] = clientPhone.value || "[Client Phone]";
         selections["[Payment Due]"] = payDue.value || "[Payment Due]";
@@ -2333,6 +2372,10 @@
         if (reviewToggle.checked) extras.push("- Include a 'Leave a Google review' button");
         selections["[Extras String]"] = extras.length ? ("Required Extras:\n" + extras.join("\n")) : "";
 
+        selections["[T&Cs Instructions]"] = aiTermsToggle.checked
+          ? "Generate clear standard T&Cs suitable for this invoice."
+          : (termsText.value.trim() ? ("Use these exact T&Cs:\n" + termsText.value.trim()) : "Use these exact T&Cs: [Enter your T&Cs]");
+
         // Uploads builder
         let uploads = [];
         if (logoToggle.checked) {
@@ -2341,7 +2384,7 @@
         }
         if (exToggle.checked) {
            let fileName = exFile.files[0] ? exFile.files[0].name : "example document attached";
-           uploads.push("- Reference the style of the past quote: " + fileName);
+           uploads.push("- Reference the style of the past invoice: " + fileName);
         }
         selections["[Uploads String]"] = uploads.length ? ("Formatting instructions:\n" + uploads.join("\n")) : "";
 
@@ -2399,7 +2442,7 @@
       addLineBtn.addEventListener('click', createLineItem);
 
       // Events - Main Text/Number Inputs
-      [bizName, bizPhone, bizAbn, bizEmail, clientName, quoteNum, clientAddress, clientPhone, discount, payDue, accName, bsb, accNum].forEach(input => {
+      [bizName, bizPhone, bizAbn, bizEmail, clientName, invoiceNum, clientAddress, clientPhone, discount, payDue, accName, bsb, accNum].forEach(input => {
         input.addEventListener('input', syncToSelections);
       });
 
@@ -2407,6 +2450,11 @@
       gstToggle.addEventListener('change', syncToSelections);
       ccToggle.addEventListener('change', syncToSelections);
       reviewToggle.addEventListener('change', syncToSelections);
+      aiTermsToggle.addEventListener('change', (e) => {
+        termsField.style.display = e.target.checked ? 'none' : 'block';
+        syncToSelections();
+      });
+      termsText.addEventListener('input', syncToSelections);
 
       logoToggle.addEventListener('change', (e) => {
         logoBtn.style.display = e.target.checked ? 'flex' : 'none';
@@ -2441,6 +2489,42 @@
       syncToSelections();
     }
 
+
+    function getCardId(category, subtitle) {
+      return category + "::" + subtitle;
+    }
+
+    function readFavourites() {
+      try {
+        const raw = localStorage.getItem(FAVOURITES_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function writeFavourites(favs) {
+      localStorage.setItem(FAVOURITES_KEY, JSON.stringify(favs));
+    }
+
+    function toggleFavourite(category, card) {
+      const id = getCardId(category, card.subtitle);
+      const favs = readFavourites();
+      const exists = favs.includes(id);
+      const next = exists ? favs.filter((item) => item !== id) : favs.concat(id);
+      writeFavourites(next);
+      render();
+    }
+
+    function buildPromptLibraryData() {
+      return Object.keys(APP)
+        .filter((category) => !["Favourites", "Prompt Library"].includes(category))
+        .map((category) => ({
+          category,
+          cards: (APP[category].cards || []).map((card) => ({ subtitle: card.subtitle }))
+        }));
+    }
+
     function render() {
       document.getElementById("pageTitle").textContent = APP[current].title;
       const helpEl = document.getElementById("pageHelp");
@@ -2472,6 +2556,14 @@
         "Templates": {
           why: "Custom templates ensure your AI outputs match your business exactly every time.",
           how: "Add items and fill out the structured form below and we will build the perfect context prompt."
+        },
+        "Favourites": {
+          why: "Keep your most-used prompts in one place for faster daily workflows.",
+          how: "Save a prompt card with the star button, then access it any time here."
+        },
+        "Prompt Library": {
+          why: "Browse every prompt title in one simple index grouped by category.",
+          how: "Click any title to jump straight to that prompt card."
         }
       };
       const c = copy[current] || {
@@ -2482,7 +2574,58 @@
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
       const cardRefreshers = [];
-      APP[current].cards.forEach((card, cIndex) => {
+
+      if (current === "Prompt Library") {
+        buildPromptLibraryData().forEach((entry) => {
+          const section = document.createElement("div");
+          section.className = "card open";
+          section.innerHTML = `<div class="card-head"><h3>${entry.category}</h3></div>`;
+          const body = document.createElement("div");
+          body.className = "card-body";
+          body.hidden = false;
+          entry.cards.forEach((card) => {
+            const linkBtn = document.createElement("button");
+            linkBtn.type = "button";
+            linkBtn.className = "copy-btn";
+            linkBtn.style.marginBottom = "8px";
+            linkBtn.textContent = card.subtitle;
+            linkBtn.addEventListener("click", () => {
+              current = entry.category;
+              writePrefs({ lastCategory: entry.category, openCard: card.subtitle });
+              render();
+            });
+            body.appendChild(linkBtn);
+          });
+          section.appendChild(body);
+          grid.appendChild(section);
+        });
+        promptRefreshers = [];
+        buildMenu();
+        return;
+      }
+
+      let cardsToRender = APP[current].cards || [];
+      if (current === "Favourites") {
+        const favs = new Set(readFavourites());
+        cardsToRender = [];
+        Object.keys(APP).forEach((category) => {
+          if (["Favourites", "Prompt Library"].includes(category)) return;
+          (APP[category].cards || []).forEach((card) => {
+            if (favs.has(getCardId(category, card.subtitle))) {
+              cardsToRender.push(Object.assign({}, card, { __category: category }));
+            }
+          });
+        });
+      }
+
+      if (current === "Favourites" && cardsToRender.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "card open";
+        empty.innerHTML = `<div class="card-head"><h3>No favourites yet</h3></div><div class="card-body" style="display:block;">Tap ☆ Save favourite on any card to add it here.</div>`;
+        grid.appendChild(empty);
+      }
+
+      cardsToRender.forEach((card, cIndex) => {
         const wrap = document.createElement("div");
         wrap.className = "card";
         const head = document.createElement("div");
@@ -2493,6 +2636,18 @@
         const h = document.createElement("h3");
         h.textContent = card.subtitle;
         head.appendChild(h);
+        const sourceCategory = card.__category || current;
+        const favouriteBtn = document.createElement("button");
+        favouriteBtn.type = "button";
+        favouriteBtn.className = "favourite-btn";
+        favouriteBtn.style.marginBottom = "8px";
+        const isFavourite = readFavourites().includes(getCardId(sourceCategory, card.subtitle));
+        favouriteBtn.textContent = isFavourite ? "★ Saved" : "☆ Save favourite";
+        favouriteBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleFavourite(sourceCategory, card);
+        });
+        head.appendChild(favouriteBtn);
         const selections = {};
         const kv = document.createElement("div");
         kv.className = "kv";
@@ -2534,12 +2689,12 @@
         head.appendChild(kv);
         const revealBtn = document.createElement("button");
         revealBtn.type = "button";
-        revealBtn.className = "reveal-btn";
+        revealBtn.className = "reveal-btn prompt-toggle";
         revealBtn.textContent = "Reveal prompt";
         head.appendChild(revealBtn);
         const body = document.createElement("div");
         body.className = "card-body";
-        const bodyId = "card-body-" + current.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + cIndex;
+        const bodyId = "card-body-" + sourceCategory.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + cIndex;
         body.id = bodyId;
         body.hidden = true;
         head.setAttribute("aria-controls", bodyId);
@@ -2571,8 +2726,8 @@
               });
             }
             
-            // For customForm (Quote Builder), strictly replace the keys found in selections
-            if (card.ui && card.ui.customForm === "quoteBuilder") {
+            // For customForm (Invoice Builder), strictly replace the keys found in selections
+            if (card.ui && card.ui.customForm === "invoiceBuilder") {
                Object.keys(selections).forEach(key => {
                    if(selections[key]) {
                        newText = newText.split(key).join(selections[key]);
@@ -2587,10 +2742,10 @@
 
         // --- UX Form Logic ---
         if (card.ui) {
-          if (card.ui.customForm === "quoteBuilder") {
+          if (card.ui.customForm === "invoiceBuilder") {
               const uiContainer = document.createElement("div");
               uiContainer.className = "ui-block";
-              buildQuoteBuilderDOM(uiContainer, card, selections, updatePromptsText);
+              buildInvoiceBuilderDOM(uiContainer, card, selections, updatePromptsText);
               body.appendChild(uiContainer);
           } else {
               const ui = document.createElement("div");
@@ -2764,8 +2919,8 @@
                 behavior: "smooth"
               });
               
-              // Ensure dynamic prompt updates on first open for new quote builder if empty
-              if(card.ui && card.ui.customForm === "quoteBuilder") {
+              // Ensure dynamic prompt updates on first open for invoice builder if empty
+              if(card.ui && card.ui.customForm === "invoiceBuilder") {
                  updatePromptsText();
               }
             }, 30);
@@ -2790,6 +2945,17 @@
         grid.appendChild(wrap);
       });
       promptRefreshers = cardRefreshers;
+      const openCard = readPrefs().openCard;
+      if (openCard) {
+        document.querySelectorAll(".card").forEach((el) => {
+          const title = el.querySelector("h3");
+          if (title && title.textContent === openCard) {
+            const btn = el.querySelector(".prompt-toggle");
+            if (btn) btn.click();
+          }
+        });
+        writePrefs({ openCard: null });
+      }
       buildMenu();
       window.scrollTo({
         top: 0,
