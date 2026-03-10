@@ -1995,14 +1995,14 @@
       "subtitle": "Quote Template",
       "chatbot": "ChatGPT",
       "front": {
-        "outcome": "Create a structured quote or invoice prompt you can paste into ChatGPT.",
-        "when": "When you need a quote or invoice draft fast.",
+        "outcome": "Create a structured quote prompt you can paste into ChatGPT.",
+        "when": "When you need a quote draft fast.",
         "goodFor": "Creating editable client ready quotes using your own job details.",
         "roi": "Saves admin time and makes your documents more consistent.",
         "tip": "Fill in every field before copying the prompt."
       },
       "prompts": [
-        "Create an editable [Document type] using the details below.\n\nBusiness details\nBusiness name: [Business name]\nABN: [ABN]\nEmail: [Business email]\nPhone: [Business phone]\n\nClient details\nClient name: [Client name]\nClient company: [Client company]\nClient email: [Client email]\n\nProject details\nProject title: [Project title]\nScope of work: [Scope of work]\nInclusions: [Inclusions]\nTimeline: [Timeline]\nTerms: [Terms]\nNotes: [Notes]\n\nLine items\n[Line items]\n\nFormatting reference\n[Formatting reference notes]\n\nRequirements\nWrite the output as a professional, client ready [Document type].\nUse clear headings.\nInclude pricing details.\nInclude total cost.\nIf the document type is Quote, include an approval section.\nReturn only the finished [Document type], ready to edit."
+        "Create a clean, editable quote."
       ]
     }
   ]
@@ -2109,9 +2109,8 @@ function createTemplatesCard(body, card, cIndex) {
   wrap.className = "templates-custom-card";
 
   const state = {
-    docType: "Quote",
     fields: {
-      "[Business name]": "",
+      "[Job Name]": "",
       "[ABN]": "",
       "[Business email]": "",
       "[Business phone]": "",
@@ -2125,7 +2124,16 @@ function createTemplatesCard(body, card, cIndex) {
       "[Terms]": "",
       "[Notes]": "",
       "[Line items]": "",
-      "[Formatting reference notes]": ""
+      "[Formatting reference notes]": "",
+      "[Subtotal]": "0.00",
+      "[Discount]": "0.00",
+      "[Include GST]": "Yes",
+      "[Payment Due]": "",
+      "[Account Name]": "",
+      "[BSB]": "",
+      "[Account Number]": "",
+      "[Include Pay Now Button]": "No",
+      "[Include Review Button]": "No"
     },
     uploads: {
       logo: { enabled: false, file: null },
@@ -2140,99 +2148,107 @@ function createTemplatesCard(body, card, cIndex) {
     style.id = "templates-card-styles";
     style.textContent = `
       .templates-custom-card {
-        background: #313131;
-        border: 4px solid #e75a00;
-        border-radius: 18px;
-        padding: 22px;
-        color: #f9faff;
-        box-shadow: 0 10px 24px rgba(12, 18, 44, 0.22);
+        background: #f4f5f7;
+        border: 1px solid #cfd5dc;
+        border-radius: 16px;
+        padding: 28px;
+        color: #122033;
       }
 
-      .templates-doc-type {
-        margin-bottom: 16px;
-      }
-
-      .templates-label,
-      .templates-fields-title,
-      .templates-section-title {
-        font-size: 16px;
+      .templates-builder-title {
+        margin: 0 0 22px;
+        font-size: 24px;
         font-weight: 700;
-        color: #f9faff;
-        margin-bottom: 10px;
+        color: #122033;
       }
 
-      .templates-doc-tabs {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
+      .templates-section {
+        margin-top: 26px;
+        padding-top: 22px;
+        border-top: 1px solid #cfd5dc;
       }
 
-      .template-tab-btn {
-        border: 2px solid #f9faff;
-        background: #f9faff;
-        color: #1d2958;
-        font-family: inherit;
+      .templates-section:first-of-type {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .templates-section-title {
+        margin: 0 0 14px;
         font-size: 14px;
-        font-weight: 500;
-        padding: 12px 18px;
-        cursor: pointer;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: #6d7e94;
       }
 
-      .template-tab-btn.active {
-        background: #e75a00;
-        border-color: #e75a00;
-        color: #313131;
-      }
-
-      .templates-fields-grid {
+      .templates-grid-2,
+      .templates-grid-3 {
         display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
+        gap: 14px;
       }
 
-      .templates-fields-grid .type-input {
+      .templates-grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .templates-grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .templates-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .templates-field.full {
+        grid-column: 1 / -1;
+      }
+
+      .templates-field label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #122033;
+      }
+
+      .templates-field input,
+      .templates-field textarea {
         width: 100%;
-        border: 0;
-        background: #f3f4f6;
-        color: #5b667a;
+        border: 2px solid #d5dbe2;
+        border-radius: 8px;
+        background: #f4f5f7;
+        color: #61748b;
         font-family: inherit;
         font-size: 14px;
-        padding: 15px 16px;
+        padding: 12px 12px;
         outline: none;
-        resize: vertical;
         box-sizing: border-box;
       }
 
-      .templates-fields-grid textarea.type-input {
+      .templates-field textarea {
         min-height: 90px;
+        resize: vertical;
       }
 
-      .templates-fields-grid .type-input:focus {
-        box-shadow: 0 0 0 2px rgba(231, 90, 0, 0.55);
+      .templates-field input:focus,
+      .templates-field textarea:focus {
+        border-color: #b9c4d0;
       }
 
-      .templates-divider {
-        height: 1px;
-        background: rgba(249, 250, 255, 0.2);
-        margin: 24px 0 18px;
-      }
-
-      .templates-upload-item + .templates-upload-item {
-        margin-top: 14px;
-      }
-
-      .templates-upload-head {
+      .templates-toggle-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 16px;
-        margin-bottom: 10px;
+        margin: 8px 0 14px;
       }
 
-      .templates-upload-text {
+      .templates-toggle-text {
         font-size: 14px;
         font-weight: 600;
-        color: #f9faff;
+        color: #122033;
       }
 
       .templates-toggle {
@@ -2245,6 +2261,10 @@ function createTemplatesCard(body, card, cIndex) {
         cursor: pointer;
         padding: 0;
         flex: 0 0 auto;
+      }
+
+      .templates-toggle.off {
+        background: #d8dde4;
       }
 
       .templates-toggle-knob {
@@ -2262,17 +2282,39 @@ function createTemplatesCard(body, card, cIndex) {
         transform: translateX(20px);
       }
 
+      .templates-total-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #e9ebee;
+        border-radius: 8px;
+        padding: 14px 12px;
+        margin-top: 8px;
+        font-size: 14px;
+        color: #5f6f82;
+      }
+
+      .templates-total-row strong {
+        color: #111827;
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .templates-upload-item + .templates-upload-item {
+        margin-top: 18px;
+      }
+
       .templates-upload-box {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 12px;
         min-height: 40px;
-        background: #f3f4f6;
-        border: 2px solid #c7ced8;
+        background: #f4f5f7;
+        border: 2px solid #cfd5dc;
         border-radius: 6px;
-        padding: 18px 14px;
-        color: #1f2a3d;
+        padding: 16px 14px;
+        color: #122033;
         cursor: pointer;
       }
 
@@ -2296,6 +2338,31 @@ function createTemplatesCard(body, card, cIndex) {
         font-weight: 700;
       }
 
+      .templates-prompt-wrap {
+        margin-top: 24px;
+        border-top: 1px solid #cfd5dc;
+        padding-top: 20px;
+      }
+
+      .templates-prompt-title {
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #6d7e94;
+      }
+
+      .templates-output {
+        white-space: pre-wrap;
+        background: #ffffff;
+        border: 1px solid #d7dde5;
+        border-radius: 12px;
+        padding: 16px;
+        color: #122033;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
       .templates-copy-footer {
         display: flex;
         align-items: center;
@@ -2315,13 +2382,13 @@ function createTemplatesCard(body, card, cIndex) {
         font-size: 16px;
         font-weight: 700;
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
       }
 
       .templates-chatgpt-link {
-        color: #f9faff;
+        color: #122033;
         text-decoration: none;
-        border-bottom: 1px solid #f9faff;
+        border-bottom: 1px solid #122033;
         padding-bottom: 3px;
         font-size: 16px;
         white-space: nowrap;
@@ -2331,18 +2398,10 @@ function createTemplatesCard(body, card, cIndex) {
         font-weight: 700;
       }
 
-      .templates-output {
-        display: none;
-      }
-
-      @media (max-width: 700px) {
-        .templates-fields-grid {
+      @media (max-width: 760px) {
+        .templates-grid-2,
+        .templates-grid-3 {
           grid-template-columns: 1fr;
-        }
-
-        .templates-copy-footer {
-          align-items: flex-start;
-          flex-direction: column;
         }
       }
     `;
@@ -2351,165 +2410,143 @@ function createTemplatesCard(body, card, cIndex) {
 
   ensureTemplateStyles();
 
+  function money(n) {
+    return "$" + Number(n || 0).toFixed(2);
+  }
+
+  function getTotal() {
+    const subtotal = Number(state.fields["[Subtotal]"] || 0);
+    const discount = Number(state.fields["[Discount]"] || 0);
+    const base = Math.max(subtotal - discount, 0);
+    const total = state.fields["[Include GST]"] === "Yes" ? base * 1.1 : base;
+    return total;
+  }
+
   function getPromptText() {
-    let text = (card.prompts && card.prompts[0]) ? card.prompts[0] : "";
-
-    text = text.replace(/\[Document type\]/g, state.docType);
-
-    Object.keys(state.fields).forEach(function (key) {
-      const safeVal = state.fields[key] || key;
-      text = text.split(key).join(safeVal);
-    });
+    let text =
+      "Create a clean, editable client ready quote using the details below.\n\n" +
+      "Business context\n" +
+      "Business name from defaults above: " + (globalBizNameInput ? globalBizNameInput.value.trim() : "") + "\n" +
+      "My name from defaults above: " + (globalFirstNameInput ? globalFirstNameInput.value.trim() : "") + "\n\n" +
+      "Quote details\n" +
+      "Job Name: " + state.fields["[Job Name]"] + "\n" +
+      "ABN: " + state.fields["[ABN]"] + "\n" +
+      "Business email: " + state.fields["[Business email]"] + "\n" +
+      "Business phone: " + state.fields["[Business phone]"] + "\n" +
+      "Client name: " + state.fields["[Client name]"] + "\n" +
+      "Client company: " + state.fields["[Client company]"] + "\n" +
+      "Client email: " + state.fields["[Client email]"] + "\n" +
+      "Project title: " + state.fields["[Project title]"] + "\n" +
+      "Scope of work: " + state.fields["[Scope of work]"] + "\n" +
+      "Inclusions: " + state.fields["[Inclusions]"] + "\n" +
+      "Timeline: " + state.fields["[Timeline]"] + "\n" +
+      "Terms: " + state.fields["[Terms]"] + "\n" +
+      "Notes: " + state.fields["[Notes]"] + "\n" +
+      "Line items: " + state.fields["[Line items]"] + "\n" +
+      "Subtotal ex GST: " + money(state.fields["[Subtotal]"]) + "\n" +
+      "Discount: " + money(state.fields["[Discount]"]) + "\n" +
+      "Include GST: " + state.fields["[Include GST]"] + "\n" +
+      "Total inc GST: " + money(getTotal()) + "\n" +
+      "Payment due: " + state.fields["[Payment Due]"] + "\n" +
+      "Account name: " + state.fields["[Account Name]"] + "\n" +
+      "BSB: " + state.fields["[BSB]"] + "\n" +
+      "Account number: " + state.fields["[Account Number]"] + "\n" +
+      "Include Pay now via credit card button: " + state.fields["[Include Pay Now Button]"] + "\n" +
+      "Include Leave a Google review button: " + state.fields["[Include Review Button]"] + "\n" +
+      "Formatting reference notes: " + state.fields["[Formatting reference notes]"] + "\n\n" +
+      "Requirements\n" +
+      "Use clear headings.\n" +
+      "Make it look polished and client ready.\n" +
+      "Return only the finished quote.";
 
     const selectedFiles = [];
-
     if (state.uploads.logo.enabled && state.uploads.logo.file) {
-      selectedFiles.push("Logo attachment selected: " + state.uploads.logo.file.name);
+      selectedFiles.push("Logo selected: " + state.uploads.logo.file.name);
     }
-
     if (state.uploads.quoteExample.enabled && state.uploads.quoteExample.file) {
       selectedFiles.push("Past quote example selected: " + state.uploads.quoteExample.file.name);
     }
 
-    let attachmentsText = "";
     if (selectedFiles.length) {
-      attachmentsText =
-        "\n\nAttachments selected\n" +
-        selectedFiles.join("\n") +
-        "\n\nImportant\n" +
-        "These attachment names are included in the copied prompt. Actual files must still be manually uploaded into ChatGPT.";
+      text += "\n\nAttachments selected\n" + selectedFiles.join("\n");
+      text += "\n\nImportant\nActual files are not transferred by copy and paste. They must still be uploaded manually in ChatGPT.";
     }
 
-    return getGlobalPromptPrefix() + addVoiceToneInstruction(text, card) + attachmentsText;
+    return text;
   }
 
   function updatePrompt() {
     output.textContent = getPromptText();
+    totalValue.textContent = money(getTotal());
   }
 
-  function prefillFromTopInputs() {
-    if (!state.fields["[Business name]"] && globalBizNameInput && globalBizNameInput.value.trim()) {
-      state.fields["[Business name]"] = globalBizNameInput.value.trim();
-      const input = wrap.querySelector('[data-field="[Business name]"]');
-      if (input) input.value = state.fields["[Business name]"];
-    }
+  function addField(grid, labelText, key, placeholder, multiline, rows, type) {
+    const field = document.createElement("div");
+    field.className = "templates-field";
+    if (multiline) field.classList.add("full");
 
-    if (!state.fields["[Client name]"] && globalFirstNameInput && globalFirstNameInput.value.trim()) {
-      state.fields["[Client name]"] = globalFirstNameInput.value.trim();
-      const input = wrap.querySelector('[data-field="[Client name]"]');
-      if (input) input.value = state.fields["[Client name]"];
-    }
+    const label = document.createElement("label");
+    label.textContent = labelText;
 
-    updatePrompt();
-  }
+    const input = document.createElement(multiline ? "textarea" : "input");
+    if (!multiline) input.type = type || "text";
+    if (multiline) input.rows = rows || 3;
+    input.placeholder = placeholder || "";
+    input.value = state.fields[key] || "";
 
-  const top = document.createElement("div");
-  top.className = "templates-doc-type";
-
-  const topLabel = document.createElement("div");
-  topLabel.className = "templates-label";
-  topLabel.textContent = "Document type";
-  top.appendChild(topLabel);
-
-  const tabs = document.createElement("div");
-  tabs.className = "templates-doc-tabs";
-
-  ["Quote", "Invoice", "Other"].forEach(function (type) {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "template-tab-btn" + (type === state.docType ? " active" : "");
-    btn.textContent = type;
-
-    btn.addEventListener("click", function () {
-      state.docType = type;
-      tabs.querySelectorAll(".template-tab-btn").forEach(function (el) {
-        el.classList.remove("active");
-      });
-      btn.classList.add("active");
+    input.addEventListener("input", function (e) {
+      state.fields[key] = e.target.value || "";
       updatePrompt();
     });
 
-    tabs.appendChild(btn);
-  });
+    field.appendChild(label);
+    field.appendChild(input);
+    grid.appendChild(field);
+  }
 
-  top.appendChild(tabs);
-  wrap.appendChild(top);
+  function createToggleRow(labelText, key, isLight) {
+    const row = document.createElement("div");
+    row.className = "templates-toggle-row";
 
-  const title = document.createElement("div");
-  title.className = "templates-fields-title";
-  title.textContent = "Type your...";
-  wrap.appendChild(title);
+    const text = document.createElement("div");
+    text.className = "templates-toggle-text";
+    text.textContent = labelText;
 
-  const fields = document.createElement("div");
-  fields.className = "templates-fields-grid";
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "templates-toggle " + (state.fields[key] === "Yes" ? "on" : "off");
+    toggle.innerHTML = '<span class="templates-toggle-knob"></span>';
 
-  const fieldOrder = [
-    "[Business name]",
-    "[ABN]",
-    "[Business email]",
-    "[Business phone]",
-    "[Client name]",
-    "[Client company]",
-    "[Client email]",
-    "[Project title]",
-    "[Scope of work]",
-    "[Inclusions]",
-    "[Timeline]",
-    "[Terms]",
-    "[Notes]",
-    "[Line items]",
-    "[Formatting reference notes]"
-  ];
+    function sync() {
+      const on = state.fields[key] === "Yes";
+      toggle.className = "templates-toggle " + (on ? "on" : "off");
+    }
 
-  fieldOrder.forEach(function (label) {
-    const isLong =
-      label === "[Scope of work]" ||
-      label === "[Inclusions]" ||
-      label === "[Notes]" ||
-      label === "[Line items]" ||
-      label === "[Formatting reference notes]";
-
-    const el = document.createElement(isLong ? "textarea" : "input");
-    if (!isLong) el.type = "text";
-    if (isLong) el.rows = (label === "[Line items]") ? 4 : 2;
-    el.className = "type-input";
-    el.placeholder = label.replace(/\[|\]/g, "");
-    el.setAttribute("data-field", label);
-
-    el.addEventListener("input", function (e) {
-      state.fields[label] = e.target.value || "";
+    toggle.addEventListener("click", function () {
+      state.fields[key] = state.fields[key] === "Yes" ? "No" : "Yes";
+      sync();
       updatePrompt();
     });
 
-    fields.appendChild(el);
-  });
-
-  wrap.appendChild(fields);
-
-  const divider = document.createElement("div");
-  divider.className = "templates-divider";
-  wrap.appendChild(divider);
-
-  const uploadTitle = document.createElement("div");
-  uploadTitle.className = "templates-section-title";
-  uploadTitle.textContent = "Uploads";
-  wrap.appendChild(uploadTitle);
+    row.appendChild(text);
+    row.appendChild(toggle);
+    return row;
+  }
 
   function createUploadRow(labelText, key, buttonLabel, accept) {
     const item = document.createElement("div");
     item.className = "templates-upload-item";
 
     const head = document.createElement("div");
-    head.className = "templates-upload-head";
+    head.className = "templates-toggle-row";
 
     const text = document.createElement("div");
-    text.className = "templates-upload-text";
+    text.className = "templates-toggle-text";
     text.textContent = labelText;
 
     const toggle = document.createElement("button");
     toggle.type = "button";
-    toggle.className = "templates-toggle";
-    toggle.setAttribute("aria-pressed", "false");
+    toggle.className = "templates-toggle off";
     toggle.innerHTML = '<span class="templates-toggle-knob"></span>';
 
     const fileLabel = document.createElement("label");
@@ -2540,8 +2577,7 @@ function createTemplatesCard(body, card, cIndex) {
 
     function syncUploadUi() {
       const isOn = state.uploads[key].enabled;
-      toggle.classList.toggle("on", isOn);
-      toggle.setAttribute("aria-pressed", isOn ? "true" : "false");
+      toggle.className = "templates-toggle " + (isOn ? "on" : "off");
       fileLabel.classList.toggle("hidden", !isOn);
       label.textContent = state.uploads[key].file ? state.uploads[key].file.name : buttonLabel;
     }
@@ -2557,7 +2593,7 @@ function createTemplatesCard(body, card, cIndex) {
     });
 
     fileInput.addEventListener("change", function () {
-      state.uploads[key].file = (fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
+      state.uploads[key].file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
       syncUploadUi();
       updatePrompt();
     });
@@ -2568,21 +2604,111 @@ function createTemplatesCard(body, card, cIndex) {
     item.appendChild(fileLabel);
 
     syncUploadUi();
-
     return item;
   }
 
-  wrap.appendChild(
-    createUploadRow("Upload a logo", "logo", "Upload logo", "image/*,.pdf,.png,.jpg,.jpeg,.webp,.svg")
-  );
+  const title = document.createElement("h3");
+  title.className = "templates-builder-title";
+  title.textContent = "Quote Builder";
+  wrap.appendChild(title);
 
-  wrap.appendChild(
-    createUploadRow("Upload a past quote example", "quoteExample", "Upload quote example", ".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp")
-  );
+  const businessSection = document.createElement("div");
+  businessSection.className = "templates-section";
+  businessSection.innerHTML = '<div class="templates-section-title">Your Business Details</div>';
+  const businessGrid = document.createElement("div");
+  businessGrid.className = "templates-grid-2";
+  businessSection.appendChild(businessGrid);
+  addField(businessGrid, "Job Name", "[Job Name]", "e.g. Smith Electrical");
+  addField(businessGrid, "Phone", "[Business phone]", "0400 000 000");
+  addField(businessGrid, "ABN", "[ABN]", "00 000 000 000");
+  addField(businessGrid, "Email", "[Business email]", "you@example.com");
+  wrap.appendChild(businessSection);
+
+  const clientSection = document.createElement("div");
+  clientSection.className = "templates-section";
+  clientSection.innerHTML = '<div class="templates-section-title">Client Details</div>';
+  const clientGrid = document.createElement("div");
+  clientGrid.className = "templates-grid-2";
+  clientSection.appendChild(clientGrid);
+  addField(clientGrid, "Client Name", "[Client name]", "Client name");
+  addField(clientGrid, "Client Company", "[Client company]", "Client company");
+  addField(clientGrid, "Client Email", "[Client email]", "Client email");
+  addField(clientGrid, "Project Title", "[Project title]", "Project title");
+  wrap.appendChild(clientSection);
+
+  const jobSection = document.createElement("div");
+  jobSection.className = "templates-section";
+  jobSection.innerHTML = '<div class="templates-section-title">Job Details</div>';
+  const jobGrid = document.createElement("div");
+  jobGrid.className = "templates-grid-2";
+  jobSection.appendChild(jobGrid);
+  addField(jobGrid, "Scope of Work", "[Scope of work]", "Describe the work...", true, 4);
+  addField(jobGrid, "Inclusions", "[Inclusions]", "Inclusions", true, 4);
+  addField(jobGrid, "Timeline", "[Timeline]", "Timeline");
+  addField(jobGrid, "Terms", "[Terms]", "Terms");
+  addField(jobGrid, "Notes", "[Notes]", "Notes", true, 4);
+  addField(jobGrid, "Line Items", "[Line items]", "Line items", true, 5);
+  addField(jobGrid, "Formatting Reference Notes", "[Formatting reference notes]", "Formatting notes", true, 3);
+  wrap.appendChild(jobSection);
+
+  const pricingSection = document.createElement("div");
+  pricingSection.className = "templates-section";
+  pricingSection.innerHTML = '<div class="templates-section-title">Pricing</div>';
+  const pricingGrid = document.createElement("div");
+  pricingGrid.className = "templates-grid-2";
+  pricingSection.appendChild(pricingGrid);
+  addField(pricingGrid, "Subtotal (ex GST)", "[Subtotal]", "0.00", false, 0, "number");
+  addField(pricingGrid, "Discount ($)", "[Discount]", "0.00", false, 0, "number");
+  pricingSection.appendChild(createToggleRow("Include GST (10%)", "[Include GST]"));
+  const totalRow = document.createElement("div");
+  totalRow.className = "templates-total-row";
+  totalRow.innerHTML = '<span>Total (inc GST)</span><strong>$0.00</strong>';
+  const totalValue = totalRow.querySelector("strong");
+  pricingSection.appendChild(totalRow);
+  wrap.appendChild(pricingSection);
+
+  const paymentSection = document.createElement("div");
+  paymentSection.className = "templates-section";
+  paymentSection.innerHTML = '<div class="templates-section-title">Payment</div>';
+  const paymentTop = document.createElement("div");
+  paymentTop.className = "templates-grid-2";
+  paymentSection.appendChild(paymentTop);
+  addField(paymentTop, "Payment Due", "[Payment Due]", "dd/mm/yyyy");
+  const bankGrid = document.createElement("div");
+  bankGrid.className = "templates-grid-3";
+  paymentSection.appendChild(bankGrid);
+  addField(bankGrid, "Account Name", "[Account Name]", "Account name");
+  addField(bankGrid, "BSB", "[BSB]", "000-000");
+  addField(bankGrid, "Account Number", "[Account Number]", "00000000");
+  wrap.appendChild(paymentSection);
+
+  const uploadSection = document.createElement("div");
+  uploadSection.className = "templates-section";
+  uploadSection.innerHTML = '<div class="templates-section-title">Uploads</div>';
+  uploadSection.appendChild(createUploadRow("Upload a logo", "logo", "Upload logo", "image/*,.pdf,.png,.jpg,.jpeg,.webp,.svg"));
+  uploadSection.appendChild(createUploadRow("Upload a past quote example", "quoteExample", "Upload quote example", ".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"));
+  wrap.appendChild(uploadSection);
+
+  const extrasSection = document.createElement("div");
+  extrasSection.className = "templates-section";
+  extrasSection.innerHTML = '<div class="templates-section-title">Extras</div>';
+  extrasSection.appendChild(createToggleRow('Include "Pay now via credit card" button', "[Include Pay Now Button]"));
+  extrasSection.appendChild(createToggleRow('Include "Leave a Google review" button', "[Include Review Button]"));
+  wrap.appendChild(extrasSection);
+
+  const promptWrap = document.createElement("div");
+  promptWrap.className = "templates-prompt-wrap";
+
+  const promptTitle = document.createElement("div");
+  promptTitle.className = "templates-prompt-title";
+  promptTitle.textContent = "Generated Prompt";
 
   const output = document.createElement("div");
   output.className = "templates-output";
-  wrap.appendChild(output);
+
+  promptWrap.appendChild(promptTitle);
+  promptWrap.appendChild(output);
+  wrap.appendChild(promptWrap);
 
   const footer = document.createElement("div");
   footer.className = "templates-copy-footer";
@@ -2623,14 +2749,9 @@ function createTemplatesCard(body, card, cIndex) {
   wrap.appendChild(footer);
 
   body.appendChild(wrap);
-
-  // Do not attach repeated global listeners here.
-  // Global updates are already handled by refreshPromptText().
-
-  prefillFromTopInputs();
   updatePrompt();
-
   return updatePrompt;
+}
 }
     function render() {
       document.getElementById("pageTitle").textContent = APP[current].title;
