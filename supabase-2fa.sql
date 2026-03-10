@@ -22,10 +22,19 @@ create table if not exists public.login_verifications (
   unique(user_id, session_id)
 );
 
+-- Tracks failed and successful verification attempts for rate limiting.
+create table if not exists public.login_verification_attempts (
+  id          uuid        default gen_random_uuid() primary key,
+  user_id     uuid        references auth.users(id) on delete cascade not null,
+  success     boolean     default false not null,
+  attempted_at timestamptz default now() not null
+);
+
 -- RLS enabled with NO client-side policies — only the service-role key
 -- (used by API routes) can read/write these tables.
 alter table public.login_verification_codes enable row level security;
 alter table public.login_verifications enable row level security;
+alter table public.login_verification_attempts enable row level security;
 
 -- Indexes for fast lookups
 create index if not exists idx_login_codes_lookup
@@ -33,3 +42,6 @@ create index if not exists idx_login_codes_lookup
 
 create index if not exists idx_login_verifications_lookup
   on public.login_verifications(user_id, session_id);
+
+create index if not exists idx_login_attempts_lookup
+  on public.login_verification_attempts(user_id, success, attempted_at);

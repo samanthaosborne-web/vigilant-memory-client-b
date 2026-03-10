@@ -1,4 +1,7 @@
+const crypto = require("crypto");
 const { createClient } = require("@supabase/supabase-js");
+
+const SEND_COOLDOWN_SECONDS = 60;
 
 function json(res, status, payload) {
   res.status(status).json(payload);
@@ -14,7 +17,7 @@ async function getAuthedUser(req, supabaseAdmin) {
 }
 
 function generateCode() {
-  return String(Math.floor(100000 + Math.random() * 900000));
+  return String(crypto.randomInt(100000, 999999));
 }
 
 async function sendEmail(to, code) {
@@ -22,8 +25,7 @@ async function sendEmail(to, code) {
   const FROM_EMAIL = process.env.FROM_EMAIL || "AdvisaStacks <noreply@advisastacks.com>";
 
   if (!RESEND_API_KEY) {
-    console.log(`[2FA] No RESEND_API_KEY configured. Code for ${to}: ${code}`);
-    return true;
+    return false;
   }
 
   const resp = await fetch("https://api.resend.com/emails", {
@@ -68,6 +70,19 @@ module.exports = async (req, res) => {
 
   const user = await getAuthedUser(req, supabaseAdmin);
   if (!user) return json(res, 401, { error: "Unauthorized" });
+
+  const cooldownCutoff = new Date(Date.now() - SEND_COOLDOWN_SECONDS * 1000).toISOString();
+  const { data: recentCode } = await supabaseAdmin
+    .from("login_verification_codes")
+    .select("id")
+    .eq("user_id", user.id)
+    .gte("created_at", cooldownCutoff)
+    .limit(1)
+    .maybeSingle();
+
+  if (recentCode) {
+    return json(res, 429, { error: "Please wait before requesting a new code." });
+  }
 
   const code = generateCode();
   const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
