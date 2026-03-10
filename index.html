@@ -1997,37 +1997,12 @@
       "front": {
         "outcome": "Create a structured quote or invoice prompt you can paste into ChatGPT.",
         "when": "When you need a quote or invoice draft fast.",
-        "goodFor": "Creating editable client-ready quotes using your own job details.",
+        "goodFor": "Creating editable client ready quotes using your own job details.",
         "roi": "Saves admin time and makes your documents more consistent.",
         "tip": "Fill in every field before copying the prompt."
       },
-      "ui": {
-        "quickInputs": [
-          {
-            "label": "Document type",
-            "options": ["Quote", "Invoice"]
-          }
-        ],
-        "fields": [
-          "[Business name]",
-          "[ABN]",
-          "[Business email]",
-          "[Business phone]",
-          "[Client name]",
-          "[Client company]",
-          "[Client email]",
-          "[Project title]",
-          "[Scope of work]",
-          "[Inclusions]",
-          "[Timeline]",
-          "[Terms]",
-          "[Notes]",
-          "[Line items]",
-          "[Formatting reference notes]"
-        ]
-      },
       "prompts": [
-        "Create an editable [Document type] using the details below.\n\nBusiness details\nBusiness name: [Business name]\nABN: [ABN]\nEmail: [Business email]\nPhone: [Business phone]\n\nClient details\nClient name: [Client name]\nClient company: [Client company]\nClient email: [Client email]\n\nProject details\nProject title: [Project title]\nScope of work: [Scope of work]\nInclusions: [Inclusions]\nTimeline: [Timeline]\nTerms: [Terms]\nNotes: [Notes]\n\nLine items\n[Line items]\n\nFormatting reference\n[Formatting reference notes]\n\nRequirements\nWrite the output as a professional, client-ready [Document type].\nUse clear headings.\nInclude pricing details.\nInclude total cost.\nIf the document type is Quote, include an approval section.\nReturn only the finished [Document type], ready to edit."
+        "Create an editable [Document type] using the details below.\n\nBusiness details\nBusiness name: [Business name]\nABN: [ABN]\nEmail: [Business email]\nPhone: [Business phone]\n\nClient details\nClient name: [Client name]\nClient company: [Client company]\nClient email: [Client email]\n\nProject details\nProject title: [Project title]\nScope of work: [Scope of work]\nInclusions: [Inclusions]\nTimeline: [Timeline]\nTerms: [Terms]\nNotes: [Notes]\n\nLine items\n[Line items]\n\nFormatting reference\n[Formatting reference notes]\n\nRequirements\nWrite the output as a professional, client ready [Document type].\nUse clear headings.\nInclude pricing details.\nInclude total cost.\nIf the document type is Quote, include an approval section.\nReturn only the finished [Document type], ready to edit."
       ]
     }
   ]
@@ -2129,7 +2104,534 @@
       if (!shouldApply || text.includes(VOICE_TONE_GUIDE)) return text;
       return text + "\n\nVoice tone:\n" + VOICE_TONE_GUIDE;
     }
+function createTemplatesCard(body, card, cIndex) {
+  const wrap = document.createElement("div");
+  wrap.className = "templates-custom-card";
 
+  const state = {
+    docType: "Quote",
+    fields: {
+      "[Business name]": "",
+      "[ABN]": "",
+      "[Business email]": "",
+      "[Business phone]": "",
+      "[Client name]": "",
+      "[Client company]": "",
+      "[Client email]": "",
+      "[Project title]": "",
+      "[Scope of work]": "",
+      "[Inclusions]": "",
+      "[Timeline]": "",
+      "[Terms]": "",
+      "[Notes]": "",
+      "[Line items]": "",
+      "[Formatting reference notes]": ""
+    },
+    uploads: {
+      logo: { enabled: false, file: null },
+      quoteExample: { enabled: false, file: null }
+    }
+  };
+
+  function ensureTemplateStyles() {
+    if (document.getElementById("templates-card-styles")) return;
+
+    const style = document.createElement("style");
+    style.id = "templates-card-styles";
+    style.textContent = `
+      .templates-custom-card {
+        background: #313131;
+        border: 4px solid #e75a00;
+        border-radius: 18px;
+        padding: 22px;
+        color: #f9faff;
+        box-shadow: 0 10px 24px rgba(12, 18, 44, 0.22);
+      }
+
+      .templates-doc-type {
+        margin-bottom: 16px;
+      }
+
+      .templates-label,
+      .templates-fields-title,
+      .templates-section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #f9faff;
+        margin-bottom: 10px;
+      }
+
+      .templates-doc-tabs {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .template-tab-btn {
+        border: 2px solid #f9faff;
+        background: #f9faff;
+        color: #1d2958;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 12px 18px;
+        cursor: pointer;
+      }
+
+      .template-tab-btn.active {
+        background: #e75a00;
+        border-color: #e75a00;
+        color: #313131;
+      }
+
+      .templates-fields-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .templates-fields-grid .type-input {
+        width: 100%;
+        border: 0;
+        background: #f3f4f6;
+        color: #5b667a;
+        font-family: inherit;
+        font-size: 14px;
+        padding: 15px 16px;
+        outline: none;
+        resize: vertical;
+        box-sizing: border-box;
+      }
+
+      .templates-fields-grid textarea.type-input {
+        min-height: 90px;
+      }
+
+      .templates-fields-grid .type-input:focus {
+        box-shadow: 0 0 0 2px rgba(231, 90, 0, 0.55);
+      }
+
+      .templates-divider {
+        height: 1px;
+        background: rgba(249, 250, 255, 0.2);
+        margin: 24px 0 18px;
+      }
+
+      .templates-upload-item + .templates-upload-item {
+        margin-top: 14px;
+      }
+
+      .templates-upload-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 10px;
+      }
+
+      .templates-upload-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: #f9faff;
+      }
+
+      .templates-toggle {
+        width: 44px;
+        height: 24px;
+        border: 0;
+        border-radius: 999px;
+        background: #243148;
+        position: relative;
+        cursor: pointer;
+        padding: 0;
+        flex: 0 0 auto;
+      }
+
+      .templates-toggle-knob {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.18s ease;
+      }
+
+      .templates-toggle.on .templates-toggle-knob {
+        transform: translateX(20px);
+      }
+
+      .templates-upload-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-height: 40px;
+        background: #f3f4f6;
+        border: 2px solid #c7ced8;
+        border-radius: 6px;
+        padding: 18px 14px;
+        color: #1f2a3d;
+        cursor: pointer;
+      }
+
+      .templates-upload-box.hidden {
+        display: none;
+      }
+
+      .templates-upload-icon {
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+      }
+
+      .templates-upload-icon svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .templates-upload-label {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .templates-copy-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .templates-copy-btn {
+        background: #e75a00;
+        color: #f9faff;
+        border: 2px solid #e75a00;
+        border-radius: 18px;
+        padding: 16px 22px;
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .templates-chatgpt-link {
+        color: #f9faff;
+        text-decoration: none;
+        border-bottom: 1px solid #f9faff;
+        padding-bottom: 3px;
+        font-size: 16px;
+        white-space: nowrap;
+      }
+
+      .templates-chatgpt-link strong {
+        font-weight: 700;
+      }
+
+      .templates-output {
+        display: none;
+      }
+
+      @media (max-width: 700px) {
+        .templates-fields-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .templates-copy-footer {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  ensureTemplateStyles();
+
+  function getPromptText() {
+    let text = (card.prompts && card.prompts[0]) ? card.prompts[0] : "";
+
+    text = text.replace(/\[Document type\]/g, state.docType);
+
+    Object.keys(state.fields).forEach(function (key) {
+      const safeVal = state.fields[key] || key;
+      text = text.split(key).join(safeVal);
+    });
+
+    const selectedFiles = [];
+
+    if (state.uploads.logo.enabled && state.uploads.logo.file) {
+      selectedFiles.push("Logo attachment selected: " + state.uploads.logo.file.name);
+    }
+
+    if (state.uploads.quoteExample.enabled && state.uploads.quoteExample.file) {
+      selectedFiles.push("Past quote example selected: " + state.uploads.quoteExample.file.name);
+    }
+
+    let attachmentsText = "";
+    if (selectedFiles.length) {
+      attachmentsText =
+        "\n\nAttachments selected\n" +
+        selectedFiles.join("\n") +
+        "\n\nImportant\n" +
+        "These attachment names are included in the copied prompt. Actual files must still be manually uploaded into ChatGPT.";
+    }
+
+    return getGlobalPromptPrefix() + addVoiceToneInstruction(text, card) + attachmentsText;
+  }
+
+  function updatePrompt() {
+    output.textContent = getPromptText();
+  }
+
+  function prefillFromTopInputs() {
+    if (!state.fields["[Business name]"] && globalBizNameInput && globalBizNameInput.value.trim()) {
+      state.fields["[Business name]"] = globalBizNameInput.value.trim();
+      const input = wrap.querySelector('[data-field="[Business name]"]');
+      if (input) input.value = state.fields["[Business name]"];
+    }
+
+    if (!state.fields["[Client name]"] && globalFirstNameInput && globalFirstNameInput.value.trim()) {
+      state.fields["[Client name]"] = globalFirstNameInput.value.trim();
+      const input = wrap.querySelector('[data-field="[Client name]"]');
+      if (input) input.value = state.fields["[Client name]"];
+    }
+
+    updatePrompt();
+  }
+
+  const top = document.createElement("div");
+  top.className = "templates-doc-type";
+
+  const topLabel = document.createElement("div");
+  topLabel.className = "templates-label";
+  topLabel.textContent = "Document type";
+  top.appendChild(topLabel);
+
+  const tabs = document.createElement("div");
+  tabs.className = "templates-doc-tabs";
+
+  ["Quote", "Invoice", "Other"].forEach(function (type) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "template-tab-btn" + (type === state.docType ? " active" : "");
+    btn.textContent = type;
+
+    btn.addEventListener("click", function () {
+      state.docType = type;
+      tabs.querySelectorAll(".template-tab-btn").forEach(function (el) {
+        el.classList.remove("active");
+      });
+      btn.classList.add("active");
+      updatePrompt();
+    });
+
+    tabs.appendChild(btn);
+  });
+
+  top.appendChild(tabs);
+  wrap.appendChild(top);
+
+  const title = document.createElement("div");
+  title.className = "templates-fields-title";
+  title.textContent = "Type your...";
+  wrap.appendChild(title);
+
+  const fields = document.createElement("div");
+  fields.className = "templates-fields-grid";
+
+  const fieldOrder = [
+    "[Business name]",
+    "[ABN]",
+    "[Business email]",
+    "[Business phone]",
+    "[Client name]",
+    "[Client company]",
+    "[Client email]",
+    "[Project title]",
+    "[Scope of work]",
+    "[Inclusions]",
+    "[Timeline]",
+    "[Terms]",
+    "[Notes]",
+    "[Line items]",
+    "[Formatting reference notes]"
+  ];
+
+  fieldOrder.forEach(function (label) {
+    const isLong =
+      label === "[Scope of work]" ||
+      label === "[Inclusions]" ||
+      label === "[Notes]" ||
+      label === "[Line items]" ||
+      label === "[Formatting reference notes]";
+
+    const el = document.createElement(isLong ? "textarea" : "input");
+    if (!isLong) el.type = "text";
+    if (isLong) el.rows = (label === "[Line items]") ? 4 : 2;
+    el.className = "type-input";
+    el.placeholder = label.replace(/\[|\]/g, "");
+    el.setAttribute("data-field", label);
+
+    el.addEventListener("input", function (e) {
+      state.fields[label] = e.target.value || "";
+      updatePrompt();
+    });
+
+    fields.appendChild(el);
+  });
+
+  wrap.appendChild(fields);
+
+  const divider = document.createElement("div");
+  divider.className = "templates-divider";
+  wrap.appendChild(divider);
+
+  const uploadTitle = document.createElement("div");
+  uploadTitle.className = "templates-section-title";
+  uploadTitle.textContent = "Uploads";
+  wrap.appendChild(uploadTitle);
+
+  function createUploadRow(labelText, key, buttonLabel, accept) {
+    const item = document.createElement("div");
+    item.className = "templates-upload-item";
+
+    const head = document.createElement("div");
+    head.className = "templates-upload-head";
+
+    const text = document.createElement("div");
+    text.className = "templates-upload-text";
+    text.textContent = labelText;
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "templates-toggle";
+    toggle.setAttribute("aria-pressed", "false");
+    toggle.innerHTML = '<span class="templates-toggle-knob"></span>';
+
+    const fileLabel = document.createElement("label");
+    fileLabel.className = "templates-upload-box hidden";
+
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = accept;
+    fileInput.hidden = true;
+
+    const icon = document.createElement("span");
+    icon.className = "templates-upload-icon";
+    icon.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 16V4"></path>
+        <path d="M8 8l4-4 4 4"></path>
+        <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path>
+      </svg>
+    `;
+
+    const label = document.createElement("span");
+    label.className = "templates-upload-label";
+    label.textContent = buttonLabel;
+
+    fileLabel.appendChild(fileInput);
+    fileLabel.appendChild(icon);
+    fileLabel.appendChild(label);
+
+    function syncUploadUi() {
+      const isOn = state.uploads[key].enabled;
+      toggle.classList.toggle("on", isOn);
+      toggle.setAttribute("aria-pressed", isOn ? "true" : "false");
+      fileLabel.classList.toggle("hidden", !isOn);
+      label.textContent = state.uploads[key].file ? state.uploads[key].file.name : buttonLabel;
+    }
+
+    toggle.addEventListener("click", function () {
+      state.uploads[key].enabled = !state.uploads[key].enabled;
+      if (!state.uploads[key].enabled) {
+        state.uploads[key].file = null;
+        fileInput.value = "";
+      }
+      syncUploadUi();
+      updatePrompt();
+    });
+
+    fileInput.addEventListener("change", function () {
+      state.uploads[key].file = (fileInput.files && fileInput.files[0]) ? fileInput.files[0] : null;
+      syncUploadUi();
+      updatePrompt();
+    });
+
+    head.appendChild(text);
+    head.appendChild(toggle);
+    item.appendChild(head);
+    item.appendChild(fileLabel);
+
+    syncUploadUi();
+
+    return item;
+  }
+
+  wrap.appendChild(
+    createUploadRow("Upload a logo", "logo", "Upload logo", "image/*,.pdf,.png,.jpg,.jpeg,.webp,.svg")
+  );
+
+  wrap.appendChild(
+    createUploadRow("Upload a past quote example", "quoteExample", "Upload quote example", ".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp")
+  );
+
+  const output = document.createElement("div");
+  output.className = "templates-output";
+  wrap.appendChild(output);
+
+  const footer = document.createElement("div");
+  footer.className = "templates-copy-footer";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.type = "button";
+  copyBtn.className = "templates-copy-btn";
+  copyBtn.textContent = "Copy prompt";
+
+  copyBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    const textToCopy = output.textContent;
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(textToCopy).then(function () {
+        const oldText = copyBtn.textContent;
+        copyBtn.textContent = "Copied ✓";
+        setTimeout(function () {
+          copyBtn.textContent = oldText;
+        }, 1200);
+      }).catch(function () {
+        fallbackCopy(textToCopy, copyBtn);
+      });
+    } else {
+      fallbackCopy(textToCopy, copyBtn);
+    }
+  });
+
+  const openLink = document.createElement("a");
+  openLink.className = "templates-chatgpt-link";
+  openLink.href = "https://chatgpt.com/";
+  openLink.target = "_blank";
+  openLink.rel = "noopener noreferrer";
+  openLink.innerHTML = 'Paste into: <strong>ChatGPT &rarr;</strong>';
+
+  footer.appendChild(copyBtn);
+  footer.appendChild(openLink);
+  wrap.appendChild(footer);
+
+  body.appendChild(wrap);
+
+  // Do not attach repeated global listeners here.
+  // Global updates are already handled by refreshPromptText().
+
+  prefillFromTopInputs();
+  updatePrompt();
+
+  return updatePrompt;
+}
     function render() {
       document.getElementById("pageTitle").textContent = APP[current].title;
       const helpEl = document.getElementById("pageHelp");
@@ -2228,6 +2730,50 @@
         body.id = bodyId;
         body.hidden = true;
         head.setAttribute("aria-controls", bodyId);
+        if (current === "Templates") {
+  const refreshTemplate = createTemplatesCard(body, card, cIndex);
+  cardRefreshers.push(refreshTemplate);
+
+  const toggleCard = () => {
+    const isOpen = wrap.classList.contains("open");
+
+    document.querySelectorAll(".card.open").forEach((el) => {
+      el.classList.remove("open");
+      const openHead = el.querySelector(".card-head");
+      const openBody = el.querySelector(".card-body");
+      if (openHead) openHead.setAttribute("aria-expanded", "false");
+      if (openBody) openBody.hidden = true;
+    });
+
+    if (!isOpen) {
+      wrap.classList.add("open");
+      head.setAttribute("aria-expanded", "true");
+      body.hidden = false;
+    }
+  };
+
+  head.addEventListener("click", (e) => {
+    if (e.target.closest(".reveal-btn")) return;
+    toggleCard();
+  });
+
+  head.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleCard();
+    }
+  });
+
+  revealBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleCard();
+  });
+
+  wrap.appendChild(head);
+  wrap.appendChild(body);
+  grid.appendChild(wrap);
+  return;
+}
         // --- Dynamic Prompt Logic ---
         const originalPrompts = (card.prompts || []).map(p => p);
         const updatePromptsText = () => {
