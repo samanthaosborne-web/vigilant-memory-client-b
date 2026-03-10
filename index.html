@@ -443,6 +443,36 @@
       outline-offset: 2px;
     }
 
+    /* Custom Quote Builder Styles */
+    .qb-wrapper { background: #ffffff; border-radius: 12px; padding: 24px; color: #1e293b; font-family: inherit; }
+    .qb-wrapper * { box-sizing: border-box; }
+    .qb-header { font-size: 22px; font-weight: 700; color: #0f172a; margin: 0 0 24px 0; }
+    .qb-section { margin-bottom: 24px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+    .qb-section:first-of-type { border-top: none; padding-top: 0; }
+    .qb-title { font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.5px; }
+    .qb-grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
+    @media(min-width: 640px) { .qb-grid-2 { grid-template-columns: 1fr 1fr; } }
+    .qb-grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
+    @media(min-width: 640px) { .qb-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+    .qb-field { display: flex; flex-direction: column; gap: 8px; }
+    .qb-field label { font-size: 13px; font-weight: 700; color: #334155; }
+    .qb-input { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; color: #0f172a; background: #fff; width: 100%; transition: border-color 0.2s; font-family: inherit; }
+    .qb-input:focus { outline: none; border-color: #e75a00; box-shadow: 0 0 0 3px rgba(231,90,0,0.1); }
+    textarea.qb-input { resize: vertical; min-height: 80px; }
+    .qb-toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .qb-toggle-label { font-size: 14px; font-weight: 600; color: #0f172a; }
+    .qb-toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+    .qb-toggle input { opacity: 0; width: 0; height: 0; }
+    .qb-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
+    .qb-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .qb-toggle input:checked + .qb-slider { background-color: #1e293b; }
+    .qb-toggle input:checked + .qb-slider:before { transform: translateX(20px); }
+    .qb-total-box { background: #f1f5f9; padding: 14px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #475569; margin-bottom: 16px; font-size: 14px; }
+    .qb-total-val { font-size: 16px; color: #0f172a; font-weight: 900; }
+    .qb-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 1px solid #cbd5e1; background: #fff; border-radius: 6px; color: #0f172a; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: background 0.2s; font-size: 14px; }
+    .qb-upload-btn:hover { background: #f8fafc; }
+    .qb-upload-icon { width: 18px; height: 18px; }
+
     .prompt-block {
       padding: 12px;
       margin: 10px 0;
@@ -758,7 +788,6 @@
         SUPABASE_URL.includes("YOUR-PROJECT-ID") ||
         SUPABASE_ANON_KEY.includes("YOUR_SUPABASE_ANON_KEY");
 
-      // Keep local editing usable until Supabase keys are configured.
       if (missingConfig) {
         document.body.classList.remove("auth-pending");
         return;
@@ -777,7 +806,6 @@
 
           const accessToken = data.session.access_token;
 
-          // Verify email 2FA before allowing access
           try {
             const twoFaResp = await fetch("/api/verify-login-code", {
               method: "POST",
@@ -817,7 +845,6 @@
               }
             }
           } catch (_syncError) {
-            // fall through to DB read path
           }
 
           const userId = data.session.user.id;
@@ -1988,50 +2015,28 @@
           }
         ]
       },
-"Templates": {
-  "title": "Templates",
-  "cards": [
-    {
-      "subtitle": "Quote Template",
-      "chatbot": "ChatGPT",
-      "front": {
-        "outcome": "Create a structured quote or invoice prompt you can paste into ChatGPT.",
-        "when": "When you need a quote or invoice draft fast.",
-        "goodFor": "Creating editable client-ready quotes using your own job details.",
-        "roi": "Saves admin time and makes your documents more consistent.",
-        "tip": "Fill in every field before copying the prompt."
-      },
-      "ui": {
-        "quickInputs": [
+      "Templates": {
+        "title": "Templates",
+        "cards": [
           {
-            "label": "Document type",
-            "options": ["Quote", "Invoice"]
+            "subtitle": "Quote Builder",
+            "chatbot": "ChatGPT",
+            "front": {
+              "outcome": "Create a structured quote prompt using an easy form layout.",
+              "when": "When you need a professional, client-ready quote draft fast.",
+              "goodFor": "Building accurate and structured documents for AI to format.",
+              "roi": "Saves admin time and guarantees consistent document styling.",
+              "tip": "Fill out the fields. Totals calculate automatically."
+            },
+            "ui": {
+              "customForm": "quoteBuilder"
+            },
+            "prompts": [
+              "Create an editable Quote using the details below.\n\nBUSINESS DETAILS\nBusiness Name: [Business / Your Name]\nPhone: [Phone]\nABN: [ABN]\nEmail: [Email]\n\nCLIENT DETAILS\nClient Name: [Client Name]\nQuote Number: [Quote Number]\nClient Address: [Client Address]\nClient Phone: [Client Phone]\n\nJOB DETAILS\nDescription: [Job Description]\nUnit / Quantity: [Unit / Quantity]\n\nPRICING\nSubtotal (ex GST): $[Subtotal]\nDiscount: $[Discount]\nInclude GST: [Include GST]\nTotal: $[Total]\n\nPAYMENT\nPayment Due: [Payment Due]\nAccount Name: [Account Name]\nBSB: [BSB]\nAccount Number: [Account Number]\n\n[Extras String]\n[Uploads String]\n\nRequirements:\nWrite the output as a professional, client-ready Quote.\nUse clear headings.\nInclude pricing details and total cost.\nInclude an approval section.\nReturn only the finished Quote, ready to edit."
+            ]
           }
-        ],
-        "fields": [
-          "[Business name]",
-          "[ABN]",
-          "[Business email]",
-          "[Business phone]",
-          "[Client name]",
-          "[Client company]",
-          "[Client email]",
-          "[Project title]",
-          "[Scope of work]",
-          "[Inclusions]",
-          "[Timeline]",
-          "[Terms]",
-          "[Notes]",
-          "[Line items]",
-          "[Formatting reference notes]"
         ]
-      },
-      "prompts": [
-        "Create an editable [Document type] using the details below.\n\nBusiness details\nBusiness name: [Business name]\nABN: [ABN]\nEmail: [Business email]\nPhone: [Business phone]\n\nClient details\nClient name: [Client name]\nClient company: [Client company]\nClient email: [Client email]\n\nProject details\nProject title: [Project title]\nScope of work: [Scope of work]\nInclusions: [Inclusions]\nTimeline: [Timeline]\nTerms: [Terms]\nNotes: [Notes]\n\nLine items\n[Line items]\n\nFormatting reference\n[Formatting reference notes]\n\nRequirements\nWrite the output as a professional, client-ready [Document type].\nUse clear headings.\nInclude pricing details.\nInclude total cost.\nIf the document type is Quote, include an approval section.\nReturn only the finished [Document type], ready to edit."
-      ]
-    }
-  ]
-}
+      }
     };
     let current = "Winning Work";
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
@@ -2059,7 +2064,6 @@
       try {
         localStorage.setItem(PREFS_KEY, JSON.stringify(next));
       } catch (e) {
-        // Ignore write failures in restricted browser contexts.
       }
     }
 
@@ -2067,7 +2071,6 @@
       try {
         localStorage.removeItem(PREFS_KEY);
       } catch (e) {
-        // Ignore clear failures in restricted browser contexts.
       }
     }
 
@@ -2130,6 +2133,239 @@
       return text + "\n\nVoice tone:\n" + VOICE_TONE_GUIDE;
     }
 
+    // --- Custom Builder Logic --- //
+    function buildQuoteBuilderDOM(container, card, selections, updatePromptsText) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'qb-wrapper';
+      wrapper.innerHTML = `
+        <h2 class="qb-header">Quote Builder</h2>
+        
+        <div class="qb-section">
+            <div class="qb-title">YOUR BUSINESS DETAILS</div>
+            <div class="qb-grid-2">
+                <div class="qb-field"><label>Business / Your Name</label><input type="text" class="qb-input" id="qb-biz-name" placeholder="e.g. Smith Electrical"></div>
+                <div class="qb-field"><label>Phone</label><input type="text" class="qb-input" id="qb-biz-phone" placeholder="0400 000 000"></div>
+                <div class="qb-field"><label>ABN</label><input type="text" class="qb-input" id="qb-biz-abn" placeholder="00 000 000 000"></div>
+                <div class="qb-field"><label>Email</label><input type="email" class="qb-input" id="qb-biz-email" placeholder="you@example.com"></div>
+            </div>
+        </div>
+
+        <div class="qb-section">
+            <div class="qb-title">CLIENT DETAILS</div>
+            <div class="qb-grid-2">
+                <div class="qb-field"><label>Client Name</label><input type="text" class="qb-input" id="qb-client-name" placeholder="Client name"></div>
+                <div class="qb-field"><label>Quote Number</label><input type="text" class="qb-input" id="qb-quote-num" placeholder="Quote-001"></div>
+                <div class="qb-field"><label>Client Address</label><input type="text" class="qb-input" id="qb-client-address" placeholder="123 Main St, Sydney NSW"></div>
+                <div class="qb-field"><label>Client Phone</label><input type="text" class="qb-input" id="qb-client-phone" placeholder="0400 000 000"></div>
+            </div>
+        </div>
+
+        <div class="qb-section">
+            <div class="qb-title">JOB DETAILS</div>
+            <div class="qb-field" style="margin-bottom:16px;"><label>Job Description</label><textarea class="qb-input" id="qb-job-desc" placeholder="Describe the work..."></textarea></div>
+            <div class="qb-field"><label>Unit / Quantity</label><input type="text" class="qb-input" id="qb-job-qty" placeholder="e.g. 1 x call-out, 3 hours labour"></div>
+        </div>
+
+        <div class="qb-section">
+            <div class="qb-title">PRICING</div>
+            <div class="qb-grid-2">
+                <div class="qb-field"><label>Subtotal (ex GST)</label><input type="number" step="0.01" class="qb-input" id="qb-subtotal" placeholder="0.00"></div>
+                <div class="qb-field"><label>Discount ($)</label><input type="number" step="0.01" class="qb-input" id="qb-discount" placeholder="0.00"></div>
+            </div>
+            <div class="qb-toggle-row">
+                <div class="qb-toggle-label">Include GST (10%)</div>
+                <label class="qb-toggle"><input type="checkbox" id="qb-gst-toggle" checked><span class="qb-slider"></span></label>
+            </div>
+            <div class="qb-total-box">
+                <span>Total (inc GST)</span>
+                <span class="qb-total-val" id="qb-total-display">$0.00</span>
+            </div>
+        </div>
+
+        <div class="qb-section">
+            <div class="qb-title">PAYMENT</div>
+            <div class="qb-grid-2">
+                <div class="qb-field"><label>Payment Due</label><input type="date" class="qb-input" id="qb-pay-due"></div>
+            </div>
+            <div class="qb-grid-3">
+                <div class="qb-field"><label>Account Name</label><input type="text" class="qb-input" id="qb-acc-name" placeholder="Account name"></div>
+                <div class="qb-field"><label>BSB</label><input type="text" class="qb-input" id="qb-bsb" placeholder="000-000"></div>
+                <div class="qb-field"><label>Account Number</label><input type="text" class="qb-input" id="qb-acc-num" placeholder="00000000"></div>
+            </div>
+        </div>
+
+        <div class="qb-section">
+            <div class="qb-title">UPLOADS</div>
+            <div class="qb-toggle-row">
+                <div class="qb-toggle-label">Upload a logo</div>
+                <label class="qb-toggle"><input type="checkbox" id="qb-logo-toggle" checked><span class="qb-slider"></span></label>
+            </div>
+            <button type="button" class="qb-upload-btn" id="qb-logo-btn">
+              <svg class="qb-upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> 
+              <span id="qb-logo-btn-text">Upload logo</span>
+            </button>
+            <input type="file" id="qb-logo-file" style="display:none;" accept="image/*">
+
+            <div class="qb-toggle-row">
+                <div class="qb-toggle-label">Upload a past quote example</div>
+                <label class="qb-toggle"><input type="checkbox" id="qb-example-toggle" checked><span class="qb-slider"></span></label>
+            </div>
+            <button type="button" class="qb-upload-btn" id="qb-example-btn">
+              <svg class="qb-upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> 
+              <span id="qb-example-btn-text">Upload quote example</span>
+            </button>
+            <input type="file" id="qb-example-file" style="display:none;" accept=".pdf,.png,.jpg,.jpeg">
+        </div>
+
+        <div class="qb-section">
+            <div class="qb-title">EXTRAS</div>
+            <div class="qb-toggle-row">
+                <div class="qb-toggle-label">Include "Pay now via credit card" button</div>
+                <label class="qb-toggle"><input type="checkbox" id="qb-cc-toggle"><span class="qb-slider"></span></label>
+            </div>
+            <div class="qb-toggle-row">
+                <div class="qb-toggle-label">Include "Leave a Google review" button</div>
+                <label class="qb-toggle"><input type="checkbox" id="qb-review-toggle"><span class="qb-slider"></span></label>
+            </div>
+        </div>
+      `;
+      container.appendChild(wrapper);
+
+      // DOM Node References
+      const $ = id => wrapper.querySelector('#' + id);
+      const bizName = $('qb-biz-name');
+      const bizPhone = $('qb-biz-phone');
+      const bizAbn = $('qb-biz-abn');
+      const bizEmail = $('qb-biz-email');
+      const clientName = $('qb-client-name');
+      const quoteNum = $('qb-quote-num');
+      const clientAddress = $('qb-client-address');
+      const clientPhone = $('qb-client-phone');
+      const jobDesc = $('qb-job-desc');
+      const jobQty = $('qb-job-qty');
+      
+      const subtotal = $('qb-subtotal');
+      const discount = $('qb-discount');
+      const gstToggle = $('qb-gst-toggle');
+      const totalDisplay = $('qb-total-display');
+      
+      const payDue = $('qb-pay-due');
+      const accName = $('qb-acc-name');
+      const bsb = $('qb-bsb');
+      const accNum = $('qb-acc-num');
+
+      const logoToggle = $('qb-logo-toggle');
+      const logoBtn = $('qb-logo-btn');
+      const logoFile = $('qb-logo-file');
+      const logoBtnText = $('qb-logo-btn-text');
+      
+      const exToggle = $('qb-example-toggle');
+      const exBtn = $('qb-example-btn');
+      const exFile = $('qb-example-file');
+      const exBtnText = $('qb-example-btn-text');
+      
+      const ccToggle = $('qb-cc-toggle');
+      const reviewToggle = $('qb-review-toggle');
+
+      // Setup initial defaults
+      if (globalBizNameInput.value) bizName.value = globalBizNameInput.value;
+      
+      const recalculate = () => {
+        const sub = parseFloat(subtotal.value) || 0;
+        const disc = parseFloat(discount.value) || 0;
+        const base = Math.max(0, sub - disc);
+        const gstAmount = gstToggle.checked ? base * 0.10 : 0;
+        const total = base + gstAmount;
+        totalDisplay.textContent = `$${total.toFixed(2)}`;
+        
+        // Update main selections
+        selections["[Subtotal]"] = sub.toFixed(2);
+        selections["[Discount]"] = disc.toFixed(2);
+        selections["[Include GST]"] = gstToggle.checked ? "Yes (10%)" : "No";
+        selections["[Total]"] = total.toFixed(2);
+      };
+
+      const syncToSelections = () => {
+        selections["[Business / Your Name]"] = bizName.value || "[Business / Your Name]";
+        selections["[Phone]"] = bizPhone.value || "[Phone]";
+        selections["[ABN]"] = bizAbn.value || "[ABN]";
+        selections["[Email]"] = bizEmail.value || "[Email]";
+        selections["[Client Name]"] = clientName.value || "[Client Name]";
+        selections["[Quote Number]"] = quoteNum.value || "[Quote Number]";
+        selections["[Client Address]"] = clientAddress.value || "[Client Address]";
+        selections["[Client Phone]"] = clientPhone.value || "[Client Phone]";
+        selections["[Job Description]"] = jobDesc.value || "[Job Description]";
+        selections["[Unit / Quantity]"] = jobQty.value || "[Unit / Quantity]";
+        selections["[Payment Due]"] = payDue.value || "[Payment Due]";
+        selections["[Account Name]"] = accName.value || "[Account Name]";
+        selections["[BSB]"] = bsb.value || "[BSB]";
+        selections["[Account Number]"] = accNum.value || "[Account Number]";
+
+        // Extras builder
+        let extras = [];
+        if (ccToggle.checked) extras.push("- Include a 'Pay now via credit card' button");
+        if (reviewToggle.checked) extras.push("- Include a 'Leave a Google review' button");
+        selections["[Extras String]"] = extras.length ? ("Required Extras:\n" + extras.join("\n")) : "";
+
+        // Uploads builder
+        let uploads = [];
+        if (logoToggle.checked) {
+           let fileName = logoFile.files[0] ? logoFile.files[0].name : "logo attached";
+           uploads.push("- Make sure to include the business logo: " + fileName);
+        }
+        if (exToggle.checked) {
+           let fileName = exFile.files[0] ? exFile.files[0].name : "example document attached";
+           uploads.push("- Reference the style of the past quote: " + fileName);
+        }
+        selections["[Uploads String]"] = uploads.length ? ("Formatting instructions:\n" + uploads.join("\n")) : "";
+
+        recalculate();
+        updatePromptsText();
+      };
+
+      // Events - Text/Number Inputs
+      [bizName, bizPhone, bizAbn, bizEmail, clientName, quoteNum, clientAddress, clientPhone, jobDesc, jobQty, subtotal, discount, payDue, accName, bsb, accNum].forEach(input => {
+        input.addEventListener('input', syncToSelections);
+      });
+
+      // Events - Toggles
+      gstToggle.addEventListener('change', syncToSelections);
+      ccToggle.addEventListener('change', syncToSelections);
+      reviewToggle.addEventListener('change', syncToSelections);
+
+      logoToggle.addEventListener('change', (e) => {
+        logoBtn.style.display = e.target.checked ? 'flex' : 'none';
+        syncToSelections();
+      });
+
+      exToggle.addEventListener('change', (e) => {
+        exBtn.style.display = e.target.checked ? 'flex' : 'none';
+        syncToSelections();
+      });
+
+      // Events - File Upload Mocking
+      logoBtn.addEventListener('click', () => logoFile.click());
+      logoFile.addEventListener('change', () => {
+        if (logoFile.files[0]) {
+          logoBtnText.textContent = logoFile.files[0].name;
+          logoBtn.style.background = '#f1f5f9';
+        }
+        syncToSelections();
+      });
+
+      exBtn.addEventListener('click', () => exFile.click());
+      exFile.addEventListener('change', () => {
+        if (exFile.files[0]) {
+          exBtnText.textContent = exFile.files[0].name;
+          exBtn.style.background = '#f1f5f9';
+        }
+        syncToSelections();
+      });
+
+      // Initialize
+      syncToSelections();
+    }
+
     function render() {
       document.getElementById("pageTitle").textContent = APP[current].title;
       const helpEl = document.getElementById("pageHelp");
@@ -2157,6 +2393,10 @@
         "Fix My Message": {
           why: "If AI sounds weird, fix it fast so your message stays clear and professional.",
           how: "Paste your draft (or AI output), copy the prompt, paste into ChatGPT, and use the improved version."
+        },
+        "Templates": {
+          why: "Custom templates ensure your AI outputs match your business exactly every time.",
+          how: "Fill out the structured form below and we will build the perfect context prompt."
         }
       };
       const c = copy[current] || {
@@ -2228,6 +2468,7 @@
         body.id = bodyId;
         body.hidden = true;
         head.setAttribute("aria-controls", bodyId);
+        
         // --- Dynamic Prompt Logic ---
         const originalPrompts = (card.prompts || []).map(p => p);
         const updatePromptsText = () => {
@@ -2235,125 +2476,143 @@
           const globalPrefix = getGlobalPromptPrefix();
           originalPrompts.forEach((origText, idx) => {
             let newText = origText;
-            if (card.ui) {
-              if (card.ui.quickInputs) {
-                card.ui.quickInputs.forEach(qi => {
-                  const val = selections[qi.label];
-                  if (val) {
-                    const regex = new RegExp(`\\[${qi.label}\\]`, 'gi');
-                    newText = newText.replace(regex, val);
-                  }
-                });
-              }
-              if (card.ui.fields) {
-                card.ui.fields.forEach(f => {
-                  const val = selections[f];
-                  if (val) {
-                    newText = newText.split(f).join(val);
-                  }
-                });
-              }
+            
+            // Loop over generic UI fields if any
+            if (card.ui && card.ui.quickInputs) {
+              card.ui.quickInputs.forEach(qi => {
+                const val = selections[qi.label];
+                if (val) {
+                  const regex = new RegExp(`\\[${qi.label}\\]`, 'gi');
+                  newText = newText.replace(regex, val);
+                }
+              });
             }
+            if (card.ui && card.ui.fields) {
+              card.ui.fields.forEach(f => {
+                const val = selections[f];
+                if (val) {
+                  newText = newText.split(f).join(val);
+                }
+              });
+            }
+            
+            // For customForm (Quote Builder), strictly replace the keys found in selections
+            if (card.ui && card.ui.customForm === "quoteBuilder") {
+               Object.keys(selections).forEach(key => {
+                   if(selections[key]) {
+                       newText = newText.split(key).join(selections[key]);
+                   }
+               });
+            }
+
             newText = addVoiceToneInstruction(newText, card);
             if (promptBlocks[idx]) promptBlocks[idx].textContent = globalPrefix + newText;
           });
         };
+
         // --- UX Form Logic ---
         if (card.ui) {
-          const ui = document.createElement("div");
-          ui.className = "ui-block";
-          if (card.ui.quickInputs && card.ui.quickInputs.length) {
-            card.ui.quickInputs.forEach((qi, qIndex) => {
-              const qRow = document.createElement("div");
-              qRow.className = "ui-row";
-              const qt = document.createElement("div");
-              qt.className = "ui-title";
-              qt.textContent = qi.label;
-              qRow.appendChild(qt);
-              const flexContainer = document.createElement("div");
-              flexContainer.className = "chips";
-              const groupName = `qi_${cIndex}_${qIndex}`;
-              let customInputRef;
-              const handleSelect = (val) => {
-                selections[qi.label] = val;
-                updateFrontSummary();
-                updatePromptsText();
-              };
-              qi.options.forEach(opt => {
-                const labelEl = document.createElement("label");
-                labelEl.className = "chip-label";
-                const radio = document.createElement("input");
-                radio.type = "radio";
-                radio.name = groupName;
-                radio.value = opt;
-                radio.addEventListener("change", () => {
-                  if (customInputRef) customInputRef.classList.remove("active");
-                  handleSelect(opt);
+          if (card.ui.customForm === "quoteBuilder") {
+              const uiContainer = document.createElement("div");
+              uiContainer.className = "ui-block";
+              buildQuoteBuilderDOM(uiContainer, card, selections, updatePromptsText);
+              body.appendChild(uiContainer);
+          } else {
+              const ui = document.createElement("div");
+              ui.className = "ui-block";
+              if (card.ui.quickInputs && card.ui.quickInputs.length) {
+                card.ui.quickInputs.forEach((qi, qIndex) => {
+                  const qRow = document.createElement("div");
+                  qRow.className = "ui-row";
+                  const qt = document.createElement("div");
+                  qt.className = "ui-title";
+                  qt.textContent = qi.label;
+                  qRow.appendChild(qt);
+                  const flexContainer = document.createElement("div");
+                  flexContainer.className = "chips";
+                  const groupName = `qi_${cIndex}_${qIndex}`;
+                  let customInputRef;
+                  const handleSelect = (val) => {
+                    selections[qi.label] = val;
+                    updateFrontSummary();
+                    updatePromptsText();
+                  };
+                  qi.options.forEach(opt => {
+                    const labelEl = document.createElement("label");
+                    labelEl.className = "chip-label";
+                    const radio = document.createElement("input");
+                    radio.type = "radio";
+                    radio.name = groupName;
+                    radio.value = opt;
+                    radio.addEventListener("change", () => {
+                      if (customInputRef) customInputRef.classList.remove("active");
+                      handleSelect(opt);
+                    });
+                    const span = document.createElement("span");
+                    span.textContent = opt;
+                    labelEl.appendChild(radio);
+                    labelEl.appendChild(span);
+                    flexContainer.appendChild(labelEl);
+                  });
+                  const labelOther = document.createElement("label");
+                  labelOther.className = "chip-label";
+                  const radioOther = document.createElement("input");
+                  radioOther.type = "radio";
+                  radioOther.name = groupName;
+                  radioOther.value = "Other";
+                  const spanOther = document.createElement("span");
+                  spanOther.textContent = "Other";
+                  const textInput = document.createElement("input");
+                  textInput.type = "text";
+                  textInput.className = "custom-input";
+                  textInput.placeholder = "Type custom option...";
+                  customInputRef = textInput;
+                  radioOther.addEventListener("change", () => {
+                    textInput.classList.add("active");
+                    textInput.focus();
+                    handleSelect(textInput.value || `[${qi.label}]`);
+                  });
+                  textInput.addEventListener("input", (e) => {
+                    if (radioOther.checked) {
+                      handleSelect(e.target.value || `[${qi.label}]`);
+                    }
+                  });
+                  labelOther.appendChild(radioOther);
+                  labelOther.appendChild(spanOther);
+                  flexContainer.appendChild(labelOther);
+                  flexContainer.appendChild(textInput);
+                  qRow.appendChild(flexContainer);
+                  ui.appendChild(qRow);
                 });
-                const span = document.createElement("span");
-                span.textContent = opt;
-                labelEl.appendChild(radio);
-                labelEl.appendChild(span);
-                flexContainer.appendChild(labelEl);
-              });
-              const labelOther = document.createElement("label");
-              labelOther.className = "chip-label";
-              const radioOther = document.createElement("input");
-              radioOther.type = "radio";
-              radioOther.name = groupName;
-              radioOther.value = "Other";
-              const spanOther = document.createElement("span");
-              spanOther.textContent = "Other";
-              const textInput = document.createElement("input");
-              textInput.type = "text";
-              textInput.className = "custom-input";
-              textInput.placeholder = "Type custom option...";
-              customInputRef = textInput;
-              radioOther.addEventListener("change", () => {
-                textInput.classList.add("active");
-                textInput.focus();
-                handleSelect(textInput.value || `[${qi.label}]`);
-              });
-              textInput.addEventListener("input", (e) => {
-                if (radioOther.checked) {
-                  handleSelect(e.target.value || `[${qi.label}]`);
-                }
-              });
-              labelOther.appendChild(radioOther);
-              labelOther.appendChild(spanOther);
-              flexContainer.appendChild(labelOther);
-              flexContainer.appendChild(textInput);
-              qRow.appendChild(flexContainer);
-              ui.appendChild(qRow);
-            });
+              }
+              if (card.ui.fields && card.ui.fields.length) {
+                const f = document.createElement("div");
+                f.className = "ui-row";
+                const ft = document.createElement("div");
+                ft.className = "ui-title";
+                ft.textContent = "Type your...";
+                f.appendChild(ft);
+                const fl = document.createElement("div");
+                fl.className = "fields";
+                card.ui.fields.forEach(t => {
+                  const searchStr = t.toLowerCase();
+                  const isMultiLine = searchStr.includes("paste") || searchStr.includes("version") || searchStr.includes("message") || searchStr.includes("summary") || searchStr.includes("e.g.") || searchStr.includes("facts");
+                  const input = document.createElement(isMultiLine ? "textarea" : "input");
+                  if (!isMultiLine) input.type = "text";
+                  if (isMultiLine) input.rows = 2;
+                  input.className = "type-input";
+                  input.placeholder = t.replace(/\[|\]/g, '');
+                  input.addEventListener("input", (e) => {
+                    selections[t] = e.target.value || t;
+                    updatePromptsText();
+                  });
+                  fl.appendChild(input);
+                });
+                f.appendChild(fl);
+                ui.appendChild(f);
+              }
+              body.appendChild(ui);
           }
-          if (card.ui.fields && card.ui.fields.length) {
-            const f = document.createElement("div");
-            f.className = "ui-row";
-            const ft = document.createElement("div");
-            ft.className = "ui-title";
-            ft.textContent = "Type your...";
-            f.appendChild(ft);
-            const fl = document.createElement("div");
-            fl.className = "fields";
-            card.ui.fields.forEach(t => {
-              const searchStr = t.toLowerCase();
-              const isMultiLine = searchStr.includes("paste") || searchStr.includes("version") || searchStr.includes("message") || searchStr.includes("summary") || searchStr.includes("e.g.") || searchStr.includes("facts");
-              const input = document.createElement(isMultiLine ? "textarea" : "input");
-              if (!isMultiLine) input.type = "text";
-              if (isMultiLine) input.rows = 2;
-              input.className = "type-input";
-              input.placeholder = t.replace(/\[|\]/g, '');
-              input.addEventListener("input", (e) => {
-                selections[t] = e.target.value || t;
-                updatePromptsText();
-              });
-              fl.appendChild(input);
-            });
-            f.appendChild(fl);
-            ui.appendChild(f);
-          }
-          body.appendChild(ui);
         }
         (card.prompts || []).forEach((p, i) => {
           const block = document.createElement("div");
@@ -2363,12 +2622,10 @@
           label.textContent = (card.prompts.length > 1) ? ("Prompt " + (i + 1)) : "Prompt";
           const pre = document.createElement("div");
           pre.className = "prompt-text";
-          // Inject global fields on initial load
           let initialText = p;
           initialText = addVoiceToneInstruction(initialText, card);
           const globalPrefix = getGlobalPromptPrefix();
           pre.textContent = globalPrefix + initialText;
-          // Bottom Row with Copy Button & ChatGPT Link
           const bottomBtnRow = document.createElement("div");
           bottomBtnRow.className = "copy-row";
           const bottomBtn = document.createElement("button");
@@ -2408,7 +2665,9 @@
           block.appendChild(bottomBtnRow);
           body.appendChild(block);
         });
+        
         cardRefreshers.push(updatePromptsText);
+        
         const toggleCard = () => {
           const isOpen = wrap.classList.contains("open");
           document.querySelectorAll(".card.open").forEach((el) => {
@@ -2429,6 +2688,11 @@
                 top: y,
                 behavior: "smooth"
               });
+              
+              // Ensure dynamic prompt updates on first open for new quote builder if empty
+              if(card.ui && card.ui.customForm === "quoteBuilder") {
+                 updatePromptsText();
+              }
             }, 30);
           }
         };
@@ -2544,6 +2808,13 @@
       globalFirstNameInput.value = "";
       globalBizNameInput.value = "";
       refreshPromptText();
+      
+      // Clear out the Quote builder if it's currently rendered
+      const bizNameField = document.getElementById('qb-biz-name');
+      if (bizNameField) {
+         bizNameField.value = "";
+         bizNameField.dispatchEvent(new Event('input'));
+      }
     });
 
     const savedPrefs = readPrefs();
@@ -2554,7 +2825,6 @@
     }
     render();
   </script>
-  <script src="./app.js"></script>
 </body>
 
 </html>
