@@ -1,5 +1,8 @@
 const { createClient } = require("@supabase/supabase-js");
 
+const MAX_ATTEMPTS = 5;
+const LOCKOUT_MINUTES = 15;
+
 function json(res, status, payload) {
   res.status(status).json(payload);
 }
@@ -29,6 +32,23 @@ async function getAuthedUserAndToken(req, supabaseAdmin) {
   const { data, error } = await supabaseAdmin.auth.getUser(token);
   if (error || !data.user) return { user: null, token: null };
   return { user: data.user, token };
+}
+
+async function getFailedAttempts(supabaseAdmin, userId) {
+  const cutoff = new Date(Date.now() - LOCKOUT_MINUTES * 60 * 1000).toISOString();
+  const { count } = await supabaseAdmin
+    .from("login_verification_attempts")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("success", false)
+    .gte("attempted_at", cutoff);
+  return count || 0;
+}
+
+async function recordAttempt(supabaseAdmin, userId, success) {
+  await supabaseAdmin
+    .from("login_verification_attempts")
+    .insert({ user_id: userId, success });
 }
 
 module.exports = async (req, res) => {
@@ -65,6 +85,13 @@ module.exports = async (req, res) => {
   const code = (body.code || "").trim();
   if (!code) return json(res, 400, { error: "Code is required." });
 
+  const failedAttempts = await getFailedAttempts(supabaseAdmin, user.id);
+  if (failedAttempts >= MAX_ATTEMPTS) {
+    return json(res, 429, {
+      error: "Too many failed attempts. Please wait " + LOCKOUT_MINUTES + " minutes and request a new code."
+    });
+  }
+
   const now = new Date().toISOString();
 
   const { data: codeRow, error: codeError } = await supabaseAdmin
@@ -79,8 +106,15 @@ module.exports = async (req, res) => {
     .maybeSingle();
 
   if (codeError || !codeRow) {
-    return json(res, 400, { error: "Invalid or expired code." });
+    await recordAttempt(supabaseAdmin, user.id, false);
+    const remaining = MAX_ATTEMPTS - failedAttempts - 1;
+    const msg = remaining > 0
+      ? "Invalid or expired code. " + remaining + " attempt(s) remaining."
+      : "Too many failed attempts. Please wait " + LOCKOUT_MINUTES + " minutes and request a new code.";
+    return json(res, 400, { error: msg });
   }
+
+  await recordAttempt(supabaseAdmin, user.id, true);
 
   await supabaseAdmin
     .from("login_verification_codes")
