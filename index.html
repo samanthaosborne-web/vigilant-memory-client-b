@@ -56,17 +56,40 @@
       border-radius: 0 0 18px 18px;
     }
 
-    .menu-btn {
+    .header-actions {
       position: absolute;
       right: 18px;
       top: 18px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      z-index: 10030;
+    }
+
+    .logout-btn {
+      background: rgba(49, 49, 49, 0.85);
+      color: #f9faff;
+      border: 2px solid rgba(249, 250, 255, 0.3);
+      padding: 10px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .logout-btn:hover {
+      background: rgba(49, 49, 49, 1);
+    }
+
+    .menu-btn {
       border: 2px solid #e75a00;
       background: #e75a00;
       padding: 14px;
       cursor: pointer;
       min-width: 64px;
       min-height: 64px;
-      z-index: 10030;
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -580,9 +603,18 @@
         object-position: center center;
       }
 
-      .menu-btn {
+      .header-actions {
         right: 10px;
         top: 10px;
+        gap: 8px;
+      }
+
+      .logout-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      .menu-btn {
         min-width: 50px;
         min-height: 50px;
         padding: 9px;
@@ -642,13 +674,16 @@
   <header class="site-header">
     <div class="header-inner">
       <img class="header-hero-img" src="./AdvisaStacks Header Final.png" alt="Main App Header" />
-      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
-        <span class="menu-icon" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-      </button>
+      <div class="header-actions">
+        <button class="logout-btn" id="headerLogoutBtn" aria-label="Log out">Log out</button>
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
+          <span class="menu-icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -661,6 +696,8 @@
     <button class="menu-item" data-key="Reviews & Referrals">Reviews & Referrals</button>
     <button class="menu-item" data-key="Get More Enquiries">Get More Enquiries</button>
     <button class="menu-item" data-key="Fix My Message">Fix My Message</button>
+    <div style="flex:1;"></div>
+    <button class="menu-item" id="logoutBtn" style="background:#313131; border-color:#313131; color:#f9faff;">Log out</button>
   </nav>
 
   <main>
@@ -2409,7 +2446,17 @@
       }
     });
     document.querySelectorAll(".menu-item").forEach((btn) => {
-      btn.addEventListener("click", () => navigate(btn.dataset.key));
+      if (btn.dataset.key) btn.addEventListener("click", () => navigate(btn.dataset.key));
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      if (window.__supabase) await window.__supabase.auth.signOut();
+      window.location.replace("./login.html");
+    });
+
+    document.getElementById("headerLogoutBtn").addEventListener("click", async () => {
+      if (window.__supabase) await window.__supabase.auth.signOut();
+      window.location.replace("./login.html");
     });
 
     function handleGlobalDefaultsChange() {
