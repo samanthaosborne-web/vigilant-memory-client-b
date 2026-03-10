@@ -459,6 +459,14 @@
     .qb-input { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; color: #0f172a; background: #fff; width: 100%; transition: border-color 0.2s; font-family: inherit; }
     .qb-input:focus { outline: none; border-color: #e75a00; box-shadow: 0 0 0 3px rgba(231,90,0,0.1); }
     textarea.qb-input { resize: vertical; min-height: 80px; }
+    
+    /* Line Items Logic */
+    .qb-line-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; }
+    .qb-remove-line { position: absolute; top: 12px; right: 12px; color: #ef4444; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 700; padding: 4px; }
+    .qb-remove-line:hover { text-decoration: underline; }
+    .qb-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: #e2e8f0; color: #0f172a; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; }
+    .qb-add-btn:hover { background: #cbd5e1; }
+
     .qb-toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .qb-toggle-label { font-size: 14px; font-weight: 600; color: #0f172a; }
     .qb-toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
@@ -2018,7 +2026,7 @@
       "Templates": {
         "title": "Templates",
         "cards": [
-        {
+          {
             "subtitle": "Quote Builder",
             "chatbot": "ChatGPT",
             "front": {
@@ -2026,13 +2034,13 @@
               "when": "When you need a professional, client-ready quote draft fast.",
               "goodFor": "Building accurate and structured documents for AI to format.",
               "roi": "Saves admin time and guarantees consistent document styling.",
-              "tip": "Fill out the fields. Totals calculate automatically."
+              "tip": "Add items and fill out the fields. Totals calculate automatically."
             },
             "ui": {
               "customForm": "quoteBuilder"
             },
             "prompts": [
-              "Create an editable Quote using the details below.\n\nBUSINESS DETAILS\nBusiness Name: [Business / Your Name]\nPhone: [Phone]\nABN: [ABN]\nEmail: [Email]\n\nCLIENT DETAILS\nClient Name: [Client Name]\nQuote Number: [Quote Number]\nClient Address: [Client Address]\nClient Phone: [Client Phone]\n\nJOB DETAILS\nDescription: [Job Description]\nUnit / Quantity: [Unit / Quantity]\n\nPRICING\nSubtotal (ex GST): $[Subtotal]\nDiscount: $[Discount]\nInclude GST: [Include GST]\nTotal: $[Total]\n\nPAYMENT\nPayment Due: [Payment Due]\nAccount Name: [Account Name]\nBSB: [BSB]\nAccount Number: [Account Number]\n\n[Extras String]\n[Uploads String]\n\nRequirements:\n1. Write the output as a professional, client-ready Quote.\n2. Use clear headings, include all pricing details, and an approval section.\n3. CRITICAL: You must use your python data analysis tool to generate this quote as a downloadable Microsoft Word (.docx) document. Provide the download link in your response."
+              "Create an editable Quote using the details below.\n\nBUSINESS DETAILS\nBusiness Name: [Business / Your Name]\nPhone: [Phone]\nABN: [ABN]\nEmail: [Email]\n\nCLIENT DETAILS\nClient Name: [Client Name]\nQuote Number: [Quote Number]\nClient Address: [Client Address]\nClient Phone: [Client Phone]\n\nJOB DETAILS\n[Line Items String]\n\nPRICING\nSubtotal (ex GST): $[Subtotal]\nDiscount: $[Discount]\nInclude GST: [Include GST]\nTotal: $[Total]\n\nPAYMENT\nPayment Due: [Payment Due]\nAccount Name: [Account Name]\nBSB: [BSB]\nAccount Number: [Account Number]\n\n[Extras String]\n[Uploads String]\n\nRequirements:\n1. Write the output as a professional, client-ready Quote.\n2. Use clear headings, include all pricing details, and an approval section.\n3. CRITICAL: You must use your python data analysis tool to generate this quote as a downloadable Microsoft Word (.docx) document. Provide the download link in your response."
             ]
           }
         ]
@@ -2162,15 +2170,15 @@
 
         <div class="qb-section">
             <div class="qb-title">JOB DETAILS</div>
-            <div class="qb-field" style="margin-bottom:16px;"><label>Job Description</label><textarea class="qb-input" id="qb-job-desc" placeholder="Describe the work..."></textarea></div>
-            <div class="qb-field"><label>Unit / Quantity</label><input type="text" class="qb-input" id="qb-job-qty" placeholder="e.g. 1 x call-out, 3 hours labour"></div>
+            <div id="qb-lines-container"></div>
+            <button type="button" id="qb-add-line-btn" class="qb-add-btn">+ Add Line Item</button>
         </div>
 
         <div class="qb-section">
             <div class="qb-title">PRICING</div>
             <div class="qb-grid-2">
-                <div class="qb-field"><label>Subtotal (ex GST)</label><input type="number" step="0.01" class="qb-input" id="qb-subtotal" placeholder="0.00"></div>
-                <div class="qb-field"><label>Discount ($)</label><input type="number" step="0.01" class="qb-input" id="qb-discount" placeholder="0.00"></div>
+                <div class="qb-field"><label>Subtotal (ex GST)</label><input type="text" class="qb-input" id="qb-subtotal" value="0.00" readonly style="background:#f1f5f9; font-weight:700;"></div>
+                <div class="qb-field"><label>Discount ($)</label><input type="number" step="0.01" min="0" class="qb-input" id="qb-discount" placeholder="0.00"></div>
             </div>
             <div class="qb-toggle-row">
                 <div class="qb-toggle-label">Include GST (10%)</div>
@@ -2241,9 +2249,10 @@
       const quoteNum = $('qb-quote-num');
       const clientAddress = $('qb-client-address');
       const clientPhone = $('qb-client-phone');
-      const jobDesc = $('qb-job-desc');
-      const jobQty = $('qb-job-qty');
       
+      const linesContainer = $('qb-lines-container');
+      const addLineBtn = $('qb-add-line-btn');
+
       const subtotal = $('qb-subtotal');
       const discount = $('qb-discount');
       const gstToggle = $('qb-gst-toggle');
@@ -2271,7 +2280,15 @@
       if (globalBizNameInput.value) bizName.value = globalBizNameInput.value;
       
       const recalculate = () => {
-        const sub = parseFloat(subtotal.value) || 0;
+        let sub = 0;
+        linesContainer.querySelectorAll('.qb-line-item').forEach(line => {
+          const q = parseFloat(line.querySelector('.qb-qty-input').value) || 0;
+          const c = parseFloat(line.querySelector('.qb-cost-input').value) || 0;
+          sub += (q * c);
+        });
+        
+        subtotal.value = sub.toFixed(2);
+        
         const disc = parseFloat(discount.value) || 0;
         const base = Math.max(0, sub - disc);
         const gstAmount = gstToggle.checked ? base * 0.10 : 0;
@@ -2294,12 +2311,21 @@
         selections["[Quote Number]"] = quoteNum.value || "[Quote Number]";
         selections["[Client Address]"] = clientAddress.value || "[Client Address]";
         selections["[Client Phone]"] = clientPhone.value || "[Client Phone]";
-        selections["[Job Description]"] = jobDesc.value || "[Job Description]";
-        selections["[Unit / Quantity]"] = jobQty.value || "[Unit / Quantity]";
         selections["[Payment Due]"] = payDue.value || "[Payment Due]";
         selections["[Account Name]"] = accName.value || "[Account Name]";
         selections["[BSB]"] = bsb.value || "[BSB]";
         selections["[Account Number]"] = accNum.value || "[Account Number]";
+
+        // Line Items builder
+        let itemsStr = "";
+        linesContainer.querySelectorAll('.qb-line-item').forEach((line, i) => {
+          const desc = line.querySelector('.qb-desc-input').value || 'Item description';
+          const q = line.querySelector('.qb-qty-input').value || '1';
+          const c = parseFloat(line.querySelector('.qb-cost-input').value || 0).toFixed(2);
+          const t = line.querySelector('.qb-line-total').value || '0.00';
+          itemsStr += `Item ${i+1}:\nDescription: ${desc}\nQuantity: ${q} | Unit Cost: $${c} | Total: $${t}\n\n`;
+        });
+        selections["[Line Items String]"] = itemsStr.trim();
 
         // Extras builder
         let extras = [];
@@ -2323,8 +2349,57 @@
         updatePromptsText();
       };
 
-      // Events - Text/Number Inputs
-      [bizName, bizPhone, bizAbn, bizEmail, clientName, quoteNum, clientAddress, clientPhone, jobDesc, jobQty, subtotal, discount, payDue, accName, bsb, accNum].forEach(input => {
+      // Create a single line item
+      function createLineItem() {
+        const line = document.createElement('div');
+        line.className = 'qb-line-item';
+        line.innerHTML = `
+          <button type="button" class="qb-remove-line">Remove</button>
+          <div class="qb-field" style="margin-bottom:12px;">
+            <label>Job Description</label>
+            <textarea class="qb-input qb-desc-input" placeholder="Describe the work..."></textarea>
+          </div>
+          <div class="qb-grid-3">
+            <div class="qb-field"><label>Qty</label><input type="number" step="0.01" min="0" class="qb-input qb-qty-input" value="1"></div>
+            <div class="qb-field"><label>Unit Cost ($)</label><input type="number" step="0.01" min="0" class="qb-input qb-cost-input" value="0.00"></div>
+            <div class="qb-field"><label>Line Total ($)</label><input type="text" class="qb-input qb-line-total" value="0.00" readonly style="background:#f1f5f9; font-weight:bold;"></div>
+          </div>
+        `;
+        
+        const qtyInput = line.querySelector('.qb-qty-input');
+        const costInput = line.querySelector('.qb-cost-input');
+        const totalInput = line.querySelector('.qb-line-total');
+        const descInput = line.querySelector('.qb-desc-input');
+        const removeBtn = line.querySelector('.qb-remove-line');
+
+        const updateLine = () => {
+          const q = parseFloat(qtyInput.value) || 0;
+          const c = parseFloat(costInput.value) || 0;
+          totalInput.value = (q * c).toFixed(2);
+          syncToSelections();
+        };
+
+        qtyInput.addEventListener('input', updateLine);
+        costInput.addEventListener('input', updateLine);
+        descInput.addEventListener('input', syncToSelections);
+
+        removeBtn.addEventListener('click', () => {
+          if (linesContainer.children.length > 1) {
+            line.remove();
+            syncToSelections();
+          }
+        });
+
+        linesContainer.appendChild(line);
+        updateLine();
+      }
+
+      // Initialize line items
+      createLineItem();
+      addLineBtn.addEventListener('click', createLineItem);
+
+      // Events - Main Text/Number Inputs
+      [bizName, bizPhone, bizAbn, bizEmail, clientName, quoteNum, clientAddress, clientPhone, discount, payDue, accName, bsb, accNum].forEach(input => {
         input.addEventListener('input', syncToSelections);
       });
 
@@ -2362,7 +2437,7 @@
         syncToSelections();
       });
 
-      // Initialize
+      // Fire initial sync
       syncToSelections();
     }
 
@@ -2396,7 +2471,7 @@
         },
         "Templates": {
           why: "Custom templates ensure your AI outputs match your business exactly every time.",
-          how: "Fill out the structured form below and we will build the perfect context prompt."
+          how: "Add items and fill out the structured form below and we will build the perfect context prompt."
         }
       };
       const c = copy[current] || {
