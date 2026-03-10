@@ -848,6 +848,42 @@
       "Winning Work": {
         "title": "Winning Work",
         "cards": [{
+            "subtitle": "Quote Template",
+            "chatbot": "ChatGPT",
+            "front": {
+              "outcome": "Create a clean, editable quote fast without starting from scratch.",
+              "when": "When you need to send a professional quote before starting the work.",
+              "goodFor": "Job pricing, approvals, call-outs, repairs, and small project work.",
+              "roi": "Less admin time and quicker approvals.",
+              "tip": "Upload a past quote to match your usual format."
+            },
+            "frontDynamic": {
+              "Quote": {
+                "title": "Quote Template",
+                "outcome": "Create a clean, editable quote fast without starting from scratch.",
+                "when": "When you need to send a professional quote before starting the work.",
+                "goodFor": "Job pricing, approvals, call-outs, repairs, and small project work.",
+                "roi": "Less admin time and quicker approvals.",
+                "tip": "Upload a past quote to match your usual format."
+              },
+              "Invoice": {
+                "title": "Invoice Template",
+                "outcome": "Create a clean, editable invoice fast and keep billing consistent.",
+                "when": "When the job is done and you need to bill the client properly.",
+                "goodFor": "Completed jobs, deposits, final payments, and progress billing.",
+                "roi": "Faster invoicing and less chasing up details later.",
+                "tip": "Upload a past invoice to match your usual format."
+              }
+            },
+            "ui": {
+              "quickInputs": [{
+                "label": "Document type",
+                "options": ["Quote", "Invoice"]
+              }],
+              "fields": ["[Client name]", "[Quote number]", "[Client address]", "[Client phone]", "[My name / business name]", "[My phone]", "[ABN]", "[My email]", "[Job description]", "[Unit / quantity]", "[Subtotal ex GST]", "[GST %]", "[Total inc GST]", "[Payment due date]", "[Bank account name]", "[BSB]", "[Account number]", "[Yes/No]", "[Credit card payment link]", "[Google review link]", "[Yes/No - logo uploaded]", "[Yes/No - past quote uploaded]"]
+            },
+            "prompts": ["Create an editable [Document type].\n\nSituation:\nWe need a clean, professional [Document type] that is easy for the client to read, easy to edit, and ready to send.\n\nDetails:\nClient name: [Client name]\nQuote number: [Quote number]\nClient address: [Client address]\nClient phone: [Client phone]\n\nBusiness / sender details:\nName: [My name / business name]\nPhone: [My phone]\nABN: [ABN]\nEmail: [My email]\n\nJob details:\nJob: [Job description]\nUnit / quantity: [Unit / quantity]\n\nPricing:\nSubtotal ex GST: [Subtotal ex GST]\nGST: [GST %]\nTotal inc GST: [Total inc GST]\n\nPayment due:\n[Payment due date]\n\nBank details:\nAccount name: [Bank account name]\nBSB: [BSB]\nAccount number: [Account number]\n\nExtras:\nAdd a “Pay now via credit card” button: [Yes/No]\nCredit card payment link: [Credit card payment link]\nAdd a “Leave a Google review” button: [Yes/No]\nGoogle review link: [Google review link]\n\nUploaded files:\nLogo uploaded: [Yes/No - logo uploaded]\nPast quote uploaded to mirror: [Yes/No - past quote uploaded]\n\nRules:\n- Write it in clean, plain English.\n- Make it look professional but simple.\n- The final result must be editable.\n- Use clear sections for client details, job details, pricing, payment terms, and bank details.\n- If a logo is uploaded, place it neatly at the top.\n- If a past quote is uploaded, mirror its format, layout, heading style, section order, spacing, and tone as closely as possible.\n- Keep the wording practical and natural, not overly formal.\n- If a payment button is included, format it as a clear clickable call to action.\n- If a Google review button is included, format it as a clear clickable call to action.\n- Do not invent missing business details.\n- If something important is missing, leave a clear placeholder rather than guessing.\n\nReturn:\n- 1 editable [Document type]\n- formatted cleanly\n- ready to copy, edit, or export\n\nVoice tone:\nUse a straightforward, grounded Australian business tone that feels clear, capable, and practical. No fluff."]
+          }, {
             "subtitle": "Quote Follow-Up (24 hours)",
             "chatbot": "ChatGPT",
             "front": {
@@ -2133,8 +2169,11 @@
         const h = document.createElement("h3");
         h.textContent = card.subtitle;
         head.appendChild(h);
+        const selections = {};
         const kv = document.createElement("div");
         kv.className = "kv";
+        const titleLabel = h;
+        const frontRows = {};
         const addRow = (label, value) => {
           if (!value) return;
           const row = document.createElement("div");
@@ -2148,12 +2187,26 @@
           row.appendChild(l);
           row.appendChild(v);
           kv.appendChild(row);
+          frontRows[label] = v;
         };
         addRow("Outcome:", card.front?.outcome);
         addRow("When to use this:", card.front?.when);
         addRow("Good for:", card.front?.goodFor);
         addRow("ROI:", card.front?.roi);
         addRow("Tip:", card.front?.tip);
+        const updateFrontSummary = () => {
+          if (!card.frontDynamic) return;
+          const selectedType = selections["Document type"];
+          const activeFront = card.frontDynamic[selectedType] || card.frontDynamic.Quote || card.front;
+          if (!activeFront) return;
+          if (activeFront.title) titleLabel.textContent = activeFront.title;
+          if (frontRows["Outcome:"]) frontRows["Outcome:"].textContent = activeFront.outcome || "";
+          if (frontRows["When to use this:"]) frontRows["When to use this:"].textContent = activeFront.when || "";
+          if (frontRows["Good for:"]) frontRows["Good for:"].textContent = activeFront.goodFor || "";
+          if (frontRows["ROI:"]) frontRows["ROI:"].textContent = activeFront.roi || "";
+          if (frontRows["Tip:"]) frontRows["Tip:"].textContent = activeFront.tip || "";
+        };
+        updateFrontSummary();
         head.appendChild(kv);
         const revealBtn = document.createElement("button");
         revealBtn.type = "button";
@@ -2167,7 +2220,6 @@
         body.hidden = true;
         head.setAttribute("aria-controls", bodyId);
         // --- Dynamic Prompt Logic ---
-        const selections = {};
         const originalPrompts = (card.prompts || []).map(p => p);
         const updatePromptsText = () => {
           const promptBlocks = body.querySelectorAll('.prompt-text');
@@ -2215,6 +2267,7 @@
               let customInputRef;
               const handleSelect = (val) => {
                 selections[qi.label] = val;
+                updateFrontSummary();
                 updatePromptsText();
               };
               qi.options.forEach(opt => {
