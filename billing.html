@@ -128,6 +128,52 @@
       min-height: 38px;
     }
 
+    .billing-logo {
+      width: 180px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+
+    .hero-sub {
+      margin: 0 0 18px;
+      font-size: 18px;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    .value-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 18px;
+    }
+
+    .value-list li {
+      padding: 6px 0;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-dark);
+    }
+
+    .value-list li::before {
+      content: "\2713";
+      color: var(--accent);
+      font-weight: 900;
+      margin-right: 10px;
+    }
+
+    .reassurance {
+      margin: 0 0 18px;
+      font-size: 14px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .microcopy {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
     button {
       background: var(--accent);
       color: var(--text-light);
@@ -170,8 +216,18 @@
 </head>
 <body>
   <main class="card">
-    <h1>Billing</h1>
-    <p class="sub">Choose a plan to access AdvisaStacks.</p>
+    <img src="./advisastacks-logo.png" alt="AdvisaStacks" class="billing-logo" />
+    <h1>Get started with AdvisaStacks</h1>
+    <p class="hero-sub">Your advice just got easier.</p>
+
+    <ul class="value-list">
+      <li>Tools for better client follow-through</li>
+      <li>Practical prompts that turn advice into action</li>
+      <li>Simple to use and easy to roll into your offer</li>
+      <li>Built for consultants supporting tradies and small businesses</li>
+    </ul>
+
+    <p class="reassurance">No complicated platform. Just practical tools you can use with clients.</p>
 
     <div id="statusPill" class="status-pill">Checking subscription status...</div>
 
@@ -180,16 +236,18 @@
         <h2>Monthly</h2>
         <div class="price">$9.99 <small>AUD / month</small></div>
         <p>Flexible monthly billing.</p>
-        <button id="monthlyBtn">Start Monthly Plan</button>
+        <button id="monthlyBtn">Get access</button>
       </article>
 
       <article class="plan">
         <h2>Annual</h2>
         <div class="price">$1.00 <small>AUD / year</small></div>
         <p>2 months free compared to monthly.</p>
-        <button id="annualBtn">Start Annual Plan</button>
+        <button id="annualBtn">Get access</button>
       </article>
     </section>
+
+    <p class="microcopy">Secure checkout. Simple setup. Practical value from day one.</p>
 
     <div class="actions">
       <button id="manageBtn" class="btn-secondary">Manage Billing</button>
