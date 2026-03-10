@@ -1,15 +1,15 @@
 (function () {
-  const form = document.getElementById("signupForm");
-  const statusMessage = document.getElementById("statusMessage");
+  var form = document.getElementById("signupForm");
+  var statusMessage = document.getElementById("statusMessage");
 
   function setStatus(message, type) {
     statusMessage.textContent = message;
     statusMessage.className = "status " + (type || "");
   }
 
-  const SUPABASE_URL = window.SUPABASE_URL || "";
-  const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "";
-  const missingConfig =
+  var SUPABASE_URL = window.SUPABASE_URL || "";
+  var SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "";
+  var missingConfig =
     !SUPABASE_URL ||
     !SUPABASE_ANON_KEY ||
     SUPABASE_URL.includes("YOUR-PROJECT-ID") ||
@@ -28,14 +28,20 @@
 
     if (missingConfig) return;
 
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    var firstName = document.getElementById("firstName").value.trim();
+    var email = document.getElementById("email").value.trim();
+    var password = document.getElementById("password").value;
+    var confirmPassword = document.getElementById("confirmPassword").value;
 
-    const legalAccepted = document.getElementById("legalDisclaimer").checked;
-    const privacyAccepted = document.getElementById("privacyPolicy").checked;
-    const advisaAccepted = document.getElementById("advisaDisclaimer").checked;
-    const marketingOptIn = document.getElementById("marketingConsent").checked;
+    var legalAccepted = document.getElementById("legalDisclaimer").checked;
+    var privacyAccepted = document.getElementById("privacyPolicy").checked;
+    var advisaAccepted = document.getElementById("advisaDisclaimer").checked;
+    var marketingOptIn = document.getElementById("marketingConsent").checked;
+
+    if (!firstName) {
+      setStatus("Please enter your first name.", "error");
+      return;
+    }
 
     if (password !== confirmPassword) {
       setStatus("Passwords do not match.", "error");
@@ -47,14 +53,17 @@
       return;
     }
 
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    setStatus("Creating your account...", "");
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
+    var supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    var result = await supabase.auth.signUp({
+      email: email,
+      password: password,
       options: {
         emailRedirectTo: window.location.origin + "/login.html",
         data: {
+          first_name: firstName,
           legal_disclaimer_accepted: legalAccepted,
           privacy_policy_accepted: privacyAccepted,
           advisastack_disclaimer_accepted: advisaAccepted,
@@ -68,15 +77,19 @@
       }
     });
 
-    if (error) {
-      setStatus(error.message, "error");
+    if (result.error) {
+      setStatus(result.error.message, "error");
       return;
     }
 
-    setStatus(
-      "Account created. Check your email to verify your account before signing in.",
-      "ok"
-    );
-    form.reset();
+    try {
+      await fetch("/api/send-welcome-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email, firstName: firstName })
+      });
+    } catch (_) {}
+
+    window.location.href = "./signup-success.html";
   });
 })();
