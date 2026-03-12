@@ -40,9 +40,9 @@
       --space-2: 10px;
       --space-3: 14px;
       --space-4: 18px;
-      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
-      --shadow-md: 0 10px 24px rgba(12, 18, 44, 0.22);
-      --shadow-lg: 0 14px 30px rgba(12, 18, 44, 0.28);
+      --shadow-sm: 0 2px 8px rgba(2, 6, 23, 0.16);
+      --shadow-md: 0 6px 16px rgba(2, 6, 23, 0.18);
+      --shadow-lg: 0 10px 24px rgba(2, 6, 23, 0.2);
       --motion-fast: 160ms ease;
       --motion-med: 220ms ease;
       --font-sm: 14px;
@@ -75,10 +75,11 @@
     }
 
     .site-header {
-      position: relative;
+      position: sticky;
+      top: 0;
       z-index: 10000;
       background: #0f172a;
-      line-height: 0;
+      border-bottom: 1px solid #334155;
       padding-top: env(safe-area-inset-top);
     }
 
@@ -86,31 +87,71 @@
       max-width: 1100px;
       margin: 0 auto;
       position: relative;
+      min-height: 64px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      line-height: 1.2;
     }
-
-    .header-hero-img {
-      display: block;
-      width: 100%;
-      height: auto;
-      border-radius: 0 0 18px 18px;
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .header-logo {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #111827;
+      border: 1px solid #334155;
+      flex-shrink: 0;
+    }
+    .header-title {
+      font-family: var(--font-heading);
+      color: #f8fafc;
+      font-size: 17px;
+      font-weight: 700;
+      margin: 0;
+    }
+    .header-promise {
+      margin: 2px 0 0;
+      color: #94a3b8;
+      font-size: 14px;
     }
 
     .menu-btn {
-      position: absolute;
-      right: 18px;
-      top: 18px;
+      position: static;
       z-index: 10030;
-      border: 2px solid #e75a00;
+      border: 1.5px solid #e75a00;
       background: #e75a00;
-      padding: 14px;
+      padding: 9px;
       cursor: pointer;
-      min-width: 64px;
-      min-height: 64px;
+      min-width: 46px;
+      min-height: 46px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+    .desktop-settings-btn {
+      display: none;
+      border: 1px solid #475569;
+      background: #111827;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .desktop-settings-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .menu-btn:focus {
@@ -119,8 +160,8 @@
     }
 
     .menu-icon {
-      width: 34px;
-      height: 24px;
+      width: 22px;
+      height: 16px;
       display: inline-flex;
       flex-direction: column;
       justify-content: space-between;
@@ -129,9 +170,59 @@
     .menu-icon span {
       display: block;
       width: 100%;
-      height: 4px;
+      height: 2px;
       border-radius: 2px;
       background: #f9faff;
+    }
+
+    .desktop-nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 18px 8px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+    }
+    .desktop-nav-group {
+      background: #1f2937;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 8px;
+      display: grid;
+      gap: 8px;
+    }
+    .desktop-nav-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+      font-weight: 700;
+      padding: 0 4px;
+    }
+    .desktop-nav-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .desktop-nav-btn {
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.16s, color 0.16s, background 0.16s;
+    }
+    .desktop-nav-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .desktop-nav-btn.active {
+      border-color: var(--accent);
+      background: rgba(231, 90, 0, 0.12);
+      color: #ffd7bd;
     }
 
     .menu-panel {
@@ -149,7 +240,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      box-shadow: -20px 0 48px rgba(15, 23, 42, 0.22);
+      box-shadow: -12px 0 28px rgba(15, 23, 42, 0.18);
       overflow-y: auto;
     }
 
@@ -233,7 +324,7 @@
     main {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 18px 18px 32px;
+      padding: 10px 18px 28px;
     }
 
     .page-title {
@@ -267,47 +358,90 @@
       color: #e75a00;
     }
     .home-explainer {
-      padding: 8px 2px 2px;
       display: grid;
-      gap: 14px;
-      color: #f9faff;
+      gap: 16px;
     }
-    .home-explainer p {
+    .home-kicker {
       margin: 0;
-      font-size: 15px;
-      line-height: 1.6;
-    }
-    .home-explainer ul {
-      margin: 0;
-      padding-left: 18px;
-      display: grid;
-      gap: 8px;
-      font-size: 14px;
+      color: #cbd5e1;
+      font-size: 16px;
       line-height: 1.5;
+    }
+    .home-task-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .home-task-btn {
+      border: 1px solid #334155;
+      border-left: 3px solid #e75a00;
+      background: #111827;
+      border-radius: 10px;
+      color: #f8fafc;
+      text-align: left;
+      padding: 12px;
+      font: inherit;
+      cursor: pointer;
+      display: grid;
+      gap: 4px;
+      transition: border-color 0.16s, transform 0.16s, background 0.16s;
+    }
+    .home-task-btn strong {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .home-task-btn span {
+      font-size: 14px;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+    .home-task-btn:hover {
+      border-color: #e75a00;
+      transform: translateY(-1px);
+      background: #0f172a;
     }
     .home-cta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 6px;
+      margin-top: 2px;
     }
     .home-cta-btn {
-      background: #313131;
+      background: #111827;
       color: #f9faff;
-      border: 2px solid #313131;
+      border: 1px solid #334155;
       border-radius: 10px;
-      padding: 9px 14px;
+      padding: 10px 14px;
       font: inherit;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
     }
     .home-cta-btn.primary {
       background: #e75a00;
       border-color: #e75a00;
+      color: #fff;
     }
     .home-cta-btn:hover {
       filter: brightness(0.96);
+    }
+    .home-dashboard {
+      margin-top: 2px;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      background: #111827;
+      padding: 10px 12px;
+    }
+    .home-dashboard summary {
+      cursor: pointer;
+      color: #cbd5e1;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .home-dashboard[open] summary {
+      color: #f8fafc;
+      margin-bottom: 10px;
     }
     .home-stats-grid {
       display: grid;
@@ -315,13 +449,13 @@
       gap: 10px;
     }
     .home-score-card {
-      background: #111827;
-      border: 1.5px solid #334155;
+      background: #0f172a;
+      border: 1px solid #334155;
       border-left: 3px solid var(--accent);
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 10px;
+      padding: 10px 12px;
       display: grid;
-      gap: 6px;
+      gap: 4px;
     }
     .home-score-head {
       display: flex;
@@ -329,40 +463,37 @@
       gap: 8px;
     }
     .home-score-value {
-      font-size: 34px;
+      font-size: 30px;
       line-height: 1;
-      font-weight: 900;
+      font-weight: 800;
       font-family: var(--font-heading);
     }
     .home-score-max {
-      font-size: 13px;
+      font-size: 14px;
       color: #cbd5e1;
-      font-weight: 700;
+      font-weight: 600;
     }
     .home-score-trend {
-      font-size: 13px;
-      font-weight: 700;
+      font-size: 14px;
+      font-weight: 600;
     }
     .home-score-trend.up { color: #86efac; }
     .home-score-trend.flat { color: #cbd5e1; }
     .home-stat-card {
-      background: #111827;
-      border: 1.5px solid #334155;
-      border-left: 3px solid rgba(231, 90, 0, 0.55);
+      background: #0f172a;
+      border: 1px solid #334155;
       border-radius: var(--radius-md);
       padding: 10px 12px;
     }
     .home-stat-label {
       font-size: 14px;
-      color: #cbd5e1;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 3px;
-      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      font-weight: 600;
     }
     .home-stat-value {
       font-size: 22px;
-      font-weight: 900;
+      font-weight: 800;
       line-height: 1.1;
     }
 
@@ -445,6 +576,12 @@
       border: 1.5px solid #334155;
       border-radius: 10px;
     }
+    .menu-panel .global-inputs {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      margin: 6px 0 2px;
+      background: #111827;
+    }
 
     .global-field {
       display: flex;
@@ -511,9 +648,9 @@
 
     .card {
       grid-column: span 12;
-      border: 1.5px solid #334155;
-      border-left: 4px solid #e75a00;
-      border-radius: 18px;
+      border: 1px solid #334155;
+      border-left: 3px solid #e75a00;
+      border-radius: 14px;
       overflow: hidden;
       background: #1f2937;
       display: flex;
@@ -522,8 +659,8 @@
       transition: transform var(--motion-fast), box-shadow var(--motion-med), border-color var(--motion-fast);
     }
     .card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
     }
 
     @media (min-width: 860px) {
@@ -534,12 +671,12 @@
 
     .card.open {
       background: #1f2937;
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+      transform: none;
     }
 
     .card-head {
-      padding: 16px;
+      padding: 14px 16px;
       cursor: pointer;
       background: #111827;
       color: #f3f4f6;
@@ -552,9 +689,9 @@
     .card-head:hover { background: #0b1220; }
 
     .card-head h3 {
-      margin: 0 0 12px;
+      margin: 0 0 10px;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 650;
       color: #f9fafb;
     }
     .cb-builder-head {
@@ -682,7 +819,7 @@
       display: none;
       background: #1f2937;
       color: #f9faff;
-      padding: 14px 16px 16px;
+      padding: 16px 16px 18px;
       flex: 0 0 auto;
       border: none;
       outline: none;
@@ -697,15 +834,26 @@
     }
 
     .ui-row {
-      margin: 10px 0;
+      margin: 14px 0;
+    }
+    .context-tip {
+      background: #111827;
+      border: 1px solid #334155;
+      border-left: 3px solid #e75a00;
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.45;
     }
 
     .ui-title {
       font-size: 14px;
       font-weight: 700;
-      margin-bottom: 8px;
-      opacity: 0.9;
-      color: #f9faff;
+      margin-bottom: 10px;
+      opacity: 1;
+      color: #cbd5e1;
     }
 
     .chips,
@@ -1572,19 +1720,20 @@
     footer {
       max-width: 1100px;
       margin: 0 auto;
-      padding: 0 18px 24px;
+      padding: 4px 18px 20px;
     }
 
     .footer-inner {
-      background: #f9faff;
-      color: #313131;
-      border-radius: 18px;
-      padding: 24px;
+      background: #111827;
+      color: #94a3b8;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      padding: 12px 14px;
       font-size: 14px;
       display: flex;
       flex-wrap: wrap;
-      gap: 24px;
-      box-shadow: 0 10px 24px rgba(12, 18, 44, 0.22);
+      gap: 10px;
+      box-shadow: none;
     }
 
     .footer-inner a {
@@ -1595,7 +1744,7 @@
     .footer-left {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       flex: 1;
       min-width: 200px;
     }
@@ -1604,75 +1753,53 @@
       line-height: 1.5;
     }
 
-    .footer-centre {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-      min-width: 200px;
-      text-align: center;
-    }
-
-    .footer-centre-logo {
-      width: 164px;
-      height: auto;
-      display: block;
-    }
-
-    .footer-centre span {
-      font-weight: 600;
-      font-size: 13px;
-    }
-
+    .footer-centre,
     .footer-right {
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      flex: 1;
-      min-width: 200px;
+      display: none;
     }
 
-    .footer-logout-btn {
-      background: #313131;
-      color: #f9faff;
-      border: 2px solid #313131;
-      padding: 10px 20px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    @media (max-width: 980px) {
+      .desktop-nav {
+        display: none;
+      }
+      .menu-btn {
+        display: inline-flex;
+      }
+      .menu-panel,
+      .menu-backdrop {
+        display: flex;
+      }
+      .menu-backdrop {
+        display: block;
+      }
     }
 
-    .footer-logout-btn:hover {
-      background: var(--accent);
-      border-color: var(--accent);
+    @media (min-width: 981px) {
+      .menu-btn {
+        display: none !important;
+      }
+      .desktop-settings-btn {
+        display: inline-flex;
+        align-items: center;
+      }
+      .header-inner {
+        min-height: 58px;
+      }
+      main {
+        padding-top: 12px;
+      }
     }
 
     @media (max-width: 640px) {
-      .header-hero-img {
-        height: 220px;
-        object-fit: cover;
-        object-position: center center;
+      .header-inner {
+        min-height: 56px;
+        padding: 8px 12px;
       }
-
-      .menu-btn {
-        right: 10px;
-        top: 10px;
-        min-width: 50px;
-        min-height: 50px;
-        padding: 9px;
+      .header-title {
+        font-size: 15px;
       }
-
-      .menu-icon {
-        width: 28px;
-        height: 20px;
-      }
-
-      .menu-icon span {
-        height: 3px;
+      .header-promise {
+        display: none;
       }
 
       .menu-panel {
@@ -1693,26 +1820,8 @@
 
       .footer-inner {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-
-      .footer-left {
-        align-items: center;
-      }
-
-      .footer-centre {
-        order: -1;
-      }
-
-      .footer-right {
-        justify-content: center;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .header-hero-img {
-        height: 200px;
+        align-items: flex-start;
+        text-align: left;
       }
     }
   </style>
@@ -1723,7 +1832,13 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <img class="header-hero-img" src="./AdvisaStacks Header Final.png" alt="Main App Header" />
+      <div class="header-brand">
+        <img class="header-logo" src="./advisastacks-logo.png" alt="AdvisaStacks logo" />
+        <div>
+          <p class="header-title">AdvisaStacks</p>
+          <p class="header-promise">Guided workflows for faster client communication</p>
+        </div>
+      </div>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
         <span class="menu-icon" aria-hidden="true">
           <span></span>
@@ -1731,23 +1846,67 @@
           <span></span>
         </span>
       </button>
+      <button class="desktop-settings-btn" id="desktopSettingsBtn" type="button" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">Settings</button>
     </div>
   </header>
+  <nav class="desktop-nav" aria-label="Primary navigation">
+    <section class="desktop-nav-group">
+      <div class="desktop-nav-label">Get the Job</div>
+      <div class="desktop-nav-items">
+        <button class="desktop-nav-btn" data-key="Home">Home</button>
+        <button class="desktop-nav-btn" data-key="Winning Work">💬 Winning Work</button>
+      </div>
+    </section>
+    <section class="desktop-nav-group">
+      <div class="desktop-nav-label">Manage the Job</div>
+      <div class="desktop-nav-items">
+        <button class="desktop-nav-btn" data-key="Job Updates">Job Updates</button>
+        <button class="desktop-nav-btn" data-key="Fix My Message">Fix My Message</button>
+      </div>
+    </section>
+    <section class="desktop-nav-group">
+      <div class="desktop-nav-label">Get Paid</div>
+      <div class="desktop-nav-items">
+        <button class="desktop-nav-btn" data-key="Getting Paid">💸 Getting Paid</button>
+      </div>
+    </section>
+    <section class="desktop-nav-group">
+      <div class="desktop-nav-label">Grow the Business</div>
+      <div class="desktop-nav-items">
+        <button class="desktop-nav-btn" data-key="Reviews & Referrals">⭐ Reviews</button>
+        <button class="desktop-nav-btn" data-key="Get More Enquiries">Enquiries</button>
+        <button class="desktop-nav-btn" data-key="Templates">Templates</button>
+        <button class="desktop-nav-btn" data-key="Custom Builder">🛠 Build Your Own</button>
+      </div>
+    </section>
+    <section class="desktop-nav-group">
+      <div class="desktop-nav-label">Workspace</div>
+      <div class="desktop-nav-items">
+        <button class="desktop-nav-btn" data-key="Favourites">Favourites</button>
+        <button class="desktop-nav-btn" data-key="Prompt Library">Library</button>
+      </div>
+    </section>
+  </nav>
 
   <div class="menu-backdrop" id="menuBackdrop"></div>
   <nav class="menu-panel" id="menuPanel" aria-label="Categories" aria-hidden="true">
-    <h2 class="nav-categories">Categories</h2>
+    <h2 class="nav-categories">Get the Job</h2>
     <button class="menu-item active" data-key="Home">Home</button>
     <button class="menu-item" data-key="Winning Work">Winning Work</button>
-    <button class="menu-item" data-key="Getting Paid">Getting Paid</button>
+    <h2 class="nav-categories">Manage the Job</h2>
     <button class="menu-item" data-key="Job Updates">Job Updates</button>
+    <button class="menu-item" data-key="Fix My Message">Fix My Message</button>
+    <h2 class="nav-categories">Get Paid</h2>
+    <button class="menu-item" data-key="Getting Paid">Getting Paid</button>
+    <h2 class="nav-categories">Grow the Business</h2>
     <button class="menu-item" data-key="Reviews & Referrals">Reviews & Referrals</button>
     <button class="menu-item" data-key="Get More Enquiries">Get More Enquiries</button>
-    <button class="menu-item" data-key="Fix My Message">Fix My Message</button>
+    <h2 class="nav-categories">Build your own</h2>
     <button class="menu-item" data-key="Templates">Templates</button>
+    <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
+    <h2 class="nav-categories">Workspace</h2>
     <button class="menu-item" data-key="Favourites">Favourites</button>
     <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
-    <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
     <div class="global-inputs" aria-label="Default prompt settings">
       <div class="global-field">
         <label for="globalFirstName">Your First Name</label>
@@ -1778,15 +1937,7 @@
       <div class="footer-left">
         <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
         <div>E: <a href="/cdn-cgi/l/email-protection#4821262e2708292c3e213b293b3c292b233b662b2725"><span class="__cf_email__" data-cfemail="1a73747c755a7b7e6c73697b696e7b79716934797577">[email&#160;protected]</span></a></div>
-        <div>P: <a href="tel:+61434360660">+61 434 360 660</a></div>
-        <div>ABN: 37 131 434 727</div>
-      </div>
-      <div class="footer-centre">
-        <img src="./advisastacks-logo.png" alt="AdvisaStacks logo" class="footer-centre-logo" />
-        <span>Made by AdvisaStacks</span>
-      </div>
-      <div class="footer-right">
-        <button class="footer-logout-btn" id="footerLogoutBtn">Log out</button>
+        <div>© AdvisaStacks</div>
       </div>
     </div>
   </footer>
@@ -3304,6 +3455,9 @@
       document.querySelectorAll(".menu-item").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.key === current);
       });
+      document.querySelectorAll(".desktop-nav-btn").forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.key === current);
+      });
     }
 
     function addVoiceToneInstruction(text, card) {
@@ -4348,7 +4502,7 @@
               </div>
               <div class="cb-output-text empty" id="cb-oneoff-text">Fill in the fields above to generate your prompt...</div>
               <div class="cb-ai-controls">
-                <button type="button" class="ai-preview-btn" id="cb-preview-btn">Preview prompt</button>
+                <button type="button" class="ai-preview-btn" id="cb-preview-btn">View prompt (advanced)</button>
                 <button type="button" class="ai-run-now-btn" id="cb-open-run-btn">✦ Run with AI</button>
               </div>
 
@@ -4471,20 +4625,23 @@
       cbAiComposerEl.addEventListener("input", () => {
         cbAiComposerEl.dataset.userEdited = "true";
       });
-      const revealCbAiPanel = (openResponse) => {
+      const revealCbAiPanel = (options) => {
+        const opts = options || {};
         cbAiPanel.classList.add("visible");
-        cbAiComposerWrap.classList.add("visible");
-        if (openResponse) {
+        if (opts.showComposer) {
+          cbAiComposerWrap.classList.add("visible");
+        }
+        if (opts.openResponse) {
           cbAiResponseArea.classList.add("visible");
         }
       };
       cbPreviewBtn?.addEventListener("click", (e) => {
         e.stopPropagation();
-        revealCbAiPanel(false);
+        revealCbAiPanel({ showComposer: true, openResponse: false });
       });
       cbOpenRunBtn?.addEventListener("click", (e) => {
         e.stopPropagation();
-        revealCbAiPanel(true);
+        revealCbAiPanel({ showComposer: false, openResponse: true });
         cbAiRunBtn.click();
       });
 
@@ -4986,7 +5143,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
     }
 
     function render() {
-      document.getElementById("pageTitle").textContent = APP[current] ? APP[current].title : current;
+      document.getElementById("pageTitle").textContent = current === "Home" ? "Choose a task" : (APP[current] ? APP[current].title : current);
       const helpEl = document.getElementById("pageHelp");
       const copy = {
         "Home": {
@@ -5043,7 +5200,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         helpEl.style.display = "none";
       } else {
         helpEl.style.display = "";
-        helpEl.innerHTML = "<details class=\"help-details\"><summary>ℹ️ About this category</summary><div class=\"help-block\"><div class=\"help-head\">What this page helps with</div><div class=\"help-text\">" + c.why + "</div><div class=\"help-head\">How to use this page</div><div class=\"help-text\">" + c.how + "</div></div></details>";
+        helpEl.innerHTML = "<div class=\"help-text\" style=\"margin-bottom:8px; color:#cbd5e1;\">" + c.why + "</div><details class=\"help-details\"><summary>ℹ️ How to use this category</summary><div class=\"help-block\"><div class=\"help-text\">" + c.how + "</div></div></details>";
       }
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
@@ -5058,47 +5215,80 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
         const homeHead = document.createElement("div");
         homeHead.className = "card-head";
-        homeHead.innerHTML = "<h3>Welcome to AdvisaStacks</h3>";
+        homeHead.innerHTML = "<h3>Choose your task</h3>";
 
         const homeBody = document.createElement("div");
         homeBody.className = "card-body";
         homeBody.hidden = false;
         homeBody.innerHTML = `
           <div class="home-explainer">
-            <p>AdvisaStacks helps tradies and small business owners draft practical messages faster using guided prompt cards.</p>
-            <div class="home-score-card">
-              <div class="home-score-head">
-                <div class="home-score-value">${usage.momentum}</div>
-                <div class="home-score-max">Momentum points</div>
-              </div>
-              <div class="home-score-trend ${usage.trendClass}">${usage.trendText}</div>
+            <p class="home-kicker">Pick your situation and generate the message you need.</p>
+            <div class="home-task-grid">
+              <button type="button" class="home-task-btn" data-nav="Winning Work">
+                <strong>💬 Winning Work</strong>
+                <span>Follow-ups, replies, and quote-winning responses.</span>
+              </button>
+              <button type="button" class="home-task-btn" data-nav="Job Updates">
+                <strong>🧰 Manage the Job</strong>
+                <span>Clear updates for delays, access, and onsite changes.</span>
+              </button>
+              <button type="button" class="home-task-btn" data-nav="Getting Paid">
+                <strong>💸 Getting Paid</strong>
+                <span>Payment reminders and firm but professional requests.</span>
+              </button>
+              <button type="button" class="home-task-btn" data-nav="Reviews & Referrals">
+                <strong>⭐ Grow the Business</strong>
+                <span>Review requests, referrals, and enquiry boosters.</span>
+              </button>
+              <button type="button" class="home-task-btn" data-nav="Custom Builder">
+                <strong>🛠 Build Your Own</strong>
+                <span>Create custom workflows and reusable templates.</span>
+              </button>
+              <button type="button" class="home-task-btn" data-nav="Favourites">
+                <strong>Saved tools</strong>
+                <span>Quickly open your favourite and most-used cards.</span>
+              </button>
             </div>
-            <div class="home-stats-grid">
-              <div class="home-stat-card">
-                <div class="home-stat-label">AI runs</div>
-                <div class="home-stat-value">${usage.aiRuns}</div>
-              </div>
-              <div class="home-stat-card">
-                <div class="home-stat-label">Cards built</div>
-                <div class="home-stat-value">${usage.cardsBuilt}</div>
-              </div>
-              <div class="home-stat-card">
-                <div class="home-stat-label">Predicted time saved</div>
-                <div class="home-stat-value">${usage.timeSavedLabel}</div>
-              </div>
-            </div>
-            <ul>
-              <li>Pick a workflow category and open a card.</li>
-              <li>Fill in quick inputs, details, uploads, and optional notes.</li>
-              <li>Preview the generated prompt, run with AI, then copy your final result.</li>
-            </ul>
             <div class="home-cta-row">
-              <button type="button" class="home-cta-btn primary" id="homeStartBtn">Go to Winning Work</button>
+              <button type="button" class="home-cta-btn primary" id="homeStartBtn">Start with Winning Work</button>
               <button type="button" class="home-cta-btn" id="homeFeedbackBtn">Open Feedback Form</button>
             </div>
+            <details class="home-dashboard">
+              <summary>View usage dashboard</summary>
+              <div class="home-score-card">
+                <div class="home-score-head">
+                  <div class="home-score-value">${usage.momentum}</div>
+                  <div class="home-score-max">Momentum points</div>
+                </div>
+                <div class="home-score-trend ${usage.trendClass}">${usage.trendText}</div>
+              </div>
+              <div class="home-stats-grid">
+                <div class="home-stat-card">
+                  <div class="home-stat-label">AI runs</div>
+                  <div class="home-stat-value">${usage.aiRuns}</div>
+                </div>
+                <div class="home-stat-card">
+                  <div class="home-stat-label">Cards built</div>
+                  <div class="home-stat-value">${usage.cardsBuilt}</div>
+                </div>
+                <div class="home-stat-card">
+                  <div class="home-stat-label">Predicted time saved</div>
+                  <div class="home-stat-value">${usage.timeSavedLabel}</div>
+                </div>
+              </div>
+            </details>
           </div>
         `;
 
+        homeBody.querySelectorAll(".home-task-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const key = btn.dataset.nav;
+            if (!key) return;
+            current = key;
+            writePrefs({ lastCategory: key, openCard: null });
+            render();
+          });
+        });
         homeBody.querySelector("#homeStartBtn")?.addEventListener("click", () => {
           current = "Winning Work";
           writePrefs({ lastCategory: "Winning Work", openCard: null });
@@ -5311,7 +5501,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         const revealBtn = document.createElement("button");
         revealBtn.type = "button";
         revealBtn.className = "reveal-btn prompt-toggle";
-        revealBtn.textContent = "Reveal prompt";
+        revealBtn.textContent = "Open workflow";
         head.appendChild(revealBtn);
         const body = document.createElement("div");
         body.className = "card-body";
@@ -5334,16 +5524,16 @@ $("cb-submit-btn").addEventListener("click", async () => {
               const openToggle = el.querySelector(".prompt-toggle");
               if (openHead) openHead.setAttribute("aria-expanded", "false");
               if (openBody) openBody.hidden = true;
-              if (openToggle) openToggle.textContent = "Reveal prompt";
+              if (openToggle) openToggle.textContent = "Open workflow";
             });
 
             if (!isOpen) {
               wrap.classList.add("open");
               head.setAttribute("aria-expanded", "true");
               body.hidden = false;
-              revealBtn.textContent = "Hide prompt";
+              revealBtn.textContent = "Close workflow";
             } else {
-              revealBtn.textContent = "Reveal prompt";
+              revealBtn.textContent = "Open workflow";
             }
           };
 
@@ -5368,6 +5558,14 @@ $("cb-submit-btn").addEventListener("click", async () => {
           wrap.appendChild(body);
           grid.appendChild(wrap);
           return; // Skip standard UI logic for Templates category
+        }
+
+        const contextualTip = card.front?.when || card.front?.tip;
+        if (contextualTip) {
+          const tipEl = document.createElement("div");
+          tipEl.className = "context-tip";
+          tipEl.textContent = "Best for: " + contextualTip;
+          body.appendChild(tipEl);
         }
 
         // --- Dynamic Prompt Logic ---
@@ -5669,7 +5867,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           const previewBtn = document.createElement("button");
           previewBtn.type = "button";
           previewBtn.className = "ai-preview-btn";
-          previewBtn.textContent = "Preview prompt";
+          previewBtn.textContent = "View prompt (advanced)";
           const runNowBtn = document.createElement("button");
           runNowBtn.type = "button";
           runNowBtn.className = "ai-run-now-btn";
@@ -5779,7 +5977,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
           });
           runNowBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            revealAiPanel();
             responseArea.classList.add("visible");
             runBtn.click();
           });
@@ -5930,13 +6127,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
             const openToggle = el.querySelector(".prompt-toggle");
             if (openHead) openHead.setAttribute("aria-expanded", "false");
             if (openBody) openBody.hidden = true;
-            if (openToggle) openToggle.textContent = "Reveal prompt";
+            if (openToggle) openToggle.textContent = "Open workflow";
           });
           if (!isOpen) {
             wrap.classList.add("open");
             head.setAttribute("aria-expanded", "true");
             body.hidden = false;
-            revealBtn.textContent = "Hide prompt";
+            revealBtn.textContent = "Close workflow";
             setTimeout(() => {
               const rect = wrap.getBoundingClientRect();
               const y = window.scrollY + rect.top - 16;
@@ -5951,7 +6148,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
               }
             }, 30);
           } else {
-            revealBtn.textContent = "Reveal prompt";
+            revealBtn.textContent = "Open workflow";
           }
         };
         head.addEventListener("click", (e) => {
@@ -5996,6 +6193,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
       render();
     }
     const menuBtn = document.getElementById("menuBtn");
+    const desktopSettingsBtn = document.getElementById("desktopSettingsBtn");
     const menuPanel = document.getElementById("menuPanel");
     const menuBackdrop = document.getElementById("menuBackdrop");
 
@@ -6006,6 +6204,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
       menuPanel.setAttribute("aria-hidden", "false");
       menuBtn.setAttribute("aria-expanded", "true");
       menuBtn.setAttribute("aria-label", "Close menu");
+      if (desktopSettingsBtn) desktopSettingsBtn.setAttribute("aria-expanded", "true");
       const firstMenuItem = menuPanel.querySelector(".menu-item");
       if (firstMenuItem) firstMenuItem.focus();
     }
@@ -6016,11 +6215,16 @@ $("cb-submit-btn").addEventListener("click", async () => {
       menuPanel.setAttribute("aria-hidden", "true");
       menuBtn.setAttribute("aria-expanded", "false");
       menuBtn.setAttribute("aria-label", "Open menu");
+      if (desktopSettingsBtn) desktopSettingsBtn.setAttribute("aria-expanded", "false");
       if (lastMenuFocused && typeof lastMenuFocused.focus === "function") {
         lastMenuFocused.focus();
       }
     }
     menuBtn.addEventListener("click", () => {
+      if (menuPanel.classList.contains("open")) closeMenu();
+      else openMenu();
+    });
+    desktopSettingsBtn?.addEventListener("click", () => {
       if (menuPanel.classList.contains("open")) closeMenu();
       else openMenu();
     });
@@ -6054,16 +6258,14 @@ $("cb-submit-btn").addEventListener("click", async () => {
     document.querySelectorAll(".menu-item").forEach((btn) => {
       if (btn.dataset.key) btn.addEventListener("click", () => navigate(btn.dataset.key));
     });
+    document.querySelectorAll(".desktop-nav-btn").forEach((btn) => {
+      if (btn.dataset.key) btn.addEventListener("click", () => navigate(btn.dataset.key));
+    });
     document.getElementById("feedbackNavBtn")?.addEventListener("click", () => {
       window.location.href = "./feedback.html";
     });
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
-      if (window.__supabase) await window.__supabase.auth.signOut();
-      window.location.replace("./login.html");
-    });
-
-    document.getElementById("footerLogoutBtn").addEventListener("click", async () => {
       if (window.__supabase) await window.__supabase.auth.signOut();
       window.location.replace("./login.html");
     });
