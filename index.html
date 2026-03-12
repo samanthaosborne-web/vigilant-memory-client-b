@@ -6099,8 +6099,27 @@ $("cb-submit-btn").addEventListener("click", async () => {
             const badge = document.createElement("div");
             badge.className = "example-badge";
             badge.textContent = "Example";
+            const exCopyBtn = document.createElement("button");
+            exCopyBtn.type = "button";
+            exCopyBtn.className = "onboarding-copy-btn";
+            exCopyBtn.textContent = "Copy";
+            exCopyBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              const text = resp.text;
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                  exCopyBtn.textContent = "Copied \u2713";
+                  exCopyBtn.style.background = "#3b82f6";
+                  exCopyBtn.style.color = "#fff";
+                  setTimeout(() => { exCopyBtn.textContent = "Copy"; exCopyBtn.style.background = ""; exCopyBtn.style.color = ""; }, 1200);
+                }).catch(() => fallbackCopy(text, exCopyBtn));
+              } else {
+                fallbackCopy(text, exCopyBtn);
+              }
+            });
             boxHead.appendChild(boxTitle);
             boxHead.appendChild(badge);
+            boxHead.appendChild(exCopyBtn);
             const boxText = document.createElement("div");
             boxText.className = "ai-response-text";
             boxText.textContent = resp.text;
