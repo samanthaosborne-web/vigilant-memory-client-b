@@ -4112,6 +4112,9 @@
 $("cb-submit-btn").addEventListener("click", async () => {
   const fields = getFields();
   if (!fields.problem) { showToast("⚠️ Add a problem description first."); return; }
+  const suggestedFields = generateSuggestedFields(fields.changes);
+  let submitterEmail = "";
+  let submitterId = "";
 
   // Also save locally as backup
   const submissions = readCustomSubmissions();
@@ -4122,6 +4125,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
   if (window.__supabase) {
     const { data: { session } } = await window.__supabase.auth.getSession();
     if (session) {
+      submitterEmail = session.user?.email || "";
+      submitterId = session.user?.id || "";
       const { error } = await window.__supabase
         .from("prompt_submissions")
         .insert({
@@ -4137,16 +4142,39 @@ $("cb-submit-btn").addEventListener("click", async () => {
           example_output: fields.exampleOutput,
           oneoff_prompt: oneoffEl.textContent,
           template_prompt: templateEl.textContent,
-          suggested_fields: generateSuggestedFields(fields.changes),
+          suggested_fields: suggestedFields,
         });
       if (error) {
         showToast("⚠️ Couldn't save to database. Stored locally instead.");
-        return;
       }
     }
   }
 
-  showToast("📤 Idea submitted! Thank you.");
+  try {
+    const emailResp = await fetch("/api/send-custom-idea-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fields,
+        oneoffPrompt: oneoffEl.textContent,
+        templatePrompt: templateEl.textContent,
+        suggestedFields,
+        submittedAt: new Date().toISOString(),
+        submitterEmail,
+        submitterId
+      })
+    });
+
+    if (!emailResp.ok) {
+      showToast("⚠️ Idea saved, but email delivery failed.");
+      return;
+    }
+  } catch (_error) {
+    showToast("⚠️ Idea saved, but email delivery failed.");
+    return;
+  }
+
+  showToast("📤 Idea submitted and emailed to info@advisastacks.com.");
 });
 
       // ── Render saved templates list ──
