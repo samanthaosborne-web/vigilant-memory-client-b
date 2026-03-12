@@ -109,8 +109,8 @@
       gap: 2px;
     }
     .header-logo {
-      width: 400px;
-      height: 100px;
+      width: 800px;
+      height: 200px;
       object-fit: contain;
       border-radius: 0;
       background: transparent;
@@ -1979,8 +1979,8 @@
         padding: 8px 12px;
       }
       .header-logo {
-        width: 200px;
-        height: 50px;
+        width: 400px;
+        height: 100px;
       }
       .header-tagline {
         font-size: 14px;
@@ -2021,7 +2021,7 @@
       <div class="header-brand home-launch" id="homeLaunchBtn" role="button" tabindex="0" aria-label="Go to Home">
         <img class="header-logo" src="./Advisastacks Logo White.png" alt="AdvisaStacks logo" />
         <p class="header-tagline">The Ultimate Toolkit for Tradies</p>
-        <p class="header-subtagline">Saving Tradies their most valuable asset...time ⏱️🔧</p>
+        
       </div>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
         <span class="menu-icon" aria-hidden="true">
@@ -5475,8 +5475,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
         const workflowSteps = document.createElement("div");
         workflowSteps.className = "workflow-steps";
         workflowSteps.innerHTML = `
-          <span class="workflow-step is-active">Step 1: Fill details</span>
-          <span class="workflow-step">Step 2: Run with AI</span>
+          <span class="workflow-step is-active">Fill details</span>
+          <span class="workflow-step">Run with AI</span>
           <span class="workflow-step">Step 3: Copy and use</span>
         `;
         body.appendChild(workflowSteps);
@@ -5654,7 +5654,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 f.className = "ui-row";
                 const ft = document.createElement("div");
                 ft.className = "ui-title";
-                ft.textContent = "Step 1: Enter key details";
+                ft.textContent = "Enter key details";
                 f.appendChild(ft);
                 const fl = document.createElement("div");
                 fl.className = "fields";
@@ -5681,7 +5681,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         }
         const runGuide = document.createElement("p");
         runGuide.className = "workflow-note";
-        runGuide.textContent = "Step 2: Run with AI to generate your final message.";
+        runGuide.textContent = "Run with AI to generate your final message.";
         body.appendChild(runGuide);
         // ── Prompts ──
         (card.prompts || []).forEach((p, i) => {
@@ -5874,7 +5874,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           composerWrap.className = "ai-chat-composer";
           const composerHead = document.createElement("div");
           composerHead.className = "ai-chat-head";
-          composerHead.textContent = "Step 2: Prompt to AI";
+          composerHead.textContent = "Prompt to AI";
           const composerInput = document.createElement("textarea");
           composerInput.className = "ai-chat-input";
           composerInput.rows = 6;
