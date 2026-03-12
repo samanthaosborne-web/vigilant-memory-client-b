@@ -403,6 +403,76 @@
       font-size: 16px;
       line-height: 1.5;
     }
+    .home-setup-wrap {
+      display: grid;
+      gap: 10px;
+      justify-items: center;
+      text-align: center;
+      background: #111827;
+      border: 1px solid #334155;
+      border-left: 3px solid #e75a00;
+      border-radius: 10px;
+      padding: 12px;
+    }
+    .home-setup-main-btn,
+    .home-setup-update-btn,
+    .home-setup-submit-btn {
+      background: #e75a00;
+      border: 1px solid #e75a00;
+      color: #fff;
+      border-radius: 10px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      padding: 10px 16px;
+      cursor: pointer;
+    }
+    .home-setup-main-btn:hover,
+    .home-setup-update-btn:hover,
+    .home-setup-submit-btn:hover {
+      filter: brightness(0.96);
+    }
+    .home-setup-form {
+      width: 100%;
+      max-width: 620px;
+      display: grid;
+      gap: 8px;
+      text-align: left;
+    }
+    .home-setup-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+    .home-setup-field {
+      display: grid;
+      gap: 6px;
+    }
+    .home-setup-field label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+    .home-setup-input {
+      width: 100%;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 16px;
+      font-family: inherit;
+    }
+    .home-setup-status {
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+    @media (max-width: 640px) {
+      .home-setup-grid {
+        grid-template-columns: 1fr;
+      }
+    }
     .home-task-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -4858,7 +4928,25 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeBody.hidden = false;
         homeBody.innerHTML = `
           <div class="home-explainer">
-            <p class="home-kicker">First step: open Settings and enter your first name + business name so every prompt is pre-filled with your details. Then pick your situation and generate your message.</p>
+            <p class="home-kicker">First, set your name and business details so every prompt is pre-filled correctly.</p>
+            <div class="home-setup-wrap">
+              <button type="button" class="home-setup-main-btn" id="homeSetupStartBtn">START HERE</button>
+              <form class="home-setup-form" id="homeSetupForm" hidden>
+                <div class="home-setup-grid">
+                  <div class="home-setup-field">
+                    <label for="homeSetupFirstName">Your first name</label>
+                    <input class="home-setup-input" type="text" id="homeSetupFirstName" placeholder="e.g. John" autocomplete="given-name" />
+                  </div>
+                  <div class="home-setup-field">
+                    <label for="homeSetupBizName">Business name</label>
+                    <input class="home-setup-input" type="text" id="homeSetupBizName" placeholder="e.g. Smith Plumbing" autocomplete="organization" />
+                  </div>
+                </div>
+                <button type="submit" class="home-setup-submit-btn">Submit</button>
+              </form>
+              <button type="button" class="home-setup-update-btn" id="homeSetupUpdateBtn" hidden>Update business and name details</button>
+              <div class="home-setup-status" id="homeSetupStatus"></div>
+            </div>
             <div class="home-task-grid">
               <button type="button" class="home-task-btn" data-nav="Winning Work">
                 <strong>💬 Winning Work</strong>
@@ -4924,6 +5012,53 @@ $("cb-submit-btn").addEventListener("click", async () => {
             writePrefs({ lastCategory: key, openCard: null });
             render();
           });
+        });
+        const setupStartBtn = homeBody.querySelector("#homeSetupStartBtn");
+        const setupForm = homeBody.querySelector("#homeSetupForm");
+        const setupUpdateBtn = homeBody.querySelector("#homeSetupUpdateBtn");
+        const setupStatus = homeBody.querySelector("#homeSetupStatus");
+        const setupFirstName = homeBody.querySelector("#homeSetupFirstName");
+        const setupBizName = homeBody.querySelector("#homeSetupBizName");
+        const hasDefaults = !!(globalFirstNameInput.value.trim() && globalBizNameInput.value.trim());
+        const openSetupForm = () => {
+          setupFirstName.value = globalFirstNameInput.value.trim();
+          setupBizName.value = globalBizNameInput.value.trim();
+          setupForm.hidden = false;
+          setupStartBtn.hidden = true;
+          setupUpdateBtn.hidden = true;
+          setupStatus.textContent = "";
+          setTimeout(() => setupFirstName.focus(), 40);
+        };
+        const closeSetupForm = () => {
+          setupForm.hidden = true;
+          setupStartBtn.hidden = true;
+          setupUpdateBtn.hidden = false;
+          const f = globalFirstNameInput.value.trim();
+          const b = globalBizNameInput.value.trim();
+          setupStatus.textContent = (f && b) ? ("Saved for " + f + " • " + b) : "";
+        };
+        if (hasDefaults) {
+          closeSetupForm();
+        } else {
+          setupStartBtn.hidden = false;
+          setupUpdateBtn.hidden = true;
+          setupForm.hidden = true;
+          setupStatus.textContent = "";
+        }
+        setupStartBtn?.addEventListener("click", () => openSetupForm());
+        setupUpdateBtn?.addEventListener("click", () => openSetupForm());
+        setupForm?.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const f = (setupFirstName.value || "").trim();
+          const b = (setupBizName.value || "").trim();
+          if (!f || !b) {
+            setupStatus.textContent = "Please enter both fields before submitting.";
+            return;
+          }
+          globalFirstNameInput.value = f;
+          globalBizNameInput.value = b;
+          handleGlobalDefaultsChange();
+          closeSetupForm();
         });
         homeBody.querySelector("#homeStartBtn")?.addEventListener("click", () => {
           current = "Winning Work";
