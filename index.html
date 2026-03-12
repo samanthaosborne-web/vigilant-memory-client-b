@@ -5273,12 +5273,12 @@ $("cb-submit-btn").addEventListener("click", async () => {
           const title = document.createElement("div");
           title.className = "workspace-group-title";
           title.textContent = label;
-          const btnRow = document.createElement("div");
-          btnRow.className = "workspace-btn-row";
+          const list = document.createElement("div");
+          list.className = "workspace-index-list";
           cards.forEach((card) => {
             const btn = document.createElement("button");
             btn.type = "button";
-            btn.className = "copy-btn";
+            btn.className = "workspace-index-link";
             btn.textContent = card.subtitle;
             btn.addEventListener("click", () => {
               const targetCategory = resolveRouteKey(card.category);
@@ -5286,10 +5286,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
               writePrefs({ lastCategory: targetCategory, openCard: card.subtitle });
               render();
             });
-            btnRow.appendChild(btn);
+            list.appendChild(btn);
           });
           group.appendChild(title);
-          group.appendChild(btnRow);
+          group.appendChild(list);
           libraryWrap.appendChild(group);
         });
 
@@ -5338,7 +5338,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
         h.textContent = card.subtitle;
         const cardSubline = document.createElement("p");
         cardSubline.className = "card-subline";
-        cardSubline.textContent = scrubLegacyChatbotName(card.front?.outcome || card.front?.when || "Creates a ready-to-use message for this situation.");
+        cardSubline.textContent = "";
+        cardSubline.style.display = "none";
         const sourceCategory = card.__category || current;
         const isCustomBuilderCard = sourceCategory === "Custom Builder";
         const topActions = document.createElement("div");
@@ -5400,17 +5401,12 @@ $("cb-submit-btn").addEventListener("click", async () => {
           kv.appendChild(row);
           frontRows[label] = v;
         };
-        addRow("Outcome:", card.front?.outcome);
-        addRow("When to use this:", card.front?.when);
         const updateFrontSummary = () => {
           if (!card.frontDynamic) return;
           const selectedType = selections["Document type"];
           const activeFront = card.frontDynamic[selectedType] || card.frontDynamic.Quote || card.front;
           if (!activeFront) return;
           if (activeFront.title) titleLabel.textContent = activeFront.title;
-          if (activeFront.outcome) cardSubline.textContent = scrubLegacyChatbotName(activeFront.outcome);
-          if (frontRows["Outcome:"]) frontRows["Outcome:"].textContent = scrubLegacyChatbotName(activeFront.outcome || "");
-          if (frontRows["When to use this:"]) frontRows["When to use this:"].textContent = scrubLegacyChatbotName(activeFront.when || "");
         };
         updateFrontSummary();
         head.appendChild(kv);
@@ -5491,10 +5487,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
           });
         };
         let isRunningAi = false;
-        const inputWorkflowNote = document.createElement("p");
-        inputWorkflowNote.className = "workflow-note";
-        inputWorkflowNote.textContent = "Fill in key details first. Then run with AI.";
-        body.appendChild(inputWorkflowNote);
         body.addEventListener("input", () => {
           if (!isRunningAi) setWorkflowStep(0);
         });
@@ -5710,16 +5702,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
           pre.setAttribute("aria-hidden", "true");
           const previewActions = document.createElement("div");
           previewActions.className = "ai-preview-actions";
-          const previewBtn = document.createElement("button");
-          previewBtn.type = "button";
-          previewBtn.className = "ai-preview-btn";
-          previewBtn.textContent = "Prompt preview (advanced)";
           const runNowBtn = document.createElement("button");
           runNowBtn.type = "button";
           runNowBtn.className = "ai-run-now-btn";
           runNowBtn.textContent = "Run with AI";
           previewActions.appendChild(runNowBtn);
-          previewActions.appendChild(previewBtn);
 
           // Response area (shown above the chat composer)
           const responseArea = document.createElement("div");
@@ -5946,10 +5933,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
             pre.setAttribute("aria-hidden", "false");
             composerWrap.classList.add("visible");
           };
-          previewBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            revealAiPanel();
-          });
           runNowBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             responseArea.classList.add("visible");
