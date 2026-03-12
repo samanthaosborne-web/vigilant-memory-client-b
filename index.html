@@ -396,6 +396,35 @@
       display: grid;
       gap: 16px;
     }
+    .home-intro-center {
+      display: grid;
+      justify-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+    .home-kicker {
+      margin: 0;
+      color: #f8fafc;
+      font-family: var(--font-heading);
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+    .home-defaults-btn {
+      background: #e75a00;
+      color: #fff;
+      border: 1px solid #e75a00;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .home-defaults-btn:hover {
+      filter: brightness(0.96);
+    }
     .welcome-panel {
       background: var(--panel-soft);
       border: 1px solid var(--border-subtle);
@@ -465,6 +494,7 @@
       color: #94a3b8;
       font-size: 14px;
       line-height: 1.45;
+      max-width: 780px;
     }
     @media (max-width: 980px) {
       .desktop-nav {
@@ -477,6 +507,9 @@
     @media (max-width: 640px) {
       .home-task-grid {
         grid-template-columns: 1fr;
+      }
+      .home-kicker {
+        font-size: 30px;
       }
       .ai-preview-actions {
         flex-direction: column;
@@ -5006,7 +5039,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
               <div class="welcome-actions">
                 <button type="button" class="welcome-primary-btn" id="welcomeStartBtn">Start with Win Work</button>
                 <button type="button" class="welcome-secondary-btn" id="welcomeSkipBtn">Not now</button>
-                <button type="button" class="welcome-secondary-btn" id="welcomeDefaultsBtn">Add defaults (optional)</button>
               </div>
             </div>
         ` : "";
@@ -5019,8 +5051,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeBody.innerHTML = `
           <div class="home-explainer">
             ${welcomePanel}
-            <p class="home-kicker">The Ultimate Toolkit for Tradies.</p>
-            <p class="home-subcopy">Choose the business job you need to complete right now.</p>
+            <div class="home-intro-center">
+              <p class="home-kicker">The Ultimate Toolkit for Tradies.</p>
+              <button type="button" class="home-defaults-btn" id="homeSetDefaultsBtn">Set your defaults</button>
+              <p class="home-subcopy">Choose the business job you need to complete right now.</p>
+            </div>
             <div class="home-task-grid">
               <button type="button" class="home-task-btn" data-nav="Win Work">
                 <strong>Win Work</strong>
@@ -5053,10 +5088,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           writePrefs({ onboardingDismissed: true });
           render();
         });
-        homeBody.querySelector("#welcomeDefaultsBtn")?.addEventListener("click", () => {
-          writePrefs({ onboardingDismissed: true });
-          openSettings();
-        });
+        homeBody.querySelector("#homeSetDefaultsBtn")?.addEventListener("click", () => openSettings());
         homeBody.querySelectorAll(".home-task-btn").forEach((btn) => {
           btn.addEventListener("click", () => navigate(btn.dataset.nav));
         });
