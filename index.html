@@ -4587,7 +4587,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
             } catch (err) {
               errorMsg.textContent = "⚠️ " + (err.message || "Something went wrong. Please try again.");
               errorMsg.classList.add("visible");
-              if (!responseText.textContent) responseArea.classList.remove("visible");
             } finally {
               runBtn.disabled = false;
               runBtn.classList.remove("loading");
