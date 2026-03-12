@@ -2232,36 +2232,25 @@
           }
         ]
       },
-      "Templates": {
-        "title": "Templates",
-        "cards": [
-          {
-            "subtitle": "Invoice Builder",
-            "chatbot": "ChatGPT",
-            "front": {
-              "outcome": "Create a structured invoice prompt using an easy form layout.",
-              "when": "When you need a professional, client-ready invoice draft fast.",
-              "goodFor": "Building accurate and structured documents for AI to format.",
-              "roi": "Saves admin time and guarantees consistent document styling.",
-              "tip": "Add items and fill out the fields. Totals calculate automatically."
-            },
-            "ui": {
-              "customForm": "invoiceBuilder"
-            },
-            "prompts": [
-              "Create an editable Invoice using the details below.\n\nBUSINESS DETAILS\nBusiness Name: [Business / Your Name]\nPhone: [Phone]\nABN: [ABN]\nEmail: [Email]\n\nCLIENT DETAILS\nClient Name: [Client Name]\nInvoice Number: [Invoice Number]\nClient Address: [Client Address]\nClient Phone: [Client Phone]\n\nJOB DETAILS\n[Line Items String]\n\nPRICING\nSubtotal (ex GST): $[Subtotal]\nDiscount: $[Discount]\nInclude GST: [Include GST]\nTotal: $[Total]\n\nPAYMENT\nPayment Due: [Payment Due]\nAccount Name: [Account Name]\nBSB: [BSB]\nAccount Number: [Account Number]\n\n[Extras String]\n[T&Cs Instructions]\n[Uploads String]\n\nRequirements:\n1. Write the output as a professional, client-ready Invoice.\n2. Use clear headings, include all pricing details, and an approval section.\n3. CRITICAL: You must use your python data analysis tool to generate this invoice as a downloadable Microsoft Word (.docx) document. Provide the download link in your response."
-            ]
-          }
-        ]
+"Templates": {
+  "title": "Templates",
+  "cards": [
+    {
+      "subtitle": "Quote Template",
+      "chatbot": "ChatGPT",
+      "front": {
+        "outcome": "Create a structured quote prompt you can paste into ChatGPT.",
+        "when": "When you need a quote draft fast.",
+        "goodFor": "Creating editable client ready quotes using your own job details.",
+        "roi": "Saves admin time and makes your documents more consistent.",
+        "tip": "Fill in every field before copying the prompt."
       },
-      "Favourites": {
-        "title": "Favourites",
-        "cards": []
-      },
-      "Prompt Library": {
-        "title": "Prompt Library",
-        "cards": []
-      }
+      "prompts": [
+        "Create a clean, editable quote."
+      ]
+    }
+  ]
+}
     };
     let current = "Winning Work";
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
@@ -2358,367 +2347,655 @@
       if (!shouldApply || text.includes(VOICE_TONE_GUIDE)) return text;
       return text + "\n\nVoice tone:\n" + VOICE_TONE_GUIDE;
     }
+function createTemplatesCard(body, card, cIndex) {
+  const wrap = document.createElement("div");
+  wrap.className = "templates-custom-card";
 
-    // --- Custom Builder Logic --- //
-    function buildInvoiceBuilderDOM(container, card, selections, updatePromptsText) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'qb-wrapper';
-      wrapper.innerHTML = `
-        <h2 class="qb-header">Invoice Builder</h2>
-        
-        <div class="qb-section">
-            <div class="qb-title">YOUR BUSINESS DETAILS</div>
-            <div class="qb-grid-2">
-                <div class="qb-field"><label>Business / Your Name</label><input type="text" class="qb-input" id="qb-biz-name" placeholder="e.g. Smith Electrical"></div>
-                <div class="qb-field"><label>Phone</label><input type="text" class="qb-input" id="qb-biz-phone" placeholder="0400 000 000"></div>
-                <div class="qb-field"><label>ABN</label><input type="text" class="qb-input" id="qb-biz-abn" placeholder="00 000 000 000"></div>
-                <div class="qb-field"><label>Email</label><input type="email" class="qb-input" id="qb-biz-email" placeholder="you@example.com"></div>
-            </div>
-        </div>
+  const state = {
+    fields: {
+      "[Job Name]": "",
+      "[ABN]": "",
+      "[Business email]": "",
+      "[Business phone]": "",
+      "[Client name]": "",
+      "[Client company]": "",
+      "[Client email]": "",
+      "[Project title]": "",
+      "[Scope of work]": "",
+      "[Inclusions]": "",
+      "[Timeline]": "",
+      "[Terms]": "",
+      "[Notes]": "",
+      "[Line items]": "",
+      "[Formatting reference notes]": "",
+      "[Subtotal]": "0.00",
+      "[Discount]": "0.00",
+      "[Include GST]": "Yes",
+      "[Payment Due]": "",
+      "[Account Name]": "",
+      "[BSB]": "",
+      "[Account Number]": "",
+      "[Include Pay Now Button]": "No",
+      "[Include Review Button]": "No"
+    },
+    uploads: {
+      logo: { enabled: false, file: null },
+      quoteExample: { enabled: false, file: null }
+    }
+  };
 
-        <div class="qb-section">
-            <div class="qb-title">CLIENT DETAILS</div>
-            <div class="qb-grid-2">
-                <div class="qb-field"><label>Client Name</label><input type="text" class="qb-input" id="qb-client-name" placeholder="Client name"></div>
-                <div class="qb-field"><label>Invoice Number</label><input type="text" class="qb-input" id="qb-invoice-num" placeholder="INV-001"></div>
-                <div class="qb-field"><label>Client Address</label><input type="text" class="qb-input" id="qb-client-address" placeholder="123 Main St, Sydney NSW"></div>
-                <div class="qb-field"><label>Client Phone</label><input type="text" class="qb-input" id="qb-client-phone" placeholder="0400 000 000"></div>
-            </div>
-        </div>
+  function ensureTemplateStyles() {
+    if (document.getElementById("templates-card-styles")) return;
 
-        <div class="qb-section">
-            <div class="qb-title">JOB DETAILS</div>
-            <div id="qb-lines-container"></div>
-            <button type="button" id="qb-add-line-btn" class="qb-add-btn">+ Add Line Item</button>
-        </div>
-
-        <div class="qb-section">
-            <div class="qb-title">PRICING</div>
-            <div class="qb-grid-2">
-                <div class="qb-field"><label>Subtotal (ex GST)</label><input type="text" class="qb-input" id="qb-subtotal" value="0.00" readonly style="background:#f1f5f9; font-weight:700;"></div>
-                <div class="qb-field"><label>Discount ($)</label><input type="number" step="0.01" min="0" class="qb-input" id="qb-discount" placeholder="0.00"></div>
-            </div>
-            <div class="qb-toggle-row">
-                <div class="qb-toggle-label">Include GST (10%)</div>
-                <label class="qb-toggle"><input type="checkbox" id="qb-gst-toggle" checked><span class="qb-slider"></span></label>
-            </div>
-            <div class="qb-total-box">
-                <span>Total (inc GST)</span>
-                <span class="qb-total-val" id="qb-total-display">$0.00</span>
-            </div>
-        </div>
-
-        <div class="qb-section">
-            <div class="qb-title">PAYMENT</div>
-            <div class="qb-grid-2">
-                <div class="qb-field"><label>Payment Due</label><input type="date" class="qb-input" id="qb-pay-due"></div>
-            </div>
-            <div class="qb-grid-3">
-                <div class="qb-field"><label>Account Name</label><input type="text" class="qb-input" id="qb-acc-name" placeholder="Account name"></div>
-                <div class="qb-field"><label>BSB</label><input type="text" class="qb-input" id="qb-bsb" placeholder="000-000"></div>
-                <div class="qb-field"><label>Account Number</label><input type="text" class="qb-input" id="qb-acc-num" placeholder="00000000"></div>
-            </div>
-        </div>
-
-        <div class="qb-section">
-            <div class="qb-title">TERMS & CONDITIONS</div>
-            <div class="qb-toggle-row">
-                <div class="qb-toggle-label">Use AI generated T&amp;C's</div>
-                <label class="qb-toggle"><input type="checkbox" id="qb-ai-terms-toggle" checked><span class="qb-slider"></span></label>
-            </div>
-            <div class="qb-field" id="qb-terms-field" style="display:none;">
-                <label>Enter your T&amp;C's</label>
-                <textarea class="qb-input" id="qb-terms-text" placeholder="Type your payment terms, warranty and conditions..."></textarea>
-            </div>
-        </div>
-
-        <div class="qb-section">
-            <div class="qb-title">UPLOADS</div>
-            <div class="qb-toggle-row">
-                <div class="qb-toggle-label">Upload a logo</div>
-                <label class="qb-toggle"><input type="checkbox" id="qb-logo-toggle" checked><span class="qb-slider"></span></label>
-            </div>
-            <button type="button" class="qb-upload-btn" id="qb-logo-btn">
-              <svg class="qb-upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> 
-              <span id="qb-logo-btn-text">Upload logo</span>
-            </button>
-            <input type="file" id="qb-logo-file" style="display:none;" accept="image/*">
-
-            <div class="qb-toggle-row">
-                <div class="qb-toggle-label">Upload a past invoice example</div>
-                <label class="qb-toggle"><input type="checkbox" id="qb-example-toggle" checked><span class="qb-slider"></span></label>
-            </div>
-            <button type="button" class="qb-upload-btn" id="qb-example-btn">
-              <svg class="qb-upload-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> 
-              <span id="qb-example-btn-text">Upload invoice example</span>
-            </button>
-            <input type="file" id="qb-example-file" style="display:none;" accept=".pdf,.png,.jpg,.jpeg">
-        </div>
-
-        <div class="qb-section">
-            <div class="qb-title">EXTRAS</div>
-            <div class="qb-toggle-row">
-                <div class="qb-toggle-label">Include "Pay now via credit card" button</div>
-                <label class="qb-toggle"><input type="checkbox" id="qb-cc-toggle"><span class="qb-slider"></span></label>
-            </div>
-            <div class="qb-toggle-row">
-                <div class="qb-toggle-label">Include "Leave a Google review" button</div>
-                <label class="qb-toggle"><input type="checkbox" id="qb-review-toggle"><span class="qb-slider"></span></label>
-            </div>
-        </div>
-      `;
-      container.appendChild(wrapper);
-
-      // DOM Node References
-      const $ = id => wrapper.querySelector('#' + id);
-      const bizName = $('qb-biz-name');
-      const bizPhone = $('qb-biz-phone');
-      const bizAbn = $('qb-biz-abn');
-      const bizEmail = $('qb-biz-email');
-      const clientName = $('qb-client-name');
-      const invoiceNum = $('qb-invoice-num');
-      const clientAddress = $('qb-client-address');
-      const clientPhone = $('qb-client-phone');
-      
-      const linesContainer = $('qb-lines-container');
-      const addLineBtn = $('qb-add-line-btn');
-
-      const subtotal = $('qb-subtotal');
-      const discount = $('qb-discount');
-      const gstToggle = $('qb-gst-toggle');
-      const totalDisplay = $('qb-total-display');
-      
-      const payDue = $('qb-pay-due');
-      const accName = $('qb-acc-name');
-      const bsb = $('qb-bsb');
-      const accNum = $('qb-acc-num');
-
-      const logoToggle = $('qb-logo-toggle');
-      const logoBtn = $('qb-logo-btn');
-      const logoFile = $('qb-logo-file');
-      const logoBtnText = $('qb-logo-btn-text');
-      
-      const exToggle = $('qb-example-toggle');
-      const exBtn = $('qb-example-btn');
-      const exFile = $('qb-example-file');
-      const exBtnText = $('qb-example-btn-text');
-      
-      const ccToggle = $('qb-cc-toggle');
-      const reviewToggle = $('qb-review-toggle');
-      const aiTermsToggle = $('qb-ai-terms-toggle');
-      const termsField = $('qb-terms-field');
-      const termsText = $('qb-terms-text');
-
-      // Setup initial defaults
-      if (globalBizNameInput.value) bizName.value = globalBizNameInput.value;
-      
-      const recalculate = () => {
-        let sub = 0;
-        linesContainer.querySelectorAll('.qb-line-item').forEach(line => {
-          const q = parseFloat(line.querySelector('.qb-qty-input').value) || 0;
-          const c = parseFloat(line.querySelector('.qb-cost-input').value) || 0;
-          sub += (q * c);
-        });
-        
-        subtotal.value = sub.toFixed(2);
-        
-        const disc = parseFloat(discount.value) || 0;
-        const base = Math.max(0, sub - disc);
-        const gstAmount = gstToggle.checked ? base * 0.10 : 0;
-        const total = base + gstAmount;
-        totalDisplay.textContent = `$${total.toFixed(2)}`;
-        
-        // Update main selections
-        selections["[Subtotal]"] = sub.toFixed(2);
-        selections["[Discount]"] = disc.toFixed(2);
-        selections["[Include GST]"] = gstToggle.checked ? "Yes (10%)" : "No";
-        selections["[Total]"] = total.toFixed(2);
-      };
-
-      const syncToSelections = () => {
-        selections["[Business / Your Name]"] = bizName.value || "[Business / Your Name]";
-        selections["[Phone]"] = bizPhone.value || "[Phone]";
-        selections["[ABN]"] = bizAbn.value || "[ABN]";
-        selections["[Email]"] = bizEmail.value || "[Email]";
-        selections["[Client Name]"] = clientName.value || "[Client Name]";
-        selections["[Invoice Number]"] = invoiceNum.value || "[Invoice Number]";
-        selections["[Client Address]"] = clientAddress.value || "[Client Address]";
-        selections["[Client Phone]"] = clientPhone.value || "[Client Phone]";
-        selections["[Payment Due]"] = payDue.value || "[Payment Due]";
-        selections["[Account Name]"] = accName.value || "[Account Name]";
-        selections["[BSB]"] = bsb.value || "[BSB]";
-        selections["[Account Number]"] = accNum.value || "[Account Number]";
-
-        // Line Items builder
-        let itemsStr = "";
-        linesContainer.querySelectorAll('.qb-line-item').forEach((line, i) => {
-          const desc = line.querySelector('.qb-desc-input').value || 'Item description';
-          const q = line.querySelector('.qb-qty-input').value || '1';
-          const c = parseFloat(line.querySelector('.qb-cost-input').value || 0).toFixed(2);
-          const t = line.querySelector('.qb-line-total').value || '0.00';
-          itemsStr += `Item ${i+1}:\nDescription: ${desc}\nQuantity: ${q} | Unit Cost: $${c} | Total: $${t}\n\n`;
-        });
-        selections["[Line Items String]"] = itemsStr.trim();
-
-        // Extras builder
-        let extras = [];
-        if (ccToggle.checked) extras.push("- Include a 'Pay now via credit card' button");
-        if (reviewToggle.checked) extras.push("- Include a 'Leave a Google review' button");
-        selections["[Extras String]"] = extras.length ? ("Required Extras:\n" + extras.join("\n")) : "";
-
-        selections["[T&Cs Instructions]"] = aiTermsToggle.checked
-          ? "Generate clear standard T&Cs suitable for this invoice."
-          : (termsText.value.trim() ? ("Use these exact T&Cs:\n" + termsText.value.trim()) : "Use these exact T&Cs: [Enter your T&Cs]");
-
-        // Uploads builder
-        let uploads = [];
-        if (logoToggle.checked) {
-           let fileName = logoFile.files[0] ? logoFile.files[0].name : "logo attached";
-           uploads.push("- Make sure to include the business logo: " + fileName);
-        }
-        if (exToggle.checked) {
-           let fileName = exFile.files[0] ? exFile.files[0].name : "example document attached";
-           uploads.push("- Reference the style of the past invoice: " + fileName);
-        }
-        selections["[Uploads String]"] = uploads.length ? ("Formatting instructions:\n" + uploads.join("\n")) : "";
-
-        recalculate();
-        updatePromptsText();
-      };
-
-      // Create a single line item
-      function createLineItem() {
-        const line = document.createElement('div');
-        line.className = 'qb-line-item';
-        line.innerHTML = `
-          <button type="button" class="qb-remove-line">Remove</button>
-          <div class="qb-field" style="margin-bottom:12px;">
-            <label>Job Description</label>
-            <textarea class="qb-input qb-desc-input" placeholder="Describe the work..."></textarea>
-          </div>
-          <div class="qb-grid-3">
-            <div class="qb-field"><label>Qty</label><input type="number" step="0.01" min="0" class="qb-input qb-qty-input" value="1"></div>
-            <div class="qb-field"><label>Unit Cost ($)</label><input type="number" step="0.01" min="0" class="qb-input qb-cost-input" value="0.00"></div>
-            <div class="qb-field"><label>Line Total ($)</label><input type="text" class="qb-input qb-line-total" value="0.00" readonly style="background:#f1f5f9; font-weight:bold;"></div>
-          </div>
-        `;
-        
-        const qtyInput = line.querySelector('.qb-qty-input');
-        const costInput = line.querySelector('.qb-cost-input');
-        const totalInput = line.querySelector('.qb-line-total');
-        const descInput = line.querySelector('.qb-desc-input');
-        const removeBtn = line.querySelector('.qb-remove-line');
-
-        const updateLine = () => {
-          const q = parseFloat(qtyInput.value) || 0;
-          const c = parseFloat(costInput.value) || 0;
-          totalInput.value = (q * c).toFixed(2);
-          syncToSelections();
-        };
-
-        qtyInput.addEventListener('input', updateLine);
-        costInput.addEventListener('input', updateLine);
-        descInput.addEventListener('input', syncToSelections);
-
-        removeBtn.addEventListener('click', () => {
-          if (linesContainer.children.length > 1) {
-            line.remove();
-            syncToSelections();
-          }
-        });
-
-        linesContainer.appendChild(line);
-        updateLine();
+    const style = document.createElement("style");
+    style.id = "templates-card-styles";
+    style.textContent = `
+      .templates-custom-card {
+        background: #f4f5f7;
+        border: 1px solid #cfd5dc;
+        border-radius: 16px;
+        padding: 28px;
+        color: #122033;
       }
 
-      // Initialize line items
-      createLineItem();
-      addLineBtn.addEventListener('click', createLineItem);
-
-      // Events - Main Text/Number Inputs
-      [bizName, bizPhone, bizAbn, bizEmail, clientName, invoiceNum, clientAddress, clientPhone, discount, payDue, accName, bsb, accNum].forEach(input => {
-        input.addEventListener('input', syncToSelections);
-      });
-
-      // Events - Toggles
-      gstToggle.addEventListener('change', syncToSelections);
-      ccToggle.addEventListener('change', syncToSelections);
-      reviewToggle.addEventListener('change', syncToSelections);
-      aiTermsToggle.addEventListener('change', (e) => {
-        termsField.style.display = e.target.checked ? 'none' : 'block';
-        syncToSelections();
-      });
-      termsText.addEventListener('input', syncToSelections);
-
-      logoToggle.addEventListener('change', (e) => {
-        logoBtn.style.display = e.target.checked ? 'flex' : 'none';
-        syncToSelections();
-      });
-
-      exToggle.addEventListener('change', (e) => {
-        exBtn.style.display = e.target.checked ? 'flex' : 'none';
-        syncToSelections();
-      });
-
-      // Events - File Upload Mocking
-      logoBtn.addEventListener('click', () => logoFile.click());
-      logoFile.addEventListener('change', () => {
-        if (logoFile.files[0]) {
-          logoBtnText.textContent = logoFile.files[0].name;
-          logoBtn.style.background = '#f1f5f9';
-        }
-        syncToSelections();
-      });
-
-      exBtn.addEventListener('click', () => exFile.click());
-      exFile.addEventListener('change', () => {
-        if (exFile.files[0]) {
-          exBtnText.textContent = exFile.files[0].name;
-          exBtn.style.background = '#f1f5f9';
-        }
-        syncToSelections();
-      });
-
-      // Fire initial sync
-      syncToSelections();
-    }
-
-
-    function getCardId(category, subtitle) {
-      return category + "::" + subtitle;
-    }
-
-    function readFavourites() {
-      try {
-        const raw = localStorage.getItem(FAVOURITES_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } catch (e) {
-        return [];
+      .templates-builder-title {
+        margin: 0 0 22px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #122033;
       }
+
+      .templates-section {
+        margin-top: 26px;
+        padding-top: 22px;
+        border-top: 1px solid #cfd5dc;
+      }
+
+      .templates-section:first-of-type {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .templates-section-title {
+        margin: 0 0 14px;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: #6d7e94;
+      }
+
+      .templates-grid-2,
+      .templates-grid-3 {
+        display: grid;
+        gap: 14px;
+      }
+
+      .templates-grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .templates-grid-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .templates-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .templates-field.full {
+        grid-column: 1 / -1;
+      }
+
+      .templates-field label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #122033;
+      }
+
+      .templates-field input,
+      .templates-field textarea {
+        width: 100%;
+        border: 2px solid #d5dbe2;
+        border-radius: 8px;
+        background: #f4f5f7;
+        color: #61748b;
+        font-family: inherit;
+        font-size: 14px;
+        padding: 12px 12px;
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      .templates-field textarea {
+        min-height: 90px;
+        resize: vertical;
+      }
+
+      .templates-field input:focus,
+      .templates-field textarea:focus {
+        border-color: #b9c4d0;
+      }
+
+      .templates-toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 8px 0 14px;
+      }
+
+      .templates-toggle-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: #122033;
+      }
+
+      .templates-toggle {
+        width: 44px;
+        height: 24px;
+        border: 0;
+        border-radius: 999px;
+        background: #243148;
+        position: relative;
+        cursor: pointer;
+        padding: 0;
+        flex: 0 0 auto;
+      }
+
+      .templates-toggle.off {
+        background: #d8dde4;
+      }
+
+      .templates-toggle-knob {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #f3f4f6;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        transition: transform 0.18s ease;
+      }
+
+      .templates-toggle.on .templates-toggle-knob {
+        transform: translateX(20px);
+      }
+
+      .templates-total-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #e9ebee;
+        border-radius: 8px;
+        padding: 14px 12px;
+        margin-top: 8px;
+        font-size: 14px;
+        color: #5f6f82;
+      }
+
+      .templates-total-row strong {
+        color: #111827;
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .templates-upload-item + .templates-upload-item {
+        margin-top: 18px;
+      }
+
+      .templates-upload-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        min-height: 40px;
+        background: #f4f5f7;
+        border: 2px solid #cfd5dc;
+        border-radius: 6px;
+        padding: 16px 14px;
+        color: #122033;
+        cursor: pointer;
+      }
+
+      .templates-upload-box.hidden {
+        display: none;
+      }
+
+      .templates-upload-icon {
+        width: 18px;
+        height: 18px;
+        display: inline-flex;
+      }
+
+      .templates-upload-icon svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .templates-upload-label {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .templates-prompt-wrap {
+        margin-top: 24px;
+        border-top: 1px solid #cfd5dc;
+        padding-top: 20px;
+      }
+
+      .templates-prompt-title {
+        margin: 0 0 10px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #6d7e94;
+      }
+
+      .templates-output {
+        white-space: pre-wrap;
+        background: #ffffff;
+        border: 1px solid #d7dde5;
+        border-radius: 12px;
+        padding: 16px;
+        color: #122033;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .templates-copy-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+      }
+
+      .templates-copy-btn {
+        background: #e75a00;
+        color: #f9faff;
+        border: 2px solid #e75a00;
+        border-radius: 18px;
+        padding: 16px 22px;
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      }
+
+      .templates-chatgpt-link {
+        color: #122033;
+        text-decoration: none;
+        border-bottom: 1px solid #122033;
+        padding-bottom: 3px;
+        font-size: 16px;
+        white-space: nowrap;
+      }
+
+      .templates-chatgpt-link strong {
+        font-weight: 700;
+      }
+
+      @media (max-width: 760px) {
+        .templates-grid-2,
+        .templates-grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  ensureTemplateStyles();
+
+  function money(n) {
+    return "$" + Number(n || 0).toFixed(2);
+  }
+
+  function getTotal() {
+    const subtotal = Number(state.fields["[Subtotal]"] || 0);
+    const discount = Number(state.fields["[Discount]"] || 0);
+    const base = Math.max(subtotal - discount, 0);
+    const total = state.fields["[Include GST]"] === "Yes" ? base * 1.1 : base;
+    return total;
+  }
+
+  function getPromptText() {
+    let text =
+      "Create a clean, editable client ready quote using the details below.\n\n" +
+      "Business context\n" +
+      "Business name from defaults above: " + (globalBizNameInput ? globalBizNameInput.value.trim() : "") + "\n" +
+      "My name from defaults above: " + (globalFirstNameInput ? globalFirstNameInput.value.trim() : "") + "\n\n" +
+      "Quote details\n" +
+      "Job Name: " + state.fields["[Job Name]"] + "\n" +
+      "ABN: " + state.fields["[ABN]"] + "\n" +
+      "Business email: " + state.fields["[Business email]"] + "\n" +
+      "Business phone: " + state.fields["[Business phone]"] + "\n" +
+      "Client name: " + state.fields["[Client name]"] + "\n" +
+      "Client company: " + state.fields["[Client company]"] + "\n" +
+      "Client email: " + state.fields["[Client email]"] + "\n" +
+      "Project title: " + state.fields["[Project title]"] + "\n" +
+      "Scope of work: " + state.fields["[Scope of work]"] + "\n" +
+      "Inclusions: " + state.fields["[Inclusions]"] + "\n" +
+      "Timeline: " + state.fields["[Timeline]"] + "\n" +
+      "Terms: " + state.fields["[Terms]"] + "\n" +
+      "Notes: " + state.fields["[Notes]"] + "\n" +
+      "Line items: " + state.fields["[Line items]"] + "\n" +
+      "Subtotal ex GST: " + money(state.fields["[Subtotal]"]) + "\n" +
+      "Discount: " + money(state.fields["[Discount]"]) + "\n" +
+      "Include GST: " + state.fields["[Include GST]"] + "\n" +
+      "Total inc GST: " + money(getTotal()) + "\n" +
+      "Payment due: " + state.fields["[Payment Due]"] + "\n" +
+      "Account name: " + state.fields["[Account Name]"] + "\n" +
+      "BSB: " + state.fields["[BSB]"] + "\n" +
+      "Account number: " + state.fields["[Account Number]"] + "\n" +
+      "Include Pay now via credit card button: " + state.fields["[Include Pay Now Button]"] + "\n" +
+      "Include Leave a Google review button: " + state.fields["[Include Review Button]"] + "\n" +
+      "Formatting reference notes: " + state.fields["[Formatting reference notes]"] + "\n\n" +
+      "Requirements\n" +
+      "Use clear headings.\n" +
+      "Make it look polished and client ready.\n" +
+      "Return only the finished quote.";
+
+    const selectedFiles = [];
+    if (state.uploads.logo.enabled && state.uploads.logo.file) {
+      selectedFiles.push("Logo selected: " + state.uploads.logo.file.name);
+    }
+    if (state.uploads.quoteExample.enabled && state.uploads.quoteExample.file) {
+      selectedFiles.push("Past quote example selected: " + state.uploads.quoteExample.file.name);
     }
 
-    function writeFavourites(favs) {
-      localStorage.setItem(FAVOURITES_KEY, JSON.stringify(favs));
+    if (selectedFiles.length) {
+      text += "\n\nAttachments selected\n" + selectedFiles.join("\n");
+      text += "\n\nImportant\nActual files are not transferred by copy and paste. They must still be uploaded manually in ChatGPT.";
     }
 
-    function toggleFavourite(category, card) {
-      const id = getCardId(category, card.subtitle);
-      const favs = readFavourites();
-      const exists = favs.includes(id);
-      const next = exists ? favs.filter((item) => item !== id) : favs.concat(id);
-      writeFavourites(next);
-      render();
+    return text;
+  }
+
+  function updatePrompt() {
+    output.textContent = getPromptText();
+    totalValue.textContent = money(getTotal());
+  }
+
+  function addField(grid, labelText, key, placeholder, multiline, rows, type) {
+    const field = document.createElement("div");
+    field.className = "templates-field";
+    if (multiline) field.classList.add("full");
+
+    const label = document.createElement("label");
+    label.textContent = labelText;
+
+    const input = document.createElement(multiline ? "textarea" : "input");
+    if (!multiline) input.type = type || "text";
+    if (multiline) input.rows = rows || 3;
+    input.placeholder = placeholder || "";
+    input.value = state.fields[key] || "";
+
+    input.addEventListener("input", function (e) {
+      state.fields[key] = e.target.value || "";
+      updatePrompt();
+    });
+
+    field.appendChild(label);
+    field.appendChild(input);
+    grid.appendChild(field);
+  }
+
+  function createToggleRow(labelText, key, isLight) {
+    const row = document.createElement("div");
+    row.className = "templates-toggle-row";
+
+    const text = document.createElement("div");
+    text.className = "templates-toggle-text";
+    text.textContent = labelText;
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "templates-toggle " + (state.fields[key] === "Yes" ? "on" : "off");
+    toggle.innerHTML = '<span class="templates-toggle-knob"></span>';
+
+    function sync() {
+      const on = state.fields[key] === "Yes";
+      toggle.className = "templates-toggle " + (on ? "on" : "off");
     }
 
-    function buildPromptLibraryData() {
-      return Object.keys(APP)
-        .filter((category) => !["Favourites", "Prompt Library"].includes(category))
-        .map((category) => ({
-          category,
-          cards: (APP[category].cards || []).map((card) => ({ subtitle: card.subtitle }))
-        }));
+    toggle.addEventListener("click", function () {
+      state.fields[key] = state.fields[key] === "Yes" ? "No" : "Yes";
+      sync();
+      updatePrompt();
+    });
+
+    row.appendChild(text);
+    row.appendChild(toggle);
+    return row;
+  }
+
+  function createUploadRow(labelText, key, buttonLabel, accept) {
+    const item = document.createElement("div");
+    item.className = "templates-upload-item";
+
+    const head = document.createElement("div");
+    head.className = "templates-toggle-row";
+
+    const text = document.createElement("div");
+    text.className = "templates-toggle-text";
+    text.textContent = labelText;
+
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "templates-toggle off";
+    toggle.innerHTML = '<span class="templates-toggle-knob"></span>';
+
+    const fileLabel = document.createElement("label");
+    fileLabel.className = "templates-upload-box hidden";
+
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = accept;
+    fileInput.hidden = true;
+
+    const icon = document.createElement("span");
+    icon.className = "templates-upload-icon";
+    icon.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 16V4"></path>
+        <path d="M8 8l4-4 4 4"></path>
+        <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path>
+      </svg>
+    `;
+
+    const label = document.createElement("span");
+    label.className = "templates-upload-label";
+    label.textContent = buttonLabel;
+
+    fileLabel.appendChild(fileInput);
+    fileLabel.appendChild(icon);
+    fileLabel.appendChild(label);
+
+    function syncUploadUi() {
+      const isOn = state.uploads[key].enabled;
+      toggle.className = "templates-toggle " + (isOn ? "on" : "off");
+      fileLabel.classList.toggle("hidden", !isOn);
+      label.textContent = state.uploads[key].file ? state.uploads[key].file.name : buttonLabel;
     }
 
+    toggle.addEventListener("click", function () {
+      state.uploads[key].enabled = !state.uploads[key].enabled;
+      if (!state.uploads[key].enabled) {
+        state.uploads[key].file = null;
+        fileInput.value = "";
+      }
+      syncUploadUi();
+      updatePrompt();
+    });
+
+    fileInput.addEventListener("change", function () {
+      state.uploads[key].file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+      syncUploadUi();
+      updatePrompt();
+    });
+
+    head.appendChild(text);
+    head.appendChild(toggle);
+    item.appendChild(head);
+    item.appendChild(fileLabel);
+
+    syncUploadUi();
+    return item;
+  }
+
+  const title = document.createElement("h3");
+  title.className = "templates-builder-title";
+  title.textContent = "Quote Builder";
+  wrap.appendChild(title);
+
+  const businessSection = document.createElement("div");
+  businessSection.className = "templates-section";
+  businessSection.innerHTML = '<div class="templates-section-title">Your Business Details</div>';
+  const businessGrid = document.createElement("div");
+  businessGrid.className = "templates-grid-2";
+  businessSection.appendChild(businessGrid);
+  addField(businessGrid, "Job Name", "[Job Name]", "e.g. Smith Electrical");
+  addField(businessGrid, "Phone", "[Business phone]", "0400 000 000");
+  addField(businessGrid, "ABN", "[ABN]", "00 000 000 000");
+  addField(businessGrid, "Email", "[Business email]", "you@example.com");
+  wrap.appendChild(businessSection);
+
+  const clientSection = document.createElement("div");
+  clientSection.className = "templates-section";
+  clientSection.innerHTML = '<div class="templates-section-title">Client Details</div>';
+  const clientGrid = document.createElement("div");
+  clientGrid.className = "templates-grid-2";
+  clientSection.appendChild(clientGrid);
+  addField(clientGrid, "Client Name", "[Client name]", "Client name");
+  addField(clientGrid, "Client Company", "[Client company]", "Client company");
+  addField(clientGrid, "Client Email", "[Client email]", "Client email");
+  addField(clientGrid, "Project Title", "[Project title]", "Project title");
+  wrap.appendChild(clientSection);
+
+  const jobSection = document.createElement("div");
+  jobSection.className = "templates-section";
+  jobSection.innerHTML = '<div class="templates-section-title">Job Details</div>';
+  const jobGrid = document.createElement("div");
+  jobGrid.className = "templates-grid-2";
+  jobSection.appendChild(jobGrid);
+  addField(jobGrid, "Scope of Work", "[Scope of work]", "Describe the work...", true, 4);
+  addField(jobGrid, "Inclusions", "[Inclusions]", "Inclusions", true, 4);
+  addField(jobGrid, "Timeline", "[Timeline]", "Timeline");
+  addField(jobGrid, "Terms", "[Terms]", "Terms");
+  addField(jobGrid, "Notes", "[Notes]", "Notes", true, 4);
+  addField(jobGrid, "Line Items", "[Line items]", "Line items", true, 5);
+  addField(jobGrid, "Formatting Reference Notes", "[Formatting reference notes]", "Formatting notes", true, 3);
+  wrap.appendChild(jobSection);
+
+  const pricingSection = document.createElement("div");
+  pricingSection.className = "templates-section";
+  pricingSection.innerHTML = '<div class="templates-section-title">Pricing</div>';
+  const pricingGrid = document.createElement("div");
+  pricingGrid.className = "templates-grid-2";
+  pricingSection.appendChild(pricingGrid);
+  addField(pricingGrid, "Subtotal (ex GST)", "[Subtotal]", "0.00", false, 0, "number");
+  addField(pricingGrid, "Discount ($)", "[Discount]", "0.00", false, 0, "number");
+  pricingSection.appendChild(createToggleRow("Include GST (10%)", "[Include GST]"));
+  const totalRow = document.createElement("div");
+  totalRow.className = "templates-total-row";
+  totalRow.innerHTML = '<span>Total (inc GST)</span><strong>$0.00</strong>';
+  const totalValue = totalRow.querySelector("strong");
+  pricingSection.appendChild(totalRow);
+  wrap.appendChild(pricingSection);
+
+  const paymentSection = document.createElement("div");
+  paymentSection.className = "templates-section";
+  paymentSection.innerHTML = '<div class="templates-section-title">Payment</div>';
+  const paymentTop = document.createElement("div");
+  paymentTop.className = "templates-grid-2";
+  paymentSection.appendChild(paymentTop);
+  addField(paymentTop, "Payment Due", "[Payment Due]", "dd/mm/yyyy");
+  const bankGrid = document.createElement("div");
+  bankGrid.className = "templates-grid-3";
+  paymentSection.appendChild(bankGrid);
+  addField(bankGrid, "Account Name", "[Account Name]", "Account name");
+  addField(bankGrid, "BSB", "[BSB]", "000-000");
+  addField(bankGrid, "Account Number", "[Account Number]", "00000000");
+  wrap.appendChild(paymentSection);
+
+  const uploadSection = document.createElement("div");
+  uploadSection.className = "templates-section";
+  uploadSection.innerHTML = '<div class="templates-section-title">Uploads</div>';
+  uploadSection.appendChild(createUploadRow("Upload a logo", "logo", "Upload logo", "image/*,.pdf,.png,.jpg,.jpeg,.webp,.svg"));
+  uploadSection.appendChild(createUploadRow("Upload a past quote example", "quoteExample", "Upload quote example", ".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"));
+  wrap.appendChild(uploadSection);
+
+  const extrasSection = document.createElement("div");
+  extrasSection.className = "templates-section";
+  extrasSection.innerHTML = '<div class="templates-section-title">Extras</div>';
+  extrasSection.appendChild(createToggleRow('Include "Pay now via credit card" button', "[Include Pay Now Button]"));
+  extrasSection.appendChild(createToggleRow('Include "Leave a Google review" button', "[Include Review Button]"));
+  wrap.appendChild(extrasSection);
+
+  const promptWrap = document.createElement("div");
+  promptWrap.className = "templates-prompt-wrap";
+
+  const promptTitle = document.createElement("div");
+  promptTitle.className = "templates-prompt-title";
+  promptTitle.textContent = "Generated Prompt";
+
+  const output = document.createElement("div");
+  output.className = "templates-output";
+
+  promptWrap.appendChild(promptTitle);
+  promptWrap.appendChild(output);
+  wrap.appendChild(promptWrap);
+
+  const footer = document.createElement("div");
+  footer.className = "templates-copy-footer";
+
+  const copyBtn = document.createElement("button");
+  copyBtn.type = "button";
+  copyBtn.className = "templates-copy-btn";
+  copyBtn.textContent = "Copy prompt";
+
+  copyBtn.addEventListener("click", function (e) {
+    e.stopPropagation();
+    const textToCopy = output.textContent;
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(textToCopy).then(function () {
+        const oldText = copyBtn.textContent;
+        copyBtn.textContent = "Copied ✓";
+        setTimeout(function () {
+          copyBtn.textContent = oldText;
+        }, 1200);
+      }).catch(function () {
+        fallbackCopy(textToCopy, copyBtn);
+      });
+    } else {
+      fallbackCopy(textToCopy, copyBtn);
+    }
+  });
+
+  const openLink = document.createElement("a");
+  openLink.className = "templates-chatgpt-link";
+  openLink.href = "https://chatgpt.com/";
+  openLink.target = "_blank";
+  openLink.rel = "noopener noreferrer";
+  openLink.innerHTML = 'Paste into: <strong>ChatGPT &rarr;</strong>';
+
+  footer.appendChild(copyBtn);
+  footer.appendChild(openLink);
+  wrap.appendChild(footer);
+
+  body.appendChild(wrap);
+  updatePrompt();
+  return updatePrompt;
+}
+}
     function render() {
       document.getElementById("pageTitle").textContent = APP[current].title;
       const helpEl = document.getElementById("pageHelp");
@@ -2892,7 +3169,50 @@
         body.id = bodyId;
         body.hidden = true;
         head.setAttribute("aria-controls", bodyId);
-        
+        if (current === "Templates") {
+  const refreshTemplate = createTemplatesCard(body, card, cIndex);
+  cardRefreshers.push(refreshTemplate);
+
+  const toggleCard = () => {
+    const isOpen = wrap.classList.contains("open");
+
+    document.querySelectorAll(".card.open").forEach((el) => {
+      el.classList.remove("open");
+      const openHead = el.querySelector(".card-head");
+      const openBody = el.querySelector(".card-body");
+      if (openHead) openHead.setAttribute("aria-expanded", "false");
+      if (openBody) openBody.hidden = true;
+    });
+
+    if (!isOpen) {
+      wrap.classList.add("open");
+      head.setAttribute("aria-expanded", "true");
+      body.hidden = false;
+    }
+  };
+
+  head.addEventListener("click", (e) => {
+    if (e.target.closest(".reveal-btn")) return;
+    toggleCard();
+  });
+
+  head.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleCard();
+    }
+  });
+
+  revealBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleCard();
+  });
+
+  wrap.appendChild(head);
+  wrap.appendChild(body);
+  grid.appendChild(wrap);
+  return;
+}
         // --- Dynamic Prompt Logic ---
         const originalPrompts = (card.prompts || []).map(p => p);
         const updatePromptsText = () => {
