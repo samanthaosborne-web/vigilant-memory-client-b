@@ -4255,7 +4255,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
     });
 
     if (!emailResp.ok) {
-      showToast("⚠️ Idea saved, but email delivery failed.");
+      const errPayload = await emailResp.json().catch(() => ({}));
+      const details = errPayload.error || "Idea saved, but email delivery failed.";
+      showToast("⚠️ " + details);
       return;
     }
   } catch (_error) {
