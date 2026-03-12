@@ -25,14 +25,14 @@
   <script defer src="/_vercel/insights/script.js"></script>
   <style>
     :root {
-      --bg: #2b2f35;
-      --text: #f4f7fb;
+      --bg: #111827;
+      --text: #e5e7eb;
       --accent: #e75a00;
-      --charcoal: #313131;
-      --surface: #fbfdff;
-      --surface-muted: #eef2f7;
-      --text-dark: #0f172a;
-      --text-muted: #475569;
+      --charcoal: #1f2937;
+      --surface: #f9fafb;
+      --surface-muted: #273244;
+      --text-dark: #e5e7eb;
+      --text-muted: #94a3b8;
       --radius-sm: 8px;
       --radius-md: 10px;
       --radius-lg: 14px;
@@ -45,9 +45,9 @@
       --shadow-lg: 0 14px 30px rgba(12, 18, 44, 0.28);
       --motion-fast: 160ms ease;
       --motion-med: 220ms ease;
-      --font-sm: 12px;
-      --font-md: 14px;
-      --font-lg: 16px;
+      --font-sm: 14px;
+      --font-md: 16px;
+      --font-lg: 18px;
       --font-body: "Inter", system-ui, sans-serif;
       --font-heading: "Manrope", "Inter", system-ui, sans-serif;
     }
@@ -61,6 +61,8 @@
       font-family: var(--font-body);
       background: var(--bg);
       color: var(--text);
+      font-size: 16px;
+      line-height: 1.5;
     }
 
     h1, h2, h3, .page-title, .card-head h3 {
@@ -75,7 +77,7 @@
     .site-header {
       position: relative;
       z-index: 10000;
-      background: #313131;
+      background: #0f172a;
       line-height: 0;
       padding-top: env(safe-area-inset-top);
     }
@@ -138,8 +140,8 @@
       right: 0;
       width: min(360px, 92vw);
       height: 100vh;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-      border-left: 1px solid #dbe3ee;
+      background: #1f2937;
+      border-left: 1px solid #334155;
       transform: translateX(110%);
       transition: transform 220ms ease;
       z-index: 10020;
@@ -174,7 +176,7 @@
     .nav-categories {
       font-size: 13px;
       font-weight: 700;
-      color: #64748b;
+      color: #94a3b8;
       text-transform: uppercase;
       letter-spacing: 0.6px;
       text-align: left;
@@ -183,10 +185,10 @@
     }
 
     .menu-item {
-      background: #ffffff;
-      border: 1.5px solid #dbe3ee;
+      background: #111827;
+      border: 1.5px solid #334155;
       border-radius: 12px;
-      color: #1e293b;
+      color: #e5e7eb;
       font-size: 15px;
       font-weight: 700;
       padding: 11px 12px;
@@ -204,8 +206,8 @@
     }
 
     .menu-item.active {
-      background: #1f2937;
-      border-color: #1f2937;
+      background: #0f172a;
+      border-color: #e75a00;
       color: #f9faff;
     }
 
@@ -216,8 +218,8 @@
 
     .menu-item-logout {
       margin-top: 8px;
-      background: #313131;
-      border-color: #313131;
+      background: #0f172a;
+      border-color: #334155;
       color: #f9faff;
     }
 
@@ -243,8 +245,26 @@
     .page-help {
       margin: 0 0 20px;
       max-width: 860px;
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1.6;
+    }
+    .help-details {
+      border: 1px solid #334155;
+      border-left: 3px solid var(--accent);
+      border-radius: 10px;
+      background: #1f2937;
+      padding: 8px 12px;
+    }
+    .help-details summary {
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      color: #f3f4f6;
+      outline: none;
+    }
+    .help-details[open] summary {
+      margin-bottom: 6px;
+      color: #e75a00;
     }
     .home-explainer {
       padding: 8px 2px 2px;
@@ -295,8 +315,9 @@
       gap: 10px;
     }
     .home-score-card {
-      background: rgba(249,250,255,0.12);
-      border: 1.5px solid rgba(249,250,255,0.24);
+      background: #111827;
+      border: 1.5px solid #334155;
+      border-left: 3px solid var(--accent);
       border-radius: 12px;
       padding: 12px 14px;
       display: grid;
@@ -315,7 +336,7 @@
     }
     .home-score-max {
       font-size: 13px;
-      color: rgba(249,250,255,0.75);
+      color: #cbd5e1;
       font-weight: 700;
     }
     .home-score-trend {
@@ -323,17 +344,17 @@
       font-weight: 700;
     }
     .home-score-trend.up { color: #86efac; }
-    .home-score-trend.flat { color: #fde68a; }
-    .home-score-trend.down { color: #fca5a5; }
+    .home-score-trend.flat { color: #cbd5e1; }
     .home-stat-card {
-      background: rgba(249,250,255,0.08);
-      border: 1.5px solid rgba(249,250,255,0.2);
+      background: #111827;
+      border: 1.5px solid #334155;
+      border-left: 3px solid rgba(231, 90, 0, 0.55);
       border-radius: var(--radius-md);
       padding: 10px 12px;
     }
     .home-stat-label {
-      font-size: 11px;
-      color: rgba(249,250,255,0.72);
+      font-size: 14px;
+      color: #cbd5e1;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 3px;
@@ -417,13 +438,12 @@
     .global-inputs {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 24px;
-      padding: 16px;
-      background: #f9faff;
-      border: 4px solid #313131;
-      border-radius: 12px;
-      box-shadow: 0 10px 24px rgba(12, 18, 44, 0.22);
+      gap: 10px;
+      margin: 4px 0 10px;
+      padding: 12px;
+      background: #0f172a;
+      border: 1.5px solid #334155;
+      border-radius: 10px;
     }
 
     .global-field {
@@ -437,17 +457,17 @@
     .global-field label {
       font-size: 13px;
       font-weight: 600;
-      color: #e75a00;
+      color: #cbd5e1;
     }
 
     .global-field input {
-      padding: 10px;
-      border: 2px solid #313131;
+      padding: 10px 12px;
+      border: 1.5px solid #334155;
       border-radius: 10px;
       font-family: inherit;
-      font-size: 14px;
-      color: #e75a00;
-      background: transparent;
+      font-size: 16px;
+      color: #f9fafb;
+      background: #1f2937;
     }
 
     .global-field input:focus {
@@ -456,7 +476,7 @@
     }
 
     .global-field input::placeholder {
-      color: rgba(231, 90, 0, 0.85);
+      color: #94a3b8;
     }
 
     .global-actions {
@@ -466,12 +486,12 @@
 
     .reset-defaults-btn {
       padding: 10px 14px;
-      border: 2px solid #313131;
+      border: 1.5px solid #334155;
       border-radius: 10px;
-      background: #313131;
+      background: #111827;
       color: #f9faff;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       min-height: 44px;
@@ -491,10 +511,11 @@
 
     .card {
       grid-column: span 12;
-      border: 4px solid #e75a00;
+      border: 1.5px solid #334155;
+      border-left: 4px solid #e75a00;
       border-radius: 18px;
       overflow: hidden;
-      background: #e75a00;
+      background: #1f2937;
       display: flex;
       flex-direction: column;
       box-shadow: var(--shadow-md);
@@ -512,7 +533,7 @@
     }
 
     .card.open {
-      background: #e75a00;
+      background: #1f2937;
       box-shadow: var(--shadow-lg);
       transform: translateY(-1px);
     }
@@ -520,21 +541,21 @@
     .card-head {
       padding: 16px;
       cursor: pointer;
-      background: #f9faff;
-      color: #313131;
+      background: #111827;
+      color: #f3f4f6;
       display: flex;
       flex-direction: column;
       height: auto;
       flex: 0 0 auto;
       transition: background var(--motion-fast);
     }
-    .card-head:hover { background: #ffffff; }
+    .card-head:hover { background: #0b1220; }
 
     .card-head h3 {
       margin: 0 0 12px;
       font-size: 18px;
       font-weight: 700;
-      color: #313131;
+      color: #f9fafb;
     }
     .cb-builder-head {
       cursor: default;
@@ -547,7 +568,7 @@
       text-align: left;
       font-size: 18px;
       font-weight: 700;
-      color: #313131;
+      color: #f9fafb;
       font-family: inherit;
       cursor: pointer;
     }
@@ -561,7 +582,7 @@
       gap: 8px;
       font-size: 14px;
       line-height: 1.35;
-      color: #313131;
+      color: #e5e7eb;
     }
 
     .kv .row {
@@ -572,7 +593,7 @@
     .kv .label {
       min-width: 118px;
       font-weight: 400;
-      color: #e75a00;
+      color: #cbd5e1;
     }
 
     .favourite-btn {
@@ -659,7 +680,7 @@
 
     .card-body {
       display: none;
-      background: #313131;
+      background: #1f2937;
       color: #f9faff;
       padding: 14px 16px 16px;
       flex: 0 0 auto;
@@ -723,10 +744,10 @@
     .type-input,
     .custom-input {
       padding: 8px 10px;
-      border: 2px solid #f9faff;
-      background: #ffffff;
-      color: #1d2958;
-      font-size: 13px;
+      border: 1.5px solid #475569;
+      background: #0f172a;
+      color: #f8fafc;
+      font-size: 16px;
       line-height: 1.3;
       font-family: inherit;
       outline: none;
@@ -750,41 +771,41 @@
     }
 
     /* Custom Quote Builder Styles */
-    .qb-wrapper { background: #ffffff; border-radius: 12px; padding: 24px; color: #1e293b; font-family: inherit; }
+    .qb-wrapper { background: #111827; border-radius: 12px; padding: 24px; color: #e5e7eb; font-family: inherit; }
     .qb-wrapper * { box-sizing: border-box; }
-    .qb-header { font-size: 22px; font-weight: 700; color: #0f172a; margin: 0 0 24px 0; }
-    .qb-section { margin-bottom: 24px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+    .qb-header { font-size: 22px; font-weight: 700; color: #f9fafb; margin: 0 0 24px 0; }
+    .qb-section { margin-bottom: 24px; border-top: 1px solid #334155; padding-top: 20px; }
     .qb-section:first-of-type { border-top: none; padding-top: 0; }
-    .qb-title { font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.5px; }
+    .qb-title { font-size: 14px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.5px; }
     .qb-grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
     @media(min-width: 640px) { .qb-grid-2 { grid-template-columns: 1fr 1fr; } }
     .qb-grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
     @media(min-width: 640px) { .qb-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
     .qb-field { display: flex; flex-direction: column; gap: 8px; }
-    .qb-field label { font-size: 13px; font-weight: 700; color: #334155; }
-    .qb-input { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; color: #0f172a; background: #fff; width: 100%; transition: border-color 0.2s; font-family: inherit; }
+    .qb-field label { font-size: 14px; font-weight: 700; color: #e2e8f0; }
+    .qb-input { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px; color: #0f172a; background: #fff; width: 100%; transition: border-color 0.2s; font-family: inherit; }
     .qb-input:focus { outline: none; border-color: #e75a00; box-shadow: 0 0 0 3px rgba(231,90,0,0.1); }
     textarea.qb-input { resize: vertical; min-height: 80px; }
     
     /* Line Items Logic */
-    .qb-line-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; }
+    .qb-line-item { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; }
     .qb-remove-line { position: absolute; top: 12px; right: 12px; color: #ef4444; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 700; padding: 4px; }
     .qb-remove-line:hover { text-decoration: underline; }
-    .qb-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: #e2e8f0; color: #0f172a; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; }
-    .qb-add-btn:hover { background: #cbd5e1; }
+    .qb-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: #1f2937; color: #e5e7eb; border-radius: 6px; font-size: 14px; font-weight: 700; border: 1px solid #334155; cursor: pointer; transition: background 0.2s; }
+    .qb-add-btn:hover { background: #273449; }
 
     .qb-toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .qb-toggle-label { font-size: 14px; font-weight: 600; color: #0f172a; }
+    .qb-toggle-label { font-size: 14px; font-weight: 600; color: #e5e7eb; }
     .qb-toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
     .qb-toggle input { opacity: 0; width: 0; height: 0; }
     .qb-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
     .qb-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
     .qb-toggle input:checked + .qb-slider { background-color: #1e293b; }
     .qb-toggle input:checked + .qb-slider:before { transform: translateX(20px); }
-    .qb-total-box { background: #f1f5f9; padding: 14px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #475569; margin-bottom: 16px; font-size: 14px; }
-    .qb-total-val { font-size: 16px; color: #0f172a; font-weight: 900; }
-    .qb-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 1px solid #cbd5e1; background: #fff; border-radius: 6px; color: #0f172a; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: background 0.2s; font-size: 14px; }
-    .qb-upload-btn:hover { background: #f8fafc; }
+    .qb-total-box { background: #0f172a; border: 1px solid #334155; padding: 14px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #cbd5e1; margin-bottom: 16px; font-size: 14px; }
+    .qb-total-val { font-size: 16px; color: #f9fafb; font-weight: 900; }
+    .qb-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 1px solid #334155; background: #0f172a; border-radius: 6px; color: #e5e7eb; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: background 0.2s; font-size: 14px; }
+    .qb-upload-btn:hover { background: #162130; }
     .qb-upload-icon { width: 18px; height: 18px; }
 
     .prompt-block {
@@ -793,7 +814,7 @@
     }
 
     .prompt-label {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 400;
       margin: 0 0 8px;
       color: #f9faff;
@@ -802,11 +823,15 @@
     .prompt-text {
       white-space: pre-wrap;
       font-family: inherit;
-      font-size: 14px;
-      line-height: 1.45;
+      font-size: 16px;
+      line-height: 1.6;
       margin: 0 0 10px;
       font-weight: 400;
       color: #f9faff;
+      background: #111827;
+      border: 1.5px solid #334155;
+      border-radius: 10px;
+      padding: 14px 16px;
     }
 
     .copy-row {
@@ -959,6 +984,10 @@
       border: 1.5px solid rgba(249,250,255,0.14);
       border-radius: 12px;
       padding: 12px;
+      display: none;
+    }
+    .ai-chat-composer.visible {
+      display: block;
     }
     .ai-chat-head {
       font-size: 12px;
@@ -978,9 +1007,45 @@
       color: #f9faff;
       padding: 12px 14px;
       font-family: inherit;
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1.45;
       white-space: pre-wrap;
+    }
+    .ai-preview-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0 0;
+    }
+    .ai-preview-btn {
+      background: transparent;
+      color: #f8fafc;
+      border: 1.5px solid #475569;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .ai-preview-btn:hover {
+      border-color: #e75a00;
+      color: #e75a00;
+    }
+    .ai-run-now-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #e75a00;
+      border: 1.5px solid #e75a00;
+      border-radius: 8px;
+      color: #f8fafc;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .ai-run-now-btn:hover {
+      filter: brightness(0.95);
     }
     .ai-chat-input:focus {
       outline: none;
@@ -1103,11 +1168,11 @@
       transform: translateY(-1px);
     }
     .ai-response-text {
-      background: rgba(0,0,0,0.25);
-      border: 1.5px solid rgba(249,250,255,0.12);
+      background: #162130;
+      border: 1.5px solid #334155;
       border-radius: 10px;
       padding: 14px 16px;
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1.6;
       color: #f9faff;
       white-space: pre-wrap;
@@ -1129,11 +1194,29 @@
 
     /* ── Custom Builder Styles ── */
     .cb-wrapper {
-      background: #ffffff;
+      background: transparent;
       border-radius: 12px;
-      padding: 24px;
-      color: #1e293b;
+      padding: 8px 0;
+      color: #e5e7eb;
       font-family: inherit;
+    }
+    .cb-layout {
+      display: grid;
+      gap: 16px;
+    }
+    .cb-form-col,
+    .cb-output-col {
+      min-width: 0;
+    }
+    @media (min-width: 1080px) {
+      .cb-layout {
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+        align-items: start;
+      }
+      .cb-output-section {
+        position: sticky;
+        top: 14px;
+      }
     }
     .cb-wrapper * { box-sizing: border-box; }
     .cb-header {
@@ -1143,21 +1226,24 @@
       margin: 0 0 6px;
     }
     .cb-subtext {
-      font-size: 13px;
-      color: #64748b;
+      font-size: 14px;
+      color: #cbd5e1;
       margin: 0 0 20px;
       line-height: 1.5;
     }
     .cb-section {
-      margin-bottom: 20px;
-      border-top: 1px solid #e2e8f0;
-      padding-top: 18px;
+      margin-bottom: 14px;
+      border: 1px solid #334155;
+      border-left: 3px solid #e75a00;
+      border-radius: 10px;
+      padding: 14px;
+      background: #111827;
     }
-    .cb-section:first-of-type { border-top: none; padding-top: 0; }
+    .cb-section:first-of-type { border-top: 1px solid #334155; padding-top: 14px; }
     .cb-section-title {
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 700;
-      color: #94a3b8;
+      color: #f3f4f6;
       text-transform: uppercase;
       letter-spacing: 0.6px;
       margin-bottom: 14px;
@@ -1169,12 +1255,12 @@
       margin-bottom: 14px;
     }
     .cb-field label {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
-      color: #334155;
+      color: #e5e7eb;
     }
     .cb-field .cb-hint {
-      font-size: 11px;
+      font-size: 14px;
       color: #94a3b8;
       margin-top: -2px;
     }
@@ -1182,9 +1268,9 @@
       padding: 10px 12px;
       border: 1.5px solid #cbd5e1;
       border-radius: 8px;
-      font-size: 13px;
-      color: #0f172a;
-      background: #fff;
+      font-size: 16px;
+      color: #f8fafc;
+      background: #0f172a;
       width: 100%;
       font-family: inherit;
       transition: border-color 0.15s;
@@ -1222,20 +1308,23 @@
     /* Output area */
     .cb-output-section {
       margin-top: 24px;
-      border-top: 2px solid #e75a00;
-      padding-top: 20px;
+      border: 1px solid #334155;
+      border-left: 3px solid #e75a00;
+      border-radius: 10px;
+      padding: 16px;
+      background: #111827;
     }
     .cb-output-title {
       font-size: 13px;
       font-weight: 700;
-      color: #e75a00;
+      color: #f3f4f6;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       margin-bottom: 16px;
     }
     .cb-output-block {
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
+      background: #0f172a;
+      border: 1.5px solid #334155;
       border-radius: 10px;
       padding: 16px;
       margin-bottom: 16px;
@@ -1260,16 +1349,33 @@
       font-weight: 700;
     }
     .cb-output-text {
-      font-size: 13px;
+      font-size: 16px;
       line-height: 1.6;
-      color: #1e293b;
+      color: #e5e7eb;
       white-space: pre-wrap;
       font-family: inherit;
       min-height: 40px;
+      background: #162130;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 10px 12px;
     }
     .cb-output-text.empty {
       color: #94a3b8;
       font-style: italic;
+    }
+    .cb-ai-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .cb-ai-panel {
+      display: none;
+    }
+    .cb-ai-panel.visible {
+      display: block;
     }
     .cb-copy-row {
       display: flex;
@@ -1312,11 +1418,11 @@
       flex-wrap: wrap;
       margin-top: 20px;
       padding-top: 16px;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #334155;
       position: sticky;
       bottom: 6px;
       z-index: 8;
-      background: rgba(249,250,255,0.95);
+      background: rgba(17,24,39,0.95);
       border-radius: 10px;
       padding: 12px 10px 10px;
       box-shadow: 0 6px 18px rgba(15,23,42,0.12);
@@ -1371,18 +1477,18 @@
     /* Saved templates section */
     .cb-saved-section {
       margin-top: 24px;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #334155;
       padding-top: 18px;
     }
     .cb-saved-title {
       font-size: 13px;
       font-weight: 700;
-      color: #334155;
+      color: #e5e7eb;
       margin-bottom: 12px;
     }
     .cb-saved-item {
-      background: #f8fafc;
-      border: 1.5px solid #e2e8f0;
+      background: #0f172a;
+      border: 1.5px solid #334155;
       border-radius: 8px;
       padding: 12px 14px;
       margin-bottom: 10px;
@@ -1393,12 +1499,12 @@
     .cb-saved-item-name {
       font-size: 14px;
       font-weight: 700;
-      color: #0f172a;
+      color: #f9fafb;
       margin-bottom: 4px;
     }
     .cb-saved-item-meta {
       font-size: 12px;
-      color: #64748b;
+      color: #94a3b8;
     }
     .cb-saved-item-actions {
       display: flex;
@@ -1444,6 +1550,7 @@
     .help-head {
       font-weight: 700;
       margin-top: 14px;
+      font-size: 14px;
     }
 
     .help-head:first-child {
@@ -1453,6 +1560,13 @@
     .help-text {
       font-weight: 400;
       margin: 6px 0 0;
+      font-size: 14px;
+    }
+
+    input,
+    select,
+    textarea {
+      font-size: 16px;
     }
 
     footer {
@@ -1634,16 +1748,7 @@
     <button class="menu-item" data-key="Favourites">Favourites</button>
     <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
     <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
-    <div style="flex:1;"></div>
-    <button class="menu-item" id="feedbackNavBtn">Feedback form</button>
-    <button class="menu-item menu-item-logout" id="logoutBtn">Log out</button>
-  </nav>
-
-  <main>
-    <div class="page-title" id="pageTitle"></div>
-    <div class="page-help" id="pageHelp"></div>
-
-    <div class="global-inputs">
+    <div class="global-inputs" aria-label="Default prompt settings">
       <div class="global-field">
         <label for="globalFirstName">Your First Name</label>
         <input type="text" id="globalFirstName" placeholder="e.g. John" autocomplete="given-name" />
@@ -1656,6 +1761,14 @@
         <button type="button" class="reset-defaults-btn" id="resetDefaultsBtn">Reset defaults</button>
       </div>
     </div>
+    <div style="flex:1;"></div>
+    <button class="menu-item" id="feedbackNavBtn">Feedback form</button>
+    <button class="menu-item menu-item-logout" id="logoutBtn">Log out</button>
+  </nav>
+
+  <main>
+    <div class="page-title" id="pageTitle"></div>
+    <div class="page-help" id="pageHelp"></div>
 
     <div class="grid" id="cardGrid"></div>
   </main>
@@ -3019,7 +3132,7 @@
     function getUsageMetrics() {
       const stats = readUsageStats();
       const totalWorkUnits = (stats.aiRuns * 2.2) + (stats.cardsBuilt * 3.4);
-      const score = Math.max(0, Math.min(100, Math.round(22 + (Math.log1p(totalWorkUnits) * 19))));
+      const momentum = Math.max(1, Math.round(totalWorkUnits));
       const minutesSaved = Math.round((stats.aiRuns * 3.2) + (stats.cardsBuilt * 1.6));
       const hours = Math.floor(minutesSaved / 60);
       const mins = minutesSaved % 60;
@@ -3045,19 +3158,19 @@
       const delta = Math.round(todayUnits - yesterdayUnits);
 
       let trendClass = "flat";
-      let trendText = "↔ Flat vs yesterday";
+      let trendText = "Steady pace. Keep it rolling.";
       if (delta > 0) {
         trendClass = "up";
-        trendText = "↗ +" + delta + " vs yesterday";
+        trendText = "Nice work — +" + delta + " actions vs yesterday.";
       } else if (delta < 0) {
-        trendClass = "down";
-        trendText = "↘ " + delta + " vs yesterday";
+        trendClass = "flat";
+        trendText = "Fresh start today — your next run adds momentum.";
       }
 
       return {
         aiRuns: stats.aiRuns,
         cardsBuilt: stats.cardsBuilt,
-        score,
+        momentum,
         timeSavedLabel,
         trendClass,
         trendText
@@ -4137,9 +4250,11 @@
 
       body.innerHTML = `
         <div class="cb-wrapper">
+          <div class="cb-layout">
+            <div class="cb-form-col">
 
           <!-- SECTION 1: The Task -->
-          <div class="cb-section" style="border-top:none; padding-top:0;">
+          <div class="cb-section">
             <div class="cb-section-title">The Task</div>
             <div class="cb-field">
               <label for="cb-problem">Problem to solve <span style="color:#e75a00">*</span></label>
@@ -4214,6 +4329,8 @@
           </div>
 
           <!-- OUTPUT SECTION -->
+          </div>
+          <div class="cb-output-col">
           <div class="cb-output-section">
             <div class="cb-output-title">✦ Generated Outputs</div>
 
@@ -4230,28 +4347,34 @@
                 <span class="cb-badge">Paste into ChatGPT or Claude</span>
               </div>
               <div class="cb-output-text empty" id="cb-oneoff-text">Fill in the fields above to generate your prompt...</div>
-
-              <div class="ai-response-area" id="cb-ai-response-area">
-                <div class="ai-sent-wrap" id="cb-ai-sent-wrap">
-                  <div class="ai-sent-label">Sent prompt</div>
-                  <div class="ai-sent-prompt-text" id="cb-ai-sent-prompt"></div>
-                </div>
-                <div class="ai-response-header">
-                  <div class="ai-response-label" id="cb-ai-response-label"><span class="ai-dot"></span>AI Response</div>
-                  <button type="button" class="ai-copy-result-btn" id="cb-copy-ai-result">Copy result</button>
-                </div>
-                <div class="ai-response-text" id="cb-ai-response-text"></div>
-                <div class="ai-error-msg" id="cb-ai-error-msg"></div>
+              <div class="cb-ai-controls">
+                <button type="button" class="ai-preview-btn" id="cb-preview-btn">Preview prompt</button>
+                <button type="button" class="ai-run-now-btn" id="cb-open-run-btn">✦ Run with AI</button>
               </div>
 
-              <div class="ai-chat-composer">
-                <div class="ai-chat-head">Prompt to AI</div>
-                <textarea class="ai-chat-input" id="cb-ai-composer" rows="6" placeholder="Your prompt will appear here..."></textarea>
-                <div class="copy-row">
-                  <button type="button" class="copy-btn" id="cb-copy-oneoff">Copy prompt</button>
-                  <button type="button" class="ai-run-btn" id="cb-run-ai-btn">
-                    <span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>
-                  </button>
+              <div class="cb-ai-panel" id="cb-ai-panel">
+                <div class="ai-response-area" id="cb-ai-response-area">
+                  <div class="ai-sent-wrap" id="cb-ai-sent-wrap">
+                    <div class="ai-sent-label">Sent prompt</div>
+                    <div class="ai-sent-prompt-text" id="cb-ai-sent-prompt"></div>
+                  </div>
+                  <div class="ai-response-header">
+                    <div class="ai-response-label" id="cb-ai-response-label"><span class="ai-dot"></span>AI Response</div>
+                    <button type="button" class="ai-copy-result-btn" id="cb-copy-ai-result">Copy result</button>
+                  </div>
+                  <div class="ai-response-text" id="cb-ai-response-text"></div>
+                  <div class="ai-error-msg" id="cb-ai-error-msg"></div>
+                </div>
+
+                <div class="ai-chat-composer" id="cb-ai-composer-wrap">
+                  <div class="ai-chat-head">Prompt to AI</div>
+                  <textarea class="ai-chat-input" id="cb-ai-composer" rows="6" placeholder="Your prompt will appear here..."></textarea>
+                  <div class="copy-row">
+                    <button type="button" class="copy-btn" id="cb-copy-oneoff">Copy prompt</button>
+                    <button type="button" class="ai-run-btn" id="cb-run-ai-btn">
+                      <span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -4278,6 +4401,8 @@
               <button type="button" class="cb-submit-btn" id="cb-submit-btn">📤 Submit this idea</button>
             </div>
             <div class="cb-toast" id="cb-toast"></div>
+          </div>
+          </div>
           </div>
 
           <!-- SAVED TEMPLATES -->
@@ -4312,6 +4437,10 @@
       const suggestedList = $("cb-suggested-list");
       const toastEl       = $("cb-toast");
       const savedListEl   = $("cb-saved-list");
+      const cbAiPanel = $("cb-ai-panel");
+      const cbPreviewBtn = $("cb-preview-btn");
+      const cbOpenRunBtn = $("cb-open-run-btn");
+      const cbAiComposerWrap = $("cb-ai-composer-wrap");
       const cbAiComposerEl = $("cb-ai-composer");
       const cbAiRunBtn = $("cb-run-ai-btn");
       const cbAiResponseArea = $("cb-ai-response-area");
@@ -4341,6 +4470,22 @@
       cbAiComposerEl.dataset.lastAuto = "";
       cbAiComposerEl.addEventListener("input", () => {
         cbAiComposerEl.dataset.userEdited = "true";
+      });
+      const revealCbAiPanel = (openResponse) => {
+        cbAiPanel.classList.add("visible");
+        cbAiComposerWrap.classList.add("visible");
+        if (openResponse) {
+          cbAiResponseArea.classList.add("visible");
+        }
+      };
+      cbPreviewBtn?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        revealCbAiPanel(false);
+      });
+      cbOpenRunBtn?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        revealCbAiPanel(true);
+        cbAiRunBtn.click();
       });
 
       function getOneoffPromptText() {
@@ -4893,7 +5038,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
         why: "Use this page to get practical outputs fast.",
         how: "Open a card, copy the prompt, and fill in the brackets."
       };
-      helpEl.innerHTML = "<div class=\"help-block\"><div class=\"help-head\">Why this matters</div><div class=\"help-text\">" + c.why + "</div><div class=\"help-head\">How to use this page</div><div class=\"help-text\">" + c.how + "</div></div>";
+      if (current === "Home") {
+        helpEl.innerHTML = "";
+        helpEl.style.display = "none";
+      } else {
+        helpEl.style.display = "";
+        helpEl.innerHTML = "<details class=\"help-details\"><summary>ℹ️ About this category</summary><div class=\"help-block\"><div class=\"help-head\">What this page helps with</div><div class=\"help-text\">" + c.why + "</div><div class=\"help-head\">How to use this page</div><div class=\"help-text\">" + c.how + "</div></div></details>";
+      }
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
       const cardRefreshers = [];
@@ -4917,8 +5068,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
             <p>AdvisaStacks helps tradies and small business owners draft practical messages faster using guided prompt cards.</p>
             <div class="home-score-card">
               <div class="home-score-head">
-                <div class="home-score-value">${usage.score}</div>
-                <div class="home-score-max">/100 Productivity score</div>
+                <div class="home-score-value">${usage.momentum}</div>
+                <div class="home-score-max">Momentum points</div>
               </div>
               <div class="home-score-trend ${usage.trendClass}">${usage.trendText}</div>
             </div>
@@ -5320,7 +5471,12 @@ $("cb-submit-btn").addEventListener("click", async () => {
                     radio.name = groupName;
                     radio.value = opt;
                     radio.addEventListener("change", () => {
-                      if (customInputRef) customInputRef.classList.remove("active");
+                      if (customInputRef) {
+                        customInputRef.classList.remove("active");
+                        customInputRef.hidden = true;
+                        customInputRef.disabled = true;
+                        customInputRef.value = "";
+                      }
                       handleSelect(opt);
                     });
                     const span = document.createElement("span");
@@ -5341,9 +5497,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
                   textInput.type = "text";
                   textInput.className = "custom-input";
                   textInput.placeholder = "Type custom option...";
+                  textInput.hidden = true;
+                  textInput.disabled = true;
                   customInputRef = textInput;
                   radioOther.addEventListener("change", () => {
                     textInput.classList.add("active");
+                    textInput.hidden = false;
+                    textInput.disabled = false;
                     textInput.focus();
                     handleSelect(textInput.value || `[${qi.label}]`);
                   });
@@ -5501,8 +5661,21 @@ $("cb-submit-btn").addEventListener("click", async () => {
           const globalPrefix = getGlobalPromptPrefix();
           pre.textContent = globalPrefix + initialText;
 
+          label.style.display = "none";
           pre.style.display = "none";
           pre.setAttribute("aria-hidden", "true");
+          const previewActions = document.createElement("div");
+          previewActions.className = "ai-preview-actions";
+          const previewBtn = document.createElement("button");
+          previewBtn.type = "button";
+          previewBtn.className = "ai-preview-btn";
+          previewBtn.textContent = "Preview prompt";
+          const runNowBtn = document.createElement("button");
+          runNowBtn.type = "button";
+          runNowBtn.className = "ai-run-now-btn";
+          runNowBtn.textContent = "✦ Run with AI";
+          previewActions.appendChild(previewBtn);
+          previewActions.appendChild(runNowBtn);
 
           // Response area (shown above the chat composer)
           const responseArea = document.createElement("div");
@@ -5594,6 +5767,22 @@ $("cb-submit-btn").addEventListener("click", async () => {
           runBtn.type = "button";
           runBtn.className = "ai-run-btn";
           runBtn.innerHTML = `<span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>`;
+          const revealAiPanel = () => {
+            label.style.display = "";
+            pre.style.display = "block";
+            pre.setAttribute("aria-hidden", "false");
+            composerWrap.classList.add("visible");
+          };
+          previewBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            revealAiPanel();
+          });
+          runNowBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            revealAiPanel();
+            responseArea.classList.add("visible");
+            runBtn.click();
+          });
 
           copyResultBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -5700,6 +5889,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           composerWrap.appendChild(bottomBtnRow);
           block.appendChild(label);
           block.appendChild(pre);
+          block.appendChild(previewActions);
           block.appendChild(responseArea);
           block.appendChild(composerWrap);
           body.appendChild(block);
