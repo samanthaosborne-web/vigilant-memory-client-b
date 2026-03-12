@@ -195,7 +195,7 @@
       margin: 0 auto;
       padding: 12px 18px 8px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
     .desktop-nav-group {
@@ -218,9 +218,12 @@
     }
     .desktop-nav-items {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 6px;
       align-content: start;
+    }
+    .desktop-nav-items.tools {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .desktop-nav-btn {
       border: 1px solid #475569;
@@ -412,99 +415,41 @@
       display: grid;
       gap: 16px;
     }
-    .home-setup-wrap {
+    .home-task-grid {
       display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 10px;
-      justify-items: center;
-      text-align: center;
-      background: #111827;
-      border: 1px solid #334155;
-      border-left: 3px solid #e75a00;
-      border-radius: 10px;
-      padding: 12px;
     }
-    .home-setup-main-btn {
-      background: #e75a00;
-      border: 1px solid #e75a00;
-      color: #fff;
-      border-radius: 10px;
-      font: inherit;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      min-width: min(90%, 340px);
-      padding: 16px 20px;
-      cursor: pointer;
-    }
-    .home-setup-update-btn,
-    .home-setup-submit-btn {
-      background: #e75a00;
-      border: 1px solid #e75a00;
-      color: #fff;
-      border-radius: 10px;
-      font: inherit;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: 0.02em;
-      padding: 10px 16px;
-      cursor: pointer;
-    }
-    .home-setup-main-btn:hover,
-    .home-setup-update-btn:hover,
-    .home-setup-submit-btn:hover {
-      filter: brightness(0.96);
-    }
-    .home-setup-form {
-      width: 100%;
-      max-width: 620px;
-      display: grid;
+    .home-secondary-row {
+      display: flex;
       gap: 8px;
-      text-align: left;
+      flex-wrap: wrap;
     }
-    .home-setup-form[hidden],
-    .home-setup-main-btn[hidden],
-    .home-setup-update-btn[hidden] {
-      display: none !important;
+    .home-secondary-row .home-cta-btn {
+      padding: 8px 12px;
+      font-size: 13px;
     }
-    .home-setup-instruction {
-      margin: 0 0 2px;
-      color: #cbd5e1;
+    .home-subcopy {
+      margin: 0;
+      color: #94a3b8;
       font-size: 14px;
       line-height: 1.45;
     }
-    .home-setup-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-    }
-    .home-setup-field {
-      display: grid;
-      gap: 6px;
-    }
-    .home-setup-field label {
-      font-size: 14px;
-      font-weight: 700;
-      color: #cbd5e1;
-    }
-    .home-setup-input {
-      width: 100%;
-      border: 1px solid #475569;
-      background: #0f172a;
-      color: #f8fafc;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 16px;
-      font-family: inherit;
-    }
-    @media (max-width: 640px) {
-      .home-setup-grid {
+    @media (max-width: 980px) {
+      .desktop-nav {
         grid-template-columns: 1fr;
       }
+      .desktop-nav-items {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .home-task-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
-    .home-task-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 10px;
+    @media (max-width: 640px) {
+      .home-task-grid {
+        grid-template-columns: 1fr;
+      }
     }
     .home-task-btn {
       border: 1px solid #334155;
@@ -559,76 +504,6 @@
     }
     .home-cta-btn:hover {
       filter: brightness(0.96);
-    }
-    .home-dashboard {
-      margin-top: 2px;
-      border: 1px solid #334155;
-      border-radius: 10px;
-      background: #111827;
-      padding: 10px 12px;
-    }
-    .home-dashboard summary {
-      cursor: pointer;
-      color: #cbd5e1;
-      font-size: 14px;
-      font-weight: 700;
-    }
-    .home-dashboard[open] summary {
-      color: #f8fafc;
-      margin-bottom: 10px;
-    }
-    .home-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 10px;
-    }
-    .home-score-card {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-left: 3px solid var(--accent);
-      border-radius: 10px;
-      padding: 10px 12px;
-      display: grid;
-      gap: 4px;
-    }
-    .home-score-head {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-    .home-score-value {
-      font-size: 30px;
-      line-height: 1;
-      font-weight: 800;
-      font-family: var(--font-heading);
-    }
-    .home-score-max {
-      font-size: 14px;
-      color: #cbd5e1;
-      font-weight: 600;
-    }
-    .home-score-trend {
-      font-size: 14px;
-      font-weight: 600;
-    }
-    .home-score-trend.up { color: #86efac; }
-    .home-score-trend.flat { color: #cbd5e1; }
-    .home-stat-card {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: var(--radius-md);
-      padding: 10px 12px;
-    }
-    .home-stat-label {
-      font-size: 14px;
-      color: #94a3b8;
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-    .home-stat-value {
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.1;
     }
     .workspace-grid {
       display: grid;
@@ -743,6 +618,53 @@
       justify-content: flex-end;
       gap: 8px;
       margin-top: 14px;
+    }
+    .app-settings {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 30020;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(15,23,42,0.44);
+      backdrop-filter: blur(2px);
+    }
+    .app-settings.open { display: flex; }
+    .app-settings-dialog {
+      width: min(560px, 100%);
+      background: #111827;
+      color: #f8fafc;
+      border: 1px solid #334155;
+      border-radius: 14px;
+      box-shadow: var(--shadow-lg);
+      padding: 16px;
+    }
+    .app-settings-title {
+      margin: 0 0 6px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+    .app-settings-sub {
+      margin: 0 0 10px;
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .app-settings-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .app-settings-actions .cb-submit-btn {
+      background: #e75a00;
+      border-color: #e75a00;
+      color: #fff;
+    }
+    .app-settings-actions .cb-submit-btn:hover {
+      filter: brightness(0.95);
     }
 
     /* Global Inputs */
@@ -1944,76 +1866,62 @@
   </header>
   <nav class="desktop-nav" aria-label="Primary navigation">
     <section class="desktop-nav-group">
-      <div class="desktop-nav-label">Get the Job</div>
+      <div class="desktop-nav-label">Primary jobs</div>
       <div class="desktop-nav-items">
         <button class="desktop-nav-btn" data-key="Home">Home</button>
-        <button class="desktop-nav-btn" data-key="Winning Work">💬 Winning Work</button>
+        <button class="desktop-nav-btn" data-key="Win Work">Win Work</button>
+        <button class="desktop-nav-btn" data-key="Manage Jobs">Manage Jobs</button>
+        <button class="desktop-nav-btn" data-key="Get Paid">Get Paid</button>
+        <button class="desktop-nav-btn" data-key="Grow the Business">Grow the Business</button>
       </div>
     </section>
     <section class="desktop-nav-group">
-      <div class="desktop-nav-label">Manage the Job</div>
-      <div class="desktop-nav-items">
-        <button class="desktop-nav-btn" data-key="Job Updates">Job Updates</button>
-        <button class="desktop-nav-btn" data-key="Fix My Message">Fix My Message</button>
-      </div>
-    </section>
-    <section class="desktop-nav-group">
-      <div class="desktop-nav-label">Get Paid</div>
-      <div class="desktop-nav-items">
-        <button class="desktop-nav-btn" data-key="Getting Paid">💸 Getting Paid</button>
-      </div>
-    </section>
-    <section class="desktop-nav-group">
-      <div class="desktop-nav-label">Grow the Business</div>
-      <div class="desktop-nav-items">
-        <button class="desktop-nav-btn" data-key="Reviews & Referrals">⭐ Reviews</button>
-        <button class="desktop-nav-btn" data-key="Get More Enquiries">Enquiries</button>
-      </div>
-    </section>
-    <section class="desktop-nav-group">
-      <div class="desktop-nav-label">Workspace</div>
-      <div class="desktop-nav-items">
-        <button class="desktop-nav-btn" data-key="Workspace">Workspace tools</button>
-        <button class="desktop-nav-btn" data-key="Templates">Templates</button>
-        <button class="desktop-nav-btn" data-key="Custom Builder">🛠 Build Your Own</button>
+      <div class="desktop-nav-label">Your tools</div>
+      <div class="desktop-nav-items tools">
+        <button class="desktop-nav-btn" data-key="Saved tools">Saved tools</button>
+        <button class="desktop-nav-btn" data-key="Build Your Own">Build Your Own</button>
       </div>
     </section>
   </nav>
 
   <div class="menu-backdrop" id="menuBackdrop"></div>
   <nav class="menu-panel" id="menuPanel" aria-label="Categories" aria-hidden="true">
-    <h2 class="nav-categories">Get the Job</h2>
+    <h2 class="nav-categories">Primary jobs</h2>
     <button class="menu-item active" data-key="Home">Home</button>
-    <button class="menu-item" data-key="Winning Work">Winning Work</button>
-    <h2 class="nav-categories">Manage the Job</h2>
-    <button class="menu-item" data-key="Job Updates">Job Updates</button>
-    <button class="menu-item" data-key="Fix My Message">Fix My Message</button>
-    <h2 class="nav-categories">Get Paid</h2>
-    <button class="menu-item" data-key="Getting Paid">Getting Paid</button>
-    <h2 class="nav-categories">Grow the Business</h2>
-    <button class="menu-item" data-key="Reviews & Referrals">Reviews & Referrals</button>
-    <button class="menu-item" data-key="Get More Enquiries">Get More Enquiries</button>
-    <h2 class="nav-categories">Workspace</h2>
-    <button class="menu-item" data-key="Workspace">Workspace tools</button>
-    <button class="menu-item" data-key="Templates">Templates</button>
-    <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
-    <div class="global-inputs" aria-label="Default prompt settings">
-      <div class="global-field">
-        <label for="globalFirstName">Your First Name</label>
-        <input type="text" id="globalFirstName" placeholder="e.g. John" autocomplete="given-name" />
-      </div>
-      <div class="global-field">
-        <label for="globalBizName">Business Name</label>
-        <input type="text" id="globalBizName" placeholder="e.g. Smith Plumbing" autocomplete="organization" />
-      </div>
-      <div class="global-actions">
-        <button type="button" class="reset-defaults-btn" id="resetDefaultsBtn">Reset defaults</button>
-      </div>
-    </div>
+    <button class="menu-item" data-key="Win Work">Win Work</button>
+    <button class="menu-item" data-key="Manage Jobs">Manage Jobs</button>
+    <button class="menu-item" data-key="Get Paid">Get Paid</button>
+    <button class="menu-item" data-key="Grow the Business">Grow the Business</button>
+    <h2 class="nav-categories">Your tools</h2>
+    <button class="menu-item" data-key="Saved tools">Saved tools</button>
+    <button class="menu-item" data-key="Build Your Own">Build Your Own</button>
     <div style="flex:1;"></div>
+    <h2 class="nav-categories">Account</h2>
     <button class="menu-item" id="feedbackNavBtn">Feedback form</button>
+    <button class="menu-item" id="menuSettingsBtn">Settings</button>
     <button class="menu-item menu-item-logout" id="logoutBtn">Log out</button>
   </nav>
+
+  <div class="app-settings" id="appSettings" aria-hidden="true">
+    <div class="app-settings-dialog" role="dialog" aria-modal="true" aria-labelledby="appSettingsTitle">
+      <h3 class="app-settings-title" id="appSettingsTitle">Business defaults</h3>
+      <p class="app-settings-sub">Set these once and they will auto-fill prompt context everywhere.</p>
+      <div class="global-inputs" aria-label="Default prompt settings">
+        <div class="global-field">
+          <label for="globalFirstName">Your First Name</label>
+          <input type="text" id="globalFirstName" placeholder="e.g. John" autocomplete="given-name" />
+        </div>
+        <div class="global-field">
+          <label for="globalBizName">Business Name</label>
+          <input type="text" id="globalBizName" placeholder="e.g. Smith Plumbing" autocomplete="organization" />
+        </div>
+      </div>
+      <div class="app-settings-actions">
+        <button type="button" class="cb-submit-btn" id="resetDefaultsBtn">Reset defaults</button>
+        <button type="button" class="cb-submit-btn" id="appSettingsCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
 
   <main>
     <div class="page-title" id="pageTitle"></div>
@@ -3372,54 +3280,6 @@
       writeUsageStats(stats);
     }
 
-    function getUsageMetrics() {
-      const stats = readUsageStats();
-      const totalWorkUnits = (stats.aiRuns * 2.2) + (stats.cardsBuilt * 3.4);
-      const momentum = Math.max(1, Math.round(totalWorkUnits));
-      const minutesSaved = Math.round((stats.aiRuns * 3.2) + (stats.cardsBuilt * 1.6));
-      const hours = Math.floor(minutesSaved / 60);
-      const mins = minutesSaved % 60;
-      const timeSavedLabel = hours > 0 ? (hours + "h " + mins + "m") : (mins + "m");
-
-      const today = new Date();
-      const todayKey = [
-        today.getFullYear(),
-        String(today.getMonth() + 1).padStart(2, "0"),
-        String(today.getDate()).padStart(2, "0")
-      ].join("-");
-      const y = new Date(today);
-      y.setDate(y.getDate() - 1);
-      const yesterdayKey = [
-        y.getFullYear(),
-        String(y.getMonth() + 1).padStart(2, "0"),
-        String(y.getDate()).padStart(2, "0")
-      ].join("-");
-      const todayData = stats.byDay[todayKey] || { aiRuns: 0, cardsBuilt: 0 };
-      const yesterdayData = stats.byDay[yesterdayKey] || { aiRuns: 0, cardsBuilt: 0 };
-      const todayUnits = (todayData.aiRuns * 2.2) + (todayData.cardsBuilt * 3.4);
-      const yesterdayUnits = (yesterdayData.aiRuns * 2.2) + (yesterdayData.cardsBuilt * 3.4);
-      const delta = Math.round(todayUnits - yesterdayUnits);
-
-      let trendClass = "flat";
-      let trendText = "Steady pace. Keep it rolling.";
-      if (delta > 0) {
-        trendClass = "up";
-        trendText = "Nice work — +" + delta + " actions vs yesterday.";
-      } else if (delta < 0) {
-        trendClass = "flat";
-        trendText = "Fresh start today — your next run adds momentum.";
-      }
-
-      return {
-        aiRuns: stats.aiRuns,
-        cardsBuilt: stats.cardsBuilt,
-        momentum,
-        timeSavedLabel,
-        trendClass,
-        trendText
-      };
-    }
-
     function ensureUiOverlays() {
       let toastStack = document.getElementById("appToastStack");
       if (!toastStack) {
@@ -3543,12 +3403,29 @@
       document.body.removeChild(ta);
     }
 
+    function resolveRouteKey(key) {
+      if (key === "Win Work") return "Winning Work";
+      if (key === "Get Paid") return "Getting Paid";
+      return key;
+    }
+
+    function isMenuKeyActive(key) {
+      if (key === current) return true;
+      if (key === "Win Work" && current === "Winning Work") return true;
+      if (key === "Get Paid" && current === "Getting Paid") return true;
+      if (key === "Manage Jobs" && (current === "Manage Jobs" || current === "Job Updates" || current === "Fix My Message")) return true;
+      if (key === "Grow the Business" && (current === "Grow the Business" || current === "Reviews & Referrals" || current === "Get More Enquiries")) return true;
+      if (key === "Build Your Own" && (current === "Build Your Own" || current === "Custom Builder" || current === "Templates")) return true;
+      if (key === "Saved tools" && current === "Saved tools") return true;
+      return false;
+    }
+
     function buildMenu() {
       document.querySelectorAll(".menu-item").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.key === current);
+        btn.classList.toggle("active", isMenuKeyActive(btn.dataset.key));
       });
       document.querySelectorAll(".desktop-nav-btn").forEach((btn) => {
-        btn.classList.toggle("active", btn.dataset.key === current);
+        btn.classList.toggle("active", isMenuKeyActive(btn.dataset.key));
       });
     }
 
@@ -4163,7 +4040,7 @@
       render(); // Refresh the UI to update the ★ button state
     }
 
-    // 6. Builds the category-to-card index used by Workspace
+    // 6. Builds the category-to-card index used by Saved tools
     function buildPromptLibraryData() {
       return Object.keys(APP).map(category => ({
         category: category,
@@ -4863,7 +4740,12 @@ $("cb-submit-btn").addEventListener("click", async () => {
     }
 
     function render() {
-      document.getElementById("pageTitle").textContent = current === "Home" ? "Choose a task" : (APP[current] ? APP[current].title : current);
+      const pageTitleLookup = {
+        "Home": "Choose a task",
+        "Winning Work": "Win Work",
+        "Getting Paid": "Get Paid"
+      };
+      document.getElementById("pageTitle").textContent = pageTitleLookup[current] || (APP[current] ? APP[current].title : current);
       const helpEl = document.getElementById("pageHelp");
       const pageControlsEl = document.getElementById("pageControls");
       const copy = {
@@ -4872,36 +4754,56 @@ $("cb-submit-btn").addEventListener("click", async () => {
           how: "Start with a category, fill in the card fields, review the prompt preview, then run with AI and copy the final result."
         },
         "Winning Work": {
-          why: "Winning work is mainly speed and clarity. Fast follow up, clear options, and confident replies stop leads going cold and protect margin.",
+          why: "Win more quotes with faster follow-ups and clearer client replies.",
           how: "Open a card, pick the quick inputs, fill the brackets, then copy the prompt into your AI chatbot. Save the best outputs as templates in your system."
         },
         "Job Updates": {
-          why: "Clear updates keep customers happy, reduce phone calls, and stop small issues turning into big complaints.",
+          why: "Send clearer job updates to reduce confusion and unnecessary call-backs.",
           how: "Pick the situation, type your details, copy the prompt, paste it into ChatGPT, and send the message."
         },
         "Getting Paid": {
-          why: "Cashflow keeps the doors open. Clear payment messages reduce excuses, speed up payments, and stop awkward back-and-forth.",
+          why: "Protect cashflow with payment messages that are firm, clear, and professional.",
           how: "Pick the situation, type the details, copy the prompt, paste into ChatGPT, send the message."
         },
         "Reviews & Referrals": {
-          why: "Reviews win jobs. Referrals are the easiest leads you’ll ever get. This page helps you ask without sounding awkward.",
+          why: "Ask for reviews and referrals in a way that feels natural and gets responses.",
           how: "Pick the situation, type your details, copy the prompt, paste into ChatGPT, send."
         },
         "Get More Enquiries": {
-          why: "Most tradies rely on word of mouth. A few simple posts and messages can bring in steady enquiries without spending money on ads.",
+          why: "Generate more enquiries with practical outreach and posting prompts.",
           how: "Pick the situation, type your details, copy the prompt, paste into ChatGPT, and post."
         },
         "Fix My Message": {
-          why: "If AI sounds weird, fix it fast so your message stays clear and professional.",
+          why: "Clean up awkward drafts fast so your final message sounds clear and on-brand.",
           how: "Paste your draft (or AI output), copy the prompt, paste into ChatGPT, and use the improved version."
         },
         "Templates": {
           why: "Custom templates ensure your AI outputs match your business exactly every time.",
           how: "Add items and fill out the structured form below and we will build the perfect context prompt."
         },
-        "Workspace": {
-          why: "Use Workspace tools to find saved cards fast and jump through the full prompt index.",
-          how: "Use Saved only on any category, then open Workspace when you need your saved list and library links in one place."
+        "Win Work": {
+          why: "Use this area to win more work with clear, fast replies.",
+          how: "Select a card, fill details, run with AI, and send."
+        },
+        "Manage Jobs": {
+          why: "Use this area to keep active jobs running smoothly.",
+          how: "Pick the workflow tile that matches your current situation."
+        },
+        "Get Paid": {
+          why: "Use this area to keep cashflow moving with clear payment messages.",
+          how: "Open a card, add details, and send a polished payment prompt."
+        },
+        "Grow the Business": {
+          why: "Use this area to generate reviews, referrals, and enquiries.",
+          how: "Choose a growth workflow, then send the generated message."
+        },
+        "Saved tools": {
+          why: "Access your saved cards and prompt index quickly.",
+          how: "Jump straight into saved cards or browse titles by category."
+        },
+        "Build Your Own": {
+          why: "Create and manage your custom tools.",
+          how: "Use Custom Builder for flexible workflows or Templates for structured docs."
         },
         "Custom Builder": {
           why: "Build your own reusable prompt templates for any recurring task — not just the ones we've built for you.",
@@ -4912,7 +4814,15 @@ $("cb-submit-btn").addEventListener("click", async () => {
         why: "Use this page to get practical outputs fast.",
         how: "Open a card, copy the prompt, and fill in the brackets."
       };
-      const canShowSavedFilter = !!APP[current] && !["Home", "Workspace", "Custom Builder"].includes(current);
+      const filterEligibleCategories = [
+        "Winning Work",
+        "Job Updates",
+        "Fix My Message",
+        "Getting Paid",
+        "Reviews & Referrals",
+        "Get More Enquiries"
+      ];
+      const canShowSavedFilter = filterEligibleCategories.includes(current);
       pageControlsEl.innerHTML = "";
       if (canShowSavedFilter) {
         const savedFilterBtn = document.createElement("button");
@@ -4931,7 +4841,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         helpEl.style.display = "none";
       } else {
         helpEl.style.display = "";
-        helpEl.innerHTML = "<div class=\"help-text\" style=\"margin-bottom:8px; color:#cbd5e1;\">" + c.why + "</div><details class=\"help-details\"><summary>ℹ️ How to use this category</summary><div class=\"help-block\"><div class=\"help-text\">" + c.how + "</div></div></details>";
+        helpEl.innerHTML = "<div class=\"help-text\" style=\"margin-bottom:8px; color:#cbd5e1;\">" + c.why + "</div>";
       }
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
@@ -4939,150 +4849,110 @@ $("cb-submit-btn").addEventListener("click", async () => {
       let cardsToRender = APP[current] ? APP[current].cards : [];
 
       if (current === "Home") {
-        const usage = getUsageMetrics();
         const homeCard = document.createElement("section");
         homeCard.className = "card open";
         homeCard.style.gridColumn = "span 12";
-
         const homeBody = document.createElement("div");
         homeBody.className = "card-body";
         homeBody.hidden = false;
         homeBody.innerHTML = `
           <div class="home-explainer">
-            <div class="home-setup-wrap">
-              <button type="button" class="home-setup-main-btn" id="homeSetupStartBtn">START HERE</button>
-              <form class="home-setup-form" id="homeSetupForm" hidden>
-                <p class="home-setup-instruction">Enter your first name and business name. These details auto-populate every prompt.</p>
-                <div class="home-setup-grid">
-                  <div class="home-setup-field">
-                    <label for="homeSetupFirstName">Your first name</label>
-                    <input class="home-setup-input" type="text" id="homeSetupFirstName" placeholder="e.g. John" autocomplete="given-name" />
-                  </div>
-                  <div class="home-setup-field">
-                    <label for="homeSetupBizName">Business name</label>
-                    <input class="home-setup-input" type="text" id="homeSetupBizName" placeholder="e.g. Smith Plumbing" autocomplete="organization" />
-                  </div>
-                </div>
-                <button type="submit" class="home-setup-submit-btn">Submit</button>
-              </form>
-              <button type="button" class="home-setup-update-btn" id="homeSetupUpdateBtn" hidden>Update details</button>
-            </div>
+            <p class="home-kicker">The Ultimate Toolkit for Tradies.</p>
+            <p class="home-subcopy">Choose the business job you need to complete right now.</p>
             <div class="home-task-grid">
-              <button type="button" class="home-task-btn" data-nav="Winning Work">
-                <strong>💬 Winning Work</strong>
-                <span>Follow-ups, replies, and quote-winning responses.</span>
+              <button type="button" class="home-task-btn" data-nav="Win Work">
+                <strong>Win Work</strong>
+                <span>Follow-ups and lead replies that help close jobs.</span>
               </button>
-              <button type="button" class="home-task-btn" data-nav="Job Updates">
-                <strong>🧰 Manage the Job</strong>
-                <span>Clear updates for delays, access, and onsite changes.</span>
+              <button type="button" class="home-task-btn" data-nav="Manage Jobs">
+                <strong>Manage Jobs</strong>
+                <span>Customer updates and message fixes while jobs run.</span>
               </button>
-              <button type="button" class="home-task-btn" data-nav="Getting Paid">
-                <strong>💸 Getting Paid</strong>
-                <span>Payment reminders and firm but professional requests.</span>
+              <button type="button" class="home-task-btn" data-nav="Get Paid">
+                <strong>Get Paid</strong>
+                <span>Payment reminders and overdue follow-ups.</span>
               </button>
-              <button type="button" class="home-task-btn" data-nav="Reviews & Referrals">
-                <strong>⭐ Grow the Business</strong>
-                <span>Review requests, referrals, and enquiry boosters.</span>
-              </button>
-              <button type="button" class="home-task-btn" data-nav="Custom Builder">
-                <strong>🛠 Build Your Own</strong>
-                <span>Create custom workflows and reusable templates.</span>
-              </button>
-              <button type="button" class="home-task-btn" data-nav="Workspace">
-                <strong>Saved tools</strong>
-                <span>Quickly open your favourite and most-used cards.</span>
+              <button type="button" class="home-task-btn" data-nav="Grow the Business">
+                <strong>Grow the Business</strong>
+                <span>Reviews, referrals, and enquiry growth prompts.</span>
               </button>
             </div>
-            <div class="home-cta-row">
-              <button type="button" class="home-cta-btn primary" id="homeStartBtn">Start with Winning Work</button>
-              <button type="button" class="home-cta-btn" id="homeFeedbackBtn">Open Feedback Form</button>
+            <div class="home-secondary-row">
+              <button type="button" class="home-cta-btn" id="homeSavedToolsBtn">Saved tools</button>
+              <button type="button" class="home-cta-btn" id="homeBuildOwnBtn">Build Your Own</button>
             </div>
-            <details class="home-dashboard">
-              <summary>View usage dashboard</summary>
-              <div class="home-score-card">
-                <div class="home-score-head">
-                  <div class="home-score-value">${usage.momentum}</div>
-                  <div class="home-score-max">Momentum points</div>
-                </div>
-                <div class="home-score-trend ${usage.trendClass}">${usage.trendText}</div>
-              </div>
-              <div class="home-stats-grid">
-                <div class="home-stat-card">
-                  <div class="home-stat-label">AI runs</div>
-                  <div class="home-stat-value">${usage.aiRuns}</div>
-                </div>
-                <div class="home-stat-card">
-                  <div class="home-stat-label">Cards built</div>
-                  <div class="home-stat-value">${usage.cardsBuilt}</div>
-                </div>
-                <div class="home-stat-card">
-                  <div class="home-stat-label">Predicted time saved</div>
-                  <div class="home-stat-value">${usage.timeSavedLabel}</div>
-                </div>
-              </div>
-            </details>
           </div>
         `;
-
         homeBody.querySelectorAll(".home-task-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const key = btn.dataset.nav;
-            if (!key) return;
-            current = key;
-            writePrefs({ lastCategory: key, openCard: null });
-            render();
-          });
+          btn.addEventListener("click", () => navigate(btn.dataset.nav));
         });
-        const setupStartBtn = homeBody.querySelector("#homeSetupStartBtn");
-        const setupForm = homeBody.querySelector("#homeSetupForm");
-        const setupUpdateBtn = homeBody.querySelector("#homeSetupUpdateBtn");
-        const setupFirstName = homeBody.querySelector("#homeSetupFirstName");
-        const setupBizName = homeBody.querySelector("#homeSetupBizName");
-        const showSetupForm = () => {
-          setupFirstName.value = globalFirstNameInput.value.trim();
-          setupBizName.value = globalBizNameInput.value.trim();
-          setupForm.hidden = false;
-          setupStartBtn.hidden = true;
-          setupUpdateBtn.hidden = true;
-          setTimeout(() => setupFirstName.focus(), 40);
-        };
-        const showUpdateButton = () => {
-          setupForm.hidden = true;
-          setupStartBtn.hidden = true;
-          setupUpdateBtn.hidden = false;
-        };
-        const showStartButton = () => {
-          setupForm.hidden = true;
-          setupStartBtn.hidden = false;
-          setupUpdateBtn.hidden = true;
-        };
-        showStartButton();
-        setupStartBtn?.addEventListener("click", () => showSetupForm());
-        setupUpdateBtn?.addEventListener("click", () => showSetupForm());
-        setupForm?.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const f = (setupFirstName.value || "").trim();
-          const b = (setupBizName.value || "").trim();
-          if (!f || !b) {
-            showAppToast("Please enter both fields before submitting.", "err");
-            return;
-          }
-          globalFirstNameInput.value = f;
-          globalBizNameInput.value = b;
-          handleGlobalDefaultsChange();
-          showUpdateButton();
-        });
-        homeBody.querySelector("#homeStartBtn")?.addEventListener("click", () => {
-          current = "Winning Work";
-          writePrefs({ lastCategory: "Winning Work", openCard: null });
-          render();
-        });
-        homeBody.querySelector("#homeFeedbackBtn")?.addEventListener("click", () => {
-          window.location.href = "./feedback.html";
-        });
-
+        homeBody.querySelector("#homeSavedToolsBtn")?.addEventListener("click", () => navigate("Saved tools"));
+        homeBody.querySelector("#homeBuildOwnBtn")?.addEventListener("click", () => navigate("Build Your Own"));
         homeCard.appendChild(homeBody);
         grid.appendChild(homeCard);
+        promptRefreshers = [];
+        buildMenu();
+        return;
+      }
+
+      if (current === "Manage Jobs") {
+        const section = document.createElement("section");
+        section.className = "card open";
+        section.style.gridColumn = "span 12";
+        section.innerHTML = `
+          <div class="card-body" style="display:block;">
+            <p class="home-subcopy">Choose the job management workflow.</p>
+            <div class="home-secondary-row">
+              <button type="button" class="home-cta-btn" id="manageJobUpdatesBtn">Job Updates</button>
+              <button type="button" class="home-cta-btn" id="manageFixBtn">Fix My Message</button>
+            </div>
+          </div>
+        `;
+        section.querySelector("#manageJobUpdatesBtn")?.addEventListener("click", () => navigate("Job Updates"));
+        section.querySelector("#manageFixBtn")?.addEventListener("click", () => navigate("Fix My Message"));
+        grid.appendChild(section);
+        promptRefreshers = [];
+        buildMenu();
+        return;
+      }
+
+      if (current === "Grow the Business") {
+        const section = document.createElement("section");
+        section.className = "card open";
+        section.style.gridColumn = "span 12";
+        section.innerHTML = `
+          <div class="card-body" style="display:block;">
+            <p class="home-subcopy">Choose the growth workflow.</p>
+            <div class="home-secondary-row">
+              <button type="button" class="home-cta-btn" id="growReviewsBtn">Reviews & Referrals</button>
+              <button type="button" class="home-cta-btn" id="growEnquiriesBtn">Get More Enquiries</button>
+            </div>
+          </div>
+        `;
+        section.querySelector("#growReviewsBtn")?.addEventListener("click", () => navigate("Reviews & Referrals"));
+        section.querySelector("#growEnquiriesBtn")?.addEventListener("click", () => navigate("Get More Enquiries"));
+        grid.appendChild(section);
+        promptRefreshers = [];
+        buildMenu();
+        return;
+      }
+
+      if (current === "Build Your Own") {
+        const section = document.createElement("section");
+        section.className = "card open";
+        section.style.gridColumn = "span 12";
+        section.innerHTML = `
+          <div class="card-body" style="display:block;">
+            <p class="home-subcopy">Choose your build tool.</p>
+            <div class="home-secondary-row">
+              <button type="button" class="home-cta-btn" id="buildCustomBtn">Custom Builder</button>
+              <button type="button" class="home-cta-btn" id="buildTemplatesBtn">Templates</button>
+            </div>
+          </div>
+        `;
+        section.querySelector("#buildCustomBtn")?.addEventListener("click", () => navigate("Custom Builder"));
+        section.querySelector("#buildTemplatesBtn")?.addEventListener("click", () => navigate("Templates"));
+        grid.appendChild(section);
         promptRefreshers = [];
         buildMenu();
         return;
@@ -5110,13 +4980,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
         });
       }
 
-      if (current === "Workspace") {
+      if (current === "Saved tools") {
         const workspaceCard = document.createElement("section");
         workspaceCard.className = "card open";
         workspaceCard.style.gridColumn = "span 12";
         const workspaceHead = document.createElement("div");
         workspaceHead.className = "card-head";
-        workspaceHead.innerHTML = "<h3>Workspace tools</h3>";
+        workspaceHead.innerHTML = "<h3>Saved tools</h3>";
         const workspaceBody = document.createElement("div");
         workspaceBody.className = "card-body";
         workspaceBody.hidden = false;
@@ -5141,9 +5011,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         workspaceBody.querySelector("#workspaceSavedFilterBtn")?.addEventListener("click", () => {
           savedOnlyFilter = !savedOnlyFilter;
           writePrefs({ savedOnlyFilter });
-          current = "Winning Work";
-          writePrefs({ lastCategory: "Winning Work", openCard: null });
-          render();
+          navigate("Win Work");
         });
         workspaceBody.querySelector("#workspaceBuilderBtn")?.addEventListener("click", () => {
           current = "Custom Builder";
@@ -5154,7 +5022,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         const favIds = new Set(readFavourites());
         const savedList = [];
         Object.keys(APP).forEach((category) => {
-          if (["Home", "Workspace", "Custom Builder"].includes(category)) return;
+          if (["Home", "Saved tools", "Custom Builder"].includes(category)) return;
           (APP[category].cards || []).forEach((card) => {
             const cardId = getCardId(category, card.subtitle);
             if (favIds.has(cardId)) {
@@ -5194,7 +5062,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
         const libraryWrap = workspaceBody.querySelector("#workspaceLibraryList");
         buildPromptLibraryData().forEach((entry) => {
-          if (["Home", "Workspace", "Custom Builder"].includes(entry.category) || !(entry.cards || []).length) return;
+          if (["Home", "Saved tools", "Custom Builder"].includes(entry.category) || !(entry.cards || []).length) return;
           const group = document.createElement("div");
           group.className = "workspace-group";
           const title = document.createElement("div");
@@ -5912,17 +5780,20 @@ $("cb-submit-btn").addEventListener("click", async () => {
     }
 
     function navigate(key) {
-      current = key;
+      current = resolveRouteKey(key);
       writePrefs({
-        lastCategory: key
+        lastCategory: current
       });
       closeMenu();
       render();
     }
     const menuBtn = document.getElementById("menuBtn");
     const desktopSettingsBtn = document.getElementById("desktopSettingsBtn");
+    const menuSettingsBtn = document.getElementById("menuSettingsBtn");
     const menuPanel = document.getElementById("menuPanel");
     const menuBackdrop = document.getElementById("menuBackdrop");
+    const appSettings = document.getElementById("appSettings");
+    const appSettingsCloseBtn = document.getElementById("appSettingsCloseBtn");
 
     function openMenu() {
       lastMenuFocused = document.activeElement;
@@ -5931,7 +5802,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
       menuPanel.setAttribute("aria-hidden", "false");
       menuBtn.setAttribute("aria-expanded", "true");
       menuBtn.setAttribute("aria-label", "Close menu");
-      if (desktopSettingsBtn) desktopSettingsBtn.setAttribute("aria-expanded", "true");
       const firstMenuItem = menuPanel.querySelector(".menu-item");
       if (firstMenuItem) firstMenuItem.focus();
     }
@@ -5942,18 +5812,33 @@ $("cb-submit-btn").addEventListener("click", async () => {
       menuPanel.setAttribute("aria-hidden", "true");
       menuBtn.setAttribute("aria-expanded", "false");
       menuBtn.setAttribute("aria-label", "Open menu");
-      if (desktopSettingsBtn) desktopSettingsBtn.setAttribute("aria-expanded", "false");
       if (lastMenuFocused && typeof lastMenuFocused.focus === "function") {
         lastMenuFocused.focus();
       }
+    }
+    function openSettings() {
+      appSettings.classList.add("open");
+      appSettings.setAttribute("aria-hidden", "false");
+      globalFirstNameInput?.focus();
+    }
+    function closeSettings() {
+      appSettings.classList.remove("open");
+      appSettings.setAttribute("aria-hidden", "true");
     }
     menuBtn.addEventListener("click", () => {
       if (menuPanel.classList.contains("open")) closeMenu();
       else openMenu();
     });
     desktopSettingsBtn?.addEventListener("click", () => {
-      if (menuPanel.classList.contains("open")) closeMenu();
-      else openMenu();
+      openSettings();
+    });
+    menuSettingsBtn?.addEventListener("click", () => {
+      closeMenu();
+      openSettings();
+    });
+    appSettingsCloseBtn?.addEventListener("click", () => closeSettings());
+    appSettings?.addEventListener("click", (e) => {
+      if (e.target === appSettings) closeSettings();
     });
     menuBackdrop.addEventListener("click", closeMenu);
     document.addEventListener("keydown", (e) => {
@@ -5962,6 +5847,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
         if (appConfirmResolve) appConfirmResolve(false);
         appConfirmResolve = null;
         confirmModal.classList.remove("open");
+        return;
+      }
+      if (e.key === "Escape" && appSettings && appSettings.classList.contains("open")) {
+        closeSettings();
         return;
       }
       if (e.key === "Escape" && menuPanel.classList.contains("open")) {
@@ -6034,10 +5923,14 @@ $("cb-submit-btn").addEventListener("click", async () => {
     savedOnlyFilter = !!savedPrefs.savedOnlyFilter;
 
     // Restore the last visited tab if it exists
-    if (savedPrefs.lastCategory === "Favourites" || savedPrefs.lastCategory === "Prompt Library") {
-      current = "Workspace";
-    } else if (savedPrefs.lastCategory && (APP[savedPrefs.lastCategory] || savedPrefs.lastCategory === "Workspace" || savedPrefs.lastCategory === "Custom Builder")) {
-      current = savedPrefs.lastCategory;
+    const savedCategory = savedPrefs.lastCategory;
+    if (savedCategory === "Favourites" || savedCategory === "Prompt Library" || savedCategory === "Workspace") {
+      current = "Saved tools";
+    } else if (savedCategory) {
+      const resolvedSavedCategory = resolveRouteKey(savedCategory);
+      if (APP[resolvedSavedCategory] || ["Saved tools", "Manage Jobs", "Grow the Business", "Build Your Own", "Custom Builder", "Templates"].includes(resolvedSavedCategory)) {
+        current = resolvedSavedCategory;
+      }
     }
 
     // Run the first render to paint the screen
