@@ -146,6 +146,11 @@ module.exports = async (req, res) => {
 
       default:
         break;
+        export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
     }
 
     return json(res, 200, { received: true });

@@ -326,6 +326,19 @@
       color: #e75a00;
     }
 
+    .favourite-btn {
+      margin-top: 12px;
+      margin-bottom: 8px;
+      background: #313131;
+      color: #f9faff;
+      border: 0;
+      border-radius: 8px;
+      font-weight: 700;
+      padding: 8px 12px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
     .reveal-btn {
       margin-top: 14px;
       width: fit-content;
@@ -443,6 +456,44 @@
       outline-offset: 2px;
     }
 
+    /* Custom Quote Builder Styles */
+    .qb-wrapper { background: #ffffff; border-radius: 12px; padding: 24px; color: #1e293b; font-family: inherit; }
+    .qb-wrapper * { box-sizing: border-box; }
+    .qb-header { font-size: 22px; font-weight: 700; color: #0f172a; margin: 0 0 24px 0; }
+    .qb-section { margin-bottom: 24px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+    .qb-section:first-of-type { border-top: none; padding-top: 0; }
+    .qb-title { font-size: 13px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.5px; }
+    .qb-grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
+    @media(min-width: 640px) { .qb-grid-2 { grid-template-columns: 1fr 1fr; } }
+    .qb-grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
+    @media(min-width: 640px) { .qb-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
+    .qb-field { display: flex; flex-direction: column; gap: 8px; }
+    .qb-field label { font-size: 13px; font-weight: 700; color: #334155; }
+    .qb-input { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; color: #0f172a; background: #fff; width: 100%; transition: border-color 0.2s; font-family: inherit; }
+    .qb-input:focus { outline: none; border-color: #e75a00; box-shadow: 0 0 0 3px rgba(231,90,0,0.1); }
+    textarea.qb-input { resize: vertical; min-height: 80px; }
+    
+    /* Line Items Logic */
+    .qb-line-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; }
+    .qb-remove-line { position: absolute; top: 12px; right: 12px; color: #ef4444; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 700; padding: 4px; }
+    .qb-remove-line:hover { text-decoration: underline; }
+    .qb-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: #e2e8f0; color: #0f172a; border-radius: 6px; font-size: 13px; font-weight: 700; border: none; cursor: pointer; transition: background 0.2s; }
+    .qb-add-btn:hover { background: #cbd5e1; }
+
+    .qb-toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .qb-toggle-label { font-size: 14px; font-weight: 600; color: #0f172a; }
+    .qb-toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+    .qb-toggle input { opacity: 0; width: 0; height: 0; }
+    .qb-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
+    .qb-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .qb-toggle input:checked + .qb-slider { background-color: #1e293b; }
+    .qb-toggle input:checked + .qb-slider:before { transform: translateX(20px); }
+    .qb-total-box { background: #f1f5f9; padding: 14px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #475569; margin-bottom: 16px; font-size: 14px; }
+    .qb-total-val { font-size: 16px; color: #0f172a; font-weight: 900; }
+    .qb-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 1px solid #cbd5e1; background: #fff; border-radius: 6px; color: #0f172a; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: background 0.2s; font-size: 14px; }
+    .qb-upload-btn:hover { background: #f8fafc; }
+    .qb-upload-icon { width: 18px; height: 18px; }
+
     .prompt-block {
       padding: 12px;
       margin: 10px 0;
@@ -508,6 +559,200 @@
     .chatbot-badge a:hover {
       opacity: 0.7;
     }
+
+    /* ── AI Upload & Run Styles ── */
+    .ai-upload-zone {
+      margin: 12px 0 8px;
+      border: 2px dashed rgba(249,250,255,0.4);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: rgba(249,250,255,0.06);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .ai-upload-zone.drag-over {
+      border-color: #e75a00;
+      background: rgba(231,90,0,0.12);
+    }
+    .ai-upload-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(249,250,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .ai-upload-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .ai-upload-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      background: rgba(249,250,255,0.12);
+      border: 1.5px solid rgba(249,250,255,0.3);
+      border-radius: 8px;
+      color: #f9faff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .ai-upload-btn:hover {
+      background: rgba(249,250,255,0.2);
+      border-color: rgba(249,250,255,0.55);
+    }
+    .ai-upload-btn svg { flex-shrink: 0; }
+    .ai-file-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .ai-file-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(231,90,0,0.25);
+      border: 1.5px solid rgba(231,90,0,0.6);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #f9faff;
+      max-width: 200px;
+    }
+    .ai-file-pill span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ai-file-remove {
+      background: none;
+      border: none;
+      color: rgba(249,250,255,0.7);
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .ai-file-remove:hover { color: #f9faff; }
+
+    .ai-run-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: linear-gradient(135deg, #e75a00 0%, #ff7a1a 100%);
+      border: none;
+      border-radius: 10px;
+      color: #f9faff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(231,90,0,0.45);
+      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-run-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(231,90,0,0.55);
+    }
+    .ai-run-btn:active:not(:disabled) { transform: translateY(0); }
+    .ai-run-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+    .ai-run-btn .btn-spinner {
+      width: 16px; height: 16px;
+      border: 2.5px solid rgba(249,250,255,0.35);
+      border-top-color: #f9faff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .ai-run-btn.loading .btn-spinner { display: block; }
+    .ai-run-btn.loading .btn-label { opacity: 0.7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .ai-response-area {
+      margin-top: 14px;
+      display: none;
+    }
+    .ai-response-area.visible { display: block; }
+    .ai-response-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .ai-response-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(249,250,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ai-response-label .ai-dot {
+      width: 7px; height: 7px;
+      background: #e75a00;
+      border-radius: 50%;
+      animation: pulse-dot 1.5s ease-in-out infinite;
+      display: none;
+    }
+    .ai-response-label.streaming .ai-dot { display: block; }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .ai-copy-result-btn {
+      background: rgba(249,250,255,0.1);
+      border: 1.5px solid rgba(249,250,255,0.25);
+      border-radius: 7px;
+      color: #f9faff;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .ai-copy-result-btn:hover { background: rgba(249,250,255,0.2); }
+    .ai-response-text {
+      background: rgba(0,0,0,0.25);
+      border: 1.5px solid rgba(249,250,255,0.12);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #f9faff;
+      white-space: pre-wrap;
+      font-family: inherit;
+      min-height: 60px;
+      word-break: break-word;
+    }
+    .ai-error-msg {
+      background: rgba(220,38,38,0.15);
+      border: 1.5px solid rgba(220,38,38,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #fca5a5;
+      margin-top: 8px;
+      display: none;
+    }
+    .ai-error-msg.visible { display: block; }
 
     .help-block {
       margin-top: 8px;
@@ -702,6 +947,8 @@
     <button class="menu-item" data-key="Get More Enquiries">Get More Enquiries</button>
     <button class="menu-item" data-key="Fix My Message">Fix My Message</button>
     <button class="menu-item" data-key="Templates">Templates</button>
+    <button class="menu-item" data-key="Favourites">Favourites</button>
+    <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
     <div style="flex:1;"></div>
     <button class="menu-item" id="logoutBtn" style="background:#313131; border-color:#313131; color:#f9faff;">Log out</button>
   </nav>
@@ -731,7 +978,7 @@
     <div class="footer-inner">
       <div class="footer-left">
         <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
-        <div>E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a></div>
+        <div>E: <a href="/cdn-cgi/l/email-protection#4821262e2708292c3e213b293b3c292b233b662b2725"><span class="__cf_email__" data-cfemail="1a73747c755a7b7e6c73697b696e7b79716934797577">[email&#160;protected]</span></a></div>
         <div>P: <a href="tel:+61434360660">+61 434 360 660</a></div>
         <div>ABN: 37 131 434 727</div>
       </div>
@@ -745,7 +992,7 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./auth-config.js"></script>
   <script>
     (function () {
@@ -758,7 +1005,6 @@
         SUPABASE_URL.includes("YOUR-PROJECT-ID") ||
         SUPABASE_ANON_KEY.includes("YOUR_SUPABASE_ANON_KEY");
 
-      // Keep local editing usable until Supabase keys are configured.
       if (missingConfig) {
         document.body.classList.remove("auth-pending");
         return;
@@ -777,7 +1023,6 @@
 
           const accessToken = data.session.access_token;
 
-          // Verify email 2FA before allowing access
           try {
             const twoFaResp = await fetch("/api/verify-login-code", {
               method: "POST",
@@ -817,7 +1062,6 @@
               }
             }
           } catch (_syncError) {
-            // fall through to DB read path
           }
 
           const userId = data.session.user.id;
@@ -2012,6 +2256,7 @@
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
     const PREFS_KEY = "businessToolkitPrefsV1";
+    const FAVOURITES_KEY = "businessToolkitFavouritesV1";
     const MENU_FOCUSABLE_SELECTOR = "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
     let promptRefreshers = [];
     let lastMenuFocused = null;
@@ -2034,7 +2279,6 @@
       try {
         localStorage.setItem(PREFS_KEY, JSON.stringify(next));
       } catch (e) {
-        // Ignore write failures in restricted browser contexts.
       }
     }
 
@@ -2042,7 +2286,6 @@
       try {
         localStorage.removeItem(PREFS_KEY);
       } catch (e) {
-        // Ignore clear failures in restricted browser contexts.
       }
     }
 
@@ -2780,6 +3023,18 @@ function createTemplatesCard(body, card, cIndex) {
         "Fix My Message": {
           why: "If AI sounds weird, fix it fast so your message stays clear and professional.",
           how: "Paste your draft (or AI output), copy the prompt, paste into ChatGPT, and use the improved version."
+        },
+        "Templates": {
+          why: "Custom templates ensure your AI outputs match your business exactly every time.",
+          how: "Add items and fill out the structured form below and we will build the perfect context prompt."
+        },
+        "Favourites": {
+          why: "Keep your most-used prompts in one place for faster daily workflows.",
+          how: "Save a prompt card with the star button, then access it any time here."
+        },
+        "Prompt Library": {
+          why: "Browse every prompt title in one simple index grouped by category.",
+          how: "Click any title to jump straight to that prompt card."
         }
       };
       const c = copy[current] || {
@@ -2790,7 +3045,58 @@ function createTemplatesCard(body, card, cIndex) {
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
       const cardRefreshers = [];
-      APP[current].cards.forEach((card, cIndex) => {
+
+      if (current === "Prompt Library") {
+        buildPromptLibraryData().forEach((entry) => {
+          const section = document.createElement("div");
+          section.className = "card open";
+          section.innerHTML = `<div class="card-head"><h3>${entry.category}</h3></div>`;
+          const body = document.createElement("div");
+          body.className = "card-body";
+          body.hidden = false;
+          entry.cards.forEach((card) => {
+            const linkBtn = document.createElement("button");
+            linkBtn.type = "button";
+            linkBtn.className = "copy-btn";
+            linkBtn.style.marginBottom = "8px";
+            linkBtn.textContent = card.subtitle;
+            linkBtn.addEventListener("click", () => {
+              current = entry.category;
+              writePrefs({ lastCategory: entry.category, openCard: card.subtitle });
+              render();
+            });
+            body.appendChild(linkBtn);
+          });
+          section.appendChild(body);
+          grid.appendChild(section);
+        });
+        promptRefreshers = [];
+        buildMenu();
+        return;
+      }
+
+      let cardsToRender = APP[current].cards || [];
+      if (current === "Favourites") {
+        const favs = new Set(readFavourites());
+        cardsToRender = [];
+        Object.keys(APP).forEach((category) => {
+          if (["Favourites", "Prompt Library"].includes(category)) return;
+          (APP[category].cards || []).forEach((card) => {
+            if (favs.has(getCardId(category, card.subtitle))) {
+              cardsToRender.push(Object.assign({}, card, { __category: category }));
+            }
+          });
+        });
+      }
+
+      if (current === "Favourites" && cardsToRender.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "card open";
+        empty.innerHTML = `<div class="card-head"><h3>No favourites yet</h3></div><div class="card-body" style="display:block;">Tap ☆ Save favourite on any card to add it here.</div>`;
+        grid.appendChild(empty);
+      }
+
+      cardsToRender.forEach((card, cIndex) => {
         const wrap = document.createElement("div");
         wrap.className = "card";
         const head = document.createElement("div");
@@ -2801,6 +3107,18 @@ function createTemplatesCard(body, card, cIndex) {
         const h = document.createElement("h3");
         h.textContent = card.subtitle;
         head.appendChild(h);
+        const sourceCategory = card.__category || current;
+        const favouriteBtn = document.createElement("button");
+        favouriteBtn.type = "button";
+        favouriteBtn.className = "favourite-btn";
+        favouriteBtn.style.marginBottom = "8px";
+        const isFavourite = readFavourites().includes(getCardId(sourceCategory, card.subtitle));
+        favouriteBtn.textContent = isFavourite ? "★ Saved" : "☆ Save favourite";
+        favouriteBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleFavourite(sourceCategory, card);
+        });
+        head.appendChild(favouriteBtn);
         const selections = {};
         const kv = document.createElement("div");
         kv.className = "kv";
@@ -2842,12 +3160,12 @@ function createTemplatesCard(body, card, cIndex) {
         head.appendChild(kv);
         const revealBtn = document.createElement("button");
         revealBtn.type = "button";
-        revealBtn.className = "reveal-btn";
+        revealBtn.className = "reveal-btn prompt-toggle";
         revealBtn.textContent = "Reveal prompt";
         head.appendChild(revealBtn);
         const body = document.createElement("div");
         body.className = "card-body";
-        const bodyId = "card-body-" + current.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + cIndex;
+        const bodyId = "card-body-" + sourceCategory.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + cIndex;
         body.id = bodyId;
         body.hidden = true;
         head.setAttribute("aria-controls", bodyId);
@@ -2902,126 +3220,232 @@ function createTemplatesCard(body, card, cIndex) {
           const globalPrefix = getGlobalPromptPrefix();
           originalPrompts.forEach((origText, idx) => {
             let newText = origText;
-            if (card.ui) {
-              if (card.ui.quickInputs) {
-                card.ui.quickInputs.forEach(qi => {
-                  const val = selections[qi.label];
-                  if (val) {
-                    const regex = new RegExp(`\\[${qi.label}\\]`, 'gi');
-                    newText = newText.replace(regex, val);
-                  }
-                });
-              }
-              if (card.ui.fields) {
-                card.ui.fields.forEach(f => {
-                  const val = selections[f];
-                  if (val) {
-                    newText = newText.split(f).join(val);
-                  }
-                });
-              }
+            
+            // Loop over generic UI fields if any
+            if (card.ui && card.ui.quickInputs) {
+              card.ui.quickInputs.forEach(qi => {
+                const val = selections[qi.label];
+                if (val) {
+                  const regex = new RegExp(`\\[${qi.label}\\]`, 'gi');
+                  newText = newText.replace(regex, val);
+                }
+              });
             }
+            if (card.ui && card.ui.fields) {
+              card.ui.fields.forEach(f => {
+                const val = selections[f];
+                if (val) {
+                  newText = newText.split(f).join(val);
+                }
+              });
+            }
+            
+            // For customForm (Invoice Builder), strictly replace the keys found in selections
+            if (card.ui && card.ui.customForm === "invoiceBuilder") {
+               Object.keys(selections).forEach(key => {
+                   if(selections[key]) {
+                       newText = newText.split(key).join(selections[key]);
+                   }
+               });
+            }
+
             newText = addVoiceToneInstruction(newText, card);
             if (promptBlocks[idx]) promptBlocks[idx].textContent = globalPrefix + newText;
           });
         };
+
         // --- UX Form Logic ---
         if (card.ui) {
-          const ui = document.createElement("div");
-          ui.className = "ui-block";
-          if (card.ui.quickInputs && card.ui.quickInputs.length) {
-            card.ui.quickInputs.forEach((qi, qIndex) => {
-              const qRow = document.createElement("div");
-              qRow.className = "ui-row";
-              const qt = document.createElement("div");
-              qt.className = "ui-title";
-              qt.textContent = qi.label;
-              qRow.appendChild(qt);
-              const flexContainer = document.createElement("div");
-              flexContainer.className = "chips";
-              const groupName = `qi_${cIndex}_${qIndex}`;
-              let customInputRef;
-              const handleSelect = (val) => {
-                selections[qi.label] = val;
-                updateFrontSummary();
-                updatePromptsText();
-              };
-              qi.options.forEach(opt => {
-                const labelEl = document.createElement("label");
-                labelEl.className = "chip-label";
-                const radio = document.createElement("input");
-                radio.type = "radio";
-                radio.name = groupName;
-                radio.value = opt;
-                radio.addEventListener("change", () => {
-                  if (customInputRef) customInputRef.classList.remove("active");
-                  handleSelect(opt);
+          if (card.ui.customForm === "invoiceBuilder") {
+              const uiContainer = document.createElement("div");
+              uiContainer.className = "ui-block";
+              buildInvoiceBuilderDOM(uiContainer, card, selections, updatePromptsText);
+              body.appendChild(uiContainer);
+          } else {
+              const ui = document.createElement("div");
+              ui.className = "ui-block";
+              if (card.ui.quickInputs && card.ui.quickInputs.length) {
+                card.ui.quickInputs.forEach((qi, qIndex) => {
+                  const qRow = document.createElement("div");
+                  qRow.className = "ui-row";
+                  const qt = document.createElement("div");
+                  qt.className = "ui-title";
+                  qt.textContent = qi.label;
+                  qRow.appendChild(qt);
+                  const flexContainer = document.createElement("div");
+                  flexContainer.className = "chips";
+                  const groupName = `qi_${cIndex}_${qIndex}`;
+                  let customInputRef;
+                  const handleSelect = (val) => {
+                    selections[qi.label] = val;
+                    updateFrontSummary();
+                    updatePromptsText();
+                  };
+                  qi.options.forEach(opt => {
+                    const labelEl = document.createElement("label");
+                    labelEl.className = "chip-label";
+                    const radio = document.createElement("input");
+                    radio.type = "radio";
+                    radio.name = groupName;
+                    radio.value = opt;
+                    radio.addEventListener("change", () => {
+                      if (customInputRef) customInputRef.classList.remove("active");
+                      handleSelect(opt);
+                    });
+                    const span = document.createElement("span");
+                    span.textContent = opt;
+                    labelEl.appendChild(radio);
+                    labelEl.appendChild(span);
+                    flexContainer.appendChild(labelEl);
+                  });
+                  const labelOther = document.createElement("label");
+                  labelOther.className = "chip-label";
+                  const radioOther = document.createElement("input");
+                  radioOther.type = "radio";
+                  radioOther.name = groupName;
+                  radioOther.value = "Other";
+                  const spanOther = document.createElement("span");
+                  spanOther.textContent = "Other";
+                  const textInput = document.createElement("input");
+                  textInput.type = "text";
+                  textInput.className = "custom-input";
+                  textInput.placeholder = "Type custom option...";
+                  customInputRef = textInput;
+                  radioOther.addEventListener("change", () => {
+                    textInput.classList.add("active");
+                    textInput.focus();
+                    handleSelect(textInput.value || `[${qi.label}]`);
+                  });
+                  textInput.addEventListener("input", (e) => {
+                    if (radioOther.checked) {
+                      handleSelect(e.target.value || `[${qi.label}]`);
+                    }
+                  });
+                  labelOther.appendChild(radioOther);
+                  labelOther.appendChild(spanOther);
+                  flexContainer.appendChild(labelOther);
+                  flexContainer.appendChild(textInput);
+                  qRow.appendChild(flexContainer);
+                  ui.appendChild(qRow);
                 });
-                const span = document.createElement("span");
-                span.textContent = opt;
-                labelEl.appendChild(radio);
-                labelEl.appendChild(span);
-                flexContainer.appendChild(labelEl);
-              });
-              const labelOther = document.createElement("label");
-              labelOther.className = "chip-label";
-              const radioOther = document.createElement("input");
-              radioOther.type = "radio";
-              radioOther.name = groupName;
-              radioOther.value = "Other";
-              const spanOther = document.createElement("span");
-              spanOther.textContent = "Other";
-              const textInput = document.createElement("input");
-              textInput.type = "text";
-              textInput.className = "custom-input";
-              textInput.placeholder = "Type custom option...";
-              customInputRef = textInput;
-              radioOther.addEventListener("change", () => {
-                textInput.classList.add("active");
-                textInput.focus();
-                handleSelect(textInput.value || `[${qi.label}]`);
-              });
-              textInput.addEventListener("input", (e) => {
-                if (radioOther.checked) {
-                  handleSelect(e.target.value || `[${qi.label}]`);
-                }
-              });
-              labelOther.appendChild(radioOther);
-              labelOther.appendChild(spanOther);
-              flexContainer.appendChild(labelOther);
-              flexContainer.appendChild(textInput);
-              qRow.appendChild(flexContainer);
-              ui.appendChild(qRow);
-            });
+              }
+              if (card.ui.fields && card.ui.fields.length) {
+                const f = document.createElement("div");
+                f.className = "ui-row";
+                const ft = document.createElement("div");
+                ft.className = "ui-title";
+                ft.textContent = "Type your...";
+                f.appendChild(ft);
+                const fl = document.createElement("div");
+                fl.className = "fields";
+                card.ui.fields.forEach(t => {
+                  const searchStr = t.toLowerCase();
+                  const isMultiLine = searchStr.includes("paste") || searchStr.includes("version") || searchStr.includes("message") || searchStr.includes("summary") || searchStr.includes("e.g.") || searchStr.includes("facts");
+                  const input = document.createElement(isMultiLine ? "textarea" : "input");
+                  if (!isMultiLine) input.type = "text";
+                  if (isMultiLine) input.rows = 2;
+                  input.className = "type-input";
+                  input.placeholder = t.replace(/\[|\]/g, '');
+                  input.addEventListener("input", (e) => {
+                    selections[t] = e.target.value || t;
+                    updatePromptsText();
+                  });
+                  fl.appendChild(input);
+                });
+                f.appendChild(fl);
+                ui.appendChild(f);
+              }
+              body.appendChild(ui);
           }
-          if (card.ui.fields && card.ui.fields.length) {
-            const f = document.createElement("div");
-            f.className = "ui-row";
-            const ft = document.createElement("div");
-            ft.className = "ui-title";
-            ft.textContent = "Type your...";
-            f.appendChild(ft);
-            const fl = document.createElement("div");
-            fl.className = "fields";
-            card.ui.fields.forEach(t => {
-              const searchStr = t.toLowerCase();
-              const isMultiLine = searchStr.includes("paste") || searchStr.includes("version") || searchStr.includes("message") || searchStr.includes("summary") || searchStr.includes("e.g.") || searchStr.includes("facts");
-              const input = document.createElement(isMultiLine ? "textarea" : "input");
-              if (!isMultiLine) input.type = "text";
-              if (isMultiLine) input.rows = 2;
-              input.className = "type-input";
-              input.placeholder = t.replace(/\[|\]/g, '');
-              input.addEventListener("input", (e) => {
-                selections[t] = e.target.value || t;
-                updatePromptsText();
-              });
-              fl.appendChild(input);
-            });
-            f.appendChild(fl);
-            ui.appendChild(f);
-          }
-          body.appendChild(ui);
         }
+        // ── Per-card file attachment state ──
+        const cardFiles = []; // { file, base64, mediaType }
+
+        // ── File upload zone ──
+        const uploadZone = document.createElement("div");
+        uploadZone.className = "ai-upload-zone";
+
+        const uploadLabel = document.createElement("div");
+        uploadLabel.className = "ai-upload-label";
+        uploadLabel.textContent = "Attach files (optional)";
+
+        const uploadInputRow = document.createElement("div");
+        uploadInputRow.className = "ai-upload-input-row";
+
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "file";
+        hiddenInput.multiple = true;
+        hiddenInput.accept = ".pdf,.png,.jpg,.jpeg,.webp,.gif,.docx,.doc,.txt";
+        hiddenInput.style.display = "none";
+
+        const uploadPickBtn = document.createElement("button");
+        uploadPickBtn.type = "button";
+        uploadPickBtn.className = "ai-upload-btn";
+        uploadPickBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Upload template / file`;
+        uploadPickBtn.addEventListener("click", (e) => { e.stopPropagation(); hiddenInput.click(); });
+
+        const fileList = document.createElement("div");
+        fileList.className = "ai-file-list";
+
+        const refreshFilePills = () => {
+          fileList.innerHTML = "";
+          cardFiles.forEach((f, idx) => {
+            const pill = document.createElement("div");
+            pill.className = "ai-file-pill";
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = f.file.name;
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.className = "ai-file-remove";
+            removeBtn.innerHTML = "✕";
+            removeBtn.title = "Remove file";
+            removeBtn.addEventListener("click", (e) => { e.stopPropagation(); cardFiles.splice(idx, 1); refreshFilePills(); });
+            pill.appendChild(nameSpan);
+            pill.appendChild(removeBtn);
+            fileList.appendChild(pill);
+          });
+        };
+
+        const processFiles = async (files) => {
+          const allowed = Array.from(files).filter(f => f.size <= 20 * 1024 * 1024);
+          for (const file of allowed) {
+            const ext = file.name.split(".").pop().toLowerCase();
+            let mediaType = file.type || "application/octet-stream";
+            if (ext === "pdf") mediaType = "application/pdf";
+            else if (["png","jpg","jpeg","webp","gif"].includes(ext)) mediaType = "image/" + (ext === "jpg" ? "jpeg" : ext);
+            else mediaType = null; // docx/txt: send as text content
+
+            if (mediaType) {
+              const base64 = await new Promise((res) => {
+                const r = new FileReader();
+                r.onload = () => res(r.result.split(",")[1]);
+                r.readAsDataURL(file);
+              });
+              cardFiles.push({ file, base64, mediaType });
+            } else {
+              // Plain text fallback for .docx/.txt
+              const text = await file.text().catch(() => "[Could not read file text]");
+              cardFiles.push({ file, base64: null, mediaType: null, text });
+            }
+          }
+          refreshFilePills();
+        };
+
+        hiddenInput.addEventListener("change", (e) => { e.stopPropagation(); processFiles(e.target.files); hiddenInput.value = ""; });
+
+        // Drag and drop
+        uploadZone.addEventListener("dragover", (e) => { e.preventDefault(); e.stopPropagation(); uploadZone.classList.add("drag-over"); });
+        uploadZone.addEventListener("dragleave", (e) => { e.stopPropagation(); uploadZone.classList.remove("drag-over"); });
+        uploadZone.addEventListener("drop", (e) => { e.preventDefault(); e.stopPropagation(); uploadZone.classList.remove("drag-over"); if (e.dataTransfer.files.length) processFiles(e.dataTransfer.files); });
+
+        uploadInputRow.appendChild(hiddenInput);
+        uploadInputRow.appendChild(uploadPickBtn);
+        uploadZone.appendChild(uploadLabel);
+        uploadZone.appendChild(uploadInputRow);
+        uploadZone.appendChild(fileList);
+        body.appendChild(uploadZone);
+
+        // ── Prompts ──
         (card.prompts || []).forEach((p, i) => {
           const block = document.createElement("div");
           block.className = "prompt-block";
@@ -3030,24 +3454,19 @@ function createTemplatesCard(body, card, cIndex) {
           label.textContent = (card.prompts.length > 1) ? ("Prompt " + (i + 1)) : "Prompt";
           const pre = document.createElement("div");
           pre.className = "prompt-text";
-          // Inject global fields on initial load
           let initialText = p;
           initialText = addVoiceToneInstruction(initialText, card);
           const globalPrefix = getGlobalPromptPrefix();
           pre.textContent = globalPrefix + initialText;
-          // Bottom Row with Copy Button & ChatGPT Link
+
+          // ── Action row: Copy + Run with AI ──
           const bottomBtnRow = document.createElement("div");
           bottomBtnRow.className = "copy-row";
           const bottomBtn = document.createElement("button");
           bottomBtn.type = "button";
           bottomBtn.className = "copy-btn";
           bottomBtn.innerHTML = "Copy prompt";
-          const badge = document.createElement("div");
-          badge.className = "chatbot-badge";
-          const botName = card.chatbot || "ChatGPT";
-          badge.innerHTML = "<a href='https://chatgpt.com/' target='_blank' rel='noopener noreferrer'>Paste into: <strong>" + botName + " &rarr;</strong></a>";
-          bottomBtnRow.appendChild(bottomBtn);
-          bottomBtnRow.appendChild(badge);
+
           const doCopy = (btn) => {
             const textToCopy = pre.textContent;
             if (navigator.clipboard && window.isSecureContext) {
@@ -3056,26 +3475,141 @@ function createTemplatesCard(body, card, cIndex) {
                 btn.innerHTML = "Copied ✓";
                 btn.style.background = "#e75a00";
                 btn.style.color = "#f9faff";
-                setTimeout(() => {
-                  btn.innerHTML = oldText;
-                  btn.style.background = "";
-                  btn.style.color = "";
-                }, 1200);
+                setTimeout(() => { btn.innerHTML = oldText; btn.style.background = ""; btn.style.color = ""; }, 1200);
               }).catch(() => fallbackCopy(textToCopy, btn));
-            } else {
-              fallbackCopy(textToCopy, btn);
-            }
+            } else { fallbackCopy(textToCopy, btn); }
           };
-          bottomBtn.addEventListener("click", (e) => {
+          bottomBtn.addEventListener("click", (e) => { e.stopPropagation(); doCopy(bottomBtn); });
+
+          // Run with AI button
+          const runBtn = document.createElement("button");
+          runBtn.type = "button";
+          runBtn.className = "ai-run-btn";
+          runBtn.innerHTML = `<span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>`;
+
+          // Response area
+          const responseArea = document.createElement("div");
+          responseArea.className = "ai-response-area";
+          const responseHeader = document.createElement("div");
+          responseHeader.className = "ai-response-header";
+          const responseLabel = document.createElement("div");
+          responseLabel.className = "ai-response-label";
+          responseLabel.innerHTML = `<span class="ai-dot"></span>AI Response`;
+          const copyResultBtn = document.createElement("button");
+          copyResultBtn.type = "button";
+          copyResultBtn.className = "ai-copy-result-btn";
+          copyResultBtn.textContent = "Copy result";
+          responseHeader.appendChild(responseLabel);
+          responseHeader.appendChild(copyResultBtn);
+          const responseText = document.createElement("div");
+          responseText.className = "ai-response-text";
+          const errorMsg = document.createElement("div");
+          errorMsg.className = "ai-error-msg";
+          responseArea.appendChild(responseHeader);
+          responseArea.appendChild(responseText);
+          responseArea.appendChild(errorMsg);
+
+          copyResultBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            doCopy(bottomBtn);
+            const txt = responseText.textContent;
+            if (!txt) return;
+            navigator.clipboard?.writeText(txt).then(() => {
+              copyResultBtn.textContent = "Copied ✓";
+              setTimeout(() => { copyResultBtn.textContent = "Copy result"; }, 1400);
+            }).catch(() => {});
           });
+
+          runBtn.addEventListener("click", async (e) => {
+            e.stopPropagation();
+            const promptText = pre.textContent;
+            runBtn.disabled = true;
+            runBtn.classList.add("loading");
+            responseArea.classList.add("visible");
+            responseText.textContent = "";
+            errorMsg.classList.remove("visible");
+            errorMsg.textContent = "";
+            responseLabel.classList.add("streaming");
+
+            // Build message content
+            const msgContent = [];
+
+            // Attach files first
+            for (const f of cardFiles) {
+              if (f.mediaType === "application/pdf") {
+                msgContent.push({ type: "document", source: { type: "base64", media_type: "application/pdf", data: f.base64 } });
+              } else if (f.mediaType && f.mediaType.startsWith("image/")) {
+                msgContent.push({ type: "image", source: { type: "base64", media_type: f.mediaType, data: f.base64 } });
+              } else if (f.text) {
+                msgContent.push({ type: "text", text: `[Attached file: ${f.file.name}]\n${f.text}` });
+              }
+            }
+
+            msgContent.push({ type: "text", text: promptText });
+
+            try {
+              const resp = await fetch("/api/claude", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  model: "claude-sonnet-4-20250514",
+                  max_tokens: 1000,
+                  stream: true,
+                  system: "You are a practical AI assistant helping Australian tradies and small business owners. Write in plain, professional Australian English. Be direct, clear, and concise. Avoid corporate jargon or overly formal language. If a file or template has been uploaded, use it to inform and shape your output — match its style, layout, and tone where relevant.",
+                  messages: [{ role: "user", content: msgContent }]
+                })
+              });
+
+              if (!resp.ok) {
+                const errData = await resp.json().catch(() => ({}));
+                throw new Error(errData?.error?.message || `API error ${resp.status}`);
+              }
+
+              const reader = resp.body.getReader();
+              const decoder = new TextDecoder();
+              let buffer = "";
+
+              while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n");
+                buffer = lines.pop();
+                for (const line of lines) {
+                  if (!line.startsWith("data: ")) continue;
+                  const data = line.slice(6).trim();
+                  if (data === "[DONE]") continue;
+                  try {
+                    const parsed = JSON.parse(data);
+                    const delta = parsed?.delta?.text || parsed?.delta?.delta?.text || "";
+                    if (delta) {
+                      responseText.textContent += delta;
+                      responseText.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                    }
+                  } catch (_) {}
+                }
+              }
+            } catch (err) {
+              errorMsg.textContent = "⚠️ " + (err.message || "Something went wrong. Please try again.");
+              errorMsg.classList.add("visible");
+              if (!responseText.textContent) responseArea.classList.remove("visible");
+            } finally {
+              runBtn.disabled = false;
+              runBtn.classList.remove("loading");
+              responseLabel.classList.remove("streaming");
+            }
+          });
+
+          bottomBtnRow.appendChild(bottomBtn);
+          bottomBtnRow.appendChild(runBtn);
           block.appendChild(label);
           block.appendChild(pre);
           block.appendChild(bottomBtnRow);
+          block.appendChild(responseArea);
           body.appendChild(block);
         });
+        
         cardRefreshers.push(updatePromptsText);
+        
         const toggleCard = () => {
           const isOpen = wrap.classList.contains("open");
           document.querySelectorAll(".card.open").forEach((el) => {
@@ -3096,6 +3630,11 @@ function createTemplatesCard(body, card, cIndex) {
                 top: y,
                 behavior: "smooth"
               });
+              
+              // Ensure dynamic prompt updates on first open for invoice builder if empty
+              if(card.ui && card.ui.customForm === "invoiceBuilder") {
+                 updatePromptsText();
+              }
             }, 30);
           }
         };
@@ -3118,6 +3657,17 @@ function createTemplatesCard(body, card, cIndex) {
         grid.appendChild(wrap);
       });
       promptRefreshers = cardRefreshers;
+      const openCard = readPrefs().openCard;
+      if (openCard) {
+        document.querySelectorAll(".card").forEach((el) => {
+          const title = el.querySelector("h3");
+          if (title && title.textContent === openCard) {
+            const btn = el.querySelector(".prompt-toggle");
+            if (btn) btn.click();
+          }
+        });
+        writePrefs({ openCard: null });
+      }
       buildMenu();
       window.scrollTo({
         top: 0,
@@ -3211,17 +3761,14 @@ function createTemplatesCard(body, card, cIndex) {
       globalFirstNameInput.value = "";
       globalBizNameInput.value = "";
       refreshPromptText();
+      
+      // Clear out the Quote builder if it's currently rendered
+      const bizNameField = document.getElementById('qb-biz-name');
+      if (bizNameField) {
+         bizNameField.value = "";
+         bizNameField.dispatchEvent(new Event('input'));
+      }
     });
 
     const savedPrefs = readPrefs();
-    if (savedPrefs.firstName) globalFirstNameInput.value = savedPrefs.firstName;
-    if (savedPrefs.businessName) globalBizNameInput.value = savedPrefs.businessName;
-    if (savedPrefs.lastCategory && APP[savedPrefs.lastCategory]) {
-      current = savedPrefs.lastCategory;
-    }
-    render();
-  </script>
-  <script src="./app.js"></script>
-</body>
-
-</html>
+    if (savedPrefs.firstName) globalFirstNameInput.value = savedPrefs.firstN
