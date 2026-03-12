@@ -4929,7 +4929,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
         "Saved": "Saved",
         "Custom Tools": "Custom Tools"
       };
-      document.getElementById("pageTitle").textContent = pageTitleLookup[current] || (APP[current] ? APP[current].title : current);
+      const pageTitleEl = document.getElementById("pageTitle");
+      pageTitleEl.textContent = pageTitleLookup[current] || (APP[current] ? APP[current].title : current);
+      pageTitleEl.style.display = current === "Home" ? "none" : "";
       const helpEl = document.getElementById("pageHelp");
       const pageControlsEl = document.getElementById("pageControls");
       const copy = {
