@@ -1104,6 +1104,71 @@
       font-family: inherit;
     }
     .cb-delete-btn:hover { border-color: #ef4444; color: #ef4444; }
+    .cb-two-stage-map {
+      margin-bottom: 20px;
+      padding: 14px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      background: #ffffff;
+    }
+    .cb-stage-block {
+      border-radius: 10px;
+      padding: 12px;
+      border: 1.5px solid transparent;
+    }
+    .cb-stage-blue {
+      background: #eff6ff;
+      border-color: #93c5fd;
+    }
+    .cb-stage-green {
+      background: #ecfdf5;
+      border-color: #86efac;
+    }
+    .cb-stage-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 8px;
+    }
+    .cb-stage-list {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .cb-stage-list li {
+      margin: 0 0 8px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #0f172a;
+    }
+    .cb-generated-card-pill {
+      margin-top: 8px;
+      background: #f3e8ff;
+      border: 1.5px solid #d8b4fe;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #581c87;
+    }
+    .cb-stage-divider {
+      margin: 10px 0;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      background: #f8fafc;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .cb-model-note {
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1e293b;
+    }
 
     .help-block {
       margin-top: 8px;
@@ -3520,6 +3585,29 @@
 
       body.innerHTML = `
         <div class="cb-wrapper">
+          <div class="cb-two-stage-map" aria-label="Two-stage prompt workflow">
+            <div class="cb-stage-block cb-stage-blue">
+              <div class="cb-stage-title">Stage 1 — Build the Prompt Card (blue)</div>
+              <ol class="cb-stage-list">
+                <li><strong>User Problem Input</strong> — the initial request enters the system.</li>
+                <li><strong>AI Analysis</strong> — intent, audience, format, tone, and constraints are broken down.</li>
+                <li><strong>Prompt Architecture</strong> — AI builds the card structure, fields, and buttons.</li>
+              </ol>
+              <div class="cb-generated-card-pill">
+                <strong>Generated Card (purple)</strong> — concrete UI elements appear: quick inputs, fill-in fields, file upload, live preview, and action buttons.
+              </div>
+            </div>
+            <div class="cb-stage-divider">Build the tool first, then use the tool to get the final answer.</div>
+            <div class="cb-stage-block cb-stage-green">
+              <div class="cb-stage-title">Stage 2 — Use the Card (green)</div>
+              <ol class="cb-stage-list" start="4">
+                <li><strong>User Fills the Card</strong> — fields are typed and preview updates live.</li>
+                <li><strong>AI Execution</strong> — the completed prompt is sent to the model.</li>
+                <li><strong>Final Answer Returned</strong> — polished output is delivered.</li>
+              </ol>
+            </div>
+            <div class="cb-model-note">Model: Sonnet 4.6 Extended</div>
+          </div>
 
           <!-- SECTION 1: The Task -->
           <div class="cb-section" style="border-top:none; padding-top:0;">
@@ -4106,7 +4194,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         },
         "Custom Builder": {
           why: "Build your own reusable prompt templates for any recurring task — not just the ones we've built for you.",
-          how: "Fill in the fields below, then copy your one-off prompt or save the reusable template for later."
+          how: "Stage 1 builds a reusable prompt card; Stage 2 uses that card to run the model and return a polished answer."
         }
       };
       const c = copy[current] || {
