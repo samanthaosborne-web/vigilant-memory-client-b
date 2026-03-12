@@ -3383,14 +3383,43 @@
 
     // 5. Toggles the favourite state and re-renders the UI
     function toggleFavourite(category, card) {
-      const id = getCardId(category, card.subtitle);
+      const ensureCustomBuilderCardStored = (cardId) => {
+        const saved = readCustomBuiltCards();
+        const exists = saved.some((entry) => {
+          if (!entry || !entry.card) return false;
+          const existingId = entry.card.__cardId || ("custom-built::" + entry.id);
+          return existingId === cardId;
+        });
+        if (exists) return;
+
+        saved.unshift({
+          id: Date.now(),
+          savedAt: new Date().toISOString(),
+          card: Object.assign({}, card, { __cardId: cardId })
+        });
+        writeCustomBuiltCards(saved);
+      };
+
+      const legacyId = getCardId(category, card.subtitle);
+      let id = card.__cardId || legacyId;
+      if (category === "Custom Builder" && !card.__cardId) {
+        id = "custom-built::" + Date.now();
+        card.__cardId = id;
+      }
+
       let favs = readFavourites();
       
-      if (favs.includes(id)) {
+      if (favs.includes(id) || favs.includes(legacyId)) {
         // If it's already saved, remove it
-        favs = favs.filter(favId => favId !== id);
+        favs = favs.filter(favId => favId !== id && favId !== legacyId);
       } else {
         // If it's not saved, add it
+        if (category === "Custom Builder") {
+          ensureCustomBuilderCardStored(id);
+        }
+        if (id !== legacyId) {
+          favs = favs.filter(favId => favId !== legacyId);
+        }
         favs.push(id);
       }
       
@@ -4037,7 +4066,9 @@
           showToast("⚠️ Add a problem description first.");
           return;
         }
-        customBuilderTempCard = built;
+        customBuilderTempCard = Object.assign({}, built, {
+          __cardId: built.__cardId || ("custom-temp::" + Date.now())
+        });
         writePrefs({ openCard: built.subtitle });
         render();
       });
@@ -4049,15 +4080,20 @@
           showToast("⚠️ Build a temporary card first.");
           return;
         }
+        const builtCard = Object.assign({}, built, {
+          __cardId: (built.__cardId && built.__cardId.startsWith("custom-built::"))
+            ? built.__cardId
+            : ("custom-built::" + Date.now())
+        });
         const saved = readCustomBuiltCards();
         saved.unshift({
           id: Date.now(),
           savedAt: new Date().toISOString(),
-          card: built
+          card: builtCard
         });
         writeCustomBuiltCards(saved);
         customBuilderTempCard = null;
-        writePrefs({ openCard: built.subtitle });
+        writePrefs({ openCard: builtCard.subtitle });
         render();
       });
 
@@ -4112,6 +4148,9 @@
 $("cb-submit-btn").addEventListener("click", async () => {
   const fields = getFields();
   if (!fields.problem) { showToast("⚠️ Add a problem description first."); return; }
+  const suggestedFields = generateSuggestedFields(fields.changes);
+  let submitterEmail = "";
+  let submitterId = "";
 
   // Also save locally as backup
   const submissions = readCustomSubmissions();
@@ -4122,6 +4161,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
   if (window.__supabase) {
     const { data: { session } } = await window.__supabase.auth.getSession();
     if (session) {
+      submitterEmail = session.user?.email || "";
+      submitterId = session.user?.id || "";
       const { error } = await window.__supabase
         .from("prompt_submissions")
         .insert({
@@ -4137,16 +4178,39 @@ $("cb-submit-btn").addEventListener("click", async () => {
           example_output: fields.exampleOutput,
           oneoff_prompt: oneoffEl.textContent,
           template_prompt: templateEl.textContent,
-          suggested_fields: generateSuggestedFields(fields.changes),
+          suggested_fields: suggestedFields,
         });
       if (error) {
         showToast("⚠️ Couldn't save to database. Stored locally instead.");
-        return;
       }
     }
   }
 
-  showToast("📤 Idea submitted! Thank you.");
+  try {
+    const emailResp = await fetch("/api/send-custom-idea-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fields,
+        oneoffPrompt: oneoffEl.textContent,
+        templatePrompt: templateEl.textContent,
+        suggestedFields,
+        submittedAt: new Date().toISOString(),
+        submitterEmail,
+        submitterId
+      })
+    });
+
+    if (!emailResp.ok) {
+      showToast("⚠️ Idea saved, but email delivery failed.");
+      return;
+    }
+  } catch (_error) {
+    showToast("⚠️ Idea saved, but email delivery failed.");
+    return;
+  }
+
+  showToast("📤 Idea submitted and emailed to info@advisastacks.com.");
 });
 
       // ── Render saved templates list ──
@@ -4285,11 +4349,19 @@ $("cb-submit-btn").addEventListener("click", async () => {
         buildCustomBuilderDOM(grid);
         cardsToRender = [];
         if (customBuilderTempCard) {
-          cardsToRender.push(Object.assign({}, customBuilderTempCard, { __category: "Custom Builder" }));
+          const tempCardId = customBuilderTempCard.__cardId || "custom-temp::active";
+          cardsToRender.push(Object.assign({}, customBuilderTempCard, {
+            __category: "Custom Builder",
+            __cardId: tempCardId
+          }));
         }
         readCustomBuiltCards().forEach((entry) => {
           if (entry && entry.card) {
-            cardsToRender.push(Object.assign({}, entry.card, { __category: "Custom Builder" }));
+            const cardId = entry.card.__cardId || ("custom-built::" + entry.id);
+            cardsToRender.push(Object.assign({}, entry.card, {
+              __category: "Custom Builder",
+              __cardId: cardId
+            }));
           }
         });
       }
@@ -4327,15 +4399,43 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
       if (current === "Favourites") {
         const favs = new Set(readFavourites());
+        const addedFavCardIds = new Set();
         cardsToRender = [];
         Object.keys(APP).forEach((category) => {
           if (["Favourites", "Prompt Library", "Custom Builder"].includes(category)) return;
           (APP[category].cards || []).forEach((card) => {
-            if (favs.has(getCardId(category, card.subtitle))) {
+            const cardId = getCardId(category, card.subtitle);
+            if (favs.has(cardId)) {
               cardsToRender.push(Object.assign({}, card, { __category: category }));
+              addedFavCardIds.add(cardId);
             }
           });
         });
+
+        readCustomBuiltCards().forEach((entry) => {
+          if (!entry || !entry.card) return;
+          const cardId = entry.card.__cardId || ("custom-built::" + entry.id);
+          const legacyCardId = getCardId("Custom Builder", entry.card.subtitle || "");
+          if ((favs.has(cardId) || favs.has(legacyCardId)) && !addedFavCardIds.has(cardId)) {
+            cardsToRender.push(Object.assign({}, entry.card, {
+              __category: "Custom Builder",
+              __cardId: cardId
+            }));
+            addedFavCardIds.add(cardId);
+          }
+        });
+
+        if (customBuilderTempCard) {
+          const tempCardId = customBuilderTempCard.__cardId || "custom-temp::active";
+          const legacyTempId = getCardId("Custom Builder", customBuilderTempCard.subtitle || "");
+          if ((favs.has(tempCardId) || favs.has(legacyTempId)) && !addedFavCardIds.has(tempCardId)) {
+            cardsToRender.push(Object.assign({}, customBuilderTempCard, {
+              __category: "Custom Builder",
+              __cardId: tempCardId
+            }));
+            addedFavCardIds.add(tempCardId);
+          }
+        }
       }
 
       if (current === "Favourites" && cardsToRender.length === 0) {
@@ -4361,7 +4461,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
         favouriteBtn.type = "button";
         favouriteBtn.className = "favourite-btn";
         favouriteBtn.style.marginBottom = "8px";
-        const isFavourite = readFavourites().includes(getCardId(sourceCategory, card.subtitle));
+        const cardFavouriteId = card.__cardId || getCardId(sourceCategory, card.subtitle);
+        const legacyFavouriteId = getCardId(sourceCategory, card.subtitle);
+        const favsNow = readFavourites();
+        const isFavourite = favsNow.includes(cardFavouriteId) || favsNow.includes(legacyFavouriteId);
         favouriteBtn.textContent = isFavourite ? "★ Saved" : "☆ Save favourite";
         favouriteBtn.addEventListener("click", (e) => {
           e.stopPropagation();
