@@ -332,6 +332,31 @@
       font-size: 22px;
       font-weight: 900;
     }
+    .page-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 10px;
+    }
+    .page-controls:empty {
+      display: none;
+    }
+    .page-filter-btn {
+      border: 1px solid #475569;
+      background: #111827;
+      color: #e2e8f0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.16s, color 0.16s, background 0.16s;
+    }
+    .page-filter-btn.active {
+      border-color: #e75a00;
+      background: rgba(231, 90, 0, 0.12);
+      color: #ffd7bd;
+    }
 
     .page-help {
       margin: 0 0 20px;
@@ -495,6 +520,52 @@
       font-size: 22px;
       font-weight: 800;
       line-height: 1.1;
+    }
+    .workspace-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .workspace-panel {
+      border: 1px solid #334155;
+      border-radius: 10px;
+      background: #111827;
+      padding: 10px 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .workspace-panel h4 {
+      margin: 0;
+      font-size: 15px;
+      color: #f8fafc;
+      font-weight: 700;
+    }
+    .workspace-muted {
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 0;
+    }
+    .workspace-group {
+      border-top: 1px solid #334155;
+      padding-top: 8px;
+      display: grid;
+      gap: 8px;
+    }
+    .workspace-group:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+    .workspace-group-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .workspace-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .app-toast-stack {
@@ -1512,19 +1583,6 @@
       color: #94a3b8;
       font-style: italic;
     }
-    .cb-ai-controls {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    .cb-ai-panel {
-      display: none;
-    }
-    .cb-ai-panel.visible {
-      display: block;
-    }
     .cb-copy-row {
       display: flex;
       gap: 8px;
@@ -1609,6 +1667,17 @@
     .cb-submit-btn:hover {
       background: #e2e8f0;
       border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
+    .cb-action-row .cb-submit-btn,
+    .cb-action-row .cb-save-btn {
+      background: #e75a00;
+      color: #fff;
+      border-color: #e75a00;
+    }
+    .cb-action-row .cb-submit-btn:hover,
+    .cb-action-row .cb-save-btn:hover {
+      filter: brightness(0.95);
       transform: translateY(-1px);
     }
     .cb-toast {
@@ -1882,8 +1951,7 @@
     <section class="desktop-nav-group">
       <div class="desktop-nav-label">Workspace</div>
       <div class="desktop-nav-items">
-        <button class="desktop-nav-btn" data-key="Favourites">Favourites</button>
-        <button class="desktop-nav-btn" data-key="Prompt Library">Library</button>
+        <button class="desktop-nav-btn" data-key="Workspace">Workspace tools</button>
       </div>
     </section>
   </nav>
@@ -1905,8 +1973,7 @@
     <button class="menu-item" data-key="Templates">Templates</button>
     <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
     <h2 class="nav-categories">Workspace</h2>
-    <button class="menu-item" data-key="Favourites">Favourites</button>
-    <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
+    <button class="menu-item" data-key="Workspace">Workspace tools</button>
     <div class="global-inputs" aria-label="Default prompt settings">
       <div class="global-field">
         <label for="globalFirstName">Your First Name</label>
@@ -1927,6 +1994,7 @@
 
   <main>
     <div class="page-title" id="pageTitle"></div>
+    <div class="page-controls" id="pageControls"></div>
     <div class="page-help" id="pageHelp"></div>
 
     <div class="grid" id="cardGrid"></div>
@@ -3207,6 +3275,7 @@
 }
     };
     let current = "Home";
+    let savedOnlyFilter = false;
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
     const PREFS_KEY = "businessToolkitPrefsV1";
@@ -4204,10 +4273,10 @@
       }
       
       writeFavourites(favs);
-      render(); // Refresh the UI to update the ★ button and Favourites tab
+      render(); // Refresh the UI to update the ★ button state
     }
 
-    // 6. Builds the index mapping for the Prompt Library tab
+    // 6. Builds the category-to-card index used by Workspace
     function buildPromptLibraryData() {
       return Object.keys(APP).map(category => ({
         category: category,
@@ -4498,60 +4567,23 @@
             <div class="cb-output-block">
               <div class="cb-output-label">
                 One-off prompt
-                <span class="cb-badge">Paste into ChatGPT or Claude</span>
               </div>
               <div class="cb-output-text empty" id="cb-oneoff-text">Fill in the fields above to generate your prompt...</div>
-              <div class="cb-ai-controls">
-                <button type="button" class="ai-preview-btn" id="cb-preview-btn">View prompt (advanced)</button>
-                <button type="button" class="ai-run-now-btn" id="cb-open-run-btn">✦ Run with AI</button>
-              </div>
-
-              <div class="cb-ai-panel" id="cb-ai-panel">
-                <div class="ai-response-area" id="cb-ai-response-area">
-                  <div class="ai-sent-wrap" id="cb-ai-sent-wrap">
-                    <div class="ai-sent-label">Sent prompt</div>
-                    <div class="ai-sent-prompt-text" id="cb-ai-sent-prompt"></div>
-                  </div>
-                  <div class="ai-response-header">
-                    <div class="ai-response-label" id="cb-ai-response-label"><span class="ai-dot"></span>AI Response</div>
-                    <button type="button" class="ai-copy-result-btn" id="cb-copy-ai-result">Copy result</button>
-                  </div>
-                  <div class="ai-response-text" id="cb-ai-response-text"></div>
-                  <div class="ai-error-msg" id="cb-ai-error-msg"></div>
-                </div>
-
-                <div class="ai-chat-composer" id="cb-ai-composer-wrap">
-                  <div class="ai-chat-head">Prompt to AI</div>
-                  <textarea class="ai-chat-input" id="cb-ai-composer" rows="6" placeholder="Your prompt will appear here..."></textarea>
-                  <div class="copy-row">
-                    <button type="button" class="copy-btn" id="cb-copy-oneoff">Copy prompt</button>
-                    <button type="button" class="ai-run-btn" id="cb-run-ai-btn">
-                      <span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <!-- Reusable template -->
             <div class="cb-output-block">
               <div class="cb-output-label">
                 Reusable template
-                <span class="cb-badge" style="background:#1e293b;">Save &amp; reuse</span>
               </div>
               <div class="cb-output-text empty" id="cb-template-text">Fill in the fields above to generate your template...</div>
-              <div class="cb-copy-row">
-                <button type="button" class="copy-btn" id="cb-copy-template">Copy template</button>
-              </div>
             </div>
 
             <!-- Action buttons -->
             <div class="cb-action-row">
-              <button type="button" class="cb-save-btn" id="cb-build-temp-btn">🧩 Build temporary card</button>
               <button type="button" class="cb-submit-btn" id="cb-save-built-btn">💾 Save card below</button>
               <button type="button" class="cb-submit-btn" id="cb-clear-screen-btn">🔄 Refresh / clear screen</button>
-              <button type="button" class="cb-submit-btn" id="cb-undo-clear-btn" style="display:none;">↩ Back</button>
-              <button type="button" class="cb-save-btn" id="cb-save-btn">💾 Save template</button>
+              <button type="button" class="cb-submit-btn" id="cb-save-btn">💾 Save template</button>
               <button type="button" class="cb-submit-btn" id="cb-submit-btn">📤 Submit this idea</button>
             </div>
             <div class="cb-toast" id="cb-toast"></div>
@@ -4591,23 +4623,8 @@
       const suggestedList = $("cb-suggested-list");
       const toastEl       = $("cb-toast");
       const savedListEl   = $("cb-saved-list");
-      const cbAiPanel = $("cb-ai-panel");
-      const cbPreviewBtn = $("cb-preview-btn");
-      const cbOpenRunBtn = $("cb-open-run-btn");
-      const cbAiComposerWrap = $("cb-ai-composer-wrap");
-      const cbAiComposerEl = $("cb-ai-composer");
-      const cbAiRunBtn = $("cb-run-ai-btn");
-      const cbAiResponseArea = $("cb-ai-response-area");
-      const cbAiSentWrap = $("cb-ai-sent-wrap");
-      const cbAiSentPrompt = $("cb-ai-sent-prompt");
-      const cbAiResponseLabel = $("cb-ai-response-label");
-      const cbAiResponseText = $("cb-ai-response-text");
-      const cbAiErrorMsg = $("cb-ai-error-msg");
-      const cbAiCopyResultBtn = $("cb-copy-ai-result");
-      const buildTempBtn = $("cb-build-temp-btn");
       const saveBuiltBtn = $("cb-save-built-btn");
       const clearScreenBtn = $("cb-clear-screen-btn");
-      const undoClearBtn = $("cb-undo-clear-btn");
 
       backToBuilderBtn?.addEventListener("click", (e) => {
         e.stopPropagation();
@@ -4618,52 +4635,6 @@
           setTimeout(() => firstField.focus(), 120);
         }
       });
-
-      oneoffEl.style.display = "none";
-      oneoffEl.setAttribute("aria-hidden", "true");
-      cbAiComposerEl.dataset.lastAuto = "";
-      cbAiComposerEl.addEventListener("input", () => {
-        cbAiComposerEl.dataset.userEdited = "true";
-      });
-      const revealCbAiPanel = (options) => {
-        const opts = options || {};
-        cbAiPanel.classList.add("visible");
-        if (opts.showComposer) {
-          cbAiComposerWrap.classList.add("visible");
-        }
-        if (opts.openResponse) {
-          cbAiResponseArea.classList.add("visible");
-        }
-      };
-      cbPreviewBtn?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        revealCbAiPanel({ showComposer: true, openResponse: false });
-      });
-      cbOpenRunBtn?.addEventListener("click", (e) => {
-        e.stopPropagation();
-        revealCbAiPanel({ showComposer: false, openResponse: true });
-        cbAiRunBtn.click();
-      });
-
-      function getOneoffPromptText() {
-        const text = (oneoffEl.textContent || "").trim();
-        if (!text || text.includes("Fill in the fields above")) return "";
-        return text;
-      }
-
-      function syncOneoffToComposer() {
-        const nextPrompt = getOneoffPromptText();
-        const lastAuto = cbAiComposerEl.dataset.lastAuto || "";
-        if (!cbAiComposerEl.dataset.userEdited || cbAiComposerEl.value === lastAuto) {
-          cbAiComposerEl.value = nextPrompt;
-          cbAiComposerEl.dataset.userEdited = "";
-        }
-        cbAiComposerEl.dataset.lastAuto = nextPrompt;
-      }
-      syncOneoffToComposer();
-      if (customBuilderUndoState) {
-        undoClearBtn.style.display = "inline-flex";
-      }
 
       // Restore draft state when re-rendering Custom Builder
       if (customBuilderDraft) {
@@ -4778,119 +4749,11 @@
           templateEl.classList.add("empty");
         }
 
-        syncOneoffToComposer();
         customBuilderDraft = Object.assign({}, fields, {
           selectedTone,
           selectedFormat
         });
       }
-
-      // ── Copy buttons (same behaviour as rest of app) ──
-      function doCopy(text, btn) {
-        if (!text || text.includes("Fill in the fields")) return;
-        if (navigator.clipboard && window.isSecureContext) {
-          navigator.clipboard.writeText(text).then(() => {
-            const old = btn.innerHTML;
-            btn.innerHTML = "Copied ✓";
-            btn.style.background = "#e75a00";
-            setTimeout(() => { btn.innerHTML = old; btn.style.background = ""; }, 1200);
-          }).catch(() => fallbackCopy(text, btn));
-        } else { fallbackCopy(text, btn); }
-      }
-
-      $("cb-copy-oneoff").addEventListener("click", (e) => {
-        e.stopPropagation();
-        doCopy((cbAiComposerEl.value || oneoffEl.textContent || "").trim(), $("cb-copy-oneoff"));
-      });
-      $("cb-copy-template").addEventListener("click", (e) => {
-        e.stopPropagation();
-        doCopy(templateEl.textContent, $("cb-copy-template"));
-      });
-
-      cbAiCopyResultBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const txt = cbAiResponseText.textContent;
-        if (!txt) return;
-        navigator.clipboard?.writeText(txt).then(() => {
-          cbAiCopyResultBtn.textContent = "Copied ✓";
-          setTimeout(() => { cbAiCopyResultBtn.textContent = "Copy result"; }, 1400);
-        }).catch(() => {});
-      });
-
-      cbAiRunBtn.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        const promptText = (cbAiComposerEl.value || "").trim();
-        if (!promptText) {
-          cbAiResponseArea.classList.add("visible");
-          cbAiErrorMsg.textContent = "⚠️ Please enter a prompt before running.";
-          cbAiErrorMsg.classList.add("visible");
-          return;
-        }
-        bumpUsageStat("aiRuns", 1);
-
-        cbAiRunBtn.disabled = true;
-        cbAiRunBtn.classList.add("loading");
-        cbAiResponseArea.classList.add("visible");
-        cbAiSentWrap.classList.add("visible");
-        cbAiSentPrompt.textContent = promptText;
-        cbAiResponseText.textContent = "";
-        cbAiErrorMsg.classList.remove("visible");
-        cbAiErrorMsg.textContent = "";
-        cbAiResponseLabel.classList.add("streaming");
-
-        const msgContent = [{ type: "text", text: promptText }];
-
-        try {
-          const resp = await fetch("/api/claude", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              model: "claude-sonnet-4-20250514",
-              max_tokens: 1000,
-              stream: true,
-              system: "You are a practical AI assistant helping Australian tradies and small business owners. Write in plain, professional Australian English. Be direct, clear, and concise. Avoid corporate jargon or overly formal language.",
-              messages: [{ role: "user", content: msgContent }]
-            })
-          });
-
-          if (!resp.ok) {
-            const errData = await resp.json().catch(() => ({}));
-            throw new Error(errData?.error?.message || `API error ${resp.status}`);
-          }
-
-          const reader = resp.body.getReader();
-          const decoder = new TextDecoder();
-          let buffer = "";
-
-          while (true) {
-            const { value, done } = await reader.read();
-            if (done) break;
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split("\n");
-            buffer = lines.pop();
-            for (const line of lines) {
-              if (!line.startsWith("data: ")) continue;
-              const data = line.slice(6).trim();
-              if (data === "[DONE]") continue;
-              try {
-                const parsed = JSON.parse(data);
-                const delta = parsed?.delta?.text || parsed?.delta?.delta?.text || "";
-                if (delta) {
-                  cbAiResponseText.textContent += delta;
-                  cbAiResponseText.scrollIntoView({ block: "nearest", behavior: "smooth" });
-                }
-              } catch (_error) {}
-            }
-          }
-        } catch (err) {
-          cbAiErrorMsg.textContent = "⚠️ " + (err.message || "Something went wrong. Please try again.");
-          cbAiErrorMsg.classList.add("visible");
-        } finally {
-          cbAiRunBtn.disabled = false;
-          cbAiRunBtn.classList.remove("loading");
-          cbAiResponseLabel.classList.remove("streaming");
-        }
-      });
 
       const buildCurrentCard = () => {
         const fields = getFields();
@@ -4903,25 +4766,11 @@
         return buildCustomCardFromFields(fields, oneoffPrompt, templatePrompt);
       };
 
-      buildTempBtn.addEventListener("click", (e) => {
+      saveBuiltBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         const built = buildCurrentCard();
         if (!built) {
           showToast("⚠️ Add a problem description first.");
-          return;
-        }
-        customBuilderTempCard = Object.assign({}, built, {
-          __cardId: built.__cardId || ("custom-temp::" + Date.now())
-        });
-        writePrefs({ openCard: built.subtitle });
-        render();
-      });
-
-      saveBuiltBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const built = buildCurrentCard() || customBuilderTempCard;
-        if (!built) {
-          showToast("⚠️ Build a temporary card first.");
           return;
         }
         const builtCard = Object.assign({}, built, {
@@ -4940,27 +4789,13 @@
         if (!favs.includes(builtCard.__cardId)) favs.push(builtCard.__cardId);
         writeFavourites(favs);
         bumpUsageStat("cardsBuilt", 1);
-        customBuilderTempCard = null;
         writePrefs({ openCard: builtCard.subtitle });
         render();
       });
 
       clearScreenBtn.addEventListener("click", (e) => {
         e.stopPropagation();
-        customBuilderUndoState = {
-          draft: customBuilderDraft || Object.assign({}, getFields(), { selectedTone, selectedFormat }),
-          tempCard: customBuilderTempCard ? JSON.parse(JSON.stringify(customBuilderTempCard)) : null
-        };
         customBuilderDraft = null;
-        customBuilderTempCard = null;
-        render();
-      });
-
-      undoClearBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (!customBuilderUndoState) return;
-        customBuilderDraft = customBuilderUndoState.draft || null;
-        customBuilderTempCard = customBuilderUndoState.tempCard || null;
         customBuilderUndoState = null;
         render();
       });
@@ -5145,6 +4980,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
     function render() {
       document.getElementById("pageTitle").textContent = current === "Home" ? "Choose a task" : (APP[current] ? APP[current].title : current);
       const helpEl = document.getElementById("pageHelp");
+      const pageControlsEl = document.getElementById("pageControls");
       const copy = {
         "Home": {
           why: "AdvisaStacks turns common business communication tasks into ready-to-use prompt cards so you can move faster with less rework.",
@@ -5178,13 +5014,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
           why: "Custom templates ensure your AI outputs match your business exactly every time.",
           how: "Add items and fill out the structured form below and we will build the perfect context prompt."
         },
-        "Favourites": {
-          why: "Keep your most-used prompts in one place for faster daily workflows.",
-          how: "Save a prompt card with the star button, then access it any time here."
-        },
-        "Prompt Library": {
-          why: "Browse every prompt title in one simple index grouped by category.",
-          how: "Click any title to jump straight to that prompt card."
+        "Workspace": {
+          why: "Use Workspace tools to find saved cards fast and jump through the full prompt index.",
+          how: "Use Saved only on any category, then open Workspace when you need your saved list and library links in one place."
         },
         "Custom Builder": {
           why: "Build your own reusable prompt templates for any recurring task — not just the ones we've built for you.",
@@ -5195,6 +5027,20 @@ $("cb-submit-btn").addEventListener("click", async () => {
         why: "Use this page to get practical outputs fast.",
         how: "Open a card, copy the prompt, and fill in the brackets."
       };
+      const canShowSavedFilter = !!APP[current] && !["Home", "Workspace", "Custom Builder"].includes(current);
+      pageControlsEl.innerHTML = "";
+      if (canShowSavedFilter) {
+        const savedFilterBtn = document.createElement("button");
+        savedFilterBtn.type = "button";
+        savedFilterBtn.className = "page-filter-btn" + (savedOnlyFilter ? " active" : "");
+        savedFilterBtn.textContent = savedOnlyFilter ? "★ Saved only: On" : "★ Saved only: Off";
+        savedFilterBtn.addEventListener("click", () => {
+          savedOnlyFilter = !savedOnlyFilter;
+          writePrefs({ savedOnlyFilter });
+          render();
+        });
+        pageControlsEl.appendChild(savedFilterBtn);
+      }
       if (current === "Home") {
         helpEl.innerHTML = "";
         helpEl.style.display = "none";
@@ -5244,7 +5090,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 <strong>🛠 Build Your Own</strong>
                 <span>Create custom workflows and reusable templates.</span>
               </button>
-              <button type="button" class="home-task-btn" data-nav="Favourites">
+              <button type="button" class="home-task-btn" data-nav="Workspace">
                 <strong>Saved tools</strong>
                 <span>Quickly open your favourite and most-used cards.</span>
               </button>
@@ -5328,82 +5174,137 @@ $("cb-submit-btn").addEventListener("click", async () => {
         });
       }
 
-      if (current === "Prompt Library") {
+      if (current === "Workspace") {
+        const workspaceCard = document.createElement("section");
+        workspaceCard.className = "card open";
+        workspaceCard.style.gridColumn = "span 12";
+        const workspaceHead = document.createElement("div");
+        workspaceHead.className = "card-head";
+        workspaceHead.innerHTML = "<h3>Workspace tools</h3>";
+        const workspaceBody = document.createElement("div");
+        workspaceBody.className = "card-body";
+        workspaceBody.hidden = false;
+        workspaceBody.innerHTML = `
+          <div class="workspace-grid">
+            <p class="workspace-muted">Use this area to quickly access saved cards and browse the full prompt index.</p>
+            <div class="home-cta-row">
+              <button type="button" class="home-cta-btn" id="workspaceSavedFilterBtn">${savedOnlyFilter ? "★ Saved only is ON" : "★ Turn on Saved only"}</button>
+              <button type="button" class="home-cta-btn" id="workspaceBuilderBtn">Open Custom Builder</button>
+            </div>
+            <div class="workspace-panel">
+              <h4>Saved cards</h4>
+              <div id="workspaceSavedList"></div>
+            </div>
+            <div class="workspace-panel">
+              <h4>Prompt index</h4>
+              <div id="workspaceLibraryList"></div>
+            </div>
+          </div>
+        `;
+
+        workspaceBody.querySelector("#workspaceSavedFilterBtn")?.addEventListener("click", () => {
+          savedOnlyFilter = !savedOnlyFilter;
+          writePrefs({ savedOnlyFilter });
+          current = "Winning Work";
+          writePrefs({ lastCategory: "Winning Work", openCard: null });
+          render();
+        });
+        workspaceBody.querySelector("#workspaceBuilderBtn")?.addEventListener("click", () => {
+          current = "Custom Builder";
+          writePrefs({ lastCategory: "Custom Builder", openCard: null });
+          render();
+        });
+
+        const favIds = new Set(readFavourites());
+        const savedList = [];
+        Object.keys(APP).forEach((category) => {
+          if (["Home", "Workspace", "Custom Builder"].includes(category)) return;
+          (APP[category].cards || []).forEach((card) => {
+            const cardId = getCardId(category, card.subtitle);
+            if (favIds.has(cardId)) {
+              savedList.push({ category, subtitle: card.subtitle });
+            }
+          });
+        });
+        readCustomBuiltCards().forEach((entry) => {
+          if (!entry || !entry.card) return;
+          const cardId = entry.card.__cardId || ("custom-built::" + entry.id);
+          const legacyCardId = getCardId("Custom Builder", entry.card.subtitle || "");
+          if (favIds.has(cardId) || favIds.has(legacyCardId)) {
+            savedList.push({ category: "Custom Builder", subtitle: entry.card.subtitle || "Custom card" });
+          }
+        });
+
+        const savedWrap = workspaceBody.querySelector("#workspaceSavedList");
+        if (!savedList.length) {
+          savedWrap.innerHTML = `<p class="workspace-muted">No saved cards yet. Tap “Save favourites” on any card to collect them here.</p>`;
+        } else {
+          const rows = document.createElement("div");
+          rows.className = "workspace-btn-row";
+          savedList.forEach((entry) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "copy-btn";
+            btn.textContent = entry.subtitle + " • " + entry.category;
+            btn.addEventListener("click", () => {
+              current = entry.category;
+              writePrefs({ lastCategory: entry.category, openCard: entry.subtitle });
+              render();
+            });
+            rows.appendChild(btn);
+          });
+          savedWrap.appendChild(rows);
+        }
+
+        const libraryWrap = workspaceBody.querySelector("#workspaceLibraryList");
         buildPromptLibraryData().forEach((entry) => {
-          if (["Home", "Prompt Library", "Favourites", "Custom Builder"].includes(entry.category)) return;
-          const section = document.createElement("div");
-          section.className = "card open";
-          section.innerHTML = `<div class="card-head"><h3>${entry.category}</h3></div>`;
-          const body = document.createElement("div");
-          body.className = "card-body";
-          body.hidden = false;
+          if (["Home", "Workspace", "Custom Builder"].includes(entry.category) || !(entry.cards || []).length) return;
+          const group = document.createElement("div");
+          group.className = "workspace-group";
+          const title = document.createElement("div");
+          title.className = "workspace-group-title";
+          title.textContent = entry.category;
+          const btnRow = document.createElement("div");
+          btnRow.className = "workspace-btn-row";
           entry.cards.forEach((card) => {
-            const linkBtn = document.createElement("button");
-            linkBtn.type = "button";
-            linkBtn.className = "copy-btn";
-            linkBtn.style.marginBottom = "8px";
-            linkBtn.style.marginRight = "8px";
-            linkBtn.textContent = card.subtitle;
-            linkBtn.addEventListener("click", () => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "copy-btn";
+            btn.textContent = card.subtitle;
+            btn.addEventListener("click", () => {
               current = entry.category;
               writePrefs({ lastCategory: entry.category, openCard: card.subtitle });
               render();
             });
-            body.appendChild(linkBtn);
+            btnRow.appendChild(btn);
           });
-          section.appendChild(body);
-          grid.appendChild(section);
+          group.appendChild(title);
+          group.appendChild(btnRow);
+          libraryWrap.appendChild(group);
         });
+
+        workspaceCard.appendChild(workspaceHead);
+        workspaceCard.appendChild(workspaceBody);
+        grid.appendChild(workspaceCard);
         promptRefreshers = [];
         buildMenu();
         return;
       }
 
-      if (current === "Favourites") {
+      if (canShowSavedFilter && savedOnlyFilter) {
         const favs = new Set(readFavourites());
-        const addedFavCardIds = new Set();
-        cardsToRender = [];
-        Object.keys(APP).forEach((category) => {
-          if (["Home", "Favourites", "Prompt Library", "Custom Builder"].includes(category)) return;
-          (APP[category].cards || []).forEach((card) => {
-            const cardId = getCardId(category, card.subtitle);
-            if (favs.has(cardId)) {
-              cardsToRender.push(Object.assign({}, card, { __category: category }));
-              addedFavCardIds.add(cardId);
-            }
-          });
+        cardsToRender = (cardsToRender || []).filter((card) => {
+          const sourceCategory = card.__category || current;
+          const cardId = card.__cardId || getCardId(sourceCategory, card.subtitle);
+          const legacyId = getCardId(sourceCategory, card.subtitle);
+          return favs.has(cardId) || favs.has(legacyId);
         });
-
-        readCustomBuiltCards().forEach((entry) => {
-          if (!entry || !entry.card) return;
-          const cardId = entry.card.__cardId || ("custom-built::" + entry.id);
-          const legacyCardId = getCardId("Custom Builder", entry.card.subtitle || "");
-          if ((favs.has(cardId) || favs.has(legacyCardId)) && !addedFavCardIds.has(cardId)) {
-            cardsToRender.push(Object.assign({}, entry.card, {
-              __category: "Custom Builder",
-              __cardId: cardId
-            }));
-            addedFavCardIds.add(cardId);
-          }
-        });
-
-        if (customBuilderTempCard) {
-          const tempCardId = customBuilderTempCard.__cardId || "custom-temp::active";
-          const legacyTempId = getCardId("Custom Builder", customBuilderTempCard.subtitle || "");
-          if ((favs.has(tempCardId) || favs.has(legacyTempId)) && !addedFavCardIds.has(tempCardId)) {
-            cardsToRender.push(Object.assign({}, customBuilderTempCard, {
-              __category: "Custom Builder",
-              __cardId: tempCardId
-            }));
-            addedFavCardIds.add(tempCardId);
-          }
-        }
       }
 
-      if (current === "Favourites" && cardsToRender.length === 0) {
+      if (canShowSavedFilter && savedOnlyFilter && cardsToRender.length === 0) {
         const empty = document.createElement("div");
         empty.className = "card open";
-        empty.innerHTML = `<div class="card-head"><h3>No favourites yet</h3></div><div class="card-body" style="display:block;">Tap ☆ Save favourite on any card to add it here.</div>`;
+        empty.innerHTML = `<div class="card-head"><h3>No saved cards in this category</h3></div><div class="card-body" style="display:block;">Turn off Saved only, or save cards first using the “Save favourites” button.</div>`;
         grid.appendChild(empty);
       }
 
@@ -6304,9 +6205,12 @@ $("cb-submit-btn").addEventListener("click", async () => {
     if (savedPrefs.businessName) {
       globalBizNameInput.value = savedPrefs.businessName;
     }
+    savedOnlyFilter = !!savedPrefs.savedOnlyFilter;
 
     // Restore the last visited tab if it exists
-    if (savedPrefs.lastCategory && (APP[savedPrefs.lastCategory] || savedPrefs.lastCategory === "Favourites" || savedPrefs.lastCategory === "Prompt Library" || savedPrefs.lastCategory === "Custom Builder")) {
+    if (savedPrefs.lastCategory === "Favourites" || savedPrefs.lastCategory === "Prompt Library") {
+      current = "Workspace";
+    } else if (savedPrefs.lastCategory && (APP[savedPrefs.lastCategory] || savedPrefs.lastCategory === "Workspace" || savedPrefs.lastCategory === "Custom Builder")) {
       current = savedPrefs.lastCategory;
     }
 
