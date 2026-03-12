@@ -2011,6 +2011,124 @@
       }
     }
 
+    /* ── Example panel ── */
+    .example-panel {
+      margin: 0 0 14px;
+    }
+    .example-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 9px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      color: #94a3b8;
+      width: 100%;
+      text-align: left;
+      transition: border-color 200ms, color 200ms, background 200ms;
+    }
+    .example-toggle:hover {
+      border-color: var(--border-strong);
+      color: #cbd5e1;
+      background: rgba(148, 163, 184, 0.04);
+    }
+    .example-toggle[aria-expanded="true"] {
+      border-color: #3b82f6;
+      color: #93c5fd;
+      background: rgba(59, 130, 246, 0.06);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    .example-toggle-icon {
+      font-size: 11px;
+      transition: transform 200ms;
+      flex-shrink: 0;
+      width: 12px;
+      text-align: center;
+    }
+    .example-toggle[aria-expanded="true"] .example-toggle-icon {
+      transform: rotate(90deg);
+    }
+    .example-input-summary {
+      margin-left: auto;
+      font-size: 12px;
+      font-weight: 500;
+      color: #64748b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50%;
+    }
+    .example-body {
+      border: 1px solid #3b82f6;
+      border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      padding: 12px;
+      background: rgba(59, 130, 246, 0.04);
+    }
+    .example-context {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .example-context-label {
+      color: #64748b;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .example-context-value {
+      color: #94a3b8;
+    }
+    .example-responses {
+      display: grid;
+      gap: 8px;
+    }
+    .example-response-box {
+      border-color: rgba(59, 130, 246, 0.25);
+      background: rgba(59, 130, 246, 0.06);
+    }
+    .example-response-box .ai-response-text {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.55;
+    }
+    .ai-response-box-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px 4px;
+    }
+    .example-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #60a5fa;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: 4px;
+      padding: 2px 6px;
+      line-height: 1;
+    }
+    .example-footer {
+      margin: 10px 0 0;
+      font-size: 12px;
+      color: #64748b;
+      font-style: italic;
+    }
+    @media (max-width: 640px) {
+      .example-input-summary {
+        display: none;
+      }
+    }
+
     /* ── Onboarding Overlay ── */
     #onboardingOverlay {
       position: fixed;
@@ -2630,7 +2748,8 @@
               ],
               "fields": ["[Client name]", "[Job type]", "[Quote sent date]", "[Next step link or instruction]"]
             },
-            "prompts": ["Write a [Channel] to [Client name] following up a quote sent [Quote sent date] for [Job type].\n\nTone: [Tone].\nGoal: get them to take the next step: [Next step].\nInclude:\n- 1 polite line checking they received it\n- 1 line summarising the job in plain English\n- 1 clear question as the call to action\n- optional: 1 sentence about next availability if helpful\n\nAdd this at the end: [Next step link or instruction].\nReturn 2 versions."]
+            "prompts": ["Write a [Channel] to [Client name] following up a quote sent [Quote sent date] for [Job type].\n\nTone: [Tone].\nGoal: get them to take the next step: [Next step].\nInclude:\n- 1 polite line checking they received it\n- 1 line summarising the job in plain English\n- 1 clear question as the call to action\n- optional: 1 sentence about next availability if helpful\n\nAdd this at the end: [Next step link or instruction].\nReturn 2 versions."],
+            "example": {"input":"SMS · Friendly · Sarah · bathroom renovation","output":[{"label":"Version 1","text":"Hi Sarah, just checking in — did you get the quote I sent through yesterday for the bathroom reno? Happy to answer any questions. If you're good to go, just reply YES and I'll lock in a start date for you. Cheers, Matt — Cooper Electrical"},{"label":"Version 2","text":"Hey Sarah, hope you've had a chance to look over the bathroom reno quote. Let me know if anything needs adjusting — otherwise just reply YES to lock it in and I'll get you on the schedule. Talk soon, Matt"}]}
           },
           {
             "subtitle": "Quote Follow-Up (3–5 days)",
@@ -2662,7 +2781,8 @@
               ],
               "fields": ["[Client name]", "[Job type]", "[Availability window]"]
             },
-            "prompts": ["Write a short [Channel] to [Client name].\n\nContext: I sent a quote for [Job type] about 3–5 days ago and have not heard back.\nTone: [Tone]. No AI language.\n\nGoal: prompt a decision (yes/no) and make it easy.\nInclude:\n- friendly check in\n- simple reminder of what the quote covers\n- one clear question: proceed, adjust scope, or close it off?\nOptional urgency: [Urgency].\nMake the next step: [Offer].\nOptional availability: [Availability window].\n\nReturn 2 versions."]
+            "prompts": ["Write a short [Channel] to [Client name].\n\nContext: I sent a quote for [Job type] about 3–5 days ago and have not heard back.\nTone: [Tone]. No AI language.\n\nGoal: prompt a decision (yes/no) and make it easy.\nInclude:\n- friendly check in\n- simple reminder of what the quote covers\n- one clear question: proceed, adjust scope, or close it off?\nOptional urgency: [Urgency].\nMake the next step: [Offer].\nOptional availability: [Availability window].\n\nReturn 2 versions."],
+            "example": {"input":"Email · Firm · Dave · kitchen rewire · We are booking up","output":[{"label":"Version 1","text":"Hi Dave,\n\nJust following up on the kitchen rewire quote I sent through last week. Wanted to check whether you’ve had a chance to look it over.\n\nWe’re starting to book up for the next few weeks, so if you’d like to go ahead, it’d be great to lock in a date soon. If the scope or price needs adjusting, happy to chat about options.\n\nOtherwise, no worries at all — just let me know either way so I can plan accordingly.\n\nCheers,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Dave,\n\nFollowing up on the kitchen rewire quote from last week. I know things get busy, so just wanted to check in.\n\nWe’re booking up quickly at the moment. If you want to secure a spot, let me know and I’ll get you locked in. If the quote doesn’t suit, I’m happy to look at adjusting the scope.\n\nEither way, just let me know where you’re at.\n\nCheers,\nMatt"}]}
           },
           {
             "subtitle": "Handling “Can you do it cheaper?”",
@@ -2686,7 +2806,8 @@
               ],
               "fields": ["[Client name]", "[Job type]", "[Quote amount]", "[What’s included]", "[What can be adjusted]"]
             },
-            "prompts": ["Write a reply for [Channel] to [Client name] about [Job type]. Quote amount: [Quote amount].\nWhat the quote includes: [What’s included].\n\nThe client said: \"Can you do it cheaper?\"\nKeep it calm, confident, and practical. No AI language.\n\nGoal:\n- acknowledge the question\n- explain briefly what drives the price (time, materials, warranty, quality)\n- avoid sounding defensive\n- give a clear path forward using one of these approaches: [Approach]\n\nIf using options, give:\n- Option A (same scope, same price)\n- Option B (reduced scope or alternative material) with a lower price range\n- Option C (premium or add on) if relevant\n\nEnd with one clear question: \"Which option do you want to go with?\" or \"Want me to adjust the scope to fit your budget?\"\nReturn 2 variations."]
+            "prompts": ["Write a reply for [Channel] to [Client name] about [Job type]. Quote amount: [Quote amount].\nWhat the quote includes: [What’s included].\n\nThe client said: \"Can you do it cheaper?\"\nKeep it calm, confident, and practical. No AI language.\n\nGoal:\n- acknowledge the question\n- explain briefly what drives the price (time, materials, warranty, quality)\n- avoid sounding defensive\n- give a clear path forward using one of these approaches: [Approach]\n\nIf using options, give:\n- Option A (same scope, same price)\n- Option B (reduced scope or alternative material) with a lower price range\n- Option C (premium or add on) if relevant\n\nEnd with one clear question: \"Which option do you want to go with?\" or \"Want me to adjust the scope to fit your budget?\"\nReturn 2 variations."],
+            "example": {"input":"Email · Firm · Dave · kitchen rewire · We are booking up","output":[{"label":"Version 1","text":"Hi Dave,\n\nJust following up on the kitchen rewire quote I sent through last week. Wanted to check whether you’ve had a chance to look it over.\n\nWe’re starting to book up for the next few weeks, so if you’d like to go ahead, it’d be great to lock in a date soon. If the scope or price needs adjusting, happy to chat about options.\n\nOtherwise, no worries at all — just let me know either way so I can plan accordingly.\n\nCheers,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Dave,\n\nFollowing up on the kitchen rewire quote from last week. I know things get busy, so just wanted to check in.\n\nWe’re booking up quickly at the moment. If you want to secure a spot, let me know and I’ll get you locked in. If the quote doesn’t suit, I’m happy to look at adjusting the scope.\n\nEither way, just let me know where you’re at.\n\nCheers,\nMatt"}]}
           },
           {
             "subtitle": "Turn an enquiry into a booked site visit",
@@ -2714,7 +2835,8 @@
               ],
               "fields": ["[Client name]", "[Job type]", "[Suburb]", "[Two time options]", "[What you need to know]"]
             },
-            "prompts": ["Write a [Channel] reply to a new enquiry.\n\nLead source: [Lead source].\nThey asked: \"[paste their message]\"\n\nGoal: book a site visit (or call) to quote properly.\nDetails:\n- Job type: [Job type]\n- Suburb: [Suburb]\n- Offer these time options: [Booking style] -> [Two time options]\n- I need these details before arriving: [What you need to know] (max 3 questions)\n\nRules:\n- sound professional and friendly\n- no fluff\n- ask 2–3 short questions\n- offer the two time slots\n- include what to expect (for example, “I will confirm price after a quick look”)\n\nReturn 2 versions."]
+            "prompts": ["Write a [Channel] reply to a new enquiry.\n\nLead source: [Lead source].\nThey asked: \"[paste their message]\"\n\nGoal: book a site visit (or call) to quote properly.\nDetails:\n- Job type: [Job type]\n- Suburb: [Suburb]\n- Offer these time options: [Booking style] -> [Two time options]\n- I need these details before arriving: [What you need to know] (max 3 questions)\n\nRules:\n- sound professional and friendly\n- no fluff\n- ask 2–3 short questions\n- offer the two time slots\n- include what to expect (for example, “I will confirm price after a quick look”)\n\nReturn 2 versions."],
+            "example": {"input":"SMS · Offer options · Tom · switchboard upgrade · $2,800","output":[{"label":"Version 1","text":"Hi Tom, appreciate the question. The $2,800 covers a full switchboard upgrade with safety switches, new circuits and a compliance certificate.\n\nIf you’d like to bring the cost down, here are a couple of options:\nOption A: Full upgrade as quoted — $2,800\nOption B: Upgrade the board and safety switches only, skip the extra circuits — around $2,100\n\nBoth meet current standards. Which option works better for you?"},{"label":"Version 2","text":"Hey Tom, totally understand wanting to check the numbers. The quote reflects quality parts, a full compliance cert and warranty on the work.\n\nI can offer two paths:\nA) Full scope as quoted — $2,800\nB) Reduced scope (board + safety switches only) — ~$2,100\n\nHappy to walk through either option. What suits you best?"}]}
           },
           {
             "subtitle": "Explain why your quote costs more",
@@ -2738,7 +2860,8 @@
               ],
               "fields": ["[Client name]", "[Job type]", "[Key differentiators]", "[One risk you reduce]"]
             },
-            "prompts": ["Write a [Channel] to [Client name] about [Job type]. Natural, confident, no AI language.\n\nClient says: \"Your quote is higher than the others.\"\n\nMy key differentiators: [Emphasis] (for example, warranty, licensed work, quality materials, clean finish, reliable timeframe).\nRisk I reduce: [One risk you reduce] (for example, rework, non compliance, delays).\n\nGoal: explain value in plain English and keep the door open.\nStructure:\n- acknowledge\n- 2–3 bullets or short sentences explaining what is included and why it matters\n- invite them to compare like for like (scope, materials, warranty)\n- end with a simple question: proceed, adjust scope, or jump on a quick call\n\nReturn 2 versions."]
+            "prompts": ["Write a [Channel] to [Client name] about [Job type]. Natural, confident, no AI language.\n\nClient says: \"Your quote is higher than the others.\"\n\nMy key differentiators: [Emphasis] (for example, warranty, licensed work, quality materials, clean finish, reliable timeframe).\nRisk I reduce: [One risk you reduce] (for example, rework, non compliance, delays).\n\nGoal: explain value in plain English and keep the door open.\nStructure:\n- acknowledge\n- 2–3 bullets or short sentences explaining what is included and why it matters\n- invite them to compare like for like (scope, materials, warranty)\n- end with a simple question: proceed, adjust scope, or jump on a quick call\n\nReturn 2 versions."],
+            "example": {"input":"SMS · Facebook · Offer 2 times · Lisa · downlights · Mosman","output":[{"label":"Version 1","text":"Hi Lisa, thanks for reaching out about the downlights! Just a couple of quick questions before I come out:\n\n1. How many downlights are you thinking?\n2. Is there existing wiring in the ceiling, or is it a new install?\n\nI’ve got availability this Thursday arvo or Friday morning to come take a look and give you a price on the spot. Which works better for you?\n\nCheers, Matt — Cooper Electrical"},{"label":"Version 2","text":"Hey Lisa, great to hear from you! To give you an accurate quote I’d love to do a quick site visit. Can I ask:\n\n1. Roughly how many downlights?\n2. New install or replacing existing fittings?\n\nI can come by Thursday around 2pm or Friday 9am — takes about 15 minutes and I’ll confirm the price on the spot. Let me know which suits.\n\nMatt"}]}
           },
           {
             "subtitle": "Upsell extra work during quoting (Good / Better / Best)",
@@ -2766,7 +2889,8 @@
               ],
               "fields": ["[Client name]", "[Job type]", "[Base scope]", "[Option 1] — [Price range]", "[Option 2] — [Price range]", "[Option 3] — [Price range]"]
             },
-            "prompts": ["Write a [Channel] to [Client name] presenting quote options for [Job type].\nKeep it helpful and practical. No AI language.\n\nTone: [Tone].\nFormat: [Format].\n\nBase scope: [Base scope]\nAdd on or upgrade options:\n1) [Option 1] — [Price range]\n2) [Option 2] — [Price range]\n3) [Option 3] — [Price range]\n\nGoal: make it easy to choose.\nRules:\n- present as choices, not pressure\n- explain each option in one simple benefit sentence (time saved, longer life, less maintenance, better finish)\n- end with one clear question: “Which option do you want me to quote or lock in?”\n\nReturn 2 versions."]
+            "prompts": ["Write a [Channel] to [Client name] presenting quote options for [Job type].\nKeep it helpful and practical. No AI language.\n\nTone: [Tone].\nFormat: [Format].\n\nBase scope: [Base scope]\nAdd on or upgrade options:\n1) [Option 1] — [Price range]\n2) [Option 2] — [Price range]\n3) [Option 3] — [Price range]\n\nGoal: make it easy to choose.\nRules:\n- present as choices, not pressure\n- explain each option in one simple benefit sentence (time saved, longer life, less maintenance, better finish)\n- end with one clear question: “Which option do you want me to quote or lock in?”\n\nReturn 2 versions."],
+            "example": {"input":"Email · Quality + Compliance · Rachel · full house rewire","output":[{"label":"Version 1","text":"Hi Rachel,\n\nI understand our quote came in higher than some others. Here’s what’s included and why:\n\nA full house rewire is a big job and the price reflects premium cabling that’s rated to last 30+ years, full compliance certification, safety switch installation, and a 10-year workmanship warranty. We also carry full public liability and all work is inspected.\n\nThe risk with cheaper quotes is often in the materials or shortcuts that can cause problems down the line.\n\nHappy to jump on a call if you want to go through the quote line by line.\n\nCheers,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Rachel,\n\nFair question. Our quote covers certified cabling, full compliance sign-off, safety switches and a 10-year warranty on the work. We’re fully insured and every job is inspected.\n\nWith a full rewire, the long-term cost of going with cheaper materials or less experienced installers usually ends up higher. I’d rather quote it properly upfront.\n\nHappy to talk through it if that helps.\n\nCheers,\nMatt"}]}
           }
         ]
       },
@@ -2799,7 +2923,8 @@
             },
             "prompts": [
               "Write a [Channel]. Situation: Invoice is 1–3 days overdue.\n\nTone: [Tone]. Plain English. No AI language.\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nDue date: [Due date]\nPayment info: [Include] — [Payment link or bank details]\nJob summary (optional): [Job type / address]\n\nWrite a short message that:\n- assumes they missed it\n- includes the amount and invoice number\n- gives one clear way to pay\n- ends with one clear question (e.g. “Can you please sort this today?”)\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"Email · Good/Better/Best · James · outdoor lighting","output":[{"label":"Version 1","text":"Hi James,\n\nAs discussed, here are three options for the outdoor lighting:\n\nGood — $1,200: 4x LED floodlights on existing circuits, basic timer switch.\n\nBetter — $1,800: 6x LED floodlights, dedicated circuit, smart timer you can control from your phone.\n\nBest — $2,600: Full landscape lighting package (8 fittings), dedicated circuit, smart control, plus sensor lights at the front entry.\n\nAll options include labour, materials and a compliance certificate. Most customers go with the Better option. Let me know which suits and I’ll get you booked in.\n\nCheers,\nMatt — Cooper Electrical"}]}
           },
           {
             "subtitle": "Invoice Reminder (Firm — 7+ days overdue)",
@@ -2828,7 +2953,8 @@
             },
             "prompts": [
               "Write a [Channel]. Situation: Invoice is [X days] overdue and I need a clear payment time.\n\nTone: [Tone]. Calm, professional. No threats, no AI language.\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nDue date: [Due date]\nPayment info: [Payment link or bank details]\n\nWrite a message that:\n- states the invoice is overdue\n- asks for: [Next step]\n- is firm but not rude\n- includes one clear call to action\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Ben · INV-0042 · $1,450","output":[{"label":"Version 1","text":"Hi Ben, just a quick reminder that invoice #INV-0042 for $1,450 was due a couple of days ago. No stress — it might’ve slipped through. You can pay via bank transfer or the link in the invoice. Let me know if there are any questions. Cheers, Matt"},{"label":"Version 2","text":"Hey Ben, friendly heads up — invoice #INV-0042 ($1,450) is now a couple of days past due. Just wanted to make sure it’s on your radar. Payment details are in the invoice. Give me a shout if anything needs sorting. Matt"}]}
           },
           {
             "subtitle": "Final Notice (Still professional)",
@@ -2853,7 +2979,8 @@
             },
             "prompts": [
               "Write a [Channel] issuing a final notice.\n\nTone: Firm, professional, no insults, no AI language.\nGoal: get payment or a confirmed payment date by [date/time].\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nDue date: [Due date]\nDeadline to respond/pay: [date/time]\nNext action if unpaid: [Action]\nPayment info: [Payment link or bank details]\n\nWrite:\n- clear overdue statement\n- clear deadline\n- clear next step (what happens if not paid)\n- polite close\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"Email · Firm · Karen · INV-0038 · $3,200","output":[{"label":"Version 1","text":"Hi Karen,\n\nThis is a follow-up regarding invoice #INV-0038 for $3,200, which is now 10 days overdue.\n\nI understand things get busy, but I do need to get this sorted. Could you confirm when payment will be made? Bank details and the invoice are attached for reference.\n\nIf there’s an issue with the invoice, please let me know so we can resolve it.\n\nRegards,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Karen,\n\nJust following up on invoice #INV-0038 ($3,200), which was due 10 days ago. I’d appreciate it if you could let me know when to expect payment.\n\nPayment details are in the original invoice. If anything needs clarifying, happy to discuss.\n\nRegards,\nMatt"}]}
           },
           {
             "subtitle": "Deposit Request (Before booking in)",
@@ -2878,7 +3005,8 @@
             },
             "prompts": [
               "Write a [Channel] requesting a deposit.\n\nTone: Friendly, clear, confident. No AI language.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nDeposit amount: [Deposit $ or %]\nReason: [Reason]\nPreferred payment method: [Payment link or bank details]\nProposed start date (optional): [date]\n\nWrite a message that:\n- thanks them for proceeding\n- explains deposit purpose in one sentence\n- gives payment instructions\n- confirms what happens after payment (booking confirmed / materials ordered)\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"Email · Mark · INV-0031 · $4,100 · 30 days overdue","output":[{"label":"Version 1","text":"Hi Mark,\n\nThis is a final notice regarding invoice #INV-0031 for $4,100, which is now 30 days overdue.\n\nI’ve sent two previous reminders and haven’t heard back. I’d like to resolve this directly before taking further steps.\n\nPlease arrange payment within 7 days or contact me to discuss a payment plan. I’m happy to work something out, but I do need a response.\n\nRegards,\nMatt — Cooper Electrical\nABN: 37 131 434 727"}]}
           },
           {
             "subtitle": "Progress Payment Request (Mid-job)",
@@ -2903,7 +3031,8 @@
             },
             "prompts": [
               "Write a [Channel] requesting a progress payment.\n\nTone: Direct but polite. No AI language.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nMilestone completed: [Milestone]\nProgress payment amount: [Amount]\nDue: [Today / date]\nPayment info: [Payment link or bank details]\n\nWrite a message that:\n- confirms milestone completed\n- requests the progress payment\n- states what’s next once paid (continue work / schedule next stage)\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Both · Emma · pool house wiring · 30% · $900","output":[{"label":"Version 1","text":"Hi Emma, great news — the pool house wiring job is locked in! To confirm your booking and order materials, I just need a 30% deposit of $900. You can pay by bank transfer to: Cooper Electrical, BSB 062-000, Acc 1234 5678. Once that’s through I’ll confirm your start date. Cheers, Matt"},{"label":"Version 2","text":"Hey Emma, thanks for going ahead with the pool house job. To get you booked in and order the parts, there’s a 30% deposit of $900. Bank details: Cooper Electrical, BSB 062-000, Acc 1234 5678. I’ll confirm the schedule as soon as it comes through. Matt"}]}
           },
           {
             "subtitle": "Payment Terms (Set expectations upfront)",
@@ -2932,7 +3061,8 @@
             },
             "prompts": [
               "Write a short “Payment Terms” section.\n\nWhere this will appear: [Where used]\nTerms: [Terms]\nAccepted payment methods: [card/bank transfer/etc]\nLate policy (optional): [Late policy]\n\nMake it plain English, short, and easy to understand.\nReturn:\n- a short version (3–4 lines)\n- a longer version (6–8 lines)"
-            ]
+            ],
+            "example": {"input":"SMS · Rough-in complete · Phil · commercial fitout · $5,200","output":[{"label":"Version 1","text":"Hi Phil, quick update — the rough-in is now complete on the commercial fitout. As per our agreement, the progress payment of $5,200 is now due. Bank details: Cooper Electrical, BSB 062-000, Acc 1234 5678. Once that’s sorted I’ll get the next stage underway. Cheers, Matt"},{"label":"Version 2","text":"Hey Phil, rough-in is done and looking good. The progress payment of $5,200 is due at this stage. Payment to: BSB 062-000, Acc 1234 5678 (Cooper Electrical). I’ll kick off the next phase once it’s through. Matt"}]}
           },
           {
             "subtitle": "Reply to “I’ll pay next week”",
@@ -2961,7 +3091,8 @@
             },
             "prompts": [
               "Write a [Channel] reply.\n\nClient said: “I’ll pay next week.”\nGoal: [Preferred outcome].\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nPayment link/details: [Payment info]\n\nTone: [Tone]. No AI language.\n\nWrite a short reply that:\n- thanks them\n- asks for a specific day/time\n- confirms how to pay\n- optional: offers a split payment if appropriate\n\nReturn 2 versions (one softer, one firmer)."
-            ]
+            ],
+            "example": {"input":"Quote · 7 days · Bank transfer · Late fee","output":[{"label":"Short version","text":"Payment terms: Due within 7 days of invoice date. Accepted methods: bank transfer. A late fee of 2% per month applies to overdue invoices. Questions? Contact us before the due date."},{"label":"Longer version","text":"Payment Terms\n\nAll invoices are due within 7 days of the invoice date. We accept payment by bank transfer. Bank details are included on each invoice.\n\nA late payment fee of 2% per month may apply to invoices that remain unpaid after the due date. If you anticipate any issues with payment, please contact us before the due date so we can discuss options.\n\nBy accepting this quote, you agree to these payment terms."}]}
           },
           {
             "subtitle": "Overdue + Dispute (Client pushing back)",
@@ -2986,7 +3117,8 @@
             },
             "prompts": [
               "Write a professional [Channel].\n\nSituation: Invoice is overdue and the client is disputing payment.\nIssue: [brief issue summary]\nGoal: [Goal]\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nWork completed: [summary of work completed]\nWhat I’m willing to do: [e.g., inspect, fix, clarify scope]\nPayment expectation: [e.g., pay undisputed portion now / pay after inspection by date]\n\nRules:\n- calm, factual, no blame\n- confirm next step and time\n- keep it short and clear\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Confirm date · Steve · INV-0045 · $2,300","output":[{"label":"Version 1 (softer)","text":"No worries Steve, appreciate you letting me know. Could you confirm which day next week? That way I can update my records. Payment to: BSB 062-000, Acc 1234 5678. Cheers, Matt"},{"label":"Version 2 (firmer)","text":"Thanks Steve. Can you lock in a specific day? The invoice (#INV-0045, $2,300) has been outstanding for a while now. If you can confirm a date I’ll note it down. Bank details: BSB 062-000, Acc 1234 5678. Matt"}]}
           }
         ]
       },
@@ -3020,7 +3152,8 @@
             },
             "prompts": [
               "Write a [Channel] confirming a job booking.\n\nClient: [Client name]\nJob: [Job type]\nDate: [Date]\nTime: [Time]\nRequirement: [Requirement]\nTone: [Tone]\n\nRules:\n- Plain English\n- No AI language\n- Give them peace of mind that we are locked in.\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"Email · Arrange call · Dan · INV-0033 · $6,500 · unhappy with finish","output":[{"label":"Version 1","text":"Hi Dan,\n\nThanks for letting me know about your concerns with the finish. I take that feedback seriously and want to get it sorted.\n\nI’d suggest we arrange a quick site visit so I can see the issue firsthand and discuss the best way forward. In the meantime, if you’re able to pay the undisputed portion of the invoice, that would be appreciated.\n\nAre you free this week for a 15-minute visit? I’ll work around your schedule.\n\nRegards,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Dan,\n\nI understand you’re not happy with part of the work and I want to resolve that. Let’s arrange a time for me to come back and take a look.\n\nThe total invoice is $6,500. If you’re comfortable paying the undisputed portion now, I’m happy to discuss the remaining amount after we’ve inspected the issue together.\n\nWhen suits you for a quick visit?\n\nRegards,\nMatt"}]}
           },
           {
             "subtitle": "On The Way Message",
@@ -3046,7 +3179,8 @@
             },
             "prompts": [
               "Write a short [Channel].\n\nSituation: We are on the way to the job.\n\nDetails:\nClient: [Client name]\nTech name: [Tech name]\nETA: [ETA]\n\nRules:\n- Super short, friendly, plain English.\n- Ask them to confirm someone is there or access is clear.\n\nReturn 2 variations."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Nicole · Tuesday 8am · powerpoint installation","output":[{"label":"Version 1","text":"Hi Nicole, just confirming I’ll be at yours Tuesday at 8am for the powerpoint installation. Should take about 2 hours. Please make sure the area around the wall is clear if possible. See you then! Matt — Cooper Electrical"},{"label":"Version 2","text":"Hey Nicole, all locked in for Tuesday 8am — the powerpoint install. I’ll have everything I need. If anything changes, just give me a text. Cheers, Matt"}]}
           },
           {
             "subtitle": "Running Late",
@@ -3076,7 +3210,8 @@
             },
             "prompts": [
               "Write a [Channel].\n\nSituation: I am running late to a job.\n\nDetails:\nClient name: [Client name]\nJob: [Job type]\nOriginal arrival time: [Original arrival time]\nNew arrival time: [New arrival time]\nReason (optional): [Delay reason]\n\nTone: [Tone]\n\nRules:\n- Plain English\n- Short sentences\n- Professional but relaxed\n- No AI language\n\nWrite a short message that:\n- apologises briefly\n- explains the delay if needed\n- confirms the new arrival time\n- reassures the customer\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Craig · 15 mins","output":[{"label":"Version 1","text":"Hi Craig, just heading your way now — should be about 15 minutes. See you shortly! Matt"},{"label":"Version 2","text":"Hey Craig, on the road and about 15 mins out. See you soon. Matt"}]}
           },
           {
             "subtitle": "Job Delay / Reschedule",
@@ -3102,7 +3237,8 @@
             },
             "prompts": [
               "Write a [Channel].\n\nSituation: We need to delay and reschedule a job.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nOriginal date: [Original date]\nReason: [Reason]\nNew date: [New proposed date]\n\nRules:\n- No AI language\n- Plain English\n- Apologise, explain briefly, offer the new date, and ask if it works.\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Helen · 30 mins · previous job ran over","output":[{"label":"Version 1","text":"Hi Helen, really sorry but I’m running about 30 minutes behind — the previous job ran over a bit. I’ll be there as soon as I can. Apologies for the delay. Matt"},{"label":"Version 2","text":"Hey Helen, heads up — I’m running about 30 mins late, the last job took a bit longer than expected. On my way shortly. Sorry about that! Matt"}]}
           },
           {
             "subtitle": "Job Update During Work",
@@ -3128,7 +3264,8 @@
             },
             "prompts": [
               "Write a [Channel] update.\n\nSituation: Updating the client on today's progress.\n\nDetails:\nClient: [Client name]\nDone today: [Completed today]\nPlan for tomorrow: [Plan for tomorrow]\nRoadblocks: [Roadblocks]\n\nRules:\n- No AI language\n- Plain English\n- Dot points are good for readability.\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Andrew · Wednesday · parts on backorder","output":[{"label":"Version 1","text":"Hi Andrew, just letting you know I need to push our Wednesday job back — the switchboard parts are on backorder and I don’t want to start without the right gear. I’ll let you know as soon as they’re in and we’ll rebook. Sorry for the inconvenience. Matt"},{"label":"Version 2","text":"Hey Andrew, unfortunately I need to reschedule Wednesday. The parts I ordered are on backorder and I’d rather wait than use a substitute. I’ll be in touch as soon as they arrive. Apologies, Matt"}]}
           },
           {
             "subtitle": "Job Complete Message",
@@ -3154,7 +3291,8 @@
             },
             "prompts": [
               "Write a [Channel].\n\nSituation: Job is finished and we have left the site.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nNext step: [Next step]\n\nRules:\n- Friendly, proud of the work\n- Plain English\n- No AI language\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Rob · found old wiring that needs replacing","output":[{"label":"Version 1","text":"Hi Rob, quick update while I’m on site — I’ve found some old wiring behind the wall that’s not up to current standards. I’d recommend replacing it while I’m here. It’ll add about $350 and an extra hour. Let me know if you’re happy to go ahead. Matt"},{"label":"Version 2","text":"Hey Rob, just found some dodgy wiring behind the wall that really should be replaced for safety. Extra cost would be around $350. Want me to sort it while I’m here? Much cheaper than coming back later. Matt"}]}
           },
           {
             "subtitle": "Request Info Before Arrival",
@@ -3184,7 +3322,8 @@
             },
             "prompts": [
               "Write a [Channel].\n\nSituation: Need more info before arriving.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nInfo needed: [Needed]\nTone: [Tone]\n\nRules:\n- Plain English\n- No AI language\n- Explain that providing this helps us prepare better and faster.\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Jess · downlight installation","output":[{"label":"Version 1","text":"Hi Jess, all done! The downlights are in and everything’s tested and working. I’ve tidied up and locked the front door behind me. Invoice will come through shortly. Let me know if you have any questions. Cheers, Matt"},{"label":"Version 2","text":"Hey Jess, job’s wrapped up — downlights are all installed and tested. Left everything clean and tidy. I’ll send the invoice through today. Give me a shout if you need anything. Matt"}]}
           },
           {
             "subtitle": "Set Expectations (Scope / Access / Prep)",
@@ -3210,7 +3349,8 @@
             },
             "prompts": [
               "Write a [Channel].\n\nSituation: Warning the client about disruption before we start a job.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nDisruption expected: [Disruption]\nClient needs to do this prep: [Prep needed e.g., move cars]\n\nRules:\n- Professional, clear\n- Plain English\n- No AI language\n- Better to warn them now than surprise them later.\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Tina · access to garage + meter box","output":[{"label":"Version 1","text":"Hi Tina, just getting prepped for tomorrow. Could you make sure the garage and meter box are accessible? Also, will someone be home to let me in, or should I know about a key/code? Cheers, Matt"},{"label":"Version 2","text":"Hey Tina, quick one ahead of tomorrow — I’ll need access to the garage and meter box. Is someone going to be there, or is there a key I should know about? Matt"}]}
           }
         ]
       },
@@ -3243,7 +3383,8 @@
             },
             "prompts": [
               "Write a [Channel] asking for a Google review.\n\nTone: [Tone]. No AI language. Keep it short.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nOne-line result (optional): [what you did / outcome]\nGoogle review link: [Review link]\nInclude: [Include]\n\nWrite a message that:\n- thanks them\n- asks for a quick Google review\n- includes the link\n- optional: suggests 1–2 things they could mention (punctual, tidy, quality, communication)\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"Email · Power off · move cars · Paul · switchboard upgrade","output":[{"label":"Version 1","text":"Hi Paul,\n\nJust a heads up ahead of the switchboard upgrade on Thursday.\n\nThe power will need to be off for around 3–4 hours during the work. I’d recommend charging devices beforehand and if possible, moving any cars out of the garage so I’ve got clear access to the meter box.\n\nI’ll let you know once everything’s back up and running.\n\nCheers,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Paul,\n\nQuick note about Thursday’s switchboard job: the power will be off for roughly 3–4 hours. If you can clear the garage and move any cars from the driveway before I arrive, that’ll help things run smoothly.\n\nI’ll keep you posted on timing on the day.\n\nCheers,\nMatt"}]}
           },
           {
             "subtitle": "Ask for a Referral (Without being pushy)",
@@ -3272,7 +3413,8 @@
             },
             "prompts": [
               "Write a [Channel] asking for a referral.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nService: [What service you want referrals for]\nReferral type: [Referral type]\nHow to refer: [My number / best contact method]\n\nWrite a message that:\n- thanks them\n- asks if they know one person who might need [What service you want referrals for]\n- makes it easy to pass on your details\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Link only · Amy · fan installation","output":[{"label":"Version 1","text":"Hi Amy, glad we got the fan sorted for you today! If you’ve got 30 seconds, a quick Google review would really help us out: [review link]. No pressure at all — cheers, Matt"},{"label":"Version 2","text":"Hey Amy, thanks for having us in today. If you’re happy with the work, we’d really appreciate a quick Google review: [review link]. It makes a big difference for a small business. Thanks! Matt"}]}
           },
           {
             "subtitle": "Review Follow-up (They didn’t do it)",
@@ -3297,7 +3439,8 @@
             },
             "prompts": [
               "Write a short follow-up [Channel].\n\nContext: I previously asked for a Google review and they haven’t done it yet.\nTone: [Tone]. No AI language. Keep it polite.\n\nDetails:\nClient: [Client name]\nGoogle review link: [Review link]\n\nWrite a message that:\n- is friendly\n- acknowledges they’re busy\n- includes the link again\n- makes it easy to do now\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Neighbour/friend · Grant · electrical work","output":[{"label":"Version 1","text":"Hi Grant, glad you’re happy with the work. If you know anyone — neighbour, mate, family — who might need an electrician, I’d really appreciate you passing on my number: 0412 345 678. Cheers, Matt"},{"label":"Version 2","text":"Hey Grant, really appreciate the kind words. If you happen to know one person who might need electrical work done, feel free to flick them my number: 0412 345 678. Word of mouth means a lot. Matt"}]}
           },
           {
             "subtitle": "Reply to a Negative Review (Calm + professional)",
@@ -3322,7 +3465,8 @@
             },
             "prompts": [
               "Write a professional public reply to this negative Google review.\n\nTone: [Tone]. No AI language. No arguing.\n\nNegative review:\n[PASTE REVIEW]\n\nFacts (brief, optional):\n[FACTS]\n\nGoal: [Goal]\nContact method: [phone/email]\n\nWrite a reply that:\n- acknowledges their experience\n- avoids blaming\n- invites them to contact you to resolve it\n- stays short and professional\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Mike","output":[{"label":"Version 1","text":"Hey Mike, I know you’re busy — just a gentle reminder about the Google review if you get a spare minute: [review link]. No worries if not, just thought I’d pop it back in your inbox. Cheers, Matt"},{"label":"Version 2","text":"Hi Mike, totally understand things get hectic. If you’ve got 30 seconds, that Google review would really help: [review link]. Appreciate it either way! Matt"}]}
           },
           {
             "subtitle": "Reply to a Positive Review",
@@ -3342,7 +3486,8 @@
             },
             "prompts": [
               "Write a short public reply to a positive Google review.\n\nTone: [Tone]. No AI language.\n\nDetails:\nReviewer name: [Name]\nJob type: [Job type]\nSuburb (optional): [Suburb]\n\nWrite a reply that:\n- thanks them\n- mentions the job briefly\n- invites them to reach out again\nReturn 2 options."
-            ]
+            ],
+            "example": {"input":"Calm · Resolve privately","output":[{"label":"Example output","text":"Hi [Name], thanks for taking the time to share your experience. I’m sorry to hear things didn’t meet your expectations. I’d really like the chance to look into this and make it right. Could you contact me directly on 0412 345 678 or matt@cooperelectrical.com.au so we can sort this out? — Matt, Cooper Electrical"}]}
           },
           {
             "subtitle": "Google Review Request (After invoice paid)",
@@ -3367,7 +3512,8 @@
             },
             "prompts": [
               "Write a [Channel].\n\nContext: Job is complete and invoice has been paid. I’m asking for a Google review.\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nGoogle review link: [Review link]\n\nWrite a short message that:\n- thanks them again\n- asks for a quick review\n- includes the link\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"Friendly · Leanne · smoke alarm install · Balmain","output":[{"label":"Example output","text":"Thanks so much Leanne! Really glad the smoke alarm install went smoothly. It was great working in Balmain — lovely area. If you ever need anything else, don’t hesitate to reach out. Cheers, Matt — Cooper Electrical"}]}
           },
           {
             "subtitle": "Referral Thank You (Simple + professional)",
@@ -3392,7 +3538,8 @@
             },
             "prompts": [
               "Write a short [Channel] thanking someone for a referral.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nReferred person (optional): [Name]\n\nWrite a message that:\n- thanks them genuinely\n- acknowledges the referral\n- keeps it short and friendly\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Suggest what to mention · Tony · garden lighting","output":[{"label":"Version 1","text":"Hey Tony, thanks for sorting the payment so quickly! If you’ve got a minute, a quick Google review would really help: [review link]. If you’re not sure what to write, you could mention the garden lighting result or the tidy finish — whatever stood out. Cheers, Matt"},{"label":"Version 2","text":"Hi Tony, payment received — thanks legend. Would you mind leaving a quick Google review? [review link]. You could mention the garden lights or anything else you were happy with. Really appreciate it. Matt"}]}
           },
           {
             "subtitle": "Turn a Review into a Short Testimonial Blurb",
@@ -3417,7 +3564,8 @@
             },
             "prompts": [
               "Rewrite this customer review into 3 short testimonial versions.\n\nUse for: [Use for]\nTone: [Tone]\nBusiness: [Business name]\nService type: [Service type]\n\nReview text:\n[PASTE REVIEW]\n\nRules:\n- keep it believable (no hype)\n- keep it short\nReturn:\n1) 1 sentence version\n2) 2 sentence version\n3) 1 punchy version (max 12 words)"
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Brendan","output":[{"label":"Version 1","text":"Hey Brendan, just wanted to say thanks for the referral — really appreciate you thinking of us. We’ll take good care of them. If you ever need anything, you know where to find me. Cheers, Matt"},{"label":"Version 2","text":"Brendan, thanks legend for sending your mate my way. Word of mouth means everything for a small business. I’ll look after them. Cheers, Matt"}]}
           },
           {
             "subtitle": "Ask for Photos of the Job (For socials)",
@@ -3450,7 +3598,8 @@
             },
             "prompts": [
               "Write a [Channel] asking a customer for photos of the completed job.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nWhat photos: [What photos]\nHow to send: [How to send]\n\nWrite a message that:\n- thanks them\n- asks for photos\n- explains it helps the business\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"5-star review from Claire about a ceiling fan install","output":[{"label":"Example output","text":"“Matt was on time, super tidy and the ceiling fan looks great. Would definitely recommend Cooper Electrical.” — Claire, Drummoyne\n\n(Shortened from original Google review. Suitable for website or social media.)"}]}
           },
           {
             "subtitle": "“Can I use this as a case study?” (Permission message)",
@@ -3479,7 +3628,8 @@
             },
             "prompts": [
               "Write a [Channel] asking permission to use a completed job as a case study.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nJob type: [Job type]\nPermission requested: [Permission requested]\n\nWrite a message that:\n- thanks them\n- asks permission clearly\n- reassures them you won’t share private details\n- makes it easy to say yes/no\n\nReturn 2 versions."
-            ]
+            ],
+            "example": {"input":"SMS · Friendly · Before/after · Sue","output":[{"label":"Version 1","text":"Hi Sue, hope you’re loving the new setup! Would you mind sending through a couple of photos — before and after if you have them? We’d love to share the result on our socials (no personal details). Just text them to this number. Cheers, Matt"},{"label":"Version 2","text":"Hey Sue, quick favour — do you have any before/after photos of the job? Would love to use them on our page to show off the work. Just flick them through to this number whenever suits. Thanks! Matt"}]}
           }
         ]
       },
@@ -3509,7 +3659,8 @@
             },
             "prompts": [
               "Write a social media post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nJob type: [Job type]\nSuburb: [Suburb]\nWork completed: [What you did]\nCustomer outcome: [One thing they were happy with]\n\nWrite a short post that:\n- describes the job simply\n- mentions the suburb\n- highlights the result\n- invites people to message for a quote\n\nReturn:\n1 Facebook version\n1 Instagram version"
-            ]
+            ],
+            "example": {"input":"Email · Friendly · Both · Adam · commercial fitout","output":[{"label":"Version 1","text":"Hi Adam,\n\nReally happy with how the commercial fitout turned out. I’d love to use it as an example of our work — photos and a short write-up on our website and socials.\n\nWe wouldn’t share any private details, just the work itself. Would you be comfortable with that?\n\nTotally fine either way — just thought I’d ask.\n\nCheers,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Adam,\n\nThe fitout job looked fantastic and I’d love to feature it on our website. This would include a few photos and a short testimonial if you’re happy to provide one.\n\nNo private details shared — just the work. Let me know if you’re comfortable with that, or if you’d prefer we don’t.\n\nCheers,\nMatt"}]}
           },
           {
             "subtitle": "Before / After Job Post",
@@ -3535,7 +3686,8 @@
             },
             "prompts": [
               "Write a social media caption for a before-and-after job.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nJob type: [Job type]\nSuburb: [Suburb]\nProblem before: [Problem before]\nResult after: [Result after]\n\nWrite a caption that:\n- briefly explains the job\n- highlights the improvement\n- invites people to get in touch for similar work"
-            ]
+            ],
+            "example": {"input":"Facebook · Friendly · downlight install · Balmain","output":[{"label":"Facebook version","text":"Just finished a downlight install in Balmain — the customer wanted a clean, modern look and I reckon we nailed it. If you’re in the area and thinking about upgrading your lighting, send us a message for a free quote. Happy to come take a look 👇"},{"label":"Instagram version","text":"Downlight install complete in Balmain ✨\n\nClean lines, warm light, happy customer. If you’re after something similar, DM us or hit the link in bio for a free quote.\n\n#electrician #balmain #sydneyelectrician #downlights #cooperelectrical"}]}
           },
           {
             "subtitle": "Answer a Common Customer Question",
@@ -3561,7 +3713,8 @@
             },
             "prompts": [
               "Write a simple post answering a common question customers ask.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nTrade: [Trade type]\nCustomer question: [Question customers ask]\nShort answer: [Short answer]\n\nWrite a short helpful post that:\n- explains the answer simply\n- builds trust\n- invites people to contact us if they need help"
-            ]
+            ],
+            "example": {"input":"Facebook · Professional · switchboard · Marrickville","output":[{"label":"Example output","text":"Switchboard upgrade in Marrickville — swipe to see the before and after.\n\nThe old board was well past its use-by date with no safety switches. The new board is fully compliant, has RCD protection on every circuit, and room to grow if they need more down the track.\n\nIf your switchboard looks like the first photo, it might be time for an upgrade. Drop us a message for a free assessment."}]}
           },
           {
             "subtitle": "Seasonal Promotion",
@@ -3587,7 +3740,8 @@
             },
             "prompts": [
               "Write a seasonal promotion post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nService: [Service]\nSeason reason: [Season reason]\nOffer (optional): [Offer (optional)]\nService area: [Suburb or service area]\n\nWrite a short post that:\n- explains why the service is important right now\n- encourages people to book early\n- invites enquiries"
-            ]
+            ],
+            "example": {"input":"Facebook · Friendly · electrician · Do I need a sparky to change a light fitting?","output":[{"label":"Example output","text":"One we get asked a lot: \"Do I need an electrician just to change a light fitting?\"\n\nShort answer: yes, in Australia all electrical work (including swapping a light fitting) must be done by a licensed electrician. It’s not just about rules — it’s about safety. Incorrect wiring can cause fires or electric shock.\n\nThe good news? It’s usually a quick job and won’t cost as much as you think. Send us a message if you need a hand."}]}
           },
           {
             "subtitle": "Turn a Review into a Post",
@@ -3613,7 +3767,8 @@
             },
             "prompts": [
               "Write a social media post using this customer review.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nReview text: [Paste review text]\nJob type: [Job type]\nSuburb: [Suburb]\n\nWrite a short post that:\n- thanks the customer\n- highlights the work done\n- encourages people to get in touch for similar work"
-            ]
+            ],
+            "example": {"input":"Facebook · Friendly · ceiling fan installation · getting hot this summer · Inner West Sydney","output":[{"label":"Example output","text":"Summer’s here and it’s already heating up — if you’ve been thinking about getting a ceiling fan installed, now’s the time.\n\nWe’re booking ceiling fan installs across the Inner West right now. Quick job, makes a huge difference. We supply and install, or fit one you’ve already bought.\n\nSend us a message to book in before the real heat hits."}]}
           },
           {
             "subtitle": "“We’re Booking Up” Post",
@@ -3639,7 +3794,8 @@
             },
             "prompts": [
               "Write a social media post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nService: [Service]\nCurrent schedule: [How far ahead you're booked]\nService area: [Area served]\n\nWrite a post that:\n- mentions demand\n- encourages people to book early\n- invites enquiries"
-            ]
+            ],
+            "example": {"input":"Facebook · Friendly · 5-star from David about a meter box upgrade","output":[{"label":"Example output","text":"Really appreciate this one from David ⭐\n\n\"Matt was great — turned up on time, explained everything clearly and did a top job on the meter box. Would definitely use Cooper Electrical again.\"\n\nThanks David — reviews like this are what keep us going. If you need an electrician who turns up when they say they will, give us a shout."}]}
           },
           {
             "subtitle": "“We’re in Your Area Today” Post",
@@ -3665,7 +3821,8 @@
             },
             "prompts": [
               "Write a short local availability post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nTrade: [Trade]\nSuburb: [Suburb]\nAvailable time slot: [Available slot time]\n\nWrite a short post that:\n- says we’re already working in the area\n- mentions the available time\n- invites people to message quickly if they need help"
-            ]
+            ],
+            "example": {"input":"Facebook · Direct · Inner West · next 2 weeks","output":[{"label":"Example output","text":"Quick heads up — the next two weeks are filling up fast. If you’ve got electrical work you’ve been putting off, now’s the time to get it sorted.\n\nWe’re covering the Inner West and surrounding areas. Send us a message with what you need and we’ll get you a quote and a booking.\n\nFirst in, first served."}]}
           },
           {
             "subtitle": "New Service Announcement",
@@ -3691,7 +3848,8 @@
             },
             "prompts": [
               "Write a short announcement post for a new service.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nNew service: [Service name]\nProblem it solves: [What problem it solves]\nService area: [Service area]\n\nWrite a post that:\n- explains the service\n- says who it’s for\n- invites enquiries"
-            ]
+            ],
+            "example": {"input":"Facebook · Friendly · Leichhardt · today","output":[{"label":"Example output","text":"We’re in Leichhardt today and have a gap this arvo. If you’ve got a quick electrical job that needs doing — powerpoints, light fittings, fan installs — send us a message and we might be able to fit you in today.\n\nNo call-out fee for the local area."}]}
           }
         ]
       },
@@ -3720,7 +3878,8 @@
             },
             "prompts": [
               "Rewrite the message below so it sounds like a real Australian trade business.\n\nMessage type: [Message type]\nTone: [Tone]\n\nRules:\n- Plain English\n- Short sentences\n- No corporate or marketing language\n- No em dashes\n- Friendly, clear, and practical\n\nText to rewrite:\n[PASTE MESSAGE]"
-            ]
+            ],
+            "example": {"input":"AI-generated email that sounds too robotic","output":[{"label":"Before","text":"Dear Valued Customer, I hope this message finds you well. I am writing to inform you that your recent electrical service request has been duly noted and we shall endeavour to address your requirements at the earliest convenience."},{"label":"After","text":"Hi Sarah, thanks for getting in touch. I’ve got your request and I’ll be in contact shortly to arrange a time that works. Cheers, Matt"}]}
           },
           {
             "subtitle": "Improve My Message",
@@ -3740,7 +3899,8 @@
             },
             "prompts": [
               "I'm improving my message style.\n\nHere is the AI version:\n[AI version]\n\nHere is my corrected version:\n[My version]\n\nTask:\n\n1. Identify the style differences (tone, sentence length, wording).\n2. List the key writing rules my business prefers.\n3. Rewrite the AI message again so it matches my style perfectly.\n\nGoal: [Goal], clear, and practical."
-            ]
+            ],
+            "example": {"input":"Rough draft SMS about a quote","output":[{"label":"Before","text":"hey mate sent u a quote for the job can u have a look when u get a chance and let me no if u wanna go ahead cheers"},{"label":"After","text":"Hey Dave, just sent through the quote for the garage rewire. When you get a chance, have a look and let me know if you're happy to go ahead. I can book you in for next week. Cheers, Matt"}]}
           }
         ]
       },
@@ -3759,7 +3919,8 @@
       },
       "prompts": [
         "Create a clean, editable quote."
-      ]
+      ],
+      "example": {"input":"Cooper Electrical · Rachel · bathroom renovation · $4,200","output":[{"label":"Example output","text":"QUOTE\n\nCooper Electrical\nMatt Cooper\n0412 345 678 | matt@cooperelectrical.com.au\nABN: 37 131 434 727\n\nPrepared for: Rachel Thompson\nProject: Bathroom renovation — electrical\nDate: 15 March 2026\n\nScope of work:\n• Relocate 2x powerpoints\n• Install 4x LED downlights\n• Install heated towel rail circuit\n• New exhaust fan wiring\n\nSubtotal (ex GST): $3,818.18\nGST (10%): $381.82\nTotal (inc GST): $4,200.00\n\nPayment: 30% deposit to confirm, balance due on completion.\nQuote valid for 30 days."}]}
     }
   ]
 }
@@ -5715,8 +5876,12 @@ $("cb-submit-btn").addEventListener("click", async () => {
         h.textContent = card.subtitle;
         const cardSubline = document.createElement("p");
         cardSubline.className = "card-subline";
-        cardSubline.textContent = "";
-        cardSubline.style.display = "none";
+        const sublineText = card.front?.goodFor || card.front?.outcome || "";
+        if (sublineText) {
+          cardSubline.textContent = sublineText;
+        } else {
+          cardSubline.style.display = "none";
+        }
         const sourceCategory = card.__category || current;
         const isCustomBuilderCard = sourceCategory === "Custom Builder";
         const topActions = document.createElement("div");
@@ -5874,6 +6039,103 @@ $("cb-submit-btn").addEventListener("click", async () => {
           tipEl.className = "context-tip";
           tipEl.textContent = "Best for: " + scrubLegacyChatbotName(contextualTip);
           body.appendChild(tipEl);
+        }
+
+        // ── Example output panel ──
+        if (card.example && card.example.output && card.example.output.length && !isCustomBuilderCard) {
+          const exPanel = document.createElement("div");
+          exPanel.className = "example-panel";
+
+          const exToggle = document.createElement("button");
+          exToggle.type = "button";
+          exToggle.className = "example-toggle";
+          exToggle.setAttribute("aria-expanded", "false");
+
+          const exIcon = document.createElement("span");
+          exIcon.className = "example-toggle-icon";
+          exIcon.textContent = "\u25B8";
+
+          const exLabel = document.createElement("span");
+          exLabel.textContent = "See example output";
+
+          exToggle.appendChild(exIcon);
+          exToggle.appendChild(exLabel);
+
+          if (card.example.input) {
+            const exInputSummary = document.createElement("span");
+            exInputSummary.className = "example-input-summary";
+            exInputSummary.textContent = card.example.input;
+            exToggle.appendChild(exInputSummary);
+          }
+
+          const exBody = document.createElement("div");
+          exBody.className = "example-body";
+          exBody.hidden = true;
+
+          if (card.example.input) {
+            const exCtx = document.createElement("div");
+            exCtx.className = "example-context";
+            const exCtxLabel = document.createElement("span");
+            exCtxLabel.className = "example-context-label";
+            exCtxLabel.textContent = "Example inputs:";
+            const exCtxValue = document.createElement("span");
+            exCtxValue.className = "example-context-value";
+            exCtxValue.textContent = card.example.input;
+            exCtx.appendChild(exCtxLabel);
+            exCtx.appendChild(exCtxValue);
+            exBody.appendChild(exCtx);
+          }
+
+          const exResponses = document.createElement("div");
+          exResponses.className = "example-responses";
+          card.example.output.forEach((resp) => {
+            const box = document.createElement("div");
+            box.className = "ai-response-box example-response-box";
+            const boxHead = document.createElement("div");
+            boxHead.className = "ai-response-box-head";
+            const boxTitle = document.createElement("div");
+            boxTitle.className = "ai-response-box-title";
+            boxTitle.textContent = resp.label;
+            const badge = document.createElement("div");
+            badge.className = "example-badge";
+            badge.textContent = "Example";
+            boxHead.appendChild(boxTitle);
+            boxHead.appendChild(badge);
+            const boxText = document.createElement("div");
+            boxText.className = "ai-response-text";
+            boxText.textContent = resp.text;
+            box.appendChild(boxHead);
+            box.appendChild(boxText);
+            exResponses.appendChild(box);
+          });
+          exBody.appendChild(exResponses);
+
+          const exFooter = document.createElement("p");
+          exFooter.className = "example-footer";
+          exFooter.textContent = "This is a sample. Your output will use your own details.";
+          exBody.appendChild(exFooter);
+
+          exToggle.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const isOpen = exToggle.getAttribute("aria-expanded") === "true";
+            exToggle.setAttribute("aria-expanded", isOpen ? "false" : "true");
+            exBody.hidden = isOpen;
+            exIcon.textContent = isOpen ? "\u25B8" : "\u25BE";
+          });
+
+          let exAutoCollapsed = false;
+          body.addEventListener("input", () => {
+            if (!exAutoCollapsed && exToggle.getAttribute("aria-expanded") === "true") {
+              exAutoCollapsed = true;
+              exToggle.setAttribute("aria-expanded", "false");
+              exBody.hidden = true;
+              exIcon.textContent = "\u25B8";
+            }
+          });
+
+          exPanel.appendChild(exToggle);
+          exPanel.appendChild(exBody);
+          body.appendChild(exPanel);
         }
 
         // --- Dynamic Prompt Logic ---
