@@ -18,21 +18,21 @@
   <link rel="icon" type="image/png" href="./advisastacks-logo-favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
   <style>
     :root {
-      --bg: #313131;
-      --text: #f9faff;
+      --bg: #2b2f35;
+      --text: #f4f7fb;
       --accent: #e75a00;
       --charcoal: #313131;
-      --surface: #f9faff;
-      --surface-muted: #f1f5f9;
-      --text-dark: #1e293b;
-      --text-muted: #64748b;
+      --surface: #fbfdff;
+      --surface-muted: #eef2f7;
+      --text-dark: #0f172a;
+      --text-muted: #475569;
       --radius-sm: 8px;
       --radius-md: 10px;
       --radius-lg: 14px;
@@ -48,6 +48,8 @@
       --font-sm: 12px;
       --font-md: 14px;
       --font-lg: 16px;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-heading: "Manrope", "Inter", system-ui, sans-serif;
     }
 
     * {
@@ -56,9 +58,14 @@
 
     body {
       margin: 0;
-      font-family: "Roboto", system-ui, sans-serif;
+      font-family: var(--font-body);
       background: var(--bg);
       color: var(--text);
+    }
+
+    h1, h2, h3, .page-title, .card-head h3 {
+      font-family: var(--font-heading);
+      letter-spacing: -0.01em;
     }
 
     body.auth-pending {
@@ -186,7 +193,7 @@
       text-align: left;
       cursor: pointer;
       width: 100%;
-      font-family: "Roboto", sans-serif;
+      font-family: var(--font-body);
       transition: border-color 0.16s, color 0.16s, background 0.16s, transform 0.16s;
     }
 
@@ -287,6 +294,37 @@
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
       gap: 10px;
     }
+    .home-score-card {
+      background: rgba(249,250,255,0.12);
+      border: 1.5px solid rgba(249,250,255,0.24);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: grid;
+      gap: 6px;
+    }
+    .home-score-head {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .home-score-value {
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 900;
+      font-family: var(--font-heading);
+    }
+    .home-score-max {
+      font-size: 13px;
+      color: rgba(249,250,255,0.75);
+      font-weight: 700;
+    }
+    .home-score-trend {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .home-score-trend.up { color: #86efac; }
+    .home-score-trend.flat { color: #fde68a; }
+    .home-score-trend.down { color: #fca5a5; }
     .home-stat-card {
       background: rgba(249,250,255,0.08);
       border: 1.5px solid rgba(249,250,255,0.2);
@@ -2949,10 +2987,11 @@
         const parsed = raw ? JSON.parse(raw) : {};
         return {
           aiRuns: Number(parsed.aiRuns || 0),
-          cardsBuilt: Number(parsed.cardsBuilt || 0)
+          cardsBuilt: Number(parsed.cardsBuilt || 0),
+          byDay: parsed.byDay && typeof parsed.byDay === "object" ? parsed.byDay : {}
         };
       } catch (e) {
-        return { aiRuns: 0, cardsBuilt: 0 };
+        return { aiRuns: 0, cardsBuilt: 0, byDay: {} };
       }
     }
 
@@ -2966,7 +3005,63 @@
     function bumpUsageStat(key, amount) {
       const stats = readUsageStats();
       stats[key] = Number(stats[key] || 0) + (amount || 1);
+      const d = new Date();
+      const dayKey = [
+        d.getFullYear(),
+        String(d.getMonth() + 1).padStart(2, "0"),
+        String(d.getDate()).padStart(2, "0")
+      ].join("-");
+      stats.byDay[dayKey] = stats.byDay[dayKey] || { aiRuns: 0, cardsBuilt: 0 };
+      stats.byDay[dayKey][key] = Number(stats.byDay[dayKey][key] || 0) + (amount || 1);
       writeUsageStats(stats);
+    }
+
+    function getUsageMetrics() {
+      const stats = readUsageStats();
+      const totalWorkUnits = (stats.aiRuns * 2.2) + (stats.cardsBuilt * 3.4);
+      const score = Math.max(0, Math.min(100, Math.round(22 + (Math.log1p(totalWorkUnits) * 19))));
+      const minutesSaved = Math.round((stats.aiRuns * 3.2) + (stats.cardsBuilt * 1.6));
+      const hours = Math.floor(minutesSaved / 60);
+      const mins = minutesSaved % 60;
+      const timeSavedLabel = hours > 0 ? (hours + "h " + mins + "m") : (mins + "m");
+
+      const today = new Date();
+      const todayKey = [
+        today.getFullYear(),
+        String(today.getMonth() + 1).padStart(2, "0"),
+        String(today.getDate()).padStart(2, "0")
+      ].join("-");
+      const y = new Date(today);
+      y.setDate(y.getDate() - 1);
+      const yesterdayKey = [
+        y.getFullYear(),
+        String(y.getMonth() + 1).padStart(2, "0"),
+        String(y.getDate()).padStart(2, "0")
+      ].join("-");
+      const todayData = stats.byDay[todayKey] || { aiRuns: 0, cardsBuilt: 0 };
+      const yesterdayData = stats.byDay[yesterdayKey] || { aiRuns: 0, cardsBuilt: 0 };
+      const todayUnits = (todayData.aiRuns * 2.2) + (todayData.cardsBuilt * 3.4);
+      const yesterdayUnits = (yesterdayData.aiRuns * 2.2) + (yesterdayData.cardsBuilt * 3.4);
+      const delta = Math.round(todayUnits - yesterdayUnits);
+
+      let trendClass = "flat";
+      let trendText = "↔ Flat vs yesterday";
+      if (delta > 0) {
+        trendClass = "up";
+        trendText = "↗ +" + delta + " vs yesterday";
+      } else if (delta < 0) {
+        trendClass = "down";
+        trendText = "↘ " + delta + " vs yesterday";
+      }
+
+      return {
+        aiRuns: stats.aiRuns,
+        cardsBuilt: stats.cardsBuilt,
+        score,
+        timeSavedLabel,
+        trendClass,
+        trendText
+      };
     }
 
     function ensureUiOverlays() {
@@ -4805,11 +4900,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
       let cardsToRender = APP[current] ? APP[current].cards : [];
 
       if (current === "Home") {
-        const usage = readUsageStats();
-        const minutesSaved = Math.round((usage.aiRuns * 3.2) + (usage.cardsBuilt * 1.6));
-        const hours = Math.floor(minutesSaved / 60);
-        const mins = minutesSaved % 60;
-        const timeSavedLabel = hours > 0 ? (hours + "h " + mins + "m") : (mins + "m");
+        const usage = getUsageMetrics();
         const homeCard = document.createElement("section");
         homeCard.className = "card open";
         homeCard.style.gridColumn = "span 12";
@@ -4824,6 +4915,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeBody.innerHTML = `
           <div class="home-explainer">
             <p>AdvisaStacks helps tradies and small business owners draft practical messages faster using guided prompt cards.</p>
+            <div class="home-score-card">
+              <div class="home-score-head">
+                <div class="home-score-value">${usage.score}</div>
+                <div class="home-score-max">/100 Productivity score</div>
+              </div>
+              <div class="home-score-trend ${usage.trendClass}">${usage.trendText}</div>
+            </div>
             <div class="home-stats-grid">
               <div class="home-stat-card">
                 <div class="home-stat-label">AI runs</div>
@@ -4835,7 +4933,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
               </div>
               <div class="home-stat-card">
                 <div class="home-stat-label">Predicted time saved</div>
-                <div class="home-stat-value">${timeSavedLabel}</div>
+                <div class="home-stat-value">${usage.timeSavedLabel}</div>
               </div>
             </div>
             <ul>
