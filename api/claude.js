@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   }
 
   const payload = req.body && typeof req.body === "object" ? req.body : {};
-  const model = process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-latest";
+  const model = process.env.ANTHROPIC_MODEL || "claude-sonnet-4-20250514";
 
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
