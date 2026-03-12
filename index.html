@@ -1104,71 +1104,6 @@
       font-family: inherit;
     }
     .cb-delete-btn:hover { border-color: #ef4444; color: #ef4444; }
-    .cb-two-stage-map {
-      margin-bottom: 20px;
-      padding: 14px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 12px;
-      background: #ffffff;
-    }
-    .cb-stage-block {
-      border-radius: 10px;
-      padding: 12px;
-      border: 1.5px solid transparent;
-    }
-    .cb-stage-blue {
-      background: #eff6ff;
-      border-color: #93c5fd;
-    }
-    .cb-stage-green {
-      background: #ecfdf5;
-      border-color: #86efac;
-    }
-    .cb-stage-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: #0f172a;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 8px;
-    }
-    .cb-stage-list {
-      margin: 0;
-      padding-left: 18px;
-    }
-    .cb-stage-list li {
-      margin: 0 0 8px;
-      font-size: 13px;
-      line-height: 1.45;
-      color: #0f172a;
-    }
-    .cb-generated-card-pill {
-      margin-top: 8px;
-      background: #f3e8ff;
-      border: 1.5px solid #d8b4fe;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 13px;
-      line-height: 1.45;
-      color: #581c87;
-    }
-    .cb-stage-divider {
-      margin: 10px 0;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 700;
-      color: #475569;
-      background: #f8fafc;
-      border: 1px dashed #cbd5e1;
-      border-radius: 8px;
-      padding: 8px 10px;
-    }
-    .cb-model-note {
-      margin-top: 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #1e293b;
-    }
 
     .help-block {
       margin-top: 8px;
@@ -3476,6 +3411,11 @@
     // ── CUSTOM BUILDER: Storage keys ──
     const CB_TEMPLATES_KEY = "advisaStacksCustomTemplates";
     const CB_SUBMISSIONS_KEY = "advisaStacksCustomSubmissions";
+    const CB_BUILT_CARDS_KEY = "advisaStacksCustomBuiltCards";
+
+    let customBuilderTempCard = null;
+    let customBuilderDraft = null;
+    let customBuilderUndoState = null;
 
     // Read/write saved templates
     function readCustomTemplates() {
@@ -3493,6 +3433,59 @@
     }
     function writeCustomSubmissions(arr) {
       localStorage.setItem(CB_SUBMISSIONS_KEY, JSON.stringify(arr));
+    }
+
+    function readCustomBuiltCards() {
+      try { return JSON.parse(localStorage.getItem(CB_BUILT_CARDS_KEY) || "[]"); }
+      catch(e) { return []; }
+    }
+    function writeCustomBuiltCards(arr) {
+      localStorage.setItem(CB_BUILT_CARDS_KEY, JSON.stringify(arr));
+    }
+
+    function buildCustomCardFromFields(fields, oneoffPrompt, templatePrompt) {
+      const suggested = generateSuggestedFields(fields.changes);
+      const uiFields = suggested.length ? suggested : ["[Specific details]"];
+      const basePrompt =
+        (templatePrompt && !templatePrompt.includes("Fill in the fields")) ? templatePrompt :
+        (oneoffPrompt && !oneoffPrompt.includes("Fill in the fields")) ? oneoffPrompt :
+        "";
+
+      let prompt = basePrompt;
+      if (!prompt) {
+        prompt = "Task:\n" + (fields.problem || "Complete this task");
+      }
+      uiFields.forEach((ph) => {
+        if (!prompt.includes(ph)) {
+          prompt += "\n" + ph + ": ___";
+        }
+      });
+
+      const subtitleRaw = (fields.problem || "Custom prompt card").trim();
+      const subtitle = subtitleRaw.length > 72 ? (subtitleRaw.slice(0, 72) + "...") : subtitleRaw;
+
+      const optionSeedTone = [fields.tone, "Friendly", "Direct", "Professional"].filter(Boolean);
+      const optionSeedFormat = [fields.format, "Email", "Short SMS", "Dot points"].filter(Boolean);
+      const unique = (arr) => Array.from(new Set(arr)).slice(0, 4);
+      const quickInputs = [];
+      if (optionSeedTone.length) quickInputs.push({ label: "Tone", options: unique(optionSeedTone) });
+      if (optionSeedFormat.length) quickInputs.push({ label: "Format", options: unique(optionSeedFormat) });
+
+      return {
+        subtitle: subtitle || "Custom prompt card",
+        front: {
+          outcome: fields.outcome || "Generate a polished final answer.",
+          when: fields.audience ? ("When writing for " + fields.audience) : "Use for recurring custom requests.",
+          goodFor: "Custom-built workflows",
+          roi: "Faster drafting with consistent quality",
+          tip: "Fill in your details, preview, then run with AI."
+        },
+        ui: {
+          quickInputs,
+          fields: uiFields
+        },
+        prompts: [prompt]
+      };
     }
 
     // ── Generate suggested placeholder fields from "what changes each time" text ──
@@ -3585,29 +3578,6 @@
 
       body.innerHTML = `
         <div class="cb-wrapper">
-          <div class="cb-two-stage-map" aria-label="Two-stage prompt workflow">
-            <div class="cb-stage-block cb-stage-blue">
-              <div class="cb-stage-title">Stage 1 — Build the Prompt Card (blue)</div>
-              <ol class="cb-stage-list">
-                <li><strong>User Problem Input</strong> — the initial request enters the system.</li>
-                <li><strong>AI Analysis</strong> — intent, audience, format, tone, and constraints are broken down.</li>
-                <li><strong>Prompt Architecture</strong> — AI builds the card structure, fields, and buttons.</li>
-              </ol>
-              <div class="cb-generated-card-pill">
-                <strong>Generated Card (purple)</strong> — concrete UI elements appear: quick inputs, fill-in fields, file upload, live preview, and action buttons.
-              </div>
-            </div>
-            <div class="cb-stage-divider">Build the tool first, then use the tool to get the final answer.</div>
-            <div class="cb-stage-block cb-stage-green">
-              <div class="cb-stage-title">Stage 2 — Use the Card (green)</div>
-              <ol class="cb-stage-list" start="4">
-                <li><strong>User Fills the Card</strong> — fields are typed and preview updates live.</li>
-                <li><strong>AI Execution</strong> — the completed prompt is sent to the model.</li>
-                <li><strong>Final Answer Returned</strong> — polished output is delivered.</li>
-              </ol>
-            </div>
-            <div class="cb-model-note">Model: Sonnet 4.6 Extended</div>
-          </div>
 
           <!-- SECTION 1: The Task -->
           <div class="cb-section" style="border-top:none; padding-top:0;">
@@ -3741,6 +3711,10 @@
 
             <!-- Action buttons -->
             <div class="cb-action-row">
+              <button type="button" class="cb-save-btn" id="cb-build-temp-btn">🧩 Build temporary card</button>
+              <button type="button" class="cb-submit-btn" id="cb-save-built-btn">💾 Save card below</button>
+              <button type="button" class="cb-submit-btn" id="cb-clear-screen-btn">🔄 Refresh / clear screen</button>
+              <button type="button" class="cb-submit-btn" id="cb-undo-clear-btn" style="display:none;">↩ Back</button>
               <button type="button" class="cb-save-btn" id="cb-save-btn">💾 Save template</button>
               <button type="button" class="cb-submit-btn" id="cb-submit-btn">📤 Submit this idea</button>
             </div>
@@ -3787,6 +3761,10 @@
       const cbAiResponseText = $("cb-ai-response-text");
       const cbAiErrorMsg = $("cb-ai-error-msg");
       const cbAiCopyResultBtn = $("cb-copy-ai-result");
+      const buildTempBtn = $("cb-build-temp-btn");
+      const saveBuiltBtn = $("cb-save-built-btn");
+      const clearScreenBtn = $("cb-clear-screen-btn");
+      const undoClearBtn = $("cb-undo-clear-btn");
 
       oneoffEl.style.display = "none";
       oneoffEl.setAttribute("aria-hidden", "true");
@@ -3811,6 +3789,34 @@
         cbAiComposerEl.dataset.lastAuto = nextPrompt;
       }
       syncOneoffToComposer();
+      if (customBuilderUndoState) {
+        undoClearBtn.style.display = "inline-flex";
+      }
+
+      // Restore draft state when re-rendering Custom Builder
+      if (customBuilderDraft) {
+        problemEl.value = customBuilderDraft.problem || "";
+        audienceEl.value = customBuilderDraft.audience || "";
+        outcomeEl.value = customBuilderDraft.outcome || "";
+        changesEl.value = customBuilderDraft.changes || "";
+        rulesEl.value = customBuilderDraft.rules || "";
+        exInputEl.value = customBuilderDraft.exampleInput || "";
+        exOutputEl.value = customBuilderDraft.exampleOutput || "";
+        selectedTone = customBuilderDraft.selectedTone || "";
+        selectedFormat = customBuilderDraft.selectedFormat || "";
+
+        body.querySelectorAll("#cb-tone-chips .cb-chip").forEach((c) => {
+          c.classList.toggle("selected", c.dataset.val === selectedTone);
+        });
+        body.querySelectorAll("#cb-format-chips .cb-chip").forEach((c) => {
+          c.classList.toggle("selected", c.dataset.val === selectedFormat);
+        });
+
+        const hasToneChip = Array.from(body.querySelectorAll("#cb-tone-chips .cb-chip")).some((c) => c.dataset.val === selectedTone);
+        const hasFormatChip = Array.from(body.querySelectorAll("#cb-format-chips .cb-chip")).some((c) => c.dataset.val === selectedFormat);
+        toneCustom.value = (!hasToneChip && selectedTone) ? selectedTone : "";
+        formatCustom.value = (!hasFormatChip && selectedFormat) ? selectedFormat : "";
+      }
 
       // Chip selection for format
       body.querySelectorAll("#cb-format-chips .cb-chip").forEach(chip => {
@@ -3901,6 +3907,10 @@
         }
 
         syncOneoffToComposer();
+        customBuilderDraft = Object.assign({}, fields, {
+          selectedTone,
+          selectedFormat
+        });
       }
 
       // ── Copy buttons (same behaviour as rest of app) ──
@@ -4007,6 +4017,68 @@
           cbAiRunBtn.classList.remove("loading");
           cbAiResponseLabel.classList.remove("streaming");
         }
+      });
+
+      const buildCurrentCard = () => {
+        const fields = getFields();
+        const oneoffPrompt = (oneoffEl.textContent || "").trim();
+        const templatePrompt = (templateEl.textContent || "").trim();
+        if (!fields.problem || oneoffPrompt.includes("Fill in the fields")) {
+          return null;
+        }
+        customBuilderDraft = Object.assign({}, fields, { selectedTone, selectedFormat });
+        return buildCustomCardFromFields(fields, oneoffPrompt, templatePrompt);
+      };
+
+      buildTempBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const built = buildCurrentCard();
+        if (!built) {
+          showToast("⚠️ Add a problem description first.");
+          return;
+        }
+        customBuilderTempCard = built;
+        writePrefs({ openCard: built.subtitle });
+        render();
+      });
+
+      saveBuiltBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const built = buildCurrentCard() || customBuilderTempCard;
+        if (!built) {
+          showToast("⚠️ Build a temporary card first.");
+          return;
+        }
+        const saved = readCustomBuiltCards();
+        saved.unshift({
+          id: Date.now(),
+          savedAt: new Date().toISOString(),
+          card: built
+        });
+        writeCustomBuiltCards(saved);
+        customBuilderTempCard = null;
+        writePrefs({ openCard: built.subtitle });
+        render();
+      });
+
+      clearScreenBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        customBuilderUndoState = {
+          draft: customBuilderDraft || Object.assign({}, getFields(), { selectedTone, selectedFormat }),
+          tempCard: customBuilderTempCard ? JSON.parse(JSON.stringify(customBuilderTempCard)) : null
+        };
+        customBuilderDraft = null;
+        customBuilderTempCard = null;
+        render();
+      });
+
+      undoClearBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!customBuilderUndoState) return;
+        customBuilderDraft = customBuilderUndoState.draft || null;
+        customBuilderTempCard = customBuilderUndoState.tempCard || null;
+        customBuilderUndoState = null;
+        render();
       });
 
       // ── Show toast ──
@@ -4144,7 +4216,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
         });
       }
 
-      // Initial render of saved list
+      // Initial output + saved list render
+      updateOutputs();
       renderSavedTemplates();
 
       // Keep outputs in sync if global fields change
@@ -4194,7 +4267,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         },
         "Custom Builder": {
           why: "Build your own reusable prompt templates for any recurring task — not just the ones we've built for you.",
-          how: "Stage 1 builds a reusable prompt card; Stage 2 uses that card to run the model and return a polished answer."
+          how: "Describe the task, build a temporary card, then use that card exactly like the others."
         }
       };
       const c = copy[current] || {
@@ -4205,13 +4278,20 @@ $("cb-submit-btn").addEventListener("click", async () => {
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
       const cardRefreshers = [];
+      let cardsToRender = APP[current] ? APP[current].cards : [];
 
       // ── Custom Builder ──
       if (current === "Custom Builder") {
         buildCustomBuilderDOM(grid);
-        promptRefreshers = [];
-        buildMenu();
-        return;
+        cardsToRender = [];
+        if (customBuilderTempCard) {
+          cardsToRender.push(Object.assign({}, customBuilderTempCard, { __category: "Custom Builder" }));
+        }
+        readCustomBuiltCards().forEach((entry) => {
+          if (entry && entry.card) {
+            cardsToRender.push(Object.assign({}, entry.card, { __category: "Custom Builder" }));
+          }
+        });
       }
 
       if (current === "Prompt Library") {
@@ -4245,7 +4325,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
         return;
       }
 
-      let cardsToRender = APP[current] ? APP[current].cards : [];
       if (current === "Favourites") {
         const favs = new Set(readFavourites());
         cardsToRender = [];
