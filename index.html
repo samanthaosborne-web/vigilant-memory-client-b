@@ -87,23 +87,23 @@
       max-width: 1100px;
       margin: 0 auto;
       position: relative;
-      min-height: 64px;
+      min-height: 86px;
       padding: 10px 16px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 14px;
+      justify-content: center;
+      gap: 0;
       line-height: 1.2;
     }
     .header-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      min-width: 0;
+      justify-content: center;
+      width: 100%;
     }
     .header-logo {
-      width: min(46vw, 180px);
-      height: 34px;
+      width: min(72vw, 320px);
+      height: 54px;
       object-fit: contain;
       border-radius: 0;
       background: transparent;
@@ -124,7 +124,10 @@
     }
 
     .menu-btn {
-      position: static;
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
       z-index: 10030;
       border: 1.5px solid #e75a00;
       background: #e75a00;
@@ -140,6 +143,11 @@
     }
     .desktop-settings-btn {
       display: none;
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10030;
       border: 1px solid #475569;
       background: #111827;
       color: #e2e8f0;
@@ -397,12 +405,6 @@
       display: grid;
       gap: 16px;
     }
-    .home-kicker {
-      margin: 0;
-      color: #cbd5e1;
-      font-size: 16px;
-      line-height: 1.5;
-    }
     .home-setup-wrap {
       display: grid;
       gap: 10px;
@@ -414,7 +416,19 @@
       border-radius: 10px;
       padding: 12px;
     }
-    .home-setup-main-btn,
+    .home-setup-main-btn {
+      background: #e75a00;
+      border: 1px solid #e75a00;
+      color: #fff;
+      border-radius: 10px;
+      font: inherit;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      min-width: min(90%, 340px);
+      padding: 16px 20px;
+      cursor: pointer;
+    }
     .home-setup-update-btn,
     .home-setup-submit-btn {
       background: #e75a00;
@@ -440,6 +454,12 @@
       gap: 8px;
       text-align: left;
     }
+    .home-setup-instruction {
+      margin: 0 0 2px;
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.45;
+    }
     .home-setup-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -463,10 +483,6 @@
       padding: 10px 12px;
       font-size: 16px;
       font-family: inherit;
-    }
-    .home-setup-status {
-      font-size: 14px;
-      color: #cbd5e1;
     }
     @media (max-width: 640px) {
       .home-setup-grid {
@@ -1855,18 +1871,12 @@
 
     @media (max-width: 640px) {
       .header-inner {
-        min-height: 56px;
+        min-height: 72px;
         padding: 8px 12px;
       }
-      .header-title {
-        font-size: 15px;
-      }
       .header-logo {
-        width: 140px;
-        height: 30px;
-      }
-      .header-promise {
-        display: none;
+        width: min(74vw, 250px);
+        height: 44px;
       }
 
       .menu-panel {
@@ -1901,10 +1911,6 @@
     <div class="header-inner">
       <div class="header-brand">
         <img class="header-logo" src="./Advisastacks Logo White.png" alt="AdvisaStacks logo" />
-        <div>
-          <p class="header-title">AdvisaStacks</p>
-          <p class="header-promise">Guided workflows for faster client communication</p>
-        </div>
       </div>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
         <span class="menu-icon" aria-hidden="true">
@@ -1942,14 +1948,14 @@
       <div class="desktop-nav-items">
         <button class="desktop-nav-btn" data-key="Reviews & Referrals">⭐ Reviews</button>
         <button class="desktop-nav-btn" data-key="Get More Enquiries">Enquiries</button>
-        <button class="desktop-nav-btn" data-key="Templates">Templates</button>
-        <button class="desktop-nav-btn" data-key="Custom Builder">🛠 Build Your Own</button>
       </div>
     </section>
     <section class="desktop-nav-group">
       <div class="desktop-nav-label">Workspace</div>
       <div class="desktop-nav-items">
         <button class="desktop-nav-btn" data-key="Workspace">Workspace tools</button>
+        <button class="desktop-nav-btn" data-key="Templates">Templates</button>
+        <button class="desktop-nav-btn" data-key="Custom Builder">🛠 Build Your Own</button>
       </div>
     </section>
   </nav>
@@ -1967,11 +1973,10 @@
     <h2 class="nav-categories">Grow the Business</h2>
     <button class="menu-item" data-key="Reviews & Referrals">Reviews & Referrals</button>
     <button class="menu-item" data-key="Get More Enquiries">Get More Enquiries</button>
-    <h2 class="nav-categories">Build your own</h2>
-    <button class="menu-item" data-key="Templates">Templates</button>
-    <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
     <h2 class="nav-categories">Workspace</h2>
     <button class="menu-item" data-key="Workspace">Workspace tools</button>
+    <button class="menu-item" data-key="Templates">Templates</button>
+    <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
     <div class="global-inputs" aria-label="Default prompt settings">
       <div class="global-field">
         <label for="globalFirstName">Your First Name</label>
@@ -4919,19 +4924,15 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeCard.className = "card open";
         homeCard.style.gridColumn = "span 12";
 
-        const homeHead = document.createElement("div");
-        homeHead.className = "card-head";
-        homeHead.innerHTML = "<h3>Choose your task</h3>";
-
         const homeBody = document.createElement("div");
         homeBody.className = "card-body";
         homeBody.hidden = false;
         homeBody.innerHTML = `
           <div class="home-explainer">
-            <p class="home-kicker">First, set your name and business details so every prompt is pre-filled correctly.</p>
             <div class="home-setup-wrap">
               <button type="button" class="home-setup-main-btn" id="homeSetupStartBtn">START HERE</button>
               <form class="home-setup-form" id="homeSetupForm" hidden>
+                <p class="home-setup-instruction">Enter your first name and business name. These details auto-populate every prompt.</p>
                 <div class="home-setup-grid">
                   <div class="home-setup-field">
                     <label for="homeSetupFirstName">Your first name</label>
@@ -4944,8 +4945,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 </div>
                 <button type="submit" class="home-setup-submit-btn">Submit</button>
               </form>
-              <button type="button" class="home-setup-update-btn" id="homeSetupUpdateBtn" hidden>Update business and name details</button>
-              <div class="home-setup-status" id="homeSetupStatus"></div>
+              <button type="button" class="home-setup-update-btn" id="homeSetupUpdateBtn" hidden>Update details</button>
             </div>
             <div class="home-task-grid">
               <button type="button" class="home-task-btn" data-nav="Winning Work">
@@ -5016,49 +5016,41 @@ $("cb-submit-btn").addEventListener("click", async () => {
         const setupStartBtn = homeBody.querySelector("#homeSetupStartBtn");
         const setupForm = homeBody.querySelector("#homeSetupForm");
         const setupUpdateBtn = homeBody.querySelector("#homeSetupUpdateBtn");
-        const setupStatus = homeBody.querySelector("#homeSetupStatus");
         const setupFirstName = homeBody.querySelector("#homeSetupFirstName");
         const setupBizName = homeBody.querySelector("#homeSetupBizName");
-        const hasDefaults = !!(globalFirstNameInput.value.trim() && globalBizNameInput.value.trim());
-        const openSetupForm = () => {
+        const showSetupForm = () => {
           setupFirstName.value = globalFirstNameInput.value.trim();
           setupBizName.value = globalBizNameInput.value.trim();
           setupForm.hidden = false;
           setupStartBtn.hidden = true;
           setupUpdateBtn.hidden = true;
-          setupStatus.textContent = "";
           setTimeout(() => setupFirstName.focus(), 40);
         };
-        const closeSetupForm = () => {
+        const showUpdateButton = () => {
           setupForm.hidden = true;
           setupStartBtn.hidden = true;
           setupUpdateBtn.hidden = false;
-          const f = globalFirstNameInput.value.trim();
-          const b = globalBizNameInput.value.trim();
-          setupStatus.textContent = (f && b) ? ("Saved for " + f + " • " + b) : "";
         };
-        if (hasDefaults) {
-          closeSetupForm();
-        } else {
+        const showStartButton = () => {
+          setupForm.hidden = true;
           setupStartBtn.hidden = false;
           setupUpdateBtn.hidden = true;
-          setupForm.hidden = true;
-          setupStatus.textContent = "";
-        }
-        setupStartBtn?.addEventListener("click", () => openSetupForm());
-        setupUpdateBtn?.addEventListener("click", () => openSetupForm());
+        };
+        showStartButton();
+        setupStartBtn?.addEventListener("click", () => showSetupForm());
+        setupUpdateBtn?.addEventListener("click", () => showSetupForm());
         setupForm?.addEventListener("submit", (e) => {
           e.preventDefault();
           const f = (setupFirstName.value || "").trim();
           const b = (setupBizName.value || "").trim();
           if (!f || !b) {
-            setupStatus.textContent = "Please enter both fields before submitting.";
+            showAppToast("Please enter both fields before submitting.", "err");
             return;
           }
           globalFirstNameInput.value = f;
           globalBizNameInput.value = b;
           handleGlobalDefaultsChange();
-          closeSetupForm();
+          showUpdateButton();
         });
         homeBody.querySelector("#homeStartBtn")?.addEventListener("click", () => {
           current = "Winning Work";
@@ -5069,7 +5061,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
           window.location.href = "./feedback.html";
         });
 
-        homeCard.appendChild(homeHead);
         homeCard.appendChild(homeBody);
         grid.appendChild(homeCard);
         promptRefreshers = [];
