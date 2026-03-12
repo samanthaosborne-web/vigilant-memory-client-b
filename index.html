@@ -372,6 +372,10 @@
       width: auto;
       white-space: nowrap;
     }
+    .cb-card-top-label {
+      cursor: default;
+      user-select: none;
+    }
 
     .reveal-btn {
       margin-top: 14px;
@@ -4512,25 +4516,22 @@ $("cb-submit-btn").addEventListener("click", async () => {
         h.textContent = card.subtitle;
         const sourceCategory = card.__category || current;
         const isCustomBuilderCard = sourceCategory === "Custom Builder";
+        const topActions = document.createElement("div");
+        topActions.className = "cb-card-top-actions";
         const favouriteBtn = document.createElement("button");
         favouriteBtn.type = "button";
-        favouriteBtn.className = "favourite-btn";
-        favouriteBtn.style.marginBottom = "8px";
+        favouriteBtn.className = "favourite-btn cb-card-top-btn";
         const cardFavouriteId = card.__cardId || getCardId(sourceCategory, card.subtitle);
         const legacyFavouriteId = getCardId(sourceCategory, card.subtitle);
         const favsNow = readFavourites();
         const isFavourite = favsNow.includes(cardFavouriteId) || favsNow.includes(legacyFavouriteId);
-        favouriteBtn.textContent = isCustomBuilderCard
-          ? (isFavourite ? "Saved" : "Save favourites")
-          : (isFavourite ? "★ Saved" : "☆ Save favourite");
+        favouriteBtn.textContent = isFavourite ? "Saved" : "Save favourites";
         favouriteBtn.addEventListener("click", (e) => {
           e.stopPropagation();
           toggleFavourite(sourceCategory, card);
         });
 
         if (isCustomBuilderCard) {
-          const topActions = document.createElement("div");
-          topActions.className = "cb-card-top-actions";
           const backBuilderBtn = document.createElement("button");
           backBuilderBtn.type = "button";
           backBuilderBtn.className = "favourite-btn cb-card-top-btn";
@@ -4548,15 +4549,16 @@ $("cb-submit-btn").addEventListener("click", async () => {
               }
             }, 60);
           });
-          favouriteBtn.className = "favourite-btn cb-card-top-btn";
           topActions.appendChild(backBuilderBtn);
-          topActions.appendChild(favouriteBtn);
-          head.appendChild(topActions);
-          head.appendChild(h);
         } else {
-          head.appendChild(h);
-          head.appendChild(favouriteBtn);
+          const categoryLabel = document.createElement("span");
+          categoryLabel.className = "favourite-btn cb-card-top-btn cb-card-top-label";
+          categoryLabel.textContent = sourceCategory;
+          topActions.appendChild(categoryLabel);
         }
+        topActions.appendChild(favouriteBtn);
+        head.appendChild(topActions);
+        head.appendChild(h);
         const selections = {};
         const kv = document.createElement("div");
         kv.className = "kv";
