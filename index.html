@@ -405,6 +405,27 @@
       width: auto;
       white-space: nowrap;
     }
+    .custom-card-footer {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 12px;
+    }
+    .custom-delete-card-btn {
+      background: #313131;
+      color: #f9faff;
+      border: 1.5px solid #313131;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .custom-delete-card-btn:hover {
+      background: #b91c1c;
+      border-color: #b91c1c;
+    }
     .reveal-btn {
       margin-top: 14px;
       width: fit-content;
@@ -3482,6 +3503,18 @@
       }
 
       let favs = readFavourites();
+      const isSavedCustomCard = category === "Custom Builder" && String(id).startsWith("custom-built::");
+
+      if (isSavedCustomCard) {
+        ensureCustomBuilderCardStored(id);
+        if (id !== legacyId) {
+          favs = favs.filter((favId) => favId !== legacyId);
+        }
+        if (!favs.includes(id)) favs.push(id);
+        writeFavourites(favs);
+        render();
+        return;
+      }
       
       if (favs.includes(id) || favs.includes(legacyId)) {
         // If it's already saved, remove it
@@ -3544,6 +3577,23 @@
     }
     function writeCustomBuiltCards(arr) {
       localStorage.setItem(CB_BUILT_CARDS_KEY, JSON.stringify(arr));
+    }
+
+    function deleteCustomBuiltCard(cardId, subtitle) {
+      const saved = readCustomBuiltCards().filter((entry) => {
+        if (!entry || !entry.card) return false;
+        const entryCardId = entry.card.__cardId || ("custom-built::" + entry.id);
+        return entryCardId !== cardId;
+      });
+      writeCustomBuiltCards(saved);
+
+      const legacyId = getCardId("Custom Builder", subtitle || "");
+      const favs = readFavourites().filter((favId) => favId !== cardId && favId !== legacyId);
+      writeFavourites(favs);
+
+      if (customBuilderTempCard && customBuilderTempCard.__cardId === cardId) {
+        customBuilderTempCard = null;
+      }
     }
 
     function buildCustomCardFromFields(fields, oneoffPrompt, templatePrompt) {
@@ -4177,6 +4227,9 @@
           card: builtCard
         });
         writeCustomBuiltCards(saved);
+        const favs = readFavourites().filter((favId) => favId !== getCardId("Custom Builder", builtCard.subtitle));
+        if (!favs.includes(builtCard.__cardId)) favs.push(builtCard.__cardId);
+        writeFavourites(favs);
         customBuilderTempCard = null;
         writePrefs({ openCard: builtCard.subtitle });
         render();
@@ -4544,6 +4597,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         h.textContent = card.subtitle;
         const sourceCategory = card.__category || current;
         const isCustomBuilderCard = sourceCategory === "Custom Builder";
+        const isPersistedCustomBuilderCard = isCustomBuilderCard && String(card.__cardId || "").startsWith("custom-built::");
         const topActions = document.createElement("div");
         topActions.className = "cb-card-top-actions";
         const favouriteBtn = document.createElement("button");
@@ -5164,6 +5218,26 @@ $("cb-submit-btn").addEventListener("click", async () => {
           block.appendChild(composerWrap);
           body.appendChild(block);
         });
+
+        if (isPersistedCustomBuilderCard) {
+          const footerActions = document.createElement("div");
+          footerActions.className = "custom-card-footer";
+          const deleteCardBtn = document.createElement("button");
+          deleteCardBtn.type = "button";
+          deleteCardBtn.className = "custom-delete-card-btn";
+          deleteCardBtn.textContent = "Delete card";
+          deleteCardBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const confirmed = window.confirm(
+              "Are you sure you want to permanently delete this card and its prompt? This action cannot be undone."
+            );
+            if (!confirmed) return;
+            deleteCustomBuiltCard(card.__cardId, card.subtitle);
+            render();
+          });
+          footerActions.appendChild(deleteCardBtn);
+          body.appendChild(footerActions);
+        }
         
         cardRefreshers.push(updatePromptsText);
         
