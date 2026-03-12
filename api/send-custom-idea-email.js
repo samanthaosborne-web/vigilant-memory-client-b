@@ -24,7 +24,8 @@ module.exports = async (req, res) => {
 
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   const FROM_EMAIL = process.env.FROM_EMAIL || "AdvisaStacks <noreply@advisastacks.com>";
-  const TO_EMAIL = process.env.CUSTOM_IDEA_TO_EMAIL || "info@advisastacks.com";
+  const extraToEmail = (process.env.CUSTOM_IDEA_TO_EMAIL || "").trim();
+  const recipients = Array.from(new Set(["info@advisastacks.com", extraToEmail].filter(Boolean)));
 
   if (!RESEND_API_KEY) {
     return json(res, 500, { error: "Email service not configured." });
@@ -39,7 +40,10 @@ module.exports = async (req, res) => {
   const submitterEmail = body.submitterEmail || "Unknown";
   const submitterId = body.submitterId || "Unknown";
 
-  const subjectTask = (fields.problem || "Custom Builder submission").slice(0, 80);
+  const subjectTask = String(fields.problem || "Custom Builder submission")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 80);
   const subject = "Custom Builder submission: " + subjectTask;
 
   const fieldRows = [
@@ -90,18 +94,29 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         from: FROM_EMAIL,
-        to: [TO_EMAIL],
+        to: recipients,
         subject,
-        html
+        html,
+        reply_to: String(submitterEmail).includes("@") ? submitterEmail : undefined
       })
     });
 
     if (!resp.ok) {
-      return json(res, 500, { error: "Failed to send submission email." });
+      let details = "Failed to send submission email.";
+      try {
+        const payload = await resp.json();
+        details = payload?.message || payload?.error || details;
+      } catch (_err) {
+        const raw = await resp.text().catch(() => "");
+        if (raw) details = raw.slice(0, 200);
+      }
+      console.error("send-custom-idea-email failed", resp.status, details);
+      return json(res, 500, { error: details });
     }
 
     return json(res, 200, { sent: true });
-  } catch (_error) {
-    return json(res, 500, { error: "Failed to send submission email." });
+  } catch (error) {
+    console.error("send-custom-idea-email exception", error);
+    return json(res, 500, { error: error?.message || "Failed to send submission email." });
   }
 };
