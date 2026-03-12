@@ -102,12 +102,12 @@
       min-width: 0;
     }
     .header-logo {
-      width: 42px;
-      height: 42px;
+      width: min(46vw, 180px);
+      height: 34px;
       object-fit: contain;
-      border-radius: 8px;
-      background: #111827;
-      border: 1px solid #334155;
+      border-radius: 0;
+      background: transparent;
+      border: 0;
       flex-shrink: 0;
     }
     .header-title {
@@ -189,6 +189,8 @@
       border-radius: 10px;
       padding: 8px;
       display: grid;
+      grid-template-rows: auto 1fr;
+      align-content: start;
       gap: 8px;
     }
     .desktop-nav-label {
@@ -200,20 +202,29 @@
       padding: 0 4px;
     }
     .desktop-nav-items {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 6px;
+      align-content: start;
     }
     .desktop-nav-btn {
       border: 1px solid #475569;
       background: #0f172a;
       color: #e2e8f0;
-      border-radius: 999px;
-      padding: 7px 10px;
+      border-radius: 10px;
+      padding: 8px 10px;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
+      width: 100%;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       transition: border-color 0.16s, color 0.16s, background 0.16s;
+    }
+    .desktop-nav-items .desktop-nav-btn:only-child {
+      grid-column: 1 / -1;
     }
     .desktop-nav-btn:hover {
       border-color: var(--accent);
@@ -1780,6 +1791,10 @@
       .header-title {
         font-size: 15px;
       }
+      .header-logo {
+        width: 140px;
+        height: 30px;
+      }
       .header-promise {
         display: none;
       }
@@ -1815,7 +1830,7 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="header-brand">
-        <img class="header-logo" src="./advisastacks-logo.png" alt="AdvisaStacks logo" />
+        <img class="header-logo" src="./Advisastacks Logo White.png" alt="AdvisaStacks logo" />
         <div>
           <p class="header-title">AdvisaStacks</p>
           <p class="header-promise">Guided workflows for faster client communication</p>
@@ -2862,7 +2877,7 @@
                 },
                 {
                   "label": "How to send",
-                  "options": ["Text them to me", "Email them", "Upload link"]
+                  "options": ["Text them to me", "Email them", "Send via message"]
                 },
                 {
                   "label": "What photos",
