@@ -472,6 +472,15 @@
       .home-task-grid {
         grid-template-columns: 1fr;
       }
+      .ai-preview-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .ai-run-now-btn,
+      .ai-preview-btn {
+        width: 100%;
+        justify-content: center;
+      }
     }
     .home-task-btn {
       border: 1px solid #334155;
@@ -970,11 +979,11 @@
     }
 
     .ui-block {
-      margin: 0 0 16px 0;
+      margin: 0 0 12px 0;
     }
 
     .ui-row {
-      margin: 14px 0;
+      margin: 10px 0;
     }
     .context-tip {
       background: #111827;
@@ -1233,15 +1242,16 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin: 8px 0 0;
+      margin: 6px 0 0;
+      align-items: center;
     }
     .ai-preview-btn {
       background: transparent;
-      color: #f8fafc;
-      border: 1.5px solid #475569;
+      color: #cbd5e1;
+      border: 1px solid #475569;
       border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 14px;
+      padding: 6px 10px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
     }
@@ -1252,18 +1262,30 @@
     .ai-run-now-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      background: #e75a00;
-      border: 1.5px solid #e75a00;
+      justify-content: center;
+      min-height: 40px;
+      padding: 9px 14px;
+      background: linear-gradient(135deg, #e75a00 0%, #ff7a1a 100%);
+      border: none;
       border-radius: 8px;
       color: #f8fafc;
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 700;
       cursor: pointer;
+      box-shadow: 0 4px 14px rgba(231,90,0,0.35);
+      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s, opacity 0.15s;
     }
     .ai-run-now-btn:hover {
       filter: brightness(0.95);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(231,90,0,0.45);
+    }
+    .ai-run-now-btn.loading,
+    .ai-run-now-btn:disabled {
+      opacity: 0.78;
+      cursor: progress;
+      transform: none;
+      box-shadow: 0 2px 8px rgba(231,90,0,0.3);
     }
     .ai-chat-input:focus {
       outline: none;
@@ -1316,6 +1338,53 @@
       display: none;
     }
     .ai-response-area.visible { display: block; }
+    .ai-response-status {
+      margin: 0 0 8px;
+      font-size: 13px;
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+    .ai-response-boxes {
+      display: grid;
+      gap: 10px;
+    }
+    .ai-response-box {
+      background: #162130;
+      border: 1.5px solid #334155;
+      border-radius: 10px;
+      padding: 10px 12px 12px;
+    }
+    .ai-response-box-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .ai-response-box-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(249,250,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .ai-copy-response-btn {
+      background: rgba(249,250,255,0.1);
+      border: 1.5px solid rgba(249,250,255,0.22);
+      border-radius: var(--radius-sm);
+      color: var(--surface);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
+    }
+    .ai-copy-response-btn:hover {
+      background: rgba(249,250,255,0.2);
+      border-color: rgba(249,250,255,0.45);
+      transform: translateY(-1px);
+    }
     .ai-sent-wrap {
       display: none;
       margin-bottom: 10px;
@@ -1340,62 +1409,14 @@
       white-space: pre-wrap;
       word-break: break-word;
     }
-    .ai-response-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-    .ai-response-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(249,250,255,0.55);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .ai-response-label .ai-dot {
-      width: 7px; height: 7px;
-      background: #e75a00;
-      border-radius: 50%;
-      animation: pulse-dot 1.5s ease-in-out infinite;
-      display: none;
-    }
-    .ai-response-label.streaming .ai-dot { display: block; }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
-    }
-    .ai-copy-result-btn {
-      background: rgba(249,250,255,0.1);
-      border: 1.5px solid rgba(249,250,255,0.22);
-      border-radius: var(--radius-sm);
-      color: var(--surface);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 10px;
-      cursor: pointer;
-      transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
-    }
-    .ai-copy-result-btn:hover {
-      background: rgba(249,250,255,0.2);
-      border-color: rgba(249,250,255,0.45);
-      transform: translateY(-1px);
-    }
     .ai-response-text {
-      background: #162130;
-      border: 1.5px solid #334155;
-      border-radius: 10px;
-      padding: 14px 16px;
+      padding: 4px 2px 0;
       font-size: 16px;
       line-height: 1.6;
       color: #f9faff;
       white-space: pre-wrap;
       font-family: inherit;
-      min-height: 60px;
+      min-height: 44px;
       word-break: break-word;
     }
     .ai-error-msg {
@@ -5378,10 +5399,20 @@ $("cb-submit-btn").addEventListener("click", async () => {
           <span class="workflow-step">Step 3: Copy and use</span>
         `;
         body.appendChild(workflowSteps);
+        const workflowStepPills = Array.from(workflowSteps.querySelectorAll(".workflow-step"));
+        const setWorkflowStep = (idx) => {
+          workflowStepPills.forEach((pill, i) => {
+            pill.classList.toggle("is-active", i === idx);
+          });
+        };
+        let isRunningAi = false;
         const inputWorkflowNote = document.createElement("p");
         inputWorkflowNote.className = "workflow-note";
         inputWorkflowNote.textContent = "Fill in key details first. Then run with AI.";
         body.appendChild(inputWorkflowNote);
+        body.addEventListener("input", () => {
+          if (!isRunningAi) setWorkflowStep(0);
+        });
 
         const contextualTip = card.front?.when || card.front?.tip;
         if (contextualTip) {
@@ -5597,13 +5628,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
           const previewBtn = document.createElement("button");
           previewBtn.type = "button";
           previewBtn.className = "ai-preview-btn";
-          previewBtn.textContent = "View prompt (advanced)";
+          previewBtn.textContent = "Prompt preview (advanced)";
           const runNowBtn = document.createElement("button");
           runNowBtn.type = "button";
           runNowBtn.className = "ai-run-now-btn";
           runNowBtn.textContent = "Run with AI";
-          previewActions.appendChild(previewBtn);
           previewActions.appendChild(runNowBtn);
+          previewActions.appendChild(previewBtn);
 
           // Response area (shown above the chat composer)
           const responseArea = document.createElement("div");
@@ -5617,19 +5648,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
           sentPromptText.className = "ai-sent-prompt-text";
           sentPromptWrap.appendChild(sentPromptLabel);
           sentPromptWrap.appendChild(sentPromptText);
-          const responseHeader = document.createElement("div");
-          responseHeader.className = "ai-response-header";
-          const responseLabel = document.createElement("div");
-          responseLabel.className = "ai-response-label";
-          responseLabel.innerHTML = `<span class="ai-dot"></span>Step 3: Final message`;
-          const copyResultBtn = document.createElement("button");
-          copyResultBtn.type = "button";
-          copyResultBtn.className = "ai-copy-result-btn";
-          copyResultBtn.textContent = "Copy result";
-          responseHeader.appendChild(responseLabel);
-          responseHeader.appendChild(copyResultBtn);
-          const responseText = document.createElement("div");
-          responseText.className = "ai-response-text";
+          const responseStatus = document.createElement("div");
+          responseStatus.className = "ai-response-status";
+          responseStatus.textContent = "Step 3: Final message will appear here.";
+          const responseBoxes = document.createElement("div");
+          responseBoxes.className = "ai-response-boxes";
           const errorMsg = document.createElement("div");
           errorMsg.className = "ai-error-msg";
           const outputNote = document.createElement("p");
@@ -5637,9 +5660,110 @@ $("cb-submit-btn").addEventListener("click", async () => {
           outputNote.textContent = "Review the final message, then copy and use.";
           responseArea.appendChild(sentPromptWrap);
           responseArea.appendChild(outputNote);
-          responseArea.appendChild(responseHeader);
-          responseArea.appendChild(responseText);
+          responseArea.appendChild(responseStatus);
+          responseArea.appendChild(responseBoxes);
           responseArea.appendChild(errorMsg);
+
+          const flashButtonText = (btn, text, resetText) => {
+            btn.textContent = text;
+            setTimeout(() => {
+              btn.textContent = resetText;
+            }, 1400);
+          };
+          const createResponseBox = (labelText, contentText) => {
+            const box = document.createElement("div");
+            box.className = "ai-response-box";
+            const head = document.createElement("div");
+            head.className = "ai-response-box-head";
+            const label = document.createElement("div");
+            label.className = "ai-response-box-title";
+            label.textContent = labelText;
+            const copyBtn = document.createElement("button");
+            copyBtn.type = "button";
+            copyBtn.className = "ai-copy-response-btn";
+            copyBtn.textContent = "Copy";
+            const text = document.createElement("div");
+            text.className = "ai-response-text";
+            text.textContent = contentText || "";
+            copyBtn.addEventListener("click", (e) => {
+              e.stopPropagation();
+              const txt = text.textContent || "";
+              if (!txt.trim()) return;
+              if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(txt).then(() => {
+                  flashButtonText(copyBtn, "Copied ✓", "Copy");
+                }).catch(() => fallbackCopy(txt, copyBtn));
+              } else {
+                fallbackCopy(txt, copyBtn);
+              }
+            });
+            head.appendChild(label);
+            head.appendChild(copyBtn);
+            box.appendChild(head);
+            box.appendChild(text);
+            return { box, textEl: text };
+          };
+          const trySplitTwoResponses = (rawText) => {
+            const text = (rawText || "").trim();
+            if (!text) return null;
+            const pairPatterns = [
+              {
+                regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*1\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*2\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i,
+                labels: ["Response 1", "Response 2"]
+              },
+              {
+                regex: /(?:^|\n)\s*(?:\*\*)?\s*Email\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:SMS|Text)\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i,
+                labels: ["Email", "SMS / Text"]
+              },
+              {
+                regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:SMS|Text)\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*Email\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i,
+                labels: ["SMS / Text", "Email"]
+              }
+            ];
+            for (const p of pairPatterns) {
+              const m = text.match(p.regex);
+              if (!m) continue;
+              const a = (m[1] || "").trim();
+              const b = (m[2] || "").trim();
+              if (a && b) return [{ label: p.labels[0], text: a }, { label: p.labels[1], text: b }];
+            }
+            const numbered = text.match(/^\s*1[.)\-:]\s*([\s\S]*?)\n\s*2[.)\-:]\s*([\s\S]*)$/);
+            if (numbered && !/\n\s*3[.)\-:]\s/.test(text)) {
+              const a = (numbered[1] || "").trim();
+              const b = (numbered[2] || "").trim();
+              if (a && b) return [{ label: "Response 1", text: a }, { label: "Response 2", text: b }];
+            }
+            return null;
+          };
+          let streamingResponseTextEl = null;
+          const mountResponseBoxes = (responses) => {
+            responseBoxes.innerHTML = "";
+            (responses || []).forEach((entry) => {
+              const built = createResponseBox(entry.label, entry.text);
+              responseBoxes.appendChild(built.box);
+            });
+          };
+          const mountStreamingResponseBox = () => {
+            responseBoxes.innerHTML = "";
+            const built = createResponseBox("Final message", "");
+            streamingResponseTextEl = built.textEl;
+            responseBoxes.appendChild(built.box);
+          };
+          const finalizeResponses = () => {
+            const raw = (streamingResponseTextEl?.textContent || "").trim();
+            const split = trySplitTwoResponses(raw);
+            if (split && split.length === 2) {
+              mountResponseBoxes(split);
+              responseStatus.textContent = "Two responses ready. Copy the one you need.";
+            } else {
+              responseStatus.textContent = raw ? "Final message ready. Copy and use." : "No response yet.";
+            }
+          };
+          const setRunNowState = (loading) => {
+            runNowBtn.disabled = !!loading;
+            runNowBtn.classList.toggle("loading", !!loading);
+            runNowBtn.textContent = loading ? "Generating..." : "Run with AI";
+          };
 
           // Chat composer (prefilled and synced from prompt inputs)
           const composerWrap = document.createElement("div");
@@ -5715,16 +5839,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
             runBtn.click();
           });
 
-          copyResultBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const txt = responseText.textContent;
-            if (!txt) return;
-            navigator.clipboard?.writeText(txt).then(() => {
-              copyResultBtn.textContent = "Copied ✓";
-              setTimeout(() => { copyResultBtn.textContent = "Copy result"; }, 1400);
-            }).catch(() => {});
-          });
-
           runBtn.addEventListener("click", async (e) => {
             e.stopPropagation();
             const promptText = (composerInput.value || "").trim();
@@ -5732,18 +5846,23 @@ $("cb-submit-btn").addEventListener("click", async () => {
               responseArea.classList.add("visible");
               errorMsg.textContent = "⚠️ Please enter a prompt before running.";
               errorMsg.classList.add("visible");
+              setRunNowState(false);
               return;
             }
             bumpUsageStat("aiRuns", 1);
             runBtn.disabled = true;
             runBtn.classList.add("loading");
+            isRunningAi = true;
+            setRunNowState(true);
+            setWorkflowStep(1);
             responseArea.classList.add("visible");
             sentPromptWrap.classList.add("visible");
             sentPromptText.textContent = promptText;
-            responseText.textContent = "";
+            mountStreamingResponseBox();
+            if (streamingResponseTextEl) streamingResponseTextEl.textContent = "";
+            responseStatus.textContent = "Generating your message...";
             errorMsg.classList.remove("visible");
             errorMsg.textContent = "";
-            responseLabel.classList.add("streaming");
 
             // Build message content
             const msgContent = [{ type: "text", text: promptText }];
@@ -5784,19 +5903,26 @@ $("cb-submit-btn").addEventListener("click", async () => {
                     const parsed = JSON.parse(data);
                     const delta = parsed?.delta?.text || parsed?.delta?.delta?.text || "";
                     if (delta) {
-                      responseText.textContent += delta;
-                      responseText.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                      if (streamingResponseTextEl) {
+                        streamingResponseTextEl.textContent += delta;
+                        streamingResponseTextEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                      }
                     }
                   } catch (_) {}
                 }
               }
+              finalizeResponses();
+              setWorkflowStep(2);
             } catch (err) {
               errorMsg.textContent = "⚠️ " + (err.message || "Something went wrong. Please try again.");
               errorMsg.classList.add("visible");
+              responseStatus.textContent = "Could not generate a message.";
+              setWorkflowStep(1);
             } finally {
               runBtn.disabled = false;
               runBtn.classList.remove("loading");
-              responseLabel.classList.remove("streaming");
+              isRunningAi = false;
+              setRunNowState(false);
             }
           });
 
