@@ -644,6 +644,41 @@
     }
     .ai-file-remove:hover { color: #f9faff; }
 
+    .ai-chat-composer {
+      margin-top: 12px;
+      background: rgba(0, 0, 0, 0.22);
+      border: 1.5px solid rgba(249,250,255,0.14);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .ai-chat-head {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(249,250,255,0.65);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .ai-chat-input {
+      width: 100%;
+      min-height: 120px;
+      resize: vertical;
+      border-radius: 10px;
+      border: 1.5px solid rgba(249,250,255,0.18);
+      background: rgba(0,0,0,0.32);
+      color: #f9faff;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+    }
+    .ai-chat-input:focus {
+      outline: none;
+      border-color: rgba(231,90,0,0.85);
+      box-shadow: 0 0 0 3px rgba(231,90,0,0.2);
+    }
+
     .ai-run-btn {
       display: inline-flex;
       align-items: center;
@@ -684,10 +719,35 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .ai-response-area {
-      margin-top: 14px;
+      margin-top: 6px;
+      margin-bottom: 10px;
       display: none;
     }
     .ai-response-area.visible { display: block; }
+    .ai-sent-wrap {
+      display: none;
+      margin-bottom: 10px;
+    }
+    .ai-sent-wrap.visible { display: block; }
+    .ai-sent-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(249,250,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .ai-sent-prompt-text {
+      background: rgba(231,90,0,0.22);
+      border: 1.5px solid rgba(231,90,0,0.5);
+      border-radius: 10px;
+      padding: 12px 14px;
+      color: #f9faff;
+      font-size: 14px;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
     .ai-response-header {
       display: flex;
       align-items: center;
@@ -4343,37 +4403,21 @@ $("cb-submit-btn").addEventListener("click", async () => {
           const globalPrefix = getGlobalPromptPrefix();
           pre.textContent = globalPrefix + initialText;
 
-          // ── Action row: Copy + Run with AI ──
-          const bottomBtnRow = document.createElement("div");
-          bottomBtnRow.className = "copy-row";
-          const bottomBtn = document.createElement("button");
-          bottomBtn.type = "button";
-          bottomBtn.className = "copy-btn";
-          bottomBtn.innerHTML = "Copy prompt";
+          pre.style.display = "none";
+          pre.setAttribute("aria-hidden", "true");
 
-          const doCopy = (btn) => {
-            const textToCopy = pre.textContent;
-            if (navigator.clipboard && window.isSecureContext) {
-              navigator.clipboard.writeText(textToCopy).then(() => {
-                const oldText = btn.innerHTML;
-                btn.innerHTML = "Copied ✓";
-                btn.style.background = "#e75a00";
-                btn.style.color = "#f9faff";
-                setTimeout(() => { btn.innerHTML = oldText; btn.style.background = ""; btn.style.color = ""; }, 1200);
-              }).catch(() => fallbackCopy(textToCopy, btn));
-            } else { fallbackCopy(textToCopy, btn); }
-          };
-          bottomBtn.addEventListener("click", (e) => { e.stopPropagation(); doCopy(bottomBtn); });
-
-          // Run with AI button
-          const runBtn = document.createElement("button");
-          runBtn.type = "button";
-          runBtn.className = "ai-run-btn";
-          runBtn.innerHTML = `<span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>`;
-
-          // Response area
+          // Response area (shown above the chat composer)
           const responseArea = document.createElement("div");
           responseArea.className = "ai-response-area";
+          const sentPromptWrap = document.createElement("div");
+          sentPromptWrap.className = "ai-sent-wrap";
+          const sentPromptLabel = document.createElement("div");
+          sentPromptLabel.className = "ai-sent-label";
+          sentPromptLabel.textContent = "Sent prompt";
+          const sentPromptText = document.createElement("div");
+          sentPromptText.className = "ai-sent-prompt-text";
+          sentPromptWrap.appendChild(sentPromptLabel);
+          sentPromptWrap.appendChild(sentPromptText);
           const responseHeader = document.createElement("div");
           responseHeader.className = "ai-response-header";
           const responseLabel = document.createElement("div");
@@ -4389,9 +4433,69 @@ $("cb-submit-btn").addEventListener("click", async () => {
           responseText.className = "ai-response-text";
           const errorMsg = document.createElement("div");
           errorMsg.className = "ai-error-msg";
+          responseArea.appendChild(sentPromptWrap);
           responseArea.appendChild(responseHeader);
           responseArea.appendChild(responseText);
           responseArea.appendChild(errorMsg);
+
+          // Chat composer (prefilled and synced from prompt inputs)
+          const composerWrap = document.createElement("div");
+          composerWrap.className = "ai-chat-composer";
+          const composerHead = document.createElement("div");
+          composerHead.className = "ai-chat-head";
+          composerHead.textContent = "Prompt to AI";
+          const composerInput = document.createElement("textarea");
+          composerInput.className = "ai-chat-input";
+          composerInput.rows = 6;
+          composerInput.placeholder = "Your prompt will appear here...";
+          composerInput.value = pre.textContent;
+          composerInput.dataset.lastAuto = pre.textContent;
+          composerInput.addEventListener("input", () => {
+            composerInput.dataset.userEdited = "true";
+          });
+
+          const syncComposerFromPrompt = () => {
+            const nextPrompt = pre.textContent || "";
+            const lastAuto = composerInput.dataset.lastAuto || "";
+            if (!composerInput.dataset.userEdited || composerInput.value === lastAuto) {
+              composerInput.value = nextPrompt;
+              composerInput.dataset.userEdited = "";
+            }
+            composerInput.dataset.lastAuto = nextPrompt;
+          };
+          syncComposerFromPrompt();
+          new MutationObserver(syncComposerFromPrompt).observe(pre, {
+            characterData: true,
+            childList: true,
+            subtree: true
+          });
+
+          // ── Action row: Copy + Run with AI ──
+          const bottomBtnRow = document.createElement("div");
+          bottomBtnRow.className = "copy-row";
+          const bottomBtn = document.createElement("button");
+          bottomBtn.type = "button";
+          bottomBtn.className = "copy-btn";
+          bottomBtn.innerHTML = "Copy prompt";
+
+          const doCopy = (btn) => {
+            const textToCopy = composerInput.value || pre.textContent;
+            if (navigator.clipboard && window.isSecureContext) {
+              navigator.clipboard.writeText(textToCopy).then(() => {
+                const oldText = btn.innerHTML;
+                btn.innerHTML = "Copied ✓";
+                btn.style.background = "#e75a00";
+                btn.style.color = "#f9faff";
+                setTimeout(() => { btn.innerHTML = oldText; btn.style.background = ""; btn.style.color = ""; }, 1200);
+              }).catch(() => fallbackCopy(textToCopy, btn));
+            } else { fallbackCopy(textToCopy, btn); }
+          };
+          bottomBtn.addEventListener("click", (e) => { e.stopPropagation(); doCopy(bottomBtn); });
+
+          const runBtn = document.createElement("button");
+          runBtn.type = "button";
+          runBtn.className = "ai-run-btn";
+          runBtn.innerHTML = `<span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>`;
 
           copyResultBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -4405,10 +4509,18 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
           runBtn.addEventListener("click", async (e) => {
             e.stopPropagation();
-            const promptText = pre.textContent;
+            const promptText = (composerInput.value || "").trim();
+            if (!promptText) {
+              responseArea.classList.add("visible");
+              errorMsg.textContent = "⚠️ Please enter a prompt before running.";
+              errorMsg.classList.add("visible");
+              return;
+            }
             runBtn.disabled = true;
             runBtn.classList.add("loading");
             responseArea.classList.add("visible");
+            sentPromptWrap.classList.add("visible");
+            sentPromptText.textContent = promptText;
             responseText.textContent = "";
             errorMsg.classList.remove("visible");
             errorMsg.textContent = "";
@@ -4485,10 +4597,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
           bottomBtnRow.appendChild(bottomBtn);
           bottomBtnRow.appendChild(runBtn);
+          composerWrap.appendChild(composerHead);
+          composerWrap.appendChild(composerInput);
+          composerWrap.appendChild(bottomBtnRow);
           block.appendChild(label);
           block.appendChild(pre);
-          block.appendChild(bottomBtnRow);
           block.appendChild(responseArea);
+          block.appendChild(composerWrap);
           body.appendChild(block);
         });
         
