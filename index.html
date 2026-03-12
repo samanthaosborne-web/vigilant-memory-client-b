@@ -357,6 +357,21 @@
       font-size: 12px;
       cursor: pointer;
     }
+    .cb-card-top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .cb-card-top-btn {
+      margin: 0;
+      padding: 6px 10px;
+      font-size: 11px;
+      border-radius: 7px;
+      width: auto;
+      white-space: nowrap;
+    }
 
     .reveal-btn {
       margin-top: 14px;
@@ -650,6 +665,14 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    .ai-file-thumb {
+      width: 28px;
+      height: 28px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid rgba(249,250,255,0.45);
+      flex-shrink: 0;
     }
     .ai-file-remove {
       background: none;
@@ -4485,14 +4508,31 @@ $("cb-submit-btn").addEventListener("click", async () => {
         head.setAttribute("aria-expanded", "false");
         const h = document.createElement("h3");
         h.textContent = card.subtitle;
-        head.appendChild(h);
         const sourceCategory = card.__category || current;
-        if (sourceCategory === "Custom Builder") {
+        const isCustomBuilderCard = sourceCategory === "Custom Builder";
+        const favouriteBtn = document.createElement("button");
+        favouriteBtn.type = "button";
+        favouriteBtn.className = "favourite-btn";
+        favouriteBtn.style.marginBottom = "8px";
+        const cardFavouriteId = card.__cardId || getCardId(sourceCategory, card.subtitle);
+        const legacyFavouriteId = getCardId(sourceCategory, card.subtitle);
+        const favsNow = readFavourites();
+        const isFavourite = favsNow.includes(cardFavouriteId) || favsNow.includes(legacyFavouriteId);
+        favouriteBtn.textContent = isCustomBuilderCard
+          ? (isFavourite ? "Saved" : "Save favourites")
+          : (isFavourite ? "★ Saved" : "☆ Save favourite");
+        favouriteBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleFavourite(sourceCategory, card);
+        });
+
+        if (isCustomBuilderCard) {
+          const topActions = document.createElement("div");
+          topActions.className = "cb-card-top-actions";
           const backBuilderBtn = document.createElement("button");
           backBuilderBtn.type = "button";
-          backBuilderBtn.className = "favourite-btn";
-          backBuilderBtn.style.marginTop = "0";
-          backBuilderBtn.textContent = "↩ Custom Prompt Builder";
+          backBuilderBtn.className = "favourite-btn cb-card-top-btn";
+          backBuilderBtn.textContent = "Custom Builder";
           backBuilderBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             current = "Custom Builder";
@@ -4506,22 +4546,15 @@ $("cb-submit-btn").addEventListener("click", async () => {
               }
             }, 60);
           });
-          head.appendChild(backBuilderBtn);
+          favouriteBtn.className = "favourite-btn cb-card-top-btn";
+          topActions.appendChild(backBuilderBtn);
+          topActions.appendChild(favouriteBtn);
+          head.appendChild(topActions);
+          head.appendChild(h);
+        } else {
+          head.appendChild(h);
+          head.appendChild(favouriteBtn);
         }
-        const favouriteBtn = document.createElement("button");
-        favouriteBtn.type = "button";
-        favouriteBtn.className = "favourite-btn";
-        favouriteBtn.style.marginBottom = "8px";
-        const cardFavouriteId = card.__cardId || getCardId(sourceCategory, card.subtitle);
-        const legacyFavouriteId = getCardId(sourceCategory, card.subtitle);
-        const favsNow = readFavourites();
-        const isFavourite = favsNow.includes(cardFavouriteId) || favsNow.includes(legacyFavouriteId);
-        favouriteBtn.textContent = isFavourite ? "★ Saved" : "☆ Save favourite";
-        favouriteBtn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          toggleFavourite(sourceCategory, card);
-        });
-        head.appendChild(favouriteBtn);
         const selections = {};
         const kv = document.createElement("div");
         kv.className = "kv";
@@ -4654,6 +4687,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
                });
             }
 
+            const extraNotes = (selections["[Extra notes]"] || "").trim();
+            if (extraNotes) {
+              newText += "\n\nAdditional notes:\n" + extraNotes;
+            }
+
             newText = addVoiceToneInstruction(newText, card);
             if (promptBlocks[idx]) promptBlocks[idx].textContent = globalPrefix + newText;
           });
@@ -4661,10 +4699,30 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
         // --- UX Form Logic ---
         if (card.ui) {
+          const createExtraNotesRow = () => {
+            const notesRow = document.createElement("div");
+            notesRow.className = "ui-row";
+            const notesTitle = document.createElement("div");
+            notesTitle.className = "ui-title";
+            notesTitle.textContent = "Extra notes (optional)";
+            const notesInput = document.createElement("textarea");
+            notesInput.className = "type-input";
+            notesInput.rows = 2;
+            notesInput.placeholder = "Add anything else the AI should know...";
+            notesInput.addEventListener("input", (e) => {
+              selections["[Extra notes]"] = e.target.value || "";
+              updatePromptsText();
+            });
+            notesRow.appendChild(notesTitle);
+            notesRow.appendChild(notesInput);
+            return notesRow;
+          };
+
           if (card.ui.customForm === "invoiceBuilder") {
               const uiContainer = document.createElement("div");
               uiContainer.className = "ui-block";
               buildInvoiceBuilderDOM(uiContainer, card, selections, updatePromptsText);
+              uiContainer.appendChild(createExtraNotesRow());
               body.appendChild(uiContainer);
           } else {
               const ui = document.createElement("div");
@@ -4760,6 +4818,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 f.appendChild(fl);
                 ui.appendChild(f);
               }
+              ui.appendChild(createExtraNotesRow());
               body.appendChild(ui);
           }
         }
@@ -4797,6 +4856,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
           cardFiles.forEach((f, idx) => {
             const pill = document.createElement("div");
             pill.className = "ai-file-pill";
+            if (f.previewSrc) {
+              const thumb = document.createElement("img");
+              thumb.className = "ai-file-thumb";
+              thumb.src = f.previewSrc;
+              thumb.alt = "Uploaded image";
+              pill.appendChild(thumb);
+            }
             const nameSpan = document.createElement("span");
             nameSpan.textContent = f.file.name;
             const removeBtn = document.createElement("button");
@@ -4826,7 +4892,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 r.onload = () => res(r.result.split(",")[1]);
                 r.readAsDataURL(file);
               });
-              cardFiles.push({ file, base64, mediaType });
+              const previewSrc = mediaType.startsWith("image/")
+                ? ("data:" + mediaType + ";base64," + base64)
+                : null;
+              cardFiles.push({ file, base64, mediaType, previewSrc });
             } else {
               // Plain text fallback for .docx/.txt
               const text = await file.text().catch(() => "[Could not read file text]");
