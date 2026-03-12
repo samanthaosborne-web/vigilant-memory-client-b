@@ -3613,8 +3613,29 @@
                 <span class="cb-badge">Paste into ChatGPT or Claude</span>
               </div>
               <div class="cb-output-text empty" id="cb-oneoff-text">Fill in the fields above to generate your prompt...</div>
-              <div class="cb-copy-row">
-                <button type="button" class="copy-btn" id="cb-copy-oneoff">Copy prompt</button>
+
+              <div class="ai-response-area" id="cb-ai-response-area">
+                <div class="ai-sent-wrap" id="cb-ai-sent-wrap">
+                  <div class="ai-sent-label">Sent prompt</div>
+                  <div class="ai-sent-prompt-text" id="cb-ai-sent-prompt"></div>
+                </div>
+                <div class="ai-response-header">
+                  <div class="ai-response-label" id="cb-ai-response-label"><span class="ai-dot"></span>AI Response</div>
+                  <button type="button" class="ai-copy-result-btn" id="cb-copy-ai-result">Copy result</button>
+                </div>
+                <div class="ai-response-text" id="cb-ai-response-text"></div>
+                <div class="ai-error-msg" id="cb-ai-error-msg"></div>
+              </div>
+
+              <div class="ai-chat-composer">
+                <div class="ai-chat-head">Prompt to AI</div>
+                <textarea class="ai-chat-input" id="cb-ai-composer" rows="6" placeholder="Your prompt will appear here..."></textarea>
+                <div class="copy-row">
+                  <button type="button" class="copy-btn" id="cb-copy-oneoff">Copy prompt</button>
+                  <button type="button" class="ai-run-btn" id="cb-run-ai-btn">
+                    <span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -3669,6 +3690,39 @@
       const suggestedList = $("cb-suggested-list");
       const toastEl       = $("cb-toast");
       const savedListEl   = $("cb-saved-list");
+      const cbAiComposerEl = $("cb-ai-composer");
+      const cbAiRunBtn = $("cb-run-ai-btn");
+      const cbAiResponseArea = $("cb-ai-response-area");
+      const cbAiSentWrap = $("cb-ai-sent-wrap");
+      const cbAiSentPrompt = $("cb-ai-sent-prompt");
+      const cbAiResponseLabel = $("cb-ai-response-label");
+      const cbAiResponseText = $("cb-ai-response-text");
+      const cbAiErrorMsg = $("cb-ai-error-msg");
+      const cbAiCopyResultBtn = $("cb-copy-ai-result");
+
+      oneoffEl.style.display = "none";
+      oneoffEl.setAttribute("aria-hidden", "true");
+      cbAiComposerEl.dataset.lastAuto = "";
+      cbAiComposerEl.addEventListener("input", () => {
+        cbAiComposerEl.dataset.userEdited = "true";
+      });
+
+      function getOneoffPromptText() {
+        const text = (oneoffEl.textContent || "").trim();
+        if (!text || text.includes("Fill in the fields above")) return "";
+        return text;
+      }
+
+      function syncOneoffToComposer() {
+        const nextPrompt = getOneoffPromptText();
+        const lastAuto = cbAiComposerEl.dataset.lastAuto || "";
+        if (!cbAiComposerEl.dataset.userEdited || cbAiComposerEl.value === lastAuto) {
+          cbAiComposerEl.value = nextPrompt;
+          cbAiComposerEl.dataset.userEdited = "";
+        }
+        cbAiComposerEl.dataset.lastAuto = nextPrompt;
+      }
+      syncOneoffToComposer();
 
       // Chip selection for format
       body.querySelectorAll("#cb-format-chips .cb-chip").forEach(chip => {
@@ -3757,6 +3811,8 @@
           templateEl.textContent = "Fill in the fields above to generate your template...";
           templateEl.classList.add("empty");
         }
+
+        syncOneoffToComposer();
       }
 
       // ── Copy buttons (same behaviour as rest of app) ──
@@ -3774,11 +3830,95 @@
 
       $("cb-copy-oneoff").addEventListener("click", (e) => {
         e.stopPropagation();
-        doCopy(oneoffEl.textContent, $("cb-copy-oneoff"));
+        doCopy((cbAiComposerEl.value || oneoffEl.textContent || "").trim(), $("cb-copy-oneoff"));
       });
       $("cb-copy-template").addEventListener("click", (e) => {
         e.stopPropagation();
         doCopy(templateEl.textContent, $("cb-copy-template"));
+      });
+
+      cbAiCopyResultBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const txt = cbAiResponseText.textContent;
+        if (!txt) return;
+        navigator.clipboard?.writeText(txt).then(() => {
+          cbAiCopyResultBtn.textContent = "Copied ✓";
+          setTimeout(() => { cbAiCopyResultBtn.textContent = "Copy result"; }, 1400);
+        }).catch(() => {});
+      });
+
+      cbAiRunBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const promptText = (cbAiComposerEl.value || "").trim();
+        if (!promptText) {
+          cbAiResponseArea.classList.add("visible");
+          cbAiErrorMsg.textContent = "⚠️ Please enter a prompt before running.";
+          cbAiErrorMsg.classList.add("visible");
+          return;
+        }
+
+        cbAiRunBtn.disabled = true;
+        cbAiRunBtn.classList.add("loading");
+        cbAiResponseArea.classList.add("visible");
+        cbAiSentWrap.classList.add("visible");
+        cbAiSentPrompt.textContent = promptText;
+        cbAiResponseText.textContent = "";
+        cbAiErrorMsg.classList.remove("visible");
+        cbAiErrorMsg.textContent = "";
+        cbAiResponseLabel.classList.add("streaming");
+
+        const msgContent = [{ type: "text", text: promptText }];
+
+        try {
+          const resp = await fetch("/api/claude", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model: "claude-sonnet-4-20250514",
+              max_tokens: 1000,
+              stream: true,
+              system: "You are a practical AI assistant helping Australian tradies and small business owners. Write in plain, professional Australian English. Be direct, clear, and concise. Avoid corporate jargon or overly formal language.",
+              messages: [{ role: "user", content: msgContent }]
+            })
+          });
+
+          if (!resp.ok) {
+            const errData = await resp.json().catch(() => ({}));
+            throw new Error(errData?.error?.message || `API error ${resp.status}`);
+          }
+
+          const reader = resp.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = "";
+
+          while (true) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split("\n");
+            buffer = lines.pop();
+            for (const line of lines) {
+              if (!line.startsWith("data: ")) continue;
+              const data = line.slice(6).trim();
+              if (data === "[DONE]") continue;
+              try {
+                const parsed = JSON.parse(data);
+                const delta = parsed?.delta?.text || parsed?.delta?.delta?.text || "";
+                if (delta) {
+                  cbAiResponseText.textContent += delta;
+                  cbAiResponseText.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                }
+              } catch (_error) {}
+            }
+          }
+        } catch (err) {
+          cbAiErrorMsg.textContent = "⚠️ " + (err.message || "Something went wrong. Please try again.");
+          cbAiErrorMsg.classList.add("visible");
+        } finally {
+          cbAiRunBtn.disabled = false;
+          cbAiRunBtn.classList.remove("loading");
+          cbAiResponseLabel.classList.remove("streaming");
+        }
       });
 
       // ── Show toast ──
