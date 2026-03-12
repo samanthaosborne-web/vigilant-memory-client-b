@@ -109,17 +109,18 @@
       position: fixed;
       top: 0;
       right: 0;
-      width: min(320px, 92vw);
+      width: min(360px, 92vw);
       height: 100vh;
-      background: #ffffff;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+      border-left: 1px solid #dbe3ee;
       transform: translateX(110%);
-      transition: transform 180ms ease;
+      transition: transform 220ms ease;
       z-index: 10020;
-      padding: 18px 16px;
+      padding: calc(18px + env(safe-area-inset-top)) 16px calc(18px + env(safe-area-inset-bottom));
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      box-shadow: -18px 0 40px rgba(0, 0, 0, 0.18);
+      gap: 10px;
+      box-shadow: -20px 0 48px rgba(15, 23, 42, 0.22);
       overflow-y: auto;
     }
 
@@ -130,7 +131,8 @@
     .menu-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.35);
+      background: rgba(15, 23, 42, 0.34);
+      backdrop-filter: blur(2px);
       opacity: 0;
       pointer-events: none;
       transition: opacity 220ms ease;
@@ -143,32 +145,60 @@
     }
 
     .nav-categories {
-      font-size: 34px;
+      font-size: 13px;
       font-weight: 700;
-      color: #313131;
-      text-align: center;
-      margin: 6px 0 18px 0;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      text-align: left;
+      margin: 0 0 8px;
+      padding: 0 4px;
     }
 
     .menu-item {
-      background: #f9faff;
-      border: 2px solid #f9faff;
-      border-radius: 10px;
-      color: #313131;
-      font-size: 22px;
-      font-weight: 600;
-      padding: 12px 10px;
-      text-align: center;
+      background: #ffffff;
+      border: 1.5px solid #dbe3ee;
+      border-radius: 12px;
+      color: #1e293b;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 11px 12px;
+      text-align: left;
       cursor: pointer;
       width: 100%;
       font-family: "Roboto", sans-serif;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.16s, color 0.16s, background 0.16s, transform 0.16s;
+    }
+
+    .menu-item:hover {
+      border-color: #e75a00;
+      color: #e75a00;
+      transform: translateX(1px);
     }
 
     .menu-item.active {
+      background: #1f2937;
+      border-color: #1f2937;
+      color: #f9faff;
+    }
+
+    .menu-item:focus-visible {
+      outline: 3px solid rgba(231, 90, 0, 0.35);
+      outline-offset: 2px;
+    }
+
+    .menu-item-logout {
+      margin-top: 8px;
+      background: #313131;
+      border-color: #313131;
+      color: #f9faff;
+    }
+
+    .menu-item-logout:hover {
+      color: #f9faff;
       background: #e75a00;
       border-color: #e75a00;
-      color: #f9faff;
+      transform: translateX(0);
     }
 
     main {
@@ -1274,19 +1304,19 @@
       }
 
       .menu-panel {
-        width: min(320px, 94vw);
-        padding: calc(12px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));
+        width: min(340px, 94vw);
+        padding: calc(12px + env(safe-area-inset-top)) 14px calc(14px + env(safe-area-inset-bottom));
         gap: 8px;
       }
 
       .nav-categories {
-        font-size: 28px;
-        margin: 2px 0 10px;
+        font-size: 12px;
+        margin: 0 0 8px;
       }
 
       .menu-item {
-        font-size: 20px;
-        padding: 10px 8px;
+        font-size: 14px;
+        padding: 10px;
       }
 
       .footer-inner {
@@ -1346,7 +1376,7 @@
     <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
     <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
     <div style="flex:1;"></div>
-    <button class="menu-item" id="logoutBtn" style="background:#313131; border-color:#313131; color:#f9faff;">Log out</button>
+    <button class="menu-item menu-item-logout" id="logoutBtn">Log out</button>
   </nav>
 
   <main>
