@@ -4547,7 +4547,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  model: "claude-3-5-sonnet-20241022", // Fixed model string
+                  model: "claude-3-5-sonnet-latest",
                   max_tokens: 1000,
                   stream: true,
                   system: "You are a practical AI assistant helping Australian tradies and small business owners. Write in plain, professional Australian English. Be direct, clear, and concise. Avoid corporate jargon or overly formal language. If a file or template has been uploaded, use it to inform and shape your output — match its style, layout, and tone where relevant.",
