@@ -332,6 +332,31 @@
       font-size: 22px;
       font-weight: 900;
     }
+    .page-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 4px 0 10px;
+    }
+    .page-controls:empty {
+      display: none;
+    }
+    .page-filter-btn {
+      border: 1px solid #475569;
+      background: #111827;
+      color: #e2e8f0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: border-color 0.16s, color 0.16s, background 0.16s;
+    }
+    .page-filter-btn.active {
+      border-color: #e75a00;
+      background: rgba(231, 90, 0, 0.12);
+      color: #ffd7bd;
+    }
 
     .page-help {
       margin: 0 0 20px;
@@ -495,6 +520,52 @@
       font-size: 22px;
       font-weight: 800;
       line-height: 1.1;
+    }
+    .workspace-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .workspace-panel {
+      border: 1px solid #334155;
+      border-radius: 10px;
+      background: #111827;
+      padding: 10px 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .workspace-panel h4 {
+      margin: 0;
+      font-size: 15px;
+      color: #f8fafc;
+      font-weight: 700;
+    }
+    .workspace-muted {
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.45;
+      margin: 0;
+    }
+    .workspace-group {
+      border-top: 1px solid #334155;
+      padding-top: 8px;
+      display: grid;
+      gap: 8px;
+    }
+    .workspace-group:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+    .workspace-group-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .workspace-btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .app-toast-stack {
@@ -1882,8 +1953,7 @@
     <section class="desktop-nav-group">
       <div class="desktop-nav-label">Workspace</div>
       <div class="desktop-nav-items">
-        <button class="desktop-nav-btn" data-key="Favourites">Favourites</button>
-        <button class="desktop-nav-btn" data-key="Prompt Library">Library</button>
+        <button class="desktop-nav-btn" data-key="Workspace">Workspace tools</button>
       </div>
     </section>
   </nav>
@@ -1905,8 +1975,7 @@
     <button class="menu-item" data-key="Templates">Templates</button>
     <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
     <h2 class="nav-categories">Workspace</h2>
-    <button class="menu-item" data-key="Favourites">Favourites</button>
-    <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
+    <button class="menu-item" data-key="Workspace">Workspace tools</button>
     <div class="global-inputs" aria-label="Default prompt settings">
       <div class="global-field">
         <label for="globalFirstName">Your First Name</label>
@@ -1927,6 +1996,7 @@
 
   <main>
     <div class="page-title" id="pageTitle"></div>
+    <div class="page-controls" id="pageControls"></div>
     <div class="page-help" id="pageHelp"></div>
 
     <div class="grid" id="cardGrid"></div>
@@ -3207,6 +3277,7 @@
 }
     };
     let current = "Home";
+    let savedOnlyFilter = false;
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
     const PREFS_KEY = "businessToolkitPrefsV1";
@@ -4204,10 +4275,10 @@
       }
       
       writeFavourites(favs);
-      render(); // Refresh the UI to update the ★ button and Favourites tab
+      render(); // Refresh the UI to update the ★ button state
     }
 
-    // 6. Builds the index mapping for the Prompt Library tab
+    // 6. Builds the category-to-card index used by Workspace
     function buildPromptLibraryData() {
       return Object.keys(APP).map(category => ({
         category: category,
@@ -5145,6 +5216,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
     function render() {
       document.getElementById("pageTitle").textContent = current === "Home" ? "Choose a task" : (APP[current] ? APP[current].title : current);
       const helpEl = document.getElementById("pageHelp");
+      const pageControlsEl = document.getElementById("pageControls");
       const copy = {
         "Home": {
           why: "AdvisaStacks turns common business communication tasks into ready-to-use prompt cards so you can move faster with less rework.",
@@ -5178,13 +5250,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
           why: "Custom templates ensure your AI outputs match your business exactly every time.",
           how: "Add items and fill out the structured form below and we will build the perfect context prompt."
         },
-        "Favourites": {
-          why: "Keep your most-used prompts in one place for faster daily workflows.",
-          how: "Save a prompt card with the star button, then access it any time here."
-        },
-        "Prompt Library": {
-          why: "Browse every prompt title in one simple index grouped by category.",
-          how: "Click any title to jump straight to that prompt card."
+        "Workspace": {
+          why: "Use Workspace tools to find saved cards fast and jump through the full prompt index.",
+          how: "Use Saved only on any category, then open Workspace when you need your saved list and library links in one place."
         },
         "Custom Builder": {
           why: "Build your own reusable prompt templates for any recurring task — not just the ones we've built for you.",
@@ -5195,6 +5263,20 @@ $("cb-submit-btn").addEventListener("click", async () => {
         why: "Use this page to get practical outputs fast.",
         how: "Open a card, copy the prompt, and fill in the brackets."
       };
+      const canShowSavedFilter = !!APP[current] && !["Home", "Workspace", "Custom Builder"].includes(current);
+      pageControlsEl.innerHTML = "";
+      if (canShowSavedFilter) {
+        const savedFilterBtn = document.createElement("button");
+        savedFilterBtn.type = "button";
+        savedFilterBtn.className = "page-filter-btn" + (savedOnlyFilter ? " active" : "");
+        savedFilterBtn.textContent = savedOnlyFilter ? "★ Saved only: On" : "★ Saved only: Off";
+        savedFilterBtn.addEventListener("click", () => {
+          savedOnlyFilter = !savedOnlyFilter;
+          writePrefs({ savedOnlyFilter });
+          render();
+        });
+        pageControlsEl.appendChild(savedFilterBtn);
+      }
       if (current === "Home") {
         helpEl.innerHTML = "";
         helpEl.style.display = "none";
@@ -5244,7 +5326,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 <strong>🛠 Build Your Own</strong>
                 <span>Create custom workflows and reusable templates.</span>
               </button>
-              <button type="button" class="home-task-btn" data-nav="Favourites">
+              <button type="button" class="home-task-btn" data-nav="Workspace">
                 <strong>Saved tools</strong>
                 <span>Quickly open your favourite and most-used cards.</span>
               </button>
@@ -5328,82 +5410,137 @@ $("cb-submit-btn").addEventListener("click", async () => {
         });
       }
 
-      if (current === "Prompt Library") {
+      if (current === "Workspace") {
+        const workspaceCard = document.createElement("section");
+        workspaceCard.className = "card open";
+        workspaceCard.style.gridColumn = "span 12";
+        const workspaceHead = document.createElement("div");
+        workspaceHead.className = "card-head";
+        workspaceHead.innerHTML = "<h3>Workspace tools</h3>";
+        const workspaceBody = document.createElement("div");
+        workspaceBody.className = "card-body";
+        workspaceBody.hidden = false;
+        workspaceBody.innerHTML = `
+          <div class="workspace-grid">
+            <p class="workspace-muted">Use this area to quickly access saved cards and browse the full prompt index.</p>
+            <div class="home-cta-row">
+              <button type="button" class="home-cta-btn" id="workspaceSavedFilterBtn">${savedOnlyFilter ? "★ Saved only is ON" : "★ Turn on Saved only"}</button>
+              <button type="button" class="home-cta-btn" id="workspaceBuilderBtn">Open Custom Builder</button>
+            </div>
+            <div class="workspace-panel">
+              <h4>Saved cards</h4>
+              <div id="workspaceSavedList"></div>
+            </div>
+            <div class="workspace-panel">
+              <h4>Prompt index</h4>
+              <div id="workspaceLibraryList"></div>
+            </div>
+          </div>
+        `;
+
+        workspaceBody.querySelector("#workspaceSavedFilterBtn")?.addEventListener("click", () => {
+          savedOnlyFilter = !savedOnlyFilter;
+          writePrefs({ savedOnlyFilter });
+          current = "Winning Work";
+          writePrefs({ lastCategory: "Winning Work", openCard: null });
+          render();
+        });
+        workspaceBody.querySelector("#workspaceBuilderBtn")?.addEventListener("click", () => {
+          current = "Custom Builder";
+          writePrefs({ lastCategory: "Custom Builder", openCard: null });
+          render();
+        });
+
+        const favIds = new Set(readFavourites());
+        const savedList = [];
+        Object.keys(APP).forEach((category) => {
+          if (["Home", "Workspace", "Custom Builder"].includes(category)) return;
+          (APP[category].cards || []).forEach((card) => {
+            const cardId = getCardId(category, card.subtitle);
+            if (favIds.has(cardId)) {
+              savedList.push({ category, subtitle: card.subtitle });
+            }
+          });
+        });
+        readCustomBuiltCards().forEach((entry) => {
+          if (!entry || !entry.card) return;
+          const cardId = entry.card.__cardId || ("custom-built::" + entry.id);
+          const legacyCardId = getCardId("Custom Builder", entry.card.subtitle || "");
+          if (favIds.has(cardId) || favIds.has(legacyCardId)) {
+            savedList.push({ category: "Custom Builder", subtitle: entry.card.subtitle || "Custom card" });
+          }
+        });
+
+        const savedWrap = workspaceBody.querySelector("#workspaceSavedList");
+        if (!savedList.length) {
+          savedWrap.innerHTML = `<p class="workspace-muted">No saved cards yet. Tap “Save favourites” on any card to collect them here.</p>`;
+        } else {
+          const rows = document.createElement("div");
+          rows.className = "workspace-btn-row";
+          savedList.forEach((entry) => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "copy-btn";
+            btn.textContent = entry.subtitle + " • " + entry.category;
+            btn.addEventListener("click", () => {
+              current = entry.category;
+              writePrefs({ lastCategory: entry.category, openCard: entry.subtitle });
+              render();
+            });
+            rows.appendChild(btn);
+          });
+          savedWrap.appendChild(rows);
+        }
+
+        const libraryWrap = workspaceBody.querySelector("#workspaceLibraryList");
         buildPromptLibraryData().forEach((entry) => {
-          if (["Home", "Prompt Library", "Favourites", "Custom Builder"].includes(entry.category)) return;
-          const section = document.createElement("div");
-          section.className = "card open";
-          section.innerHTML = `<div class="card-head"><h3>${entry.category}</h3></div>`;
-          const body = document.createElement("div");
-          body.className = "card-body";
-          body.hidden = false;
+          if (["Home", "Workspace", "Custom Builder"].includes(entry.category) || !(entry.cards || []).length) return;
+          const group = document.createElement("div");
+          group.className = "workspace-group";
+          const title = document.createElement("div");
+          title.className = "workspace-group-title";
+          title.textContent = entry.category;
+          const btnRow = document.createElement("div");
+          btnRow.className = "workspace-btn-row";
           entry.cards.forEach((card) => {
-            const linkBtn = document.createElement("button");
-            linkBtn.type = "button";
-            linkBtn.className = "copy-btn";
-            linkBtn.style.marginBottom = "8px";
-            linkBtn.style.marginRight = "8px";
-            linkBtn.textContent = card.subtitle;
-            linkBtn.addEventListener("click", () => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "copy-btn";
+            btn.textContent = card.subtitle;
+            btn.addEventListener("click", () => {
               current = entry.category;
               writePrefs({ lastCategory: entry.category, openCard: card.subtitle });
               render();
             });
-            body.appendChild(linkBtn);
+            btnRow.appendChild(btn);
           });
-          section.appendChild(body);
-          grid.appendChild(section);
+          group.appendChild(title);
+          group.appendChild(btnRow);
+          libraryWrap.appendChild(group);
         });
+
+        workspaceCard.appendChild(workspaceHead);
+        workspaceCard.appendChild(workspaceBody);
+        grid.appendChild(workspaceCard);
         promptRefreshers = [];
         buildMenu();
         return;
       }
 
-      if (current === "Favourites") {
+      if (canShowSavedFilter && savedOnlyFilter) {
         const favs = new Set(readFavourites());
-        const addedFavCardIds = new Set();
-        cardsToRender = [];
-        Object.keys(APP).forEach((category) => {
-          if (["Home", "Favourites", "Prompt Library", "Custom Builder"].includes(category)) return;
-          (APP[category].cards || []).forEach((card) => {
-            const cardId = getCardId(category, card.subtitle);
-            if (favs.has(cardId)) {
-              cardsToRender.push(Object.assign({}, card, { __category: category }));
-              addedFavCardIds.add(cardId);
-            }
-          });
+        cardsToRender = (cardsToRender || []).filter((card) => {
+          const sourceCategory = card.__category || current;
+          const cardId = card.__cardId || getCardId(sourceCategory, card.subtitle);
+          const legacyId = getCardId(sourceCategory, card.subtitle);
+          return favs.has(cardId) || favs.has(legacyId);
         });
-
-        readCustomBuiltCards().forEach((entry) => {
-          if (!entry || !entry.card) return;
-          const cardId = entry.card.__cardId || ("custom-built::" + entry.id);
-          const legacyCardId = getCardId("Custom Builder", entry.card.subtitle || "");
-          if ((favs.has(cardId) || favs.has(legacyCardId)) && !addedFavCardIds.has(cardId)) {
-            cardsToRender.push(Object.assign({}, entry.card, {
-              __category: "Custom Builder",
-              __cardId: cardId
-            }));
-            addedFavCardIds.add(cardId);
-          }
-        });
-
-        if (customBuilderTempCard) {
-          const tempCardId = customBuilderTempCard.__cardId || "custom-temp::active";
-          const legacyTempId = getCardId("Custom Builder", customBuilderTempCard.subtitle || "");
-          if ((favs.has(tempCardId) || favs.has(legacyTempId)) && !addedFavCardIds.has(tempCardId)) {
-            cardsToRender.push(Object.assign({}, customBuilderTempCard, {
-              __category: "Custom Builder",
-              __cardId: tempCardId
-            }));
-            addedFavCardIds.add(tempCardId);
-          }
-        }
       }
 
-      if (current === "Favourites" && cardsToRender.length === 0) {
+      if (canShowSavedFilter && savedOnlyFilter && cardsToRender.length === 0) {
         const empty = document.createElement("div");
         empty.className = "card open";
-        empty.innerHTML = `<div class="card-head"><h3>No favourites yet</h3></div><div class="card-body" style="display:block;">Tap ☆ Save favourite on any card to add it here.</div>`;
+        empty.innerHTML = `<div class="card-head"><h3>No saved cards in this category</h3></div><div class="card-body" style="display:block;">Turn off Saved only, or save cards first using the “Save favourites” button.</div>`;
         grid.appendChild(empty);
       }
 
@@ -6304,9 +6441,12 @@ $("cb-submit-btn").addEventListener("click", async () => {
     if (savedPrefs.businessName) {
       globalBizNameInput.value = savedPrefs.businessName;
     }
+    savedOnlyFilter = !!savedPrefs.savedOnlyFilter;
 
     // Restore the last visited tab if it exists
-    if (savedPrefs.lastCategory && (APP[savedPrefs.lastCategory] || savedPrefs.lastCategory === "Favourites" || savedPrefs.lastCategory === "Prompt Library" || savedPrefs.lastCategory === "Custom Builder")) {
+    if (savedPrefs.lastCategory === "Favourites" || savedPrefs.lastCategory === "Prompt Library") {
+      current = "Workspace";
+    } else if (savedPrefs.lastCategory && (APP[savedPrefs.lastCategory] || savedPrefs.lastCategory === "Workspace" || savedPrefs.lastCategory === "Custom Builder")) {
       current = savedPrefs.lastCategory;
     }
 
