@@ -3748,23 +3748,46 @@
         showToast("✅ Template saved!");
       });
 
-      // ── Submit idea ──
-      $("cb-submit-btn").addEventListener("click", () => {
-        const fields = getFields();
-        if (!fields.problem) { showToast("⚠️ Add a problem description first."); return; }
-        const submissions = readCustomSubmissions();
-        const entry = {
-          id: Date.now(),
-          submittedAt: new Date().toISOString(),
-          fields,
-          oneoffPrompt: oneoffEl.textContent,
-          templatePrompt: templateEl.textContent,
-          suggestedFields: generateSuggestedFields(fields.changes),
-        };
-        submissions.unshift(entry);
-        writeCustomSubmissions(submissions);
-        showToast("📤 Idea submitted and stored locally!");
-      });
+     // ── Submit idea — saves to Supabase ──
+$("cb-submit-btn").addEventListener("click", async () => {
+  const fields = getFields();
+  if (!fields.problem) { showToast("⚠️ Add a problem description first."); return; }
+
+  // Also save locally as backup
+  const submissions = readCustomSubmissions();
+  submissions.unshift({ id: Date.now(), submittedAt: new Date().toISOString(), fields });
+  writeCustomSubmissions(submissions);
+
+  // Save to Supabase if logged in
+  if (window.__supabase) {
+    const { data: { session } } = await window.__supabase.auth.getSession();
+    if (session) {
+      const { error } = await window.__supabase
+        .from("prompt_submissions")
+        .insert({
+          user_id: session.user.id,
+          problem: fields.problem,
+          audience: fields.audience,
+          outcome: fields.outcome,
+          changes: fields.changes,
+          format: fields.format,
+          tone: fields.tone,
+          rules: fields.rules,
+          example_input: fields.exampleInput,
+          example_output: fields.exampleOutput,
+          oneoff_prompt: oneoffEl.textContent,
+          template_prompt: templateEl.textContent,
+          suggested_fields: generateSuggestedFields(fields.changes),
+        });
+      if (error) {
+        showToast("⚠️ Couldn't save to database. Stored locally instead.");
+        return;
+      }
+    }
+  }
+
+  showToast("📤 Idea submitted! Thank you.");
+});
 
       // ── Render saved templates list ──
       function renderSavedTemplates() {
