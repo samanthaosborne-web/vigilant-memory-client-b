@@ -560,6 +560,200 @@
       opacity: 0.7;
     }
 
+    /* ── AI Upload & Run Styles ── */
+    .ai-upload-zone {
+      margin: 12px 0 8px;
+      border: 2px dashed rgba(249,250,255,0.4);
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: rgba(249,250,255,0.06);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .ai-upload-zone.drag-over {
+      border-color: #e75a00;
+      background: rgba(231,90,0,0.12);
+    }
+    .ai-upload-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(249,250,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .ai-upload-input-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .ai-upload-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      background: rgba(249,250,255,0.12);
+      border: 1.5px solid rgba(249,250,255,0.3);
+      border-radius: 8px;
+      color: #f9faff;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      white-space: nowrap;
+    }
+    .ai-upload-btn:hover {
+      background: rgba(249,250,255,0.2);
+      border-color: rgba(249,250,255,0.55);
+    }
+    .ai-upload-btn svg { flex-shrink: 0; }
+    .ai-file-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .ai-file-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(231,90,0,0.25);
+      border: 1.5px solid rgba(231,90,0,0.6);
+      border-radius: 20px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #f9faff;
+      max-width: 200px;
+    }
+    .ai-file-pill span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ai-file-remove {
+      background: none;
+      border: none;
+      color: rgba(249,250,255,0.7);
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .ai-file-remove:hover { color: #f9faff; }
+
+    .ai-run-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: linear-gradient(135deg, #e75a00 0%, #ff7a1a 100%);
+      border: none;
+      border-radius: 10px;
+      color: #f9faff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(231,90,0,0.45);
+      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-run-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(231,90,0,0.55);
+    }
+    .ai-run-btn:active:not(:disabled) { transform: translateY(0); }
+    .ai-run-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+    .ai-run-btn .btn-spinner {
+      width: 16px; height: 16px;
+      border: 2.5px solid rgba(249,250,255,0.35);
+      border-top-color: #f9faff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    .ai-run-btn.loading .btn-spinner { display: block; }
+    .ai-run-btn.loading .btn-label { opacity: 0.7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .ai-response-area {
+      margin-top: 14px;
+      display: none;
+    }
+    .ai-response-area.visible { display: block; }
+    .ai-response-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .ai-response-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(249,250,255,0.55);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ai-response-label .ai-dot {
+      width: 7px; height: 7px;
+      background: #e75a00;
+      border-radius: 50%;
+      animation: pulse-dot 1.5s ease-in-out infinite;
+      display: none;
+    }
+    .ai-response-label.streaming .ai-dot { display: block; }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .ai-copy-result-btn {
+      background: rgba(249,250,255,0.1);
+      border: 1.5px solid rgba(249,250,255,0.25);
+      border-radius: 7px;
+      color: #f9faff;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .ai-copy-result-btn:hover { background: rgba(249,250,255,0.2); }
+    .ai-response-text {
+      background: rgba(0,0,0,0.25);
+      border: 1.5px solid rgba(249,250,255,0.12);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #f9faff;
+      white-space: pre-wrap;
+      font-family: inherit;
+      min-height: 60px;
+      word-break: break-word;
+    }
+    .ai-error-msg {
+      background: rgba(220,38,38,0.15);
+      border: 1.5px solid rgba(220,38,38,0.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #fca5a5;
+      margin-top: 8px;
+      display: none;
+    }
+    .ai-error-msg.visible { display: block; }
+
     .help-block {
       margin-top: 8px;
     }
@@ -784,7 +978,7 @@
     <div class="footer-inner">
       <div class="footer-left">
         <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
-        <div>E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a></div>
+        <div>E: <a href="/cdn-cgi/l/email-protection#4821262e2708292c3e213b293b3c292b233b662b2725"><span class="__cf_email__" data-cfemail="1a73747c755a7b7e6c73697b696e7b79716934797577">[email&#160;protected]</span></a></div>
         <div>P: <a href="tel:+61434360660">+61 434 360 660</a></div>
         <div>ABN: 37 131 434 727</div>
       </div>
@@ -798,7 +992,7 @@
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./auth-config.js"></script>
   <script>
     (function () {
@@ -2844,6 +3038,94 @@
               body.appendChild(ui);
           }
         }
+        // ── Per-card file attachment state ──
+        const cardFiles = []; // { file, base64, mediaType }
+
+        // ── File upload zone ──
+        const uploadZone = document.createElement("div");
+        uploadZone.className = "ai-upload-zone";
+
+        const uploadLabel = document.createElement("div");
+        uploadLabel.className = "ai-upload-label";
+        uploadLabel.textContent = "Attach files (optional)";
+
+        const uploadInputRow = document.createElement("div");
+        uploadInputRow.className = "ai-upload-input-row";
+
+        const hiddenInput = document.createElement("input");
+        hiddenInput.type = "file";
+        hiddenInput.multiple = true;
+        hiddenInput.accept = ".pdf,.png,.jpg,.jpeg,.webp,.gif,.docx,.doc,.txt";
+        hiddenInput.style.display = "none";
+
+        const uploadPickBtn = document.createElement("button");
+        uploadPickBtn.type = "button";
+        uploadPickBtn.className = "ai-upload-btn";
+        uploadPickBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Upload template / file`;
+        uploadPickBtn.addEventListener("click", (e) => { e.stopPropagation(); hiddenInput.click(); });
+
+        const fileList = document.createElement("div");
+        fileList.className = "ai-file-list";
+
+        const refreshFilePills = () => {
+          fileList.innerHTML = "";
+          cardFiles.forEach((f, idx) => {
+            const pill = document.createElement("div");
+            pill.className = "ai-file-pill";
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = f.file.name;
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.className = "ai-file-remove";
+            removeBtn.innerHTML = "✕";
+            removeBtn.title = "Remove file";
+            removeBtn.addEventListener("click", (e) => { e.stopPropagation(); cardFiles.splice(idx, 1); refreshFilePills(); });
+            pill.appendChild(nameSpan);
+            pill.appendChild(removeBtn);
+            fileList.appendChild(pill);
+          });
+        };
+
+        const processFiles = async (files) => {
+          const allowed = Array.from(files).filter(f => f.size <= 20 * 1024 * 1024);
+          for (const file of allowed) {
+            const ext = file.name.split(".").pop().toLowerCase();
+            let mediaType = file.type || "application/octet-stream";
+            if (ext === "pdf") mediaType = "application/pdf";
+            else if (["png","jpg","jpeg","webp","gif"].includes(ext)) mediaType = "image/" + (ext === "jpg" ? "jpeg" : ext);
+            else mediaType = null; // docx/txt: send as text content
+
+            if (mediaType) {
+              const base64 = await new Promise((res) => {
+                const r = new FileReader();
+                r.onload = () => res(r.result.split(",")[1]);
+                r.readAsDataURL(file);
+              });
+              cardFiles.push({ file, base64, mediaType });
+            } else {
+              // Plain text fallback for .docx/.txt
+              const text = await file.text().catch(() => "[Could not read file text]");
+              cardFiles.push({ file, base64: null, mediaType: null, text });
+            }
+          }
+          refreshFilePills();
+        };
+
+        hiddenInput.addEventListener("change", (e) => { e.stopPropagation(); processFiles(e.target.files); hiddenInput.value = ""; });
+
+        // Drag and drop
+        uploadZone.addEventListener("dragover", (e) => { e.preventDefault(); e.stopPropagation(); uploadZone.classList.add("drag-over"); });
+        uploadZone.addEventListener("dragleave", (e) => { e.stopPropagation(); uploadZone.classList.remove("drag-over"); });
+        uploadZone.addEventListener("drop", (e) => { e.preventDefault(); e.stopPropagation(); uploadZone.classList.remove("drag-over"); if (e.dataTransfer.files.length) processFiles(e.dataTransfer.files); });
+
+        uploadInputRow.appendChild(hiddenInput);
+        uploadInputRow.appendChild(uploadPickBtn);
+        uploadZone.appendChild(uploadLabel);
+        uploadZone.appendChild(uploadInputRow);
+        uploadZone.appendChild(fileList);
+        body.appendChild(uploadZone);
+
+        // ── Prompts ──
         (card.prompts || []).forEach((p, i) => {
           const block = document.createElement("div");
           block.className = "prompt-block";
@@ -2856,18 +3138,15 @@
           initialText = addVoiceToneInstruction(initialText, card);
           const globalPrefix = getGlobalPromptPrefix();
           pre.textContent = globalPrefix + initialText;
+
+          // ── Action row: Copy + Run with AI ──
           const bottomBtnRow = document.createElement("div");
           bottomBtnRow.className = "copy-row";
           const bottomBtn = document.createElement("button");
           bottomBtn.type = "button";
           bottomBtn.className = "copy-btn";
           bottomBtn.innerHTML = "Copy prompt";
-          const badge = document.createElement("div");
-          badge.className = "chatbot-badge";
-          const botName = card.chatbot || "ChatGPT";
-          badge.innerHTML = "<a href='https://chatgpt.com/' target='_blank' rel='noopener noreferrer'>Paste into: <strong>" + botName + " &rarr;</strong></a>";
-          bottomBtnRow.appendChild(bottomBtn);
-          bottomBtnRow.appendChild(badge);
+
           const doCopy = (btn) => {
             const textToCopy = pre.textContent;
             if (navigator.clipboard && window.isSecureContext) {
@@ -2876,23 +3155,136 @@
                 btn.innerHTML = "Copied ✓";
                 btn.style.background = "#e75a00";
                 btn.style.color = "#f9faff";
-                setTimeout(() => {
-                  btn.innerHTML = oldText;
-                  btn.style.background = "";
-                  btn.style.color = "";
-                }, 1200);
+                setTimeout(() => { btn.innerHTML = oldText; btn.style.background = ""; btn.style.color = ""; }, 1200);
               }).catch(() => fallbackCopy(textToCopy, btn));
-            } else {
-              fallbackCopy(textToCopy, btn);
-            }
+            } else { fallbackCopy(textToCopy, btn); }
           };
-          bottomBtn.addEventListener("click", (e) => {
+          bottomBtn.addEventListener("click", (e) => { e.stopPropagation(); doCopy(bottomBtn); });
+
+          // Run with AI button
+          const runBtn = document.createElement("button");
+          runBtn.type = "button";
+          runBtn.className = "ai-run-btn";
+          runBtn.innerHTML = `<span class="btn-spinner"></span><span class="btn-label">✦ Run with AI</span>`;
+
+          // Response area
+          const responseArea = document.createElement("div");
+          responseArea.className = "ai-response-area";
+          const responseHeader = document.createElement("div");
+          responseHeader.className = "ai-response-header";
+          const responseLabel = document.createElement("div");
+          responseLabel.className = "ai-response-label";
+          responseLabel.innerHTML = `<span class="ai-dot"></span>AI Response`;
+          const copyResultBtn = document.createElement("button");
+          copyResultBtn.type = "button";
+          copyResultBtn.className = "ai-copy-result-btn";
+          copyResultBtn.textContent = "Copy result";
+          responseHeader.appendChild(responseLabel);
+          responseHeader.appendChild(copyResultBtn);
+          const responseText = document.createElement("div");
+          responseText.className = "ai-response-text";
+          const errorMsg = document.createElement("div");
+          errorMsg.className = "ai-error-msg";
+          responseArea.appendChild(responseHeader);
+          responseArea.appendChild(responseText);
+          responseArea.appendChild(errorMsg);
+
+          copyResultBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            doCopy(bottomBtn);
+            const txt = responseText.textContent;
+            if (!txt) return;
+            navigator.clipboard?.writeText(txt).then(() => {
+              copyResultBtn.textContent = "Copied ✓";
+              setTimeout(() => { copyResultBtn.textContent = "Copy result"; }, 1400);
+            }).catch(() => {});
           });
+
+          runBtn.addEventListener("click", async (e) => {
+            e.stopPropagation();
+            const promptText = pre.textContent;
+            runBtn.disabled = true;
+            runBtn.classList.add("loading");
+            responseArea.classList.add("visible");
+            responseText.textContent = "";
+            errorMsg.classList.remove("visible");
+            errorMsg.textContent = "";
+            responseLabel.classList.add("streaming");
+
+            // Build message content
+            const msgContent = [];
+
+            // Attach files first
+            for (const f of cardFiles) {
+              if (f.mediaType === "application/pdf") {
+                msgContent.push({ type: "document", source: { type: "base64", media_type: "application/pdf", data: f.base64 } });
+              } else if (f.mediaType && f.mediaType.startsWith("image/")) {
+                msgContent.push({ type: "image", source: { type: "base64", media_type: f.mediaType, data: f.base64 } });
+              } else if (f.text) {
+                msgContent.push({ type: "text", text: `[Attached file: ${f.file.name}]\n${f.text}` });
+              }
+            }
+
+            msgContent.push({ type: "text", text: promptText });
+
+            try {
+              const resp = await fetch("https://api.anthropic.com/v1/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  model: "claude-sonnet-4-20250514",
+                  max_tokens: 1000,
+                  stream: true,
+                  system: "You are a practical AI assistant helping Australian tradies and small business owners. Write in plain, professional Australian English. Be direct, clear, and concise. Avoid corporate jargon or overly formal language. If a file or template has been uploaded, use it to inform and shape your output — match its style, layout, and tone where relevant.",
+                  messages: [{ role: "user", content: msgContent }]
+                })
+              });
+
+              if (!resp.ok) {
+                const errData = await resp.json().catch(() => ({}));
+                throw new Error(errData?.error?.message || `API error ${resp.status}`);
+              }
+
+              const reader = resp.body.getReader();
+              const decoder = new TextDecoder();
+              let buffer = "";
+
+              while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n");
+                buffer = lines.pop();
+                for (const line of lines) {
+                  if (!line.startsWith("data: ")) continue;
+                  const data = line.slice(6).trim();
+                  if (data === "[DONE]") continue;
+                  try {
+                    const parsed = JSON.parse(data);
+                    const delta = parsed?.delta?.text || parsed?.delta?.delta?.text || "";
+                    if (delta) {
+                      responseText.textContent += delta;
+                      responseText.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                    }
+                  } catch (_) {}
+                }
+              }
+            } catch (err) {
+              errorMsg.textContent = "⚠️ " + (err.message || "Something went wrong. Please try again.");
+              errorMsg.classList.add("visible");
+              if (!responseText.textContent) responseArea.classList.remove("visible");
+            } finally {
+              runBtn.disabled = false;
+              runBtn.classList.remove("loading");
+              responseLabel.classList.remove("streaming");
+            }
+          });
+
+          bottomBtnRow.appendChild(bottomBtn);
+          bottomBtnRow.appendChild(runBtn);
           block.appendChild(label);
           block.appendChild(pre);
           block.appendChild(bottomBtnRow);
+          block.appendChild(responseArea);
           body.appendChild(block);
         });
         
@@ -3059,13 +3451,4 @@
     });
 
     const savedPrefs = readPrefs();
-    if (savedPrefs.firstName) globalFirstNameInput.value = savedPrefs.firstName;
-    if (savedPrefs.businessName) globalBizNameInput.value = savedPrefs.businessName;
-    if (savedPrefs.lastCategory && APP[savedPrefs.lastCategory]) {
-      current = savedPrefs.lastCategory;
-    }
-    render();
-  </script>
-</body>
-
-</html>
+    if (savedPrefs.firstName) globalFirstNameInput.value = savedPrefs.firstN
