@@ -496,6 +496,14 @@
       line-height: 1.45;
       max-width: 780px;
     }
+    .home-value-note {
+      margin: 2px auto 0;
+      max-width: 900px;
+      text-align: center;
+      color: #cbd5e1;
+      font-size: 15px;
+      line-height: 1.55;
+    }
     @media (max-width: 980px) {
       .desktop-nav {
         justify-content: flex-start;
@@ -1898,6 +1906,8 @@
       font-size: 14px;
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
       gap: 10px;
       box-shadow: none;
     }
@@ -1918,10 +1928,17 @@
     .footer-left div {
       line-height: 1.5;
     }
-
-    .footer-centre,
-    .footer-right {
-      display: none;
+    .footer-right-info {
+      margin-left: auto;
+      min-width: 250px;
+      display: grid;
+      gap: 4px;
+      text-align: right;
+      color: #cbd5e1;
+    }
+    .footer-right-info a {
+      color: #f8fafc;
+      font-weight: 700;
     }
 
     @media (max-width: 980px) {
@@ -1986,6 +2003,10 @@
       .footer-inner {
         flex-direction: column;
         align-items: flex-start;
+        text-align: left;
+      }
+      .footer-right-info {
+        margin-left: 0;
         text-align: left;
       }
     }
@@ -2073,13 +2094,16 @@
     <div class="footer-inner">
       <div class="footer-left">
         <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
-        <div>E: <a href="/cdn-cgi/l/email-protection#4821262e2708292c3e213b293b3c292b233b662b2725"><span class="__cf_email__" data-cfemail="1a73747c755a7b7e6c73697b696e7b79716934797577">[email&#160;protected]</span></a></div>
         <div>© AdvisaStacks</div>
+      </div>
+      <div class="footer-right-info">
+        <div>E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a></div>
+        <div>ABN: 37 131 434 727</div>
       </div>
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./auth-config.js"></script>
   <script>
     (function () {
@@ -5052,9 +5076,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
           <div class="home-explainer">
             ${welcomePanel}
             <div class="home-intro-center">
-              <p class="home-kicker">The Ultimate Toolkit for Tradies.</p>
-              <button type="button" class="home-defaults-btn" id="homeSetDefaultsBtn">Set your defaults</button>
+              <p class="home-kicker">Choose a task</p>
               <p class="home-subcopy">Choose the business job you need to complete right now.</p>
+              <button type="button" class="home-defaults-btn" id="homeSetDefaultsBtn">Set your defaults</button>
             </div>
             <div class="home-task-grid">
               <button type="button" class="home-task-btn" data-nav="Win Work">
@@ -5074,10 +5098,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 <span>Reviews, referrals, and enquiry growth prompts.</span>
               </button>
             </div>
-            <div class="home-secondary-row">
-              <button type="button" class="home-cta-btn" id="homeSavedToolsBtn">Saved</button>
-              <button type="button" class="home-cta-btn" id="homeBuildOwnBtn">Custom Tools (advanced)</button>
-            </div>
+            <p class="home-value-note">Handle your quotes, invoices, and customer updates without the headache of writing them from scratch. Choose a job card, enter your details, and instantly generate an AI-powered message that sounds exactly like you.</p>
           </div>
         `;
         homeBody.querySelector("#welcomeStartBtn")?.addEventListener("click", () => {
@@ -5092,8 +5113,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeBody.querySelectorAll(".home-task-btn").forEach((btn) => {
           btn.addEventListener("click", () => navigate(btn.dataset.nav));
         });
-        homeBody.querySelector("#homeSavedToolsBtn")?.addEventListener("click", () => navigate("Saved"));
-        homeBody.querySelector("#homeBuildOwnBtn")?.addEventListener("click", () => navigate("Custom Tools"));
         homeCard.appendChild(homeBody);
         grid.appendChild(homeCard);
         promptRefreshers = [];
