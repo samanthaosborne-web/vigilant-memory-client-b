@@ -390,6 +390,56 @@
       display: grid;
       gap: 16px;
     }
+    .welcome-panel {
+      background: #111827;
+      border: 1px solid #334155;
+      border-left: 3px solid #e75a00;
+      border-radius: 10px;
+      padding: 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .welcome-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: #f8fafc;
+    }
+    .welcome-text {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .welcome-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .welcome-primary-btn,
+    .welcome-secondary-btn {
+      border-radius: 8px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .welcome-primary-btn {
+      border: 1px solid #e75a00;
+      background: #e75a00;
+      color: #fff;
+    }
+    .welcome-secondary-btn {
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+    .welcome-primary-btn:hover,
+    .welcome-secondary-btn:hover {
+      filter: brightness(0.96);
+    }
     .home-task-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -778,6 +828,12 @@
       font-weight: 650;
       color: #f9fafb;
     }
+    .card-subline {
+      margin: -2px 0 10px;
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.35;
+    }
     .cb-builder-head {
       cursor: default;
     }
@@ -930,6 +986,33 @@
       color: #cbd5e1;
       font-size: 14px;
       line-height: 1.45;
+    }
+    .workflow-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .workflow-step {
+      border: 1px solid #334155;
+      background: #111827;
+      color: #cbd5e1;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .workflow-step.is-active {
+      border-color: #e75a00;
+      color: #ffe3d1;
+      background: rgba(231, 90, 0, 0.12);
+    }
+    .workflow-note {
+      margin: 0 0 10px;
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.4;
     }
 
     .ui-title {
@@ -1705,6 +1788,12 @@
       margin: 6px 0 0;
       font-size: 14px;
     }
+    .help-tip {
+      margin: 4px 0 0;
+      color: #94a3b8;
+      font-size: 13px;
+      line-height: 1.4;
+    }
 
     input,
     select,
@@ -1840,7 +1929,7 @@
       </button>
       <div class="header-utilities">
         <button class="header-utility-btn" id="desktopSavedBtn" type="button">Saved</button>
-        <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Custom Tools</button>
+        <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Custom Tools · Advanced</button>
         <button class="header-utility-btn" id="desktopSettingsBtn" type="button">Settings</button>
       </div>
     </div>
@@ -1861,7 +1950,7 @@
     <div class="menu-divider"></div>
     <button class="menu-item" data-key="Home">Home</button>
     <button class="menu-item" data-key="Saved">Saved</button>
-    <button class="menu-item" data-key="Custom Tools">Custom Tools</button>
+    <button class="menu-item" data-key="Custom Tools">Custom Tools (Advanced)</button>
     <div class="menu-divider"></div>
     <div style="flex:1;"></div>
     <button class="menu-item" id="feedbackNavBtn">Feedback form</button>
@@ -3373,6 +3462,8 @@
     function resolveRouteKey(key) {
       if (key === "Win Work") return "Winning Work";
       if (key === "Get Paid") return "Getting Paid";
+      if (key === "Job Updates" || key === "Fix My Message") return "Manage Jobs";
+      if (key === "Reviews & Referrals" || key === "Get More Enquiries") return "Grow";
       if (key === "Grow the Business") return "Grow";
       if (key === "Saved tools" || key === "Saved" || key === "Workspace") return "Saved";
       if (key === "Build Your Own" || key === "Custom Builder" || key === "Custom Tools") return "Custom Tools";
@@ -3406,6 +3497,7 @@
     function displayCategoryLabel(category) {
       if (category === "Winning Work") return "Win Work";
       if (category === "Getting Paid") return "Get Paid";
+      if (category === "Job Updates" || category === "Fix My Message") return "Manage Jobs";
       if (category === "Get More Enquiries" || category === "Reviews & Referrals") return "Grow";
       if (category === "Custom Builder") return "Custom Tools";
       return category;
@@ -4740,16 +4832,16 @@ $("cb-submit-btn").addEventListener("click", async () => {
           how: "Start with a category, fill in the card fields, review the prompt preview, then run with AI and copy the final result."
         },
         "Winning Work": {
-          why: "Win more quotes with faster follow-ups and clearer client replies.",
-          how: "Open a card, pick the quick inputs, fill the brackets, then copy the prompt into your AI chatbot. Save the best outputs as templates in your system."
+          why: "Choose a scenario to generate a message you can use straight away.",
+          how: "Fill in key details, run with AI, then copy your final message."
         },
         "Job Updates": {
           why: "Send clearer job updates to reduce confusion and unnecessary call-backs.",
           how: "Pick the situation, type your details, copy the prompt, paste it into ChatGPT, and send the message."
         },
         "Getting Paid": {
-          why: "Protect cashflow with payment messages that are firm, clear, and professional.",
-          how: "Pick the situation, type the details, copy the prompt, paste into ChatGPT, send the message."
+          why: "Generate clear payment messages that help you get paid faster.",
+          how: "Use the closest situation, add details, then run with AI."
         },
         "Reviews & Referrals": {
           why: "Ask for reviews and referrals in a way that feels natural and gets responses.",
@@ -4772,16 +4864,16 @@ $("cb-submit-btn").addEventListener("click", async () => {
           how: "Select a card, fill details, run with AI, and send."
         },
         "Manage Jobs": {
-          why: "Handle live-job communication fast: updates, changes, and message clean-ups.",
-          how: "Open the card that matches your situation and run it."
+          why: "Start with the situation closest to what is happening on the job today.",
+          how: "Fill details, run with AI, and send the result."
         },
         "Get Paid": {
           why: "Use this area to keep cashflow moving with clear payment messages.",
           how: "Open a card, add details, and send a polished payment prompt."
         },
         "Grow": {
-          why: "Generate more reviews, referrals, and enquiries from existing and new clients.",
-          how: "Use the relevant card and send your message quickly."
+          why: "Generate review, referral, and enquiry messages in a few quick steps.",
+          how: "Pick a card, add the essentials, and run with AI."
         },
         "Saved": {
           why: "Access your saved cards and prompt index quickly.",
@@ -4842,8 +4934,14 @@ $("cb-submit-btn").addEventListener("click", async () => {
         helpEl.innerHTML = "";
         helpEl.style.display = "none";
       } else {
-        helpEl.style.display = "";
-        helpEl.innerHTML = "<div class=\"help-text\" style=\"margin-bottom:8px; color:#cbd5e1;\">" + c.why + "</div>";
+        const showPrimaryGuidance = ["Winning Work", "Manage Jobs", "Getting Paid", "Grow"].includes(current);
+        if (showPrimaryGuidance) {
+          helpEl.style.display = "";
+          helpEl.innerHTML = "<div class=\"help-text\" style=\"margin-bottom:6px; color:#cbd5e1;\">" + c.why + "</div><div class=\"help-tip\">Tip: " + c.how + "</div>";
+        } else {
+          helpEl.innerHTML = "";
+          helpEl.style.display = "none";
+        }
       }
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
@@ -4851,6 +4949,18 @@ $("cb-submit-btn").addEventListener("click", async () => {
       let cardsToRender = APP[current] ? APP[current].cards : [];
 
       if (current === "Home") {
+        const showWelcomePanel = isFirstVisit && !readPrefs().onboardingDismissed;
+        const welcomePanel = showWelcomePanel ? `
+            <div class="welcome-panel">
+              <p class="welcome-title">Write clear business messages in minutes.</p>
+              <p class="welcome-text">Start with Win Work to create your first result.</p>
+              <div class="welcome-actions">
+                <button type="button" class="welcome-primary-btn" id="welcomeStartBtn">Start with Win Work</button>
+                <button type="button" class="welcome-secondary-btn" id="welcomeSkipBtn">Not now</button>
+                <button type="button" class="welcome-secondary-btn" id="welcomeDefaultsBtn">Add defaults (optional)</button>
+              </div>
+            </div>
+        ` : "";
         const homeCard = document.createElement("section");
         homeCard.className = "card open";
         homeCard.style.gridColumn = "span 12";
@@ -4859,6 +4969,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeBody.hidden = false;
         homeBody.innerHTML = `
           <div class="home-explainer">
+            ${welcomePanel}
             <p class="home-kicker">The Ultimate Toolkit for Tradies.</p>
             <p class="home-subcopy">Choose the business job you need to complete right now.</p>
             <div class="home-task-grid">
@@ -4881,10 +4992,22 @@ $("cb-submit-btn").addEventListener("click", async () => {
             </div>
             <div class="home-secondary-row">
               <button type="button" class="home-cta-btn" id="homeSavedToolsBtn">Saved</button>
-              <button type="button" class="home-cta-btn" id="homeBuildOwnBtn">Custom Tools</button>
+              <button type="button" class="home-cta-btn" id="homeBuildOwnBtn">Custom Tools (advanced)</button>
             </div>
           </div>
         `;
+        homeBody.querySelector("#welcomeStartBtn")?.addEventListener("click", () => {
+          writePrefs({ onboardingDismissed: true });
+          navigate("Win Work");
+        });
+        homeBody.querySelector("#welcomeSkipBtn")?.addEventListener("click", () => {
+          writePrefs({ onboardingDismissed: true });
+          render();
+        });
+        homeBody.querySelector("#welcomeDefaultsBtn")?.addEventListener("click", () => {
+          writePrefs({ onboardingDismissed: true });
+          openSettings();
+        });
         homeBody.querySelectorAll(".home-task-btn").forEach((btn) => {
           btn.addEventListener("click", () => navigate(btn.dataset.nav));
         });
@@ -5029,22 +5152,30 @@ $("cb-submit-btn").addEventListener("click", async () => {
         }
 
         const libraryWrap = workspaceBody.querySelector("#workspaceLibraryList");
+        const groupedLibrary = new Map();
         buildPromptLibraryData().forEach((entry) => {
           if (["Home", "Saved", "Custom Builder"].includes(entry.category) || !(entry.cards || []).length) return;
+          const label = displayCategoryLabel(entry.category);
+          if (!groupedLibrary.has(label)) groupedLibrary.set(label, []);
+          entry.cards.forEach((card) => {
+            groupedLibrary.get(label).push({ subtitle: card.subtitle, category: entry.category });
+          });
+        });
+        groupedLibrary.forEach((cards, label) => {
           const group = document.createElement("div");
           group.className = "workspace-group";
           const title = document.createElement("div");
           title.className = "workspace-group-title";
-          title.textContent = displayCategoryLabel(entry.category);
+          title.textContent = label;
           const btnRow = document.createElement("div");
           btnRow.className = "workspace-btn-row";
-          entry.cards.forEach((card) => {
+          cards.forEach((card) => {
             const btn = document.createElement("button");
             btn.type = "button";
             btn.className = "copy-btn";
             btn.textContent = card.subtitle;
             btn.addEventListener("click", () => {
-              const targetCategory = resolveRouteKey(entry.category);
+              const targetCategory = resolveRouteKey(card.category);
               current = targetCategory;
               writePrefs({ lastCategory: targetCategory, openCard: card.subtitle });
               render();
@@ -5099,6 +5230,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
         head.setAttribute("aria-expanded", "false");
         const h = document.createElement("h3");
         h.textContent = card.subtitle;
+        const cardSubline = document.createElement("p");
+        cardSubline.className = "card-subline";
+        cardSubline.textContent = card.front?.outcome || card.front?.when || "Creates a ready-to-use message for this situation.";
         const sourceCategory = card.__category || current;
         const isCustomBuilderCard = sourceCategory === "Custom Builder";
         const topActions = document.createElement("div");
@@ -5139,6 +5273,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         topActions.appendChild(favouriteBtn);
         head.appendChild(topActions);
         head.appendChild(h);
+        head.appendChild(cardSubline);
         const selections = {};
         const kv = document.createElement("div");
         kv.className = "kv";
@@ -5161,20 +5296,15 @@ $("cb-submit-btn").addEventListener("click", async () => {
         };
         addRow("Outcome:", card.front?.outcome);
         addRow("When to use this:", card.front?.when);
-        addRow("Good for:", card.front?.goodFor);
-        addRow("ROI:", card.front?.roi);
-        addRow("Tip:", card.front?.tip);
         const updateFrontSummary = () => {
           if (!card.frontDynamic) return;
           const selectedType = selections["Document type"];
           const activeFront = card.frontDynamic[selectedType] || card.frontDynamic.Quote || card.front;
           if (!activeFront) return;
           if (activeFront.title) titleLabel.textContent = activeFront.title;
+          if (activeFront.outcome) cardSubline.textContent = activeFront.outcome;
           if (frontRows["Outcome:"]) frontRows["Outcome:"].textContent = activeFront.outcome || "";
           if (frontRows["When to use this:"]) frontRows["When to use this:"].textContent = activeFront.when || "";
-          if (frontRows["Good for:"]) frontRows["Good for:"].textContent = activeFront.goodFor || "";
-          if (frontRows["ROI:"]) frontRows["ROI:"].textContent = activeFront.roi || "";
-          if (frontRows["Tip:"]) frontRows["Tip:"].textContent = activeFront.tip || "";
         };
         updateFrontSummary();
         head.appendChild(kv);
@@ -5239,6 +5369,19 @@ $("cb-submit-btn").addEventListener("click", async () => {
           grid.appendChild(wrap);
           return; // Skip standard UI logic for Templates category
         }
+
+        const workflowSteps = document.createElement("div");
+        workflowSteps.className = "workflow-steps";
+        workflowSteps.innerHTML = `
+          <span class="workflow-step is-active">Step 1: Fill details</span>
+          <span class="workflow-step">Step 2: Run with AI</span>
+          <span class="workflow-step">Step 3: Copy and use</span>
+        `;
+        body.appendChild(workflowSteps);
+        const inputWorkflowNote = document.createElement("p");
+        inputWorkflowNote.className = "workflow-note";
+        inputWorkflowNote.textContent = "Fill in key details first. Then run with AI.";
+        body.appendChild(inputWorkflowNote);
 
         const contextualTip = card.front?.when || card.front?.tip;
         if (contextualTip) {
@@ -5403,7 +5546,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 f.className = "ui-row";
                 const ft = document.createElement("div");
                 ft.className = "ui-title";
-                ft.textContent = "Type your...";
+                ft.textContent = "Step 1: Enter key details";
                 f.appendChild(ft);
                 const fl = document.createElement("div");
                 fl.className = "fields";
@@ -5428,6 +5571,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
               body.appendChild(ui);
           }
         }
+        const runGuide = document.createElement("p");
+        runGuide.className = "workflow-note";
+        runGuide.textContent = "Step 2: Run with AI to generate your final message.";
+        body.appendChild(runGuide);
         // ── Prompts ──
         (card.prompts || []).forEach((p, i) => {
           const block = document.createElement("div");
@@ -5454,7 +5601,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           const runNowBtn = document.createElement("button");
           runNowBtn.type = "button";
           runNowBtn.className = "ai-run-now-btn";
-          runNowBtn.textContent = "✦ Run with AI";
+          runNowBtn.textContent = "Run with AI";
           previewActions.appendChild(previewBtn);
           previewActions.appendChild(runNowBtn);
 
@@ -5465,7 +5612,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           sentPromptWrap.className = "ai-sent-wrap";
           const sentPromptLabel = document.createElement("div");
           sentPromptLabel.className = "ai-sent-label";
-          sentPromptLabel.textContent = "Sent prompt";
+          sentPromptLabel.textContent = "Prompt sent";
           const sentPromptText = document.createElement("div");
           sentPromptText.className = "ai-sent-prompt-text";
           sentPromptWrap.appendChild(sentPromptLabel);
@@ -5474,7 +5621,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           responseHeader.className = "ai-response-header";
           const responseLabel = document.createElement("div");
           responseLabel.className = "ai-response-label";
-          responseLabel.innerHTML = `<span class="ai-dot"></span>AI Response`;
+          responseLabel.innerHTML = `<span class="ai-dot"></span>Step 3: Final message`;
           const copyResultBtn = document.createElement("button");
           copyResultBtn.type = "button";
           copyResultBtn.className = "ai-copy-result-btn";
@@ -5485,7 +5632,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
           responseText.className = "ai-response-text";
           const errorMsg = document.createElement("div");
           errorMsg.className = "ai-error-msg";
+          const outputNote = document.createElement("p");
+          outputNote.className = "workflow-note";
+          outputNote.textContent = "Review the final message, then copy and use.";
           responseArea.appendChild(sentPromptWrap);
+          responseArea.appendChild(outputNote);
           responseArea.appendChild(responseHeader);
           responseArea.appendChild(responseText);
           responseArea.appendChild(errorMsg);
@@ -5495,7 +5646,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           composerWrap.className = "ai-chat-composer";
           const composerHead = document.createElement("div");
           composerHead.className = "ai-chat-head";
-          composerHead.textContent = "Prompt to AI";
+          composerHead.textContent = "Step 2: Prompt to AI";
           const composerInput = document.createElement("textarea");
           composerInput.className = "ai-chat-input";
           composerInput.rows = 6;
@@ -5899,6 +6050,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
     // --- APP INITIALIZATION ---
     const savedPrefs = readPrefs();
+    const isFirstVisit = !savedPrefs.hasVisited;
     
     // Restore global inputs if they exist
     if (savedPrefs.firstName) {
@@ -5922,6 +6074,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
     // Run the first render to paint the screen
     render();
+    if (isFirstVisit) {
+      writePrefs({ hasVisited: true });
+    }
 
   </script>
 </body>
