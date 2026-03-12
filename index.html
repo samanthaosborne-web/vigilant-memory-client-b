@@ -2010,10 +2010,407 @@
         text-align: left;
       }
     }
+
+    /* ── Onboarding Overlay ── */
+    #onboardingOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 40000;
+      background: rgba(15, 23, 42, 0.96);
+      backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      transition: opacity 200ms ease;
+    }
+    #onboardingOverlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .onboarding-panel {
+      max-width: 640px;
+      width: 100%;
+      background: var(--panel-soft);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .onboarding-step-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+    .onboarding-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--border-strong);
+      background: transparent;
+      flex-shrink: 0;
+      transition: background 300ms, border-color 300ms;
+    }
+    .onboarding-dot.completed,
+    .onboarding-dot.current {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .onboarding-dot.current {
+      animation: onboardingPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes onboardingPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(231, 90, 0, 0.4); }
+      50% { box-shadow: 0 0 0 6px rgba(231, 90, 0, 0); }
+    }
+    .onboarding-line {
+      width: 40px;
+      height: 2px;
+      background: var(--border-strong);
+      flex-shrink: 0;
+      transition: background 300ms;
+    }
+    .onboarding-line.completed {
+      background: var(--accent);
+    }
+    .onboarding-step-label {
+      margin-left: 12px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-family: var(--font-body);
+    }
+    .onboarding-step-content {
+      position: relative;
+      min-height: 200px;
+    }
+    .onboarding-step {
+      animation: onboardingSlideIn 150ms ease both;
+    }
+    @keyframes onboardingSlideIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .onboarding-heading {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      margin: 0 0 8px;
+    }
+    .onboarding-subtext {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin: 0 0 20px;
+      line-height: 1.5;
+    }
+    .onboarding-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .onboarding-field label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+    .onboarding-field input {
+      width: 100%;
+      padding: 10px 12px;
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: #f1f5f9;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 200ms;
+      box-sizing: border-box;
+    }
+    .onboarding-field input:focus {
+      border-color: var(--accent);
+    }
+    .onboarding-field input::placeholder {
+      color: #475569;
+    }
+    .onboarding-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .onboarding-primary-btn {
+      padding: 12px 28px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 200ms, opacity 200ms;
+    }
+    .onboarding-primary-btn:hover {
+      background: #c94e00;
+    }
+    .onboarding-primary-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .onboarding-primary-btn.loading {
+      opacity: 0.7;
+      cursor: wait;
+    }
+    .onboarding-skip-link {
+      background: none;
+      border: none;
+      color: #64748b;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 4px 0;
+      transition: color 200ms;
+    }
+    .onboarding-skip-link:hover {
+      color: #94a3b8;
+    }
+
+    /* Step 2 — Card preview */
+    .onboarding-card-title {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin: 0 0 8px;
+    }
+    .onboarding-workflow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: #64748b;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .onboarding-workflow span.active {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .onboarding-chips-group {
+      margin-bottom: 12px;
+    }
+    .onboarding-chips-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 6px;
+      font-family: var(--font-body);
+    }
+    .onboarding-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .onboarding-chip {
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-family: var(--font-body);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg);
+      color: #94a3b8;
+      cursor: default;
+    }
+    .onboarding-chip.selected {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .onboarding-fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .onboarding-demo-field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      font-family: var(--font-body);
+    }
+    .onboarding-demo-field input {
+      width: 100%;
+      padding: 8px 10px;
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      color: #e2e8f0;
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      box-sizing: border-box;
+    }
+    .onboarding-prompt-toggle {
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 0.82rem;
+      cursor: pointer;
+      padding: 4px 0;
+      margin-bottom: 8px;
+      font-family: var(--font-body);
+      transition: color 200ms;
+    }
+    .onboarding-prompt-toggle:hover {
+      color: #94a3b8;
+    }
+    .onboarding-prompt-preview {
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.82rem;
+      color: #94a3b8;
+      white-space: pre-wrap;
+      font-family: var(--font-body);
+      margin-bottom: 16px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+    }
+    .onboarding-prompt-preview.visible {
+      display: block;
+    }
+    .onboarding-response-area {
+      margin-top: 16px;
+    }
+    .onboarding-response-box {
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .onboarding-response-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .onboarding-response-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #94a3b8;
+      font-family: var(--font-body);
+    }
+    .onboarding-copy-btn {
+      padding: 4px 10px;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: background 200ms, color 200ms;
+    }
+    .onboarding-copy-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .onboarding-response-text {
+      padding: 12px;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      font-family: var(--font-body);
+    }
+    .onboarding-error {
+      color: #f87171;
+      font-size: 0.88rem;
+      margin-top: 8px;
+      display: none;
+    }
+    .onboarding-error.visible {
+      display: block;
+    }
+    .onboarding-status {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-top: 8px;
+    }
+
+    /* Step 3 — Category grid */
+    .onboarding-category-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .onboarding-category-btn {
+      background: var(--bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 200ms, background 200ms;
+    }
+    .onboarding-category-btn:hover {
+      border-color: var(--accent);
+      background: rgba(231, 90, 0, 0.06);
+    }
+    .onboarding-category-btn strong {
+      display: block;
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      color: #f1f5f9;
+      margin-bottom: 4px;
+    }
+    .onboarding-category-btn span {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      #onboardingOverlay {
+        padding: 12px;
+      }
+      .onboarding-panel {
+        padding: 16px;
+      }
+      .onboarding-heading {
+        font-size: 1.2rem;
+      }
+      .onboarding-fields-grid {
+        grid-template-columns: 1fr;
+      }
+      .onboarding-category-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
 <body class="auth-pending">
+  <div id="onboardingOverlay" role="dialog" aria-modal="true" aria-label="Welcome setup" style="display:none;"></div>
   <div class="menu-overlay" id="menuOverlay" aria-hidden="true"></div>
 
   <header class="site-header">
@@ -5061,17 +5458,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
       let cardsToRender = APP[current] ? APP[current].cards : [];
 
       if (current === "Home") {
-        const showWelcomePanel = isFirstVisit && !readPrefs().onboardingDismissed;
-        const welcomePanel = showWelcomePanel ? `
-            <div class="welcome-panel">
-              <p class="welcome-title">Write clear business messages in minutes.</p>
-              <p class="welcome-text">Start with Win Work to create your first result.</p>
-              <div class="welcome-actions">
-                <button type="button" class="welcome-primary-btn" id="welcomeStartBtn">Start with Win Work</button>
-                <button type="button" class="welcome-secondary-btn" id="welcomeSkipBtn">Not now</button>
-              </div>
-            </div>
-        ` : "";
         const homeCard = document.createElement("section");
         homeCard.className = "card open";
         homeCard.style.gridColumn = "span 12";
@@ -5080,7 +5466,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeBody.hidden = false;
         homeBody.innerHTML = `
           <div class="home-explainer">
-            ${welcomePanel}
             <div class="home-intro-center">
               <p class="home-kicker">Choose a task</p>
               <p class="home-subcopy">Choose the business job you need to complete right now.</p>
@@ -5107,14 +5492,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
             <p class="home-value-note">Handle your quotes, invoices, and customer updates without the headache of writing them from scratch. Choose a job card, enter your details, and instantly generate an AI-powered message that sounds exactly like you.</p>
           </div>
         `;
-        homeBody.querySelector("#welcomeStartBtn")?.addEventListener("click", () => {
-          writePrefs({ onboardingDismissed: true });
-          navigate("Win Work");
-        });
-        homeBody.querySelector("#welcomeSkipBtn")?.addEventListener("click", () => {
-          writePrefs({ onboardingDismissed: true });
-          render();
-        });
         homeBody.querySelector("#homeSetDefaultsBtn")?.addEventListener("click", () => openSettings());
         homeBody.querySelectorAll(".home-task-btn").forEach((btn) => {
           btn.addEventListener("click", () => navigate(btn.dataset.nav));
@@ -6274,10 +6651,396 @@ $("cb-submit-btn").addEventListener("click", async () => {
       }
     });
 
+    // --- ONBOARDING ---
+    function initOnboarding() {
+      const prefs = readPrefs();
+      if (prefs.onboardingComplete || prefs.onboardingDismissed) return;
+      if (prefs.hasVisited) return;
+
+      const overlay = document.getElementById("onboardingOverlay");
+      if (!overlay) return;
+      overlay.style.display = "";
+      let currentStep = 1;
+      let onboardingAiRunning = false;
+
+      const totalCards = Object.values(APP).reduce((n, cat) => n + (cat.cards ? cat.cards.length : 0), 0);
+
+      function closeOnboarding(navigateTo) {
+        writePrefs({ onboardingComplete: true, hasVisited: true, onboardingDismissed: true });
+        overlay.classList.add("hidden");
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 220);
+        if (navigateTo) {
+          navigate(navigateTo);
+        }
+      }
+
+      function buildStepIndicator(step) {
+        const labels = ["Set defaults", "Try a card", "You're ready"];
+        let html = '<div class="onboarding-step-indicator" aria-label="Step ' + step + ' of 3">';
+        for (let i = 1; i <= 3; i++) {
+          const dotClass = i < step ? "completed" : i === step ? "current" : "";
+          html += '<div class="onboarding-dot ' + dotClass + '"></div>';
+          if (i < 3) {
+            const lineClass = i < step ? "completed" : "";
+            html += '<div class="onboarding-line ' + lineClass + '"></div>';
+          }
+        }
+        html += '<span class="onboarding-step-label">Step ' + step + ' of 3</span>';
+        html += '</div>';
+        return html;
+      }
+
+      function assemblePrompt() {
+        const prefix = getGlobalPromptPrefix();
+        const prompt = 'Write a SMS to Sarah following up a quote sent yesterday for bathroom renovation quote.\n\nTone: Friendly.\nGoal: get them to take the next step: Approve the quote.\nInclude:\n- 1 polite line checking they received it\n- 1 line summarising the job in plain English\n- 1 clear question as the call to action\n- optional: 1 sentence about next availability if helpful\n\nAdd this at the end: Just reply YES to lock it in.\nReturn 2 versions.';
+        return prefix + prompt;
+      }
+
+      function splitTwoResponses(rawText) {
+        const text = (rawText || "").trim();
+        if (!text) return null;
+        const normalizeLabel = (label) => {
+          const clean = (label || "").trim().toLowerCase();
+          if (clean.includes("email")) return "Email";
+          if (clean.includes("sms") || clean.includes("text")) return "SMS / Text";
+          return label;
+        };
+        const pairPatterns = [
+          { regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*1\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*2\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i, labels: ["Response 1", "Response 2"] },
+          { regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*A\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*B\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i, labels: ["Response A", "Response B"] },
+          { regex: /(?:^|\n)\s*(?:\*\*)?\s*Email\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:SMS|Text)\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i, labels: ["Email", "SMS / Text"] },
+          { regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:SMS|Text)\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*Email\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i, labels: ["SMS / Text", "Email"] }
+        ];
+        for (const p of pairPatterns) {
+          const m = text.match(p.regex);
+          if (!m) continue;
+          const a = (m[1] || "").trim();
+          const b = (m[2] || "").trim();
+          if (a && b) return [{ label: p.labels[0], text: a }, { label: p.labels[1], text: b }];
+        }
+        const markerRegex = /(?:^|\n)\s*(?:\*\*)?\s*(Option|Version|Response|Answer|Message|Email|SMS|Text)\s*(A|B|1|2)?\s*[:\-]\s*(?:\*\*)?/gi;
+        const markers = [];
+        let markerMatch;
+        while ((markerMatch = markerRegex.exec(text)) !== null) {
+          markers.push({ index: markerMatch.index, bodyStart: markerRegex.lastIndex, label: (markerMatch[1] + (markerMatch[2] ? " " + markerMatch[2] : "")).trim() });
+        }
+        if (markers.length >= 2) {
+          const first = markers[0];
+          const second = markers[1];
+          const a = text.slice(first.bodyStart, second.index).trim();
+          const b = text.slice(second.bodyStart).trim();
+          if (a && b) return [{ label: normalizeLabel(first.label), text: a }, { label: normalizeLabel(second.label), text: b }];
+        }
+        const numbered = text.match(/(?:^|\n)\s*1[.)\-:]\s*([\s\S]*?)\n\s*2[.)\-:]\s*([\s\S]*)/);
+        if (numbered && !/\n\s*3[.)\-:]\s/.test(text)) {
+          const a = (numbered[1] || "").trim();
+          const b = (numbered[2] || "").trim();
+          if (a && b) return [{ label: "Response 1", text: a }, { label: "Response 2", text: b }];
+        }
+        return null;
+      }
+
+      function copyText(text, btn) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => {
+            const old = btn.textContent;
+            btn.textContent = "Copied \u2713";
+            btn.style.background = "#e75a00";
+            btn.style.color = "#fff";
+            setTimeout(() => { btn.textContent = old; btn.style.background = ""; btn.style.color = ""; }, 1200);
+          }).catch(() => fallbackCopy(text, btn));
+        } else {
+          fallbackCopy(text, btn);
+        }
+      }
+
+      function renderStep(step) {
+        currentStep = step;
+        let html = buildStepIndicator(step);
+        html += '<div class="onboarding-step-content"><div class="onboarding-step">';
+
+        if (step === 1) {
+          html += '<h2 class="onboarding-heading">Let\u2019s personalise your toolkit</h2>';
+          html += '<p class="onboarding-subtext">These details auto-fill into every prompt so your messages sound like they\u2019re from you.</p>';
+          html += '<div class="onboarding-form">';
+          html += '<div class="onboarding-field"><label for="ob-firstName">Your First Name</label><input type="text" id="ob-firstName" placeholder="e.g. Matt" /></div>';
+          html += '<div class="onboarding-field"><label for="ob-bizName">Business Name</label><input type="text" id="ob-bizName" placeholder="e.g. Cooper Electrical" /></div>';
+          html += '</div>';
+          html += '<div class="onboarding-actions">';
+          html += '<button type="button" class="onboarding-primary-btn" id="ob-next1">Next \u2192</button>';
+          html += '<button type="button" class="onboarding-skip-link" id="ob-skip1">Skip setup \u2192</button>';
+          html += '</div>';
+        } else if (step === 2) {
+          html += '<h2 class="onboarding-heading">See how it works</h2>';
+          html += '<p class="onboarding-subtext">This is a real card from the app. We\u2019ve pre-filled it with example data \u2014 hit Run with AI to see what it generates.</p>';
+          html += '<div class="onboarding-card-title">Quote Follow-Up (24 hours)</div>';
+          html += '<div class="onboarding-workflow"><span class="active">Fill details</span><span>\u2192</span><span>Run with AI</span><span>\u2192</span><span>Copy and use</span></div>';
+
+          // Chips
+          html += '<div class="onboarding-chips-group"><div class="onboarding-chips-label">Channel</div><div class="onboarding-chips"><span class="onboarding-chip selected">SMS</span><span class="onboarding-chip">Email</span></div></div>';
+          html += '<div class="onboarding-chips-group"><div class="onboarding-chips-label">Tone</div><div class="onboarding-chips"><span class="onboarding-chip selected">Friendly</span><span class="onboarding-chip">Direct</span></div></div>';
+          html += '<div class="onboarding-chips-group"><div class="onboarding-chips-label">Next step</div><div class="onboarding-chips"><span class="onboarding-chip selected">Approve the quote</span><span class="onboarding-chip">Book a site visit</span><span class="onboarding-chip">Choose a start date</span></div></div>';
+
+          // Fields
+          html += '<div class="onboarding-fields-grid">';
+          html += '<div class="onboarding-demo-field"><label>Client name</label><input type="text" value="Sarah" readonly /></div>';
+          html += '<div class="onboarding-demo-field"><label>Job type</label><input type="text" value="bathroom renovation quote" readonly /></div>';
+          html += '<div class="onboarding-demo-field"><label>Quote sent date</label><input type="text" value="yesterday" readonly /></div>';
+          html += '<div class="onboarding-demo-field"><label>Next step link or instruction</label><input type="text" value="Just reply YES to lock it in" readonly /></div>';
+          html += '</div>';
+
+          // Prompt toggle
+          html += '<button type="button" class="onboarding-prompt-toggle" id="ob-promptToggle">\u25B6 View prompt</button>';
+          html += '<div class="onboarding-prompt-preview" id="ob-promptPreview"></div>';
+
+          // Action row
+          html += '<div class="onboarding-actions">';
+          html += '<button type="button" class="onboarding-primary-btn" id="ob-runAi" aria-busy="false">Run with AI</button>';
+          html += '<button type="button" class="onboarding-skip-link" id="ob-skip2">Skip this \u2192</button>';
+          html += '</div>';
+
+          // Response area
+          html += '<div class="onboarding-response-area" id="ob-responseArea"></div>';
+          html += '<div class="onboarding-error" id="ob-error"></div>';
+          html += '<div class="onboarding-status" id="ob-status"></div>';
+
+          // Next button (hidden until AI completes)
+          html += '<div class="onboarding-actions" id="ob-nextRow2" style="display:none; margin-top:12px;">';
+          html += '<button type="button" class="onboarding-primary-btn" id="ob-next2">Next \u2192</button>';
+          html += '</div>';
+        } else if (step === 3) {
+          html += '<h2 class="onboarding-heading">That\u2019s the whole workflow</h2>';
+          html += '<p class="onboarding-subtext">Every card in the app works the same way: pick a situation, fill in your details, run with AI, and copy the result. You\u2019ve got ' + totalCards + ' cards ready to use across quoting, job updates, payments, reviews, and more.</p>';
+          html += '<div class="onboarding-category-grid">';
+          html += '<button type="button" class="onboarding-category-btn" data-nav="Win Work"><strong>Win Work</strong><span>Follow-ups and lead replies</span></button>';
+          html += '<button type="button" class="onboarding-category-btn" data-nav="Manage Jobs"><strong>Manage Jobs</strong><span>Customer updates and message fixes</span></button>';
+          html += '<button type="button" class="onboarding-category-btn" data-nav="Get Paid"><strong>Get Paid</strong><span>Payment reminders and overdue follow-ups</span></button>';
+          html += '<button type="button" class="onboarding-category-btn" data-nav="Grow"><strong>Grow</strong><span>Reviews, referrals, and enquiry growth</span></button>';
+          html += '</div>';
+          html += '<div class="onboarding-actions">';
+          html += '<button type="button" class="onboarding-primary-btn" id="ob-finish">Start using AdvisaStacks \u2192</button>';
+          html += '</div>';
+        }
+
+        html += '</div></div>';
+
+        overlay.innerHTML = '<div class="onboarding-panel">' + html + '</div>';
+
+        // Bind events
+        if (step === 1) {
+          const nameInput = document.getElementById("ob-firstName");
+          if (nameInput) nameInput.focus();
+          document.getElementById("ob-next1")?.addEventListener("click", () => {
+            const fn = document.getElementById("ob-firstName")?.value || "";
+            const bn = document.getElementById("ob-bizName")?.value || "";
+            if (fn) { globalFirstNameInput.value = fn; }
+            if (bn) { globalBizNameInput.value = bn; }
+            if (fn || bn) handleGlobalDefaultsChange();
+            renderStep(2);
+          });
+          document.getElementById("ob-skip1")?.addEventListener("click", () => closeOnboarding());
+        } else if (step === 2) {
+          // Prompt preview
+          const promptPreview = document.getElementById("ob-promptPreview");
+          const promptToggle = document.getElementById("ob-promptToggle");
+          if (promptPreview) promptPreview.textContent = assemblePrompt();
+          promptToggle?.addEventListener("click", () => {
+            const visible = promptPreview.classList.toggle("visible");
+            promptToggle.textContent = (visible ? "\u25BC Hide prompt" : "\u25B6 View prompt");
+          });
+
+          // Run with AI
+          const runBtn = document.getElementById("ob-runAi");
+          const responseArea = document.getElementById("ob-responseArea");
+          const errorEl = document.getElementById("ob-error");
+          const statusEl = document.getElementById("ob-status");
+          const nextRow = document.getElementById("ob-nextRow2");
+
+          runBtn?.addEventListener("click", async () => {
+            if (onboardingAiRunning) return;
+            onboardingAiRunning = true;
+            runBtn.disabled = true;
+            runBtn.classList.add("loading");
+            runBtn.textContent = "Generating...";
+            runBtn.setAttribute("aria-busy", "true");
+            errorEl.classList.remove("visible");
+            errorEl.textContent = "";
+            statusEl.textContent = "Generating your message...";
+            responseArea.innerHTML = '';
+
+            // Update workflow indicators
+            const workflowSpans = overlay.querySelectorAll(".onboarding-workflow span");
+            if (workflowSpans.length >= 3) {
+              workflowSpans[0].classList.remove("active");
+              workflowSpans[2].classList.add("active");
+            }
+
+            // Create streaming response box
+            const streamBox = document.createElement("div");
+            streamBox.className = "onboarding-response-box";
+            const streamHead = document.createElement("div");
+            streamHead.className = "onboarding-response-head";
+            const streamLabel = document.createElement("span");
+            streamLabel.className = "onboarding-response-label";
+            streamLabel.textContent = "Final message";
+            streamHead.appendChild(streamLabel);
+            streamBox.appendChild(streamHead);
+            const streamText = document.createElement("div");
+            streamText.className = "onboarding-response-text";
+            streamBox.appendChild(streamText);
+            responseArea.appendChild(streamBox);
+
+            const promptText = assemblePrompt();
+            const msgContent = [{ type: "text", text: promptText }];
+
+            try {
+              const resp = await fetch("/api/claude", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  model: "claude-sonnet-4-20250514",
+                  max_tokens: 1000,
+                  stream: true,
+                  system: "You are a practical AI assistant helping Australian tradies and small business owners. Write in plain, professional Australian English. Be direct, clear, and concise. Avoid corporate jargon or overly formal language.",
+                  messages: [{ role: "user", content: msgContent }]
+                })
+              });
+
+              if (!resp.ok) {
+                const errData = await resp.json().catch(() => ({}));
+                throw new Error(errData?.error?.message || "API error " + resp.status);
+              }
+
+              const reader = resp.body.getReader();
+              const decoder = new TextDecoder();
+              let buffer = "";
+
+              while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split("\n");
+                buffer = lines.pop();
+                for (const line of lines) {
+                  if (!line.startsWith("data: ")) continue;
+                  const data = line.slice(6).trim();
+                  if (data === "[DONE]") continue;
+                  try {
+                    const parsed = JSON.parse(data);
+                    const delta = parsed?.delta?.text || parsed?.delta?.delta?.text || "";
+                    if (delta) {
+                      streamText.textContent += delta;
+                      streamText.scrollIntoView({ block: "nearest", behavior: "smooth" });
+                    }
+                  } catch (_) {}
+                }
+              }
+
+              // Finalize — try split into 2 versions
+              const rawText = (streamText.textContent || "").trim();
+              const split = splitTwoResponses(rawText);
+              if (split && split.length === 2) {
+                responseArea.innerHTML = "";
+                split.forEach((entry) => {
+                  const box = document.createElement("div");
+                  box.className = "onboarding-response-box";
+                  const head = document.createElement("div");
+                  head.className = "onboarding-response-head";
+                  const lbl = document.createElement("span");
+                  lbl.className = "onboarding-response-label";
+                  lbl.textContent = entry.label;
+                  const cpBtn = document.createElement("button");
+                  cpBtn.className = "onboarding-copy-btn";
+                  cpBtn.textContent = "Copy";
+                  cpBtn.type = "button";
+                  cpBtn.addEventListener("click", () => copyText(entry.text, cpBtn));
+                  head.appendChild(lbl);
+                  head.appendChild(cpBtn);
+                  box.appendChild(head);
+                  const txt = document.createElement("div");
+                  txt.className = "onboarding-response-text";
+                  txt.textContent = entry.text;
+                  box.appendChild(txt);
+                  responseArea.appendChild(box);
+                });
+                statusEl.textContent = "Two responses ready. Copy the one you need.";
+              } else {
+                // Add copy button to single box
+                const cpBtn = document.createElement("button");
+                cpBtn.className = "onboarding-copy-btn";
+                cpBtn.textContent = "Copy";
+                cpBtn.type = "button";
+                cpBtn.addEventListener("click", () => copyText(rawText, cpBtn));
+                streamHead.appendChild(cpBtn);
+                statusEl.textContent = rawText ? "Final message ready. Copy and use." : "No response yet.";
+              }
+
+              // Show next button
+              if (nextRow) nextRow.style.display = "";
+
+            } catch (err) {
+              errorEl.textContent = "\u26A0\uFE0F " + (err.message || "Something went wrong. Please try again.");
+              errorEl.classList.add("visible");
+              statusEl.textContent = "Could not generate a message.";
+              // Re-enable run button for retry
+              runBtn.disabled = false;
+              runBtn.classList.remove("loading");
+              runBtn.textContent = "Run with AI";
+            } finally {
+              runBtn.setAttribute("aria-busy", "false");
+              onboardingAiRunning = false;
+              if (!errorEl.classList.contains("visible")) {
+                runBtn.disabled = true;
+                runBtn.classList.remove("loading");
+                runBtn.textContent = "Run with AI";
+              }
+            }
+          });
+
+          // Next after AI
+          document.getElementById("ob-next2")?.addEventListener("click", () => renderStep(3));
+          document.getElementById("ob-skip2")?.addEventListener("click", () => renderStep(3));
+        } else if (step === 3) {
+          document.getElementById("ob-finish")?.addEventListener("click", () => closeOnboarding());
+          overlay.querySelectorAll(".onboarding-category-btn").forEach((btn) => {
+            btn.addEventListener("click", () => closeOnboarding(btn.dataset.nav));
+          });
+        }
+      }
+
+      // Focus trap
+      overlay.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
+          if (currentStep === 1) { closeOnboarding(); }
+          else if (currentStep === 2) { renderStep(3); }
+          return;
+        }
+        if (e.key === "Tab") {
+          const focusable = Array.from(overlay.querySelectorAll(MENU_FOCUSABLE_SELECTOR));
+          if (!focusable.length) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      });
+
+      renderStep(1);
+    }
+
     // --- APP INITIALIZATION ---
     const savedPrefs = readPrefs();
     const isFirstVisit = !savedPrefs.hasVisited;
-    
+
     // Restore global inputs if they exist
     if (savedPrefs.firstName) {
       globalFirstNameInput.value = savedPrefs.firstName;
@@ -6300,6 +7063,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
     // Run the first render to paint the screen
     render();
+    initOnboarding();
     if (isFirstVisit) {
       writePrefs({ hasVisited: true });
     }
