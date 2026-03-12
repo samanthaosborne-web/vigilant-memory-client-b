@@ -1023,10 +1023,6 @@
     .qb-toggle input:checked + .qb-slider:before { transform: translateX(20px); }
     .qb-total-box { background: #0f172a; border: 1px solid #334155; padding: 14px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #cbd5e1; margin-bottom: 16px; font-size: 14px; }
     .qb-total-val { font-size: 16px; color: #f9fafb; font-weight: 900; }
-    .qb-upload-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: 1px solid #334155; background: #0f172a; border-radius: 6px; color: #e5e7eb; font-weight: 600; cursor: pointer; margin-bottom: 16px; transition: background 0.2s; font-size: 14px; }
-    .qb-upload-btn:hover { background: #162130; }
-    .qb-upload-icon { width: 18px; height: 18px; }
-
     .prompt-block {
       padding: 12px;
       margin: 10px 0;
@@ -1103,99 +1099,6 @@
     .chatbot-badge a:hover {
       opacity: 0.7;
     }
-
-    /* ── AI Upload & Run Styles ── */
-    .ai-upload-zone {
-      margin: 12px 0 8px;
-      border: 2px dashed rgba(249,250,255,0.4);
-      border-radius: 10px;
-      padding: 12px 14px;
-      background: rgba(249,250,255,0.06);
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .ai-upload-zone.drag-over {
-      border-color: #e75a00;
-      background: rgba(231,90,0,0.12);
-    }
-    .ai-upload-label {
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(249,250,255,0.6);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-    }
-    .ai-upload-input-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .ai-upload-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 12px;
-      background: rgba(249,250,255,0.1);
-      border: 1.5px solid rgba(249,250,255,0.22);
-      border-radius: var(--radius-sm);
-      color: var(--surface);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
-      white-space: nowrap;
-    }
-    .ai-upload-btn:hover {
-      background: rgba(249,250,255,0.2);
-      border-color: rgba(249,250,255,0.45);
-      transform: translateY(-1px);
-    }
-    .ai-upload-btn svg { flex-shrink: 0; }
-    .ai-file-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-    .ai-file-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(231,90,0,0.25);
-      border: 1.5px solid rgba(231,90,0,0.6);
-      border-radius: 20px;
-      padding: 4px 10px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #f9faff;
-      max-width: 200px;
-    }
-    .ai-file-pill span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .ai-file-thumb {
-      width: 28px;
-      height: 28px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 1px solid rgba(249,250,255,0.45);
-      flex-shrink: 0;
-    }
-    .ai-file-remove {
-      background: none;
-      border: none;
-      color: rgba(249,250,255,0.7);
-      cursor: pointer;
-      padding: 0;
-      line-height: 1;
-      font-size: 14px;
-      flex-shrink: 0;
-    }
-    .ai-file-remove:hover { color: #f9faff; }
 
     .ai-chat-composer {
       margin-top: 12px;
@@ -1619,9 +1522,9 @@
     }
     /* Action buttons */
     .cb-action-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
       margin-top: 20px;
       padding-top: 16px;
       border-top: 1px solid #334155;
@@ -1632,6 +1535,11 @@
       border-radius: 10px;
       padding: 12px 10px 10px;
       box-shadow: 0 6px 18px rgba(15,23,42,0.12);
+    }
+    .cb-action-row .cb-submit-btn,
+    .cb-action-row .cb-save-btn {
+      width: 100%;
+      justify-content: center;
     }
     .cb-save-btn {
       display: inline-flex;
@@ -1679,6 +1587,11 @@
     .cb-action-row .cb-save-btn:hover {
       filter: brightness(0.95);
       transform: translateY(-1px);
+    }
+    @media (max-width: 640px) {
+      .cb-action-row {
+        grid-template-columns: 1fr;
+      }
     }
     .cb-toast {
       display: none;
@@ -3567,10 +3480,6 @@
           "[Account Number]": "",
           "[Include Pay Now Button]": "No",
           "[Include Review Button]": "No"
-        },
-        uploads: {
-          logo: { enabled: false, file: null },
-          quoteExample: { enabled: false, file: null }
         }
       };
 
@@ -3733,44 +3642,6 @@
             font-weight: 700;
           }
 
-          .templates-upload-item + .templates-upload-item {
-            margin-top: 18px;
-          }
-
-          .templates-upload-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            min-height: 40px;
-            background: #f4f5f7;
-            border: 2px solid #cfd5dc;
-            border-radius: 6px;
-            padding: 16px 14px;
-            color: #122033;
-            cursor: pointer;
-          }
-
-          .templates-upload-box.hidden {
-            display: none;
-          }
-
-          .templates-upload-icon {
-            width: 18px;
-            height: 18px;
-            display: inline-flex;
-          }
-
-          .templates-upload-icon svg {
-            width: 100%;
-            height: 100%;
-          }
-
-          .templates-upload-label {
-            font-size: 14px;
-            font-weight: 700;
-          }
-
           .templates-prompt-wrap {
             margin-top: 24px;
             border-top: 1px solid #cfd5dc;
@@ -3892,19 +3763,6 @@
           "Make it look polished and client ready.\n" +
           "Return only the finished quote.";
 
-        const selectedFiles = [];
-        if (state.uploads.logo.enabled && state.uploads.logo.file) {
-          selectedFiles.push("Logo selected: " + state.uploads.logo.file.name);
-        }
-        if (state.uploads.quoteExample.enabled && state.uploads.quoteExample.file) {
-          selectedFiles.push("Past quote example selected: " + state.uploads.quoteExample.file.name);
-        }
-
-        if (selectedFiles.length) {
-          text += "\n\nAttachments selected\n" + selectedFiles.join("\n");
-          text += "\n\nImportant\nActual files are not transferred by copy and paste. They must still be uploaded manually in ChatGPT.";
-        }
-
         return text;
       }
 
@@ -3964,80 +3822,6 @@
         row.appendChild(text);
         row.appendChild(toggle);
         return row;
-      }
-
-      function createUploadRow(labelText, key, buttonLabel, accept) {
-        const item = document.createElement("div");
-        item.className = "templates-upload-item";
-
-        const head = document.createElement("div");
-        head.className = "templates-toggle-row";
-
-        const text = document.createElement("div");
-        text.className = "templates-toggle-text";
-        text.textContent = labelText;
-
-        const toggle = document.createElement("button");
-        toggle.type = "button";
-        toggle.className = "templates-toggle off";
-        toggle.innerHTML = '<span class="templates-toggle-knob"></span>';
-
-        const fileLabel = document.createElement("label");
-        fileLabel.className = "templates-upload-box hidden";
-
-        const fileInput = document.createElement("input");
-        fileInput.type = "file";
-        fileInput.accept = accept;
-        fileInput.hidden = true;
-
-        const icon = document.createElement("span");
-        icon.className = "templates-upload-icon";
-        icon.innerHTML = `
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 16V4"></path>
-            <path d="M8 8l4-4 4 4"></path>
-            <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path>
-          </svg>
-        `;
-
-        const label = document.createElement("span");
-        label.className = "templates-upload-label";
-        label.textContent = buttonLabel;
-
-        fileLabel.appendChild(fileInput);
-        fileLabel.appendChild(icon);
-        fileLabel.appendChild(label);
-
-        function syncUploadUi() {
-          const isOn = state.uploads[key].enabled;
-          toggle.className = "templates-toggle " + (isOn ? "on" : "off");
-          fileLabel.classList.toggle("hidden", !isOn);
-          label.textContent = state.uploads[key].file ? state.uploads[key].file.name : buttonLabel;
-        }
-
-        toggle.addEventListener("click", function () {
-          state.uploads[key].enabled = !state.uploads[key].enabled;
-          if (!state.uploads[key].enabled) {
-            state.uploads[key].file = null;
-            fileInput.value = "";
-          }
-          syncUploadUi();
-          updatePrompt();
-        });
-
-        fileInput.addEventListener("change", function () {
-          state.uploads[key].file = fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
-          syncUploadUi();
-          updatePrompt();
-        });
-
-        head.appendChild(text);
-        head.appendChild(toggle);
-        item.appendChild(head);
-        item.appendChild(fileLabel);
-
-        syncUploadUi();
-        return item;
       }
 
       const title = document.createElement("h3");
@@ -4114,13 +3898,6 @@
       addField(bankGrid, "BSB", "[BSB]", "000-000");
       addField(bankGrid, "Account Number", "[Account Number]", "00000000");
       wrap.appendChild(paymentSection);
-
-      const uploadSection = document.createElement("div");
-      uploadSection.className = "templates-section";
-      uploadSection.innerHTML = '<div class="templates-section-title">Uploads</div>';
-      uploadSection.appendChild(createUploadRow("Upload a logo", "logo", "Upload logo", "image/*,.pdf,.png,.jpg,.jpeg,.webp,.svg"));
-      uploadSection.appendChild(createUploadRow("Upload a past quote example", "quoteExample", "Upload quote example", ".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"));
-      wrap.appendChild(uploadSection);
 
       const extrasSection = document.createElement("div");
       extrasSection.className = "templates-section";
@@ -4293,7 +4070,6 @@
 
     let customBuilderTempCard = null;
     let customBuilderDraft = null;
-    let customBuilderUndoState = null;
 
     // Read/write saved templates
     function readCustomTemplates() {
@@ -4796,7 +4572,6 @@
       clearScreenBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         customBuilderDraft = null;
-        customBuilderUndoState = null;
         render();
       });
 
@@ -5068,7 +4843,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeBody.hidden = false;
         homeBody.innerHTML = `
           <div class="home-explainer">
-            <p class="home-kicker">Pick your situation and generate the message you need.</p>
+            <p class="home-kicker">First step: open Settings and enter your first name + business name so every prompt is pre-filled with your details. Then pick your situation and generate your message.</p>
             <div class="home-task-grid">
               <button type="button" class="home-task-btn" data-nav="Winning Work">
                 <strong>💬 Winning Work</strong>
@@ -5649,103 +5424,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
               body.appendChild(ui);
           }
         }
-        // ── Per-card file attachment state ──
-        const cardFiles = []; // { file, base64, mediaType }
-
-        // ── File upload zone ──
-        const uploadZone = document.createElement("div");
-        uploadZone.className = "ai-upload-zone";
-
-        const uploadLabel = document.createElement("div");
-        uploadLabel.className = "ai-upload-label";
-        uploadLabel.textContent = "Attach files (optional)";
-
-        const uploadInputRow = document.createElement("div");
-        uploadInputRow.className = "ai-upload-input-row";
-
-        const hiddenInput = document.createElement("input");
-        hiddenInput.type = "file";
-        hiddenInput.multiple = true;
-        hiddenInput.accept = ".pdf,.png,.jpg,.jpeg,.webp,.gif,.docx,.doc,.txt";
-        hiddenInput.style.display = "none";
-
-        const uploadPickBtn = document.createElement("button");
-        uploadPickBtn.type = "button";
-        uploadPickBtn.className = "ai-upload-btn";
-        uploadPickBtn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Upload template / file`;
-        uploadPickBtn.addEventListener("click", (e) => { e.stopPropagation(); hiddenInput.click(); });
-
-        const fileList = document.createElement("div");
-        fileList.className = "ai-file-list";
-
-        const refreshFilePills = () => {
-          fileList.innerHTML = "";
-          cardFiles.forEach((f, idx) => {
-            const pill = document.createElement("div");
-            pill.className = "ai-file-pill";
-            if (f.previewSrc) {
-              const thumb = document.createElement("img");
-              thumb.className = "ai-file-thumb";
-              thumb.src = f.previewSrc;
-              thumb.alt = "Uploaded image";
-              pill.appendChild(thumb);
-            }
-            const nameSpan = document.createElement("span");
-            nameSpan.textContent = f.file.name;
-            const removeBtn = document.createElement("button");
-            removeBtn.type = "button";
-            removeBtn.className = "ai-file-remove";
-            removeBtn.innerHTML = "✕";
-            removeBtn.title = "Remove file";
-            removeBtn.addEventListener("click", (e) => { e.stopPropagation(); cardFiles.splice(idx, 1); refreshFilePills(); });
-            pill.appendChild(nameSpan);
-            pill.appendChild(removeBtn);
-            fileList.appendChild(pill);
-          });
-        };
-
-        const processFiles = async (files) => {
-          const allowed = Array.from(files).filter(f => f.size <= 20 * 1024 * 1024);
-          for (const file of allowed) {
-            const ext = file.name.split(".").pop().toLowerCase();
-            let mediaType = file.type || "application/octet-stream";
-            if (ext === "pdf") mediaType = "application/pdf";
-            else if (["png","jpg","jpeg","webp","gif"].includes(ext)) mediaType = "image/" + (ext === "jpg" ? "jpeg" : ext);
-            else mediaType = null; // docx/txt: send as text content
-
-            if (mediaType) {
-              const base64 = await new Promise((res) => {
-                const r = new FileReader();
-                r.onload = () => res(r.result.split(",")[1]);
-                r.readAsDataURL(file);
-              });
-              const previewSrc = mediaType.startsWith("image/")
-                ? ("data:" + mediaType + ";base64," + base64)
-                : null;
-              cardFiles.push({ file, base64, mediaType, previewSrc });
-            } else {
-              // Plain text fallback for .docx/.txt
-              const text = await file.text().catch(() => "[Could not read file text]");
-              cardFiles.push({ file, base64: null, mediaType: null, text });
-            }
-          }
-          refreshFilePills();
-        };
-
-        hiddenInput.addEventListener("change", (e) => { e.stopPropagation(); processFiles(e.target.files); hiddenInput.value = ""; });
-
-        // Drag and drop
-        uploadZone.addEventListener("dragover", (e) => { e.preventDefault(); e.stopPropagation(); uploadZone.classList.add("drag-over"); });
-        uploadZone.addEventListener("dragleave", (e) => { e.stopPropagation(); uploadZone.classList.remove("drag-over"); });
-        uploadZone.addEventListener("drop", (e) => { e.preventDefault(); e.stopPropagation(); uploadZone.classList.remove("drag-over"); if (e.dataTransfer.files.length) processFiles(e.dataTransfer.files); });
-
-        uploadInputRow.appendChild(hiddenInput);
-        uploadInputRow.appendChild(uploadPickBtn);
-        uploadZone.appendChild(uploadLabel);
-        uploadZone.appendChild(uploadInputRow);
-        uploadZone.appendChild(fileList);
-        body.appendChild(uploadZone);
-
         // ── Prompts ──
         (card.prompts || []).forEach((p, i) => {
           const block = document.createElement("div");
@@ -5913,20 +5591,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
             responseLabel.classList.add("streaming");
 
             // Build message content
-            const msgContent = [];
-
-            // Attach files first
-            for (const f of cardFiles) {
-              if (f.mediaType === "application/pdf") {
-                msgContent.push({ type: "document", source: { type: "base64", media_type: "application/pdf", data: f.base64 } });
-              } else if (f.mediaType && f.mediaType.startsWith("image/")) {
-                msgContent.push({ type: "image", source: { type: "base64", media_type: f.mediaType, data: f.base64 } });
-              } else if (f.text) {
-                msgContent.push({ type: "text", text: `[Attached file: ${f.file.name}]\n${f.text}` });
-              }
-            }
-
-            msgContent.push({ type: "text", text: promptText });
+            const msgContent = [{ type: "text", text: promptText }];
 
             try {
               const resp = await fetch("/api/claude", {
@@ -5936,7 +5601,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
                   model: "claude-sonnet-4-20250514",
                   max_tokens: 1000,
                   stream: true,
-                  system: "You are a practical AI assistant helping Australian tradies and small business owners. Write in plain, professional Australian English. Be direct, clear, and concise. Avoid corporate jargon or overly formal language. If a file or template has been uploaded, use it to inform and shape your output — match its style, layout, and tone where relevant.",
+                  system: "You are a practical AI assistant helping Australian tradies and small business owners. Write in plain, professional Australian English. Be direct, clear, and concise. Avoid corporate jargon or overly formal language.",
                   messages: [{ role: "user", content: msgContent }]
                 })
               });
