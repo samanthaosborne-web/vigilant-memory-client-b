@@ -7,51 +7,73 @@
   <link rel="icon" type="image/png" href="./advisastacks-logo-favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet" />
   <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111a2c;
+      --border: #2e3a4f;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #e75a00;
+    }
+    * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 24px;
-      font-family: "Roboto", system-ui, sans-serif;
-      background: #313131;
-      color: #f9faff;
-      line-height: 1.55;
+      font-family: "Inter", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
     }
     main {
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
-      background: #f9faff;
-      color: #313131;
-      border: 4px solid #e75a00;
+      background: var(--panel);
+      border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 22px;
+      padding: 24px;
     }
-    h1 { color: #e75a00; margin-top: 0; }
-    .meta { font-size: 14px; color: #555; margin-bottom: 16px; }
+    h1, h2 {
+      margin: 0 0 8px;
+      font-family: "Manrope", "Inter", system-ui, sans-serif;
+      letter-spacing: -0.01em;
+      color: #f8fafc;
+    }
+    h1 { font-size: 32px; }
+    h2 { font-size: 18px; margin-top: 18px; }
+    p { margin: 0 0 10px; color: #cbd5e1; }
+    .meta { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
+    .fine { color: var(--muted); font-size: 14px; }
+    a { color: var(--accent); font-weight: 700; }
+    .back { margin-top: 18px; }
   </style>
 </head>
 <body>
   <main>
     <h1>Privacy Policy</h1>
-    <p class="meta">Version: v1 | Last updated: 2026-03-08</p>
-    <p>
-      We collect account data required to operate the service, including login details,
-      policy acceptance records, and usage metadata needed for security and support.
-    </p>
-    <p>
-      We use this data to provide and improve the platform, secure user accounts, and
-      communicate essential service updates.
-    </p>
-    <p>
-      Marketing emails are opt-in. You can withdraw consent at any time.
-    </p>
-    <p>
-      Contact us if you need your account data exported or deleted:
-      <a href="mailto:info@advisastacks.com" style="color:#e75a00; font-weight:700;">info@advisastacks.com</a>
-    </p>
-    <p style="margin-top:24px; font-size:14px;">
-      <a href="./home.html" style="color:#e75a00; font-weight:700;">&larr; Back to AdvisaStacks</a>
-    </p>
+    <p class="meta">Last updated: 12 March 2026</p>
+
+    <p>AdvisaStacks (ABN 37 131 434 727) respects your privacy and handles personal information in line with Australian privacy expectations.</p>
+
+    <h2>What we collect</h2>
+    <p>We may collect account details (such as your name and email), subscription and billing status, and service usage data needed to run and secure the app.</p>
+    <p>When you use prompt tools, content you enter may be processed to generate AI outputs.</p>
+
+    <h2>How we use information</h2>
+    <p>We use information to deliver the service, maintain account access, support subscriptions, improve reliability, and provide support when requested.</p>
+
+    <h2>Third-party services</h2>
+    <p>AdvisaStacks uses third-party providers for authentication, billing, and AI processing. These providers process data only as required to operate those services.</p>
+
+    <h2>Storage and security</h2>
+    <p>We take reasonable steps to protect information in our systems. No method of storage or transmission is guaranteed to be 100% secure.</p>
+
+    <h2>Your choices</h2>
+    <p>You can request access, correction, or deletion of your personal information by contacting us.</p>
+
+    <p class="fine">Contact: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> | ABN: 37 131 434 727</p>
+    <p class="back"><a href="./home.html">&larr; Back to AdvisaStacks</a></p>
   </main>
 </body>
 </html>
