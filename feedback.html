@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdvisaStacks | Feedback</title>
+  <link rel="icon" type="image/png" href="./advisastacks-logo-favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #313131;
+      --surface: #f9faff;
+      --accent: #e75a00;
+      --text-dark: #313131;
+      --text-muted: #5a5a5a;
+      --text-light: #f9faff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text-light);
+      font-family: "Roboto", system-ui, sans-serif;
+      padding: 24px;
+    }
+    .wrap { width: min(920px, 100%); margin: 0 auto; }
+    .card {
+      background: var(--surface);
+      color: var(--text-dark);
+      border: 4px solid var(--accent);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+    }
+    h1 {
+      margin: 0 0 6px;
+      color: var(--accent);
+      font-size: clamp(30px, 5vw, 44px);
+      line-height: 1.05;
+    }
+    .sub {
+      margin: 0 0 16px;
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 760px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+    }
+    input, textarea, select {
+      width: 100%;
+      border: 2px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 14px;
+      color: #0f172a;
+      background: #fff;
+    }
+    textarea { min-height: 130px; resize: vertical; }
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(231,90,0,0.15);
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    button, a.btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--accent);
+      background: var(--accent);
+      color: var(--text-light);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    a.btn.secondary {
+      background: #313131;
+      border-color: #313131;
+      color: #f9faff;
+    }
+    .status {
+      min-height: 20px;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .status.ok { color: #0f6e29; }
+    .status.err { color: #b30000; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card">
+      <h1>Feedback form</h1>
+      <p class="sub">Tell us what is working, what is confusing, and what should be improved next.</p>
+
+      <form id="feedbackForm" novalidate>
+        <div class="grid two">
+          <label>
+            Your name
+            <input id="fbName" name="name" type="text" maxlength="120" placeholder="e.g. Sam" />
+          </label>
+          <label>
+            Your email
+            <input id="fbEmail" name="email" type="email" maxlength="160" placeholder="e.g. you@business.com" />
+          </label>
+        </div>
+
+        <div class="grid two" style="margin-top:12px;">
+          <label>
+            Area
+            <select id="fbArea" name="area">
+              <option value="General">General</option>
+              <option value="Winning Work">Winning Work</option>
+              <option value="Getting Paid">Getting Paid</option>
+              <option value="Job Updates">Job Updates</option>
+              <option value="Reviews & Referrals">Reviews & Referrals</option>
+              <option value="Get More Enquiries">Get More Enquiries</option>
+              <option value="Fix My Message">Fix My Message</option>
+              <option value="Templates">Templates</option>
+              <option value="Custom Builder">Custom Builder</option>
+            </select>
+          </label>
+          <label>
+            Type
+            <select id="fbType" name="type">
+              <option value="General feedback">General feedback</option>
+              <option value="Bug report">Bug report</option>
+              <option value="Feature request">Feature request</option>
+              <option value="UX suggestion">UX suggestion</option>
+            </select>
+          </label>
+        </div>
+
+        <label style="margin-top:12px;">
+          Your feedback <span style="color:#e75a00">*</span>
+          <textarea id="fbMessage" name="message" required placeholder="Describe what happened, what you expected, and what would make it better."></textarea>
+        </label>
+
+        <div class="actions">
+          <button id="fbSubmitBtn" type="submit">Send feedback</button>
+          <a href="./index.html" class="btn secondary">Back to app</a>
+        </div>
+        <div id="fbStatus" class="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      const form = document.getElementById("feedbackForm");
+      const submitBtn = document.getElementById("fbSubmitBtn");
+      const statusEl = document.getElementById("fbStatus");
+
+      function setStatus(text, type) {
+        statusEl.textContent = text || "";
+        statusEl.className = "status " + (type || "");
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const payload = {
+          name: document.getElementById("fbName").value.trim(),
+          email: document.getElementById("fbEmail").value.trim(),
+          area: document.getElementById("fbArea").value,
+          type: document.getElementById("fbType").value,
+          message: document.getElementById("fbMessage").value.trim(),
+          page: window.location.href
+        };
+
+        if (!payload.message) {
+          setStatus("Please add your feedback message.", "err");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        setStatus("Sending feedback...", "");
+
+        try {
+          const resp = await fetch("/api/send-feedback", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const data = await resp.json().catch(() => ({}));
+          if (!resp.ok) {
+            throw new Error(data.error || "Unable to send feedback right now.");
+          }
+          form.reset();
+          setStatus("Thanks — your feedback has been sent.", "ok");
+        } catch (err) {
+          setStatus(err.message || "Unable to send feedback right now.", "err");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

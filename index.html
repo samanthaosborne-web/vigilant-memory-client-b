@@ -219,6 +219,49 @@
       font-size: 14px;
       line-height: 1.6;
     }
+    .home-explainer {
+      padding: 8px 2px 2px;
+      display: grid;
+      gap: 14px;
+      color: #f9faff;
+    }
+    .home-explainer p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .home-explainer ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .home-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .home-cta-btn {
+      background: #313131;
+      color: #f9faff;
+      border: 2px solid #313131;
+      border-radius: 10px;
+      padding: 9px 14px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .home-cta-btn.primary {
+      background: #e75a00;
+      border-color: #e75a00;
+    }
+    .home-cta-btn:hover {
+      filter: brightness(0.96);
+    }
 
     /* Global Inputs */
     .global-inputs {
@@ -1386,7 +1429,8 @@
   <div class="menu-backdrop" id="menuBackdrop"></div>
   <nav class="menu-panel" id="menuPanel" aria-label="Categories" aria-hidden="true">
     <h2 class="nav-categories">Categories</h2>
-    <button class="menu-item active" data-key="Winning Work">Winning Work</button>
+    <button class="menu-item active" data-key="Home">Home</button>
+    <button class="menu-item" data-key="Winning Work">Winning Work</button>
     <button class="menu-item" data-key="Getting Paid">Getting Paid</button>
     <button class="menu-item" data-key="Job Updates">Job Updates</button>
     <button class="menu-item" data-key="Reviews & Referrals">Reviews & Referrals</button>
@@ -1397,6 +1441,7 @@
     <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
     <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
     <div style="flex:1;"></div>
+    <button class="menu-item" id="feedbackNavBtn">Feedback form</button>
     <button class="menu-item menu-item-logout" id="logoutBtn">Log out</button>
   </nav>
 
@@ -1537,6 +1582,10 @@
   </script>
   <script>
     const APP = {
+      "Home": {
+        "title": "Home",
+        "cards": []
+      },
       "Winning Work": {
         "title": "Winning Work",
         "cards": [{
@@ -2699,7 +2748,7 @@
   ]
 }
     };
-    let current = "Winning Work";
+    let current = "Home";
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
     const PREFS_KEY = "businessToolkitPrefsV1";
@@ -4433,6 +4482,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
       document.getElementById("pageTitle").textContent = APP[current] ? APP[current].title : current;
       const helpEl = document.getElementById("pageHelp");
       const copy = {
+        "Home": {
+          why: "AdvisaStacks turns common business communication tasks into ready-to-use prompt cards so you can move faster with less rework.",
+          how: "Start with a category, fill in the card fields, review the prompt preview, then run with AI and copy the final result."
+        },
         "Winning Work": {
           why: "Winning work is mainly speed and clarity. Fast follow up, clear options, and confident replies stop leads going cold and protect margin.",
           how: "Open a card, pick the quick inputs, fill the brackets, then copy the prompt into your AI chatbot. Save the best outputs as templates in your system."
@@ -4484,6 +4537,50 @@ $("cb-submit-btn").addEventListener("click", async () => {
       const cardRefreshers = [];
       let cardsToRender = APP[current] ? APP[current].cards : [];
 
+      if (current === "Home") {
+        const homeCard = document.createElement("section");
+        homeCard.className = "card open";
+        homeCard.style.gridColumn = "span 12";
+
+        const homeHead = document.createElement("div");
+        homeHead.className = "card-head";
+        homeHead.innerHTML = "<h3>Welcome to AdvisaStacks</h3>";
+
+        const homeBody = document.createElement("div");
+        homeBody.className = "card-body";
+        homeBody.hidden = false;
+        homeBody.innerHTML = `
+          <div class="home-explainer">
+            <p>AdvisaStacks helps tradies and small business owners draft practical messages faster using guided prompt cards.</p>
+            <ul>
+              <li>Pick a workflow category and open a card.</li>
+              <li>Fill in quick inputs, details, uploads, and optional notes.</li>
+              <li>Preview the generated prompt, run with AI, then copy your final result.</li>
+            </ul>
+            <div class="home-cta-row">
+              <button type="button" class="home-cta-btn primary" id="homeStartBtn">Go to Winning Work</button>
+              <button type="button" class="home-cta-btn" id="homeFeedbackBtn">Open Feedback Form</button>
+            </div>
+          </div>
+        `;
+
+        homeBody.querySelector("#homeStartBtn")?.addEventListener("click", () => {
+          current = "Winning Work";
+          writePrefs({ lastCategory: "Winning Work", openCard: null });
+          render();
+        });
+        homeBody.querySelector("#homeFeedbackBtn")?.addEventListener("click", () => {
+          window.location.href = "./feedback.html";
+        });
+
+        homeCard.appendChild(homeHead);
+        homeCard.appendChild(homeBody);
+        grid.appendChild(homeCard);
+        promptRefreshers = [];
+        buildMenu();
+        return;
+      }
+
       // ── Custom Builder ──
       if (current === "Custom Builder") {
         buildCustomBuilderDOM(grid);
@@ -4508,7 +4605,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
       if (current === "Prompt Library") {
         buildPromptLibraryData().forEach((entry) => {
-          if (["Prompt Library", "Favourites", "Custom Builder"].includes(entry.category)) return;
+          if (["Home", "Prompt Library", "Favourites", "Custom Builder"].includes(entry.category)) return;
           const section = document.createElement("div");
           section.className = "card open";
           section.innerHTML = `<div class="card-head"><h3>${entry.category}</h3></div>`;
@@ -4542,7 +4639,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         const addedFavCardIds = new Set();
         cardsToRender = [];
         Object.keys(APP).forEach((category) => {
-          if (["Favourites", "Prompt Library", "Custom Builder"].includes(category)) return;
+          if (["Home", "Favourites", "Prompt Library", "Custom Builder"].includes(category)) return;
           (APP[category].cards || []).forEach((card) => {
             const cardId = getCardId(category, card.subtitle);
             if (favs.has(cardId)) {
@@ -5360,6 +5457,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
     });
     document.querySelectorAll(".menu-item").forEach((btn) => {
       if (btn.dataset.key) btn.addEventListener("click", () => navigate(btn.dataset.key));
+    });
+    document.getElementById("feedbackNavBtn")?.addEventListener("click", () => {
+      window.location.href = "./feedback.html";
     });
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
