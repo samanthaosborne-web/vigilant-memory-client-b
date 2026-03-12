@@ -28,6 +28,26 @@
       --bg: #313131;
       --text: #f9faff;
       --accent: #e75a00;
+      --charcoal: #313131;
+      --surface: #f9faff;
+      --surface-muted: #f1f5f9;
+      --text-dark: #1e293b;
+      --text-muted: #64748b;
+      --radius-sm: 8px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --space-1: 6px;
+      --space-2: 10px;
+      --space-3: 14px;
+      --space-4: 18px;
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 10px 24px rgba(12, 18, 44, 0.22);
+      --shadow-lg: 0 14px 30px rgba(12, 18, 44, 0.28);
+      --motion-fast: 160ms ease;
+      --motion-med: 220ms ease;
+      --font-sm: 12px;
+      --font-md: 14px;
+      --font-lg: 16px;
     }
 
     * {
@@ -262,6 +282,98 @@
     .home-cta-btn:hover {
       filter: brightness(0.96);
     }
+    .home-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+    }
+    .home-stat-card {
+      background: rgba(249,250,255,0.08);
+      border: 1.5px solid rgba(249,250,255,0.2);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+    }
+    .home-stat-label {
+      font-size: 11px;
+      color: rgba(249,250,255,0.72);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 3px;
+      font-weight: 700;
+    }
+    .home-stat-value {
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .app-toast-stack {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 30000;
+      display: grid;
+      gap: 8px;
+      max-width: min(420px, calc(100vw - 28px));
+    }
+    .app-toast {
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #f9faff;
+      box-shadow: var(--shadow-md);
+      border: 1.5px solid transparent;
+      backdrop-filter: blur(4px);
+      animation: toast-in 180ms ease;
+    }
+    .app-toast.ok { background: rgba(15,110,41,0.92); border-color: rgba(15,110,41,1); }
+    .app-toast.err { background: rgba(185,28,28,0.92); border-color: rgba(185,28,28,1); }
+    .app-toast.info { background: rgba(31,41,55,0.92); border-color: rgba(71,85,105,1); }
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .app-confirm {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 30010;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(15,23,42,0.44);
+      backdrop-filter: blur(2px);
+    }
+    .app-confirm.open { display: flex; }
+    .app-confirm-dialog {
+      width: min(520px, 100%);
+      background: #f9faff;
+      color: #1e293b;
+      border: 2px solid #dbe3ee;
+      border-radius: 14px;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.28);
+      padding: 16px;
+    }
+    .app-confirm-title {
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .app-confirm-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #334155;
+    }
+    .app-confirm-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 14px;
+    }
 
     /* Global Inputs */
     .global-inputs {
@@ -347,8 +459,12 @@
       background: #e75a00;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 10px 24px rgba(12, 18, 44, 0.22);
-      transition: box-shadow 0.2s ease;
+      box-shadow: var(--shadow-md);
+      transition: transform var(--motion-fast), box-shadow var(--motion-med), border-color var(--motion-fast);
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
     @media (min-width: 860px) {
@@ -359,7 +475,8 @@
 
     .card.open {
       background: #e75a00;
-      box-shadow: 0 14px 30px rgba(12, 18, 44, 0.28);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-1px);
     }
 
     .card-head {
@@ -371,7 +488,9 @@
       flex-direction: column;
       height: auto;
       flex: 0 0 auto;
+      transition: background var(--motion-fast);
     }
+    .card-head:hover { background: #ffffff; }
 
     .card-head h3 {
       margin: 0 0 12px;
@@ -421,14 +540,15 @@
     .favourite-btn {
       margin-top: 12px;
       margin-bottom: 8px;
-      background: #313131;
-      color: #f9faff;
-      border: 0;
-      border-radius: 8px;
+      background: var(--charcoal);
+      color: var(--surface);
+      border: 1.5px solid var(--charcoal);
+      border-radius: var(--radius-sm);
       font-weight: 700;
       padding: 8px 12px;
       font-size: 12px;
       cursor: pointer;
+      transition: transform var(--motion-fast), filter var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
     .cb-card-top-actions {
       display: flex;
@@ -452,6 +572,9 @@
       display: flex;
       justify-content: flex-end;
       margin-top: 12px;
+      position: sticky;
+      bottom: 8px;
+      z-index: 8;
     }
     .custom-delete-card-btn {
       background: #313131;
@@ -473,20 +596,22 @@
       margin-top: 14px;
       width: fit-content;
       max-width: 100%;
-      background: #e75a00;
-      color: #f9faff;
-      border: 2px solid #e75a00;
+      background: var(--accent);
+      color: var(--surface);
+      border: 2px solid var(--accent);
       padding: 10px 12px;
       font-family: inherit;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--motion-fast), filter var(--motion-fast), box-shadow var(--motion-fast);
     }
 
     .reveal-btn:hover {
       filter: brightness(0.95);
+      transform: translateY(-1px);
     }
 
     .reveal-btn:focus {
@@ -653,11 +778,18 @@
       gap: 10px;
       margin-top: 12px;
     }
+    .ai-chat-composer .copy-row {
+      position: sticky;
+      bottom: 0;
+      z-index: 6;
+      padding-top: 8px;
+      background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.26) 42%);
+    }
 
     .copy-btn {
-      background: #e75a00;
-      color: #f9faff;
-      border: 2px solid #e75a00;
+      background: var(--accent);
+      color: var(--surface);
+      border: 2px solid var(--accent);
       padding: 8px 14px;
       cursor: pointer;
       font-weight: 700;
@@ -666,8 +798,8 @@
       align-items: center;
       gap: 8px;
       transition: all 0.15s ease;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
     }
 
     .copy-btn:hover {
@@ -722,20 +854,21 @@
       align-items: center;
       gap: 6px;
       padding: 7px 12px;
-      background: rgba(249,250,255,0.12);
-      border: 1.5px solid rgba(249,250,255,0.3);
-      border-radius: 8px;
-      color: #f9faff;
+      background: rgba(249,250,255,0.1);
+      border: 1.5px solid rgba(249,250,255,0.22);
+      border-radius: var(--radius-sm);
+      color: var(--surface);
       font-family: inherit;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
+      transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
       white-space: nowrap;
     }
     .ai-upload-btn:hover {
       background: rgba(249,250,255,0.2);
-      border-color: rgba(249,250,255,0.55);
+      border-color: rgba(249,250,255,0.45);
+      transform: translateY(-1px);
     }
     .ai-upload-btn svg { flex-shrink: 0; }
     .ai-file-list {
@@ -824,14 +957,14 @@
       padding: 10px 18px;
       background: linear-gradient(135deg, #e75a00 0%, #ff7a1a 100%);
       border: none;
-      border-radius: 10px;
-      color: #f9faff;
+      border-radius: var(--radius-md);
+      color: var(--surface);
       font-family: inherit;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 4px 14px rgba(231,90,0,0.45);
-      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+      transition: transform var(--motion-fast), box-shadow var(--motion-fast), filter var(--motion-fast);
       position: relative;
       overflow: hidden;
     }
@@ -916,17 +1049,21 @@
     }
     .ai-copy-result-btn {
       background: rgba(249,250,255,0.1);
-      border: 1.5px solid rgba(249,250,255,0.25);
-      border-radius: 7px;
-      color: #f9faff;
+      border: 1.5px solid rgba(249,250,255,0.22);
+      border-radius: var(--radius-sm);
+      color: var(--surface);
       font-family: inherit;
       font-size: 12px;
       font-weight: 600;
       padding: 5px 10px;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
-    .ai-copy-result-btn:hover { background: rgba(249,250,255,0.2); }
+    .ai-copy-result-btn:hover {
+      background: rgba(249,250,255,0.2);
+      border-color: rgba(249,250,255,0.45);
+      transform: translateY(-1px);
+    }
     .ai-response-text {
       background: rgba(0,0,0,0.25);
       border: 1.5px solid rgba(249,250,255,0.12);
@@ -1138,39 +1275,50 @@
       margin-top: 20px;
       padding-top: 16px;
       border-top: 1px solid #e2e8f0;
+      position: sticky;
+      bottom: 6px;
+      z-index: 8;
+      background: rgba(249,250,255,0.95);
+      border-radius: 10px;
+      padding: 12px 10px 10px;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.12);
     }
     .cb-save-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 10px 16px;
-      background: #1e293b;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
+      background: var(--charcoal);
+      color: var(--surface);
+      border: 1.5px solid var(--charcoal);
+      border-radius: var(--radius-sm);
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       font-family: inherit;
-      transition: background 0.15s;
+      transition: transform var(--motion-fast), filter var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
-    .cb-save-btn:hover { background: #0f172a; }
+    .cb-save-btn:hover { filter: brightness(0.95); transform: translateY(-1px); }
     .cb-submit-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 10px 16px;
-      background: #f1f5f9;
+      background: transparent;
       color: #334155;
       border: 1.5px solid #cbd5e1;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       font-size: 13px;
       font-weight: 700;
       cursor: pointer;
       font-family: inherit;
-      transition: all 0.15s;
+      transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
     }
-    .cb-submit-btn:hover { background: #e2e8f0; }
+    .cb-submit-btn:hover {
+      background: #e2e8f0;
+      border-color: #94a3b8;
+      transform: translateY(-1px);
+    }
     .cb-toast {
       display: none;
       padding: 10px 14px;
@@ -1223,25 +1371,33 @@
       font-size: 12px;
       font-weight: 600;
       padding: 4px 10px;
-      border-radius: 6px;
+      border-radius: 7px;
       border: 1.5px solid #e75a00;
       color: #e75a00;
       background: none;
       cursor: pointer;
       font-family: inherit;
+      transition: transform var(--motion-fast), background var(--motion-fast), color var(--motion-fast);
     }
+    .cb-load-btn:hover { background: rgba(231,90,0,0.1); transform: translateY(-1px); }
     .cb-delete-btn {
       font-size: 12px;
       font-weight: 600;
       padding: 4px 10px;
-      border-radius: 6px;
+      border-radius: 7px;
       border: 1.5px solid #cbd5e1;
       color: #94a3b8;
       background: none;
       cursor: pointer;
       font-family: inherit;
+      transition: transform var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
     }
-    .cb-delete-btn:hover { border-color: #ef4444; color: #ef4444; }
+    .cb-delete-btn:hover {
+      border-color: #ef4444;
+      color: #ef4444;
+      background: rgba(239,68,68,0.08);
+      transform: translateY(-1px);
+    }
 
     .help-block {
       margin-top: 8px;
@@ -2753,9 +2909,11 @@
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
     const PREFS_KEY = "businessToolkitPrefsV1";
     const FAVOURITES_KEY = "businessToolkitFavouritesV1";
+    const USAGE_STATS_KEY = "businessToolkitUsageStatsV1";
     const MENU_FOCUSABLE_SELECTOR = "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])";
     let promptRefreshers = [];
     let lastMenuFocused = null;
+    let appConfirmResolve = null;
 
     const globalFirstNameInput = document.getElementById("globalFirstName");
     const globalBizNameInput = document.getElementById("globalBizName");
@@ -2783,6 +2941,110 @@
         localStorage.removeItem(PREFS_KEY);
       } catch (e) {
       }
+    }
+
+    function readUsageStats() {
+      try {
+        const raw = localStorage.getItem(USAGE_STATS_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return {
+          aiRuns: Number(parsed.aiRuns || 0),
+          cardsBuilt: Number(parsed.cardsBuilt || 0)
+        };
+      } catch (e) {
+        return { aiRuns: 0, cardsBuilt: 0 };
+      }
+    }
+
+    function writeUsageStats(next) {
+      try {
+        localStorage.setItem(USAGE_STATS_KEY, JSON.stringify(next));
+      } catch (e) {
+      }
+    }
+
+    function bumpUsageStat(key, amount) {
+      const stats = readUsageStats();
+      stats[key] = Number(stats[key] || 0) + (amount || 1);
+      writeUsageStats(stats);
+    }
+
+    function ensureUiOverlays() {
+      let toastStack = document.getElementById("appToastStack");
+      if (!toastStack) {
+        toastStack = document.createElement("div");
+        toastStack.id = "appToastStack";
+        toastStack.className = "app-toast-stack";
+        document.body.appendChild(toastStack);
+      }
+
+      let confirmModal = document.getElementById("appConfirm");
+      if (!confirmModal) {
+        confirmModal = document.createElement("div");
+        confirmModal.id = "appConfirm";
+        confirmModal.className = "app-confirm";
+        confirmModal.innerHTML = `
+          <div class="app-confirm-dialog" role="dialog" aria-modal="true" aria-labelledby="appConfirmTitle">
+            <h3 class="app-confirm-title" id="appConfirmTitle">Confirm action</h3>
+            <p class="app-confirm-text" id="appConfirmText"></p>
+            <div class="app-confirm-actions">
+              <button type="button" class="cb-submit-btn" id="appConfirmCancelBtn">Cancel</button>
+              <button type="button" class="cb-save-btn" id="appConfirmOkBtn">Confirm</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(confirmModal);
+
+        confirmModal.addEventListener("click", (e) => {
+          if (e.target === confirmModal && appConfirmResolve) {
+            appConfirmResolve(false);
+            appConfirmResolve = null;
+            confirmModal.classList.remove("open");
+          }
+        });
+        confirmModal.querySelector("#appConfirmCancelBtn").addEventListener("click", () => {
+          if (appConfirmResolve) appConfirmResolve(false);
+          appConfirmResolve = null;
+          confirmModal.classList.remove("open");
+        });
+        confirmModal.querySelector("#appConfirmOkBtn").addEventListener("click", () => {
+          if (appConfirmResolve) appConfirmResolve(true);
+          appConfirmResolve = null;
+          confirmModal.classList.remove("open");
+        });
+      }
+      return { toastStack, confirmModal };
+    }
+
+    function showAppToast(message, type) {
+      const { toastStack } = ensureUiOverlays();
+      const toast = document.createElement("div");
+      toast.className = "app-toast " + (type || "info");
+      toast.textContent = message;
+      toastStack.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(6px)";
+      }, 2200);
+      setTimeout(() => {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 2500);
+    }
+
+    function confirmAction(options) {
+      const { confirmModal } = ensureUiOverlays();
+      const titleEl = confirmModal.querySelector("#appConfirmTitle");
+      const textEl = confirmModal.querySelector("#appConfirmText");
+      const okBtn = confirmModal.querySelector("#appConfirmOkBtn");
+      const cancelBtn = confirmModal.querySelector("#appConfirmCancelBtn");
+      titleEl.textContent = options?.title || "Confirm action";
+      textEl.textContent = options?.message || "Are you sure?";
+      okBtn.textContent = options?.confirmText || "Confirm";
+      cancelBtn.textContent = options?.cancelText || "Cancel";
+      confirmModal.classList.add("open");
+      return new Promise((resolve) => {
+        appConfirmResolve = resolve;
+      });
     }
 
     function getGlobalPromptPrefix() {
@@ -4167,6 +4429,7 @@
           cbAiErrorMsg.classList.add("visible");
           return;
         }
+        bumpUsageStat("aiRuns", 1);
 
         cbAiRunBtn.disabled = true;
         cbAiRunBtn.classList.add("loading");
@@ -4279,6 +4542,7 @@
         const favs = readFavourites().filter((favId) => favId !== getCardId("Custom Builder", builtCard.subtitle));
         if (!favs.includes(builtCard.__cardId)) favs.push(builtCard.__cardId);
         writeFavourites(favs);
+        bumpUsageStat("cardsBuilt", 1);
         customBuilderTempCard = null;
         writePrefs({ openCard: builtCard.subtitle });
         render();
@@ -4306,9 +4570,12 @@
 
       // ── Show toast ──
       function showToast(msg) {
-        toastEl.textContent = msg;
+        const msgText = String(msg || "");
+        const type = msgText.includes("⚠️") ? "err" : (msgText.includes("✅") || msgText.includes("📤") ? "ok" : "info");
+        showAppToast(msgText.replace(/^⚠️\s*/, ""), type);
+        toastEl.textContent = msgText;
         toastEl.classList.add("visible");
-        setTimeout(() => toastEl.classList.remove("visible"), 2800);
+        setTimeout(() => toastEl.classList.remove("visible"), 1800);
       }
 
       // ── Save template ──
@@ -4538,6 +4805,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
       let cardsToRender = APP[current] ? APP[current].cards : [];
 
       if (current === "Home") {
+        const usage = readUsageStats();
+        const minutesSaved = Math.round((usage.aiRuns * 3.2) + (usage.cardsBuilt * 1.6));
+        const hours = Math.floor(minutesSaved / 60);
+        const mins = minutesSaved % 60;
+        const timeSavedLabel = hours > 0 ? (hours + "h " + mins + "m") : (mins + "m");
         const homeCard = document.createElement("section");
         homeCard.className = "card open";
         homeCard.style.gridColumn = "span 12";
@@ -4552,6 +4824,20 @@ $("cb-submit-btn").addEventListener("click", async () => {
         homeBody.innerHTML = `
           <div class="home-explainer">
             <p>AdvisaStacks helps tradies and small business owners draft practical messages faster using guided prompt cards.</p>
+            <div class="home-stats-grid">
+              <div class="home-stat-card">
+                <div class="home-stat-label">AI runs</div>
+                <div class="home-stat-value">${usage.aiRuns}</div>
+              </div>
+              <div class="home-stat-card">
+                <div class="home-stat-label">Cards built</div>
+                <div class="home-stat-value">${usage.cardsBuilt}</div>
+              </div>
+              <div class="home-stat-card">
+                <div class="home-stat-label">Predicted time saved</div>
+                <div class="home-stat-value">${timeSavedLabel}</div>
+              </div>
+            </div>
             <ul>
               <li>Pick a workflow category and open a card.</li>
               <li>Fill in quick inputs, details, uploads, and optional notes.</li>
@@ -4796,14 +5082,19 @@ $("cb-submit-btn").addEventListener("click", async () => {
               el.classList.remove("open");
               const openHead = el.querySelector(".card-head");
               const openBody = el.querySelector(".card-body");
+              const openToggle = el.querySelector(".prompt-toggle");
               if (openHead) openHead.setAttribute("aria-expanded", "false");
               if (openBody) openBody.hidden = true;
+              if (openToggle) openToggle.textContent = "Reveal prompt";
             });
 
             if (!isOpen) {
               wrap.classList.add("open");
               head.setAttribute("aria-expanded", "true");
               body.hidden = false;
+              revealBtn.textContent = "Hide prompt";
+            } else {
+              revealBtn.textContent = "Reveal prompt";
             }
           };
 
@@ -5225,6 +5516,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
               errorMsg.classList.add("visible");
               return;
             }
+            bumpUsageStat("aiRuns", 1);
             runBtn.disabled = true;
             runBtn.classList.add("loading");
             responseArea.classList.add("visible");
@@ -5322,13 +5614,17 @@ $("cb-submit-btn").addEventListener("click", async () => {
           deleteCardBtn.type = "button";
           deleteCardBtn.className = "custom-delete-card-btn";
           deleteCardBtn.textContent = "Delete card";
-          deleteCardBtn.addEventListener("click", (e) => {
+          deleteCardBtn.addEventListener("click", async (e) => {
             e.stopPropagation();
-            const confirmed = window.confirm(
-              "Are you sure you want to permanently delete this card and its prompt? This action cannot be undone."
-            );
+            const confirmed = await confirmAction({
+              title: "Delete card permanently?",
+              message: "Are you sure? This will permanently delete this card and its prompt. This action cannot be undone.",
+              confirmText: "Yes, delete",
+              cancelText: "Cancel"
+            });
             if (!confirmed) return;
             deleteCustomBuiltCard(card.__cardId, card.subtitle);
+            showAppToast("Card permanently deleted.", "ok");
             render();
           });
           footerActions.appendChild(deleteCardBtn);
@@ -5343,13 +5639,16 @@ $("cb-submit-btn").addEventListener("click", async () => {
             el.classList.remove("open");
             const openHead = el.querySelector(".card-head");
             const openBody = el.querySelector(".card-body");
+            const openToggle = el.querySelector(".prompt-toggle");
             if (openHead) openHead.setAttribute("aria-expanded", "false");
             if (openBody) openBody.hidden = true;
+            if (openToggle) openToggle.textContent = "Reveal prompt";
           });
           if (!isOpen) {
             wrap.classList.add("open");
             head.setAttribute("aria-expanded", "true");
             body.hidden = false;
+            revealBtn.textContent = "Hide prompt";
             setTimeout(() => {
               const rect = wrap.getBoundingClientRect();
               const y = window.scrollY + rect.top - 16;
@@ -5363,6 +5662,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
                  updatePromptsText();
               }
             }, 30);
+          } else {
+            revealBtn.textContent = "Reveal prompt";
           }
         };
         head.addEventListener("click", (e) => {
@@ -5437,6 +5738,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
     });
     menuBackdrop.addEventListener("click", closeMenu);
     document.addEventListener("keydown", (e) => {
+      const confirmModal = document.getElementById("appConfirm");
+      if (e.key === "Escape" && confirmModal && confirmModal.classList.contains("open")) {
+        if (appConfirmResolve) appConfirmResolve(false);
+        appConfirmResolve = null;
+        confirmModal.classList.remove("open");
+        return;
+      }
       if (e.key === "Escape" && menuPanel.classList.contains("open")) {
         closeMenu();
         return;
