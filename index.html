@@ -754,6 +754,297 @@
     }
     .ai-error-msg.visible { display: block; }
 
+    /* ── Custom Builder Styles ── */
+    .cb-wrapper {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      color: #1e293b;
+      font-family: inherit;
+    }
+    .cb-wrapper * { box-sizing: border-box; }
+    .cb-header {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 6px;
+    }
+    .cb-subtext {
+      font-size: 13px;
+      color: #64748b;
+      margin: 0 0 20px;
+      line-height: 1.5;
+    }
+    .cb-section {
+      margin-bottom: 20px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 18px;
+    }
+    .cb-section:first-of-type { border-top: none; padding-top: 0; }
+    .cb-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 14px;
+    }
+    .cb-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .cb-field label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+    }
+    .cb-field .cb-hint {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: -2px;
+    }
+    .cb-input {
+      padding: 10px 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #0f172a;
+      background: #fff;
+      width: 100%;
+      font-family: inherit;
+      transition: border-color 0.15s;
+      resize: vertical;
+    }
+    .cb-input:focus {
+      outline: none;
+      border-color: #e75a00;
+      box-shadow: 0 0 0 3px rgba(231,90,0,0.1);
+    }
+    textarea.cb-input { min-height: 70px; }
+    .cb-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cb-chip {
+      padding: 7px 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .cb-chip:hover { border-color: #e75a00; color: #e75a00; }
+    .cb-chip.selected {
+      background: #e75a00;
+      border-color: #e75a00;
+      color: #fff;
+    }
+    /* Output area */
+    .cb-output-section {
+      margin-top: 24px;
+      border-top: 2px solid #e75a00;
+      padding-top: 20px;
+    }
+    .cb-output-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #e75a00;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+    .cb-output-block {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .cb-output-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cb-output-label .cb-badge {
+      background: #e75a00;
+      color: #fff;
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .cb-output-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #1e293b;
+      white-space: pre-wrap;
+      font-family: inherit;
+      min-height: 40px;
+    }
+    .cb-output-text.empty {
+      color: #94a3b8;
+      font-style: italic;
+    }
+    .cb-copy-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .cb-suggested-inputs {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+    .cb-suggested-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+    .cb-suggested-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .cb-suggested-pill {
+      background: #fff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #334155;
+    }
+    /* Action buttons */
+    .cb-action-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+    }
+    .cb-save-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: #1e293b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    .cb-save-btn:hover { background: #0f172a; }
+    .cb-submit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: #f1f5f9;
+      color: #334155;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .cb-submit-btn:hover { background: #e2e8f0; }
+    .cb-toast {
+      display: none;
+      padding: 10px 14px;
+      background: #1e293b;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    .cb-toast.visible { display: block; }
+    /* Saved templates section */
+    .cb-saved-section {
+      margin-top: 24px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 18px;
+    }
+    .cb-saved-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 12px;
+    }
+    .cb-saved-item {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .cb-saved-item:hover { border-color: #e75a00; }
+    .cb-saved-item-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .cb-saved-item-meta {
+      font-size: 12px;
+      color: #64748b;
+    }
+    .cb-saved-item-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .cb-load-btn {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1.5px solid #e75a00;
+      color: #e75a00;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .cb-delete-btn {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1.5px solid #cbd5e1;
+      color: #94a3b8;
+      background: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .cb-delete-btn:hover { border-color: #ef4444; color: #ef4444; }
+
     .help-block {
       margin-top: 8px;
     }
@@ -949,6 +1240,7 @@
     <button class="menu-item" data-key="Templates">Templates</button>
     <button class="menu-item" data-key="Favourites">Favourites</button>
     <button class="menu-item" data-key="Prompt Library">Prompt Library</button>
+    <button class="menu-item" data-key="Custom Builder">Custom Builder</button>
     <div style="flex:1;"></div>
     <button class="menu-item" id="logoutBtn" style="background:#313131; border-color:#313131; color:#f9faff;">Log out</button>
   </nav>
@@ -3056,6 +3348,499 @@
 
     // --- END OF NEW FUNCTIONS ---
 
+    // ── CUSTOM BUILDER: Storage keys ──
+    const CB_TEMPLATES_KEY = "advisaStacksCustomTemplates";
+    const CB_SUBMISSIONS_KEY = "advisaStacksCustomSubmissions";
+
+    // Read/write saved templates
+    function readCustomTemplates() {
+      try { return JSON.parse(localStorage.getItem(CB_TEMPLATES_KEY) || "[]"); }
+      catch(e) { return []; }
+    }
+    function writeCustomTemplates(arr) {
+      localStorage.setItem(CB_TEMPLATES_KEY, JSON.stringify(arr));
+    }
+
+    // Read/write submitted ideas
+    function readCustomSubmissions() {
+      try { return JSON.parse(localStorage.getItem(CB_SUBMISSIONS_KEY) || "[]"); }
+      catch(e) { return []; }
+    }
+    function writeCustomSubmissions(arr) {
+      localStorage.setItem(CB_SUBMISSIONS_KEY, JSON.stringify(arr));
+    }
+
+    // ── Generate suggested placeholder fields from "what changes each time" text ──
+    function generateSuggestedFields(changesText) {
+      if (!changesText || changesText.trim().length < 3) return [];
+      // Split on commas, line breaks, semicolons
+      const raw = changesText.split(/[,;\n]+/).map(s => s.trim()).filter(Boolean);
+      return raw.slice(0, 8).map(f => {
+        // Capitalise first letter, wrap in brackets
+        const clean = f.charAt(0).toUpperCase() + f.slice(1).toLowerCase();
+        return "[" + clean + "]";
+      });
+    }
+
+    // ── Generate the one-off prompt ──
+    function generateOneOffPrompt(fields, globalFirst, globalBiz) {
+      const { problem, audience, outcome, changes, format, tone, rules, exampleInput, exampleOutput } = fields;
+      if (!problem) return "";
+
+      let parts = [];
+
+      if (globalFirst || globalBiz) {
+        let ctx = "Context:\nI am an Australian trade business.";
+        if (globalFirst) ctx += "\nMy Name: " + globalFirst;
+        if (globalBiz) ctx += "\nMy Business: " + globalBiz;
+        parts.push(ctx);
+      }
+
+      parts.push("Task:\n" + problem.trim());
+      if (audience) parts.push("Who this is for: " + audience.trim());
+      if (outcome) parts.push("Desired outcome: " + outcome.trim());
+      if (format) parts.push("Output format: " + format.trim());
+      if (tone) parts.push("Tone / style: " + tone.trim());
+      if (rules) parts.push("Rules / constraints:\n" + rules.trim());
+      if (exampleInput) parts.push("Example input:\n" + exampleInput.trim());
+      if (exampleOutput) parts.push("Example of a good result:\n" + exampleOutput.trim());
+
+      return parts.join("\n\n");
+    }
+
+    // ── Generate the reusable template prompt ──
+    function generateTemplatePrompt(fields, suggestedFields) {
+      const { problem, audience, outcome, format, tone, rules } = fields;
+      if (!problem) return "";
+
+      // Replace specific nouns in problem with placeholders if we have suggested fields
+      let taskLine = problem.trim();
+
+      let parts = [];
+      parts.push("Task:\n" + taskLine);
+      if (audience) parts.push("Who this is for: " + audience.trim());
+      if (outcome) parts.push("Desired outcome: " + outcome.trim());
+
+      // Add the changing fields as placeholders
+      if (suggestedFields.length > 0) {
+        parts.push("Details to fill in:\n" + suggestedFields.map(f => f + ": ___").join("\n"));
+      }
+
+      if (format) parts.push("Output format: " + format.trim());
+      if (tone) parts.push("Tone / style: " + tone.trim());
+      if (rules) parts.push("Rules / constraints:\n" + rules.trim());
+
+      return parts.join("\n\n");
+    }
+
+    // ── Main Custom Builder DOM builder ──
+    function buildCustomBuilderDOM(container) {
+      // State
+      let selectedTone = "";
+      let selectedFormat = "";
+
+      const globalFirst = document.getElementById("globalFirstName")?.value?.trim() || "";
+      const globalBiz = document.getElementById("globalBizName")?.value?.trim() || "";
+
+      const wrap = document.createElement("div");
+      wrap.style.gridColumn = "span 12";
+
+      const card = document.createElement("div");
+      card.className = "card open";
+      card.style.gridColumn = "span 12";
+
+      const head = document.createElement("div");
+      head.className = "card-head";
+      head.innerHTML = `<h3>Custom Prompt Builder</h3>`;
+      card.appendChild(head);
+
+      const body = document.createElement("div");
+      body.className = "card-body";
+      body.hidden = false;
+
+      body.innerHTML = `
+        <div class="cb-wrapper">
+
+          <!-- SECTION 1: The Task -->
+          <div class="cb-section" style="border-top:none; padding-top:0;">
+            <div class="cb-section-title">The Task</div>
+            <div class="cb-field">
+              <label for="cb-problem">Problem to solve <span style="color:#e75a00">*</span></label>
+              <span class="cb-hint">What do you need AI to help you with?</span>
+              <textarea class="cb-input" id="cb-problem" placeholder="e.g. Write a follow-up message to a client who hasn't responded to my quote" rows="2"></textarea>
+            </div>
+            <div class="cb-field">
+              <label for="cb-audience">Who this is for</label>
+              <input type="text" class="cb-input" id="cb-audience" placeholder="e.g. A residential client, a new subcontractor, my admin team">
+            </div>
+            <div class="cb-field">
+              <label for="cb-outcome">Desired outcome</label>
+              <input type="text" class="cb-input" id="cb-outcome" placeholder="e.g. Get them to respond and confirm the job">
+            </div>
+          </div>
+
+          <!-- SECTION 2: What changes -->
+          <div class="cb-section">
+            <div class="cb-section-title">What changes each time</div>
+            <div class="cb-field">
+              <label for="cb-changes">What details will be different each time you use this?</label>
+              <span class="cb-hint">Separate with commas — e.g. client name, job type, quote amount, date</span>
+              <textarea class="cb-input" id="cb-changes" placeholder="e.g. client name, job type, quote amount, date sent" rows="2"></textarea>
+            </div>
+          </div>
+
+          <!-- SECTION 3: Format & Tone -->
+          <div class="cb-section">
+            <div class="cb-section-title">Format &amp; Tone</div>
+            <div class="cb-field">
+              <label>Preferred output format</label>
+              <div class="cb-chips" id="cb-format-chips">
+                <span class="cb-chip" data-val="Short SMS">Short SMS</span>
+                <span class="cb-chip" data-val="Email">Email</span>
+                <span class="cb-chip" data-val="Dot points">Dot points</span>
+                <span class="cb-chip" data-val="Short paragraph">Short paragraph</span>
+                <span class="cb-chip" data-val="Structured document">Structured document</span>
+                <span class="cb-chip" data-val="Step-by-step list">Step-by-step list</span>
+              </div>
+              <input type="text" class="cb-input" id="cb-format-custom" placeholder="Or type a custom format..." style="margin-top:8px;">
+            </div>
+            <div class="cb-field">
+              <label>Tone or style</label>
+              <div class="cb-chips" id="cb-tone-chips">
+                <span class="cb-chip" data-val="Friendly">Friendly</span>
+                <span class="cb-chip" data-val="Direct">Direct</span>
+                <span class="cb-chip" data-val="Professional">Professional</span>
+                <span class="cb-chip" data-val="Firm">Firm</span>
+                <span class="cb-chip" data-val="Casual">Casual</span>
+                <span class="cb-chip" data-val="Persuasive">Persuasive</span>
+              </div>
+              <input type="text" class="cb-input" id="cb-tone-custom" placeholder="Or type a custom tone..." style="margin-top:8px;">
+            </div>
+          </div>
+
+          <!-- SECTION 4: Rules & Examples (optional) -->
+          <div class="cb-section">
+            <div class="cb-section-title">Rules &amp; Examples <span style="font-weight:400; color:#94a3b8;">(optional)</span></div>
+            <div class="cb-field">
+              <label for="cb-rules">Rules or constraints</label>
+              <span class="cb-hint">e.g. No AI language, keep under 100 words, always end with a question</span>
+              <textarea class="cb-input" id="cb-rules" placeholder="e.g. Plain English only. No corporate jargon. Keep it under 80 words." rows="2"></textarea>
+            </div>
+            <div class="cb-field">
+              <label for="cb-example-input">Example input</label>
+              <textarea class="cb-input" id="cb-example-input" placeholder="Optional: paste an example of what you'd type in..." rows="2"></textarea>
+            </div>
+            <div class="cb-field">
+              <label for="cb-example-output">Example of a good result</label>
+              <textarea class="cb-input" id="cb-example-output" placeholder="Optional: paste an example of the ideal output..." rows="2"></textarea>
+            </div>
+          </div>
+
+          <!-- OUTPUT SECTION -->
+          <div class="cb-output-section">
+            <div class="cb-output-title">✦ Generated Outputs</div>
+
+            <!-- Suggested inputs -->
+            <div class="cb-suggested-inputs" id="cb-suggested-wrap" style="display:none;">
+              <div class="cb-suggested-title">Suggested input fields for your template</div>
+              <div class="cb-suggested-list" id="cb-suggested-list"></div>
+            </div>
+
+            <!-- One-off prompt -->
+            <div class="cb-output-block">
+              <div class="cb-output-label">
+                One-off prompt
+                <span class="cb-badge">Paste into ChatGPT or Claude</span>
+              </div>
+              <div class="cb-output-text empty" id="cb-oneoff-text">Fill in the fields above to generate your prompt...</div>
+              <div class="cb-copy-row">
+                <button type="button" class="copy-btn" id="cb-copy-oneoff">Copy prompt</button>
+              </div>
+            </div>
+
+            <!-- Reusable template -->
+            <div class="cb-output-block">
+              <div class="cb-output-label">
+                Reusable template
+                <span class="cb-badge" style="background:#1e293b;">Save &amp; reuse</span>
+              </div>
+              <div class="cb-output-text empty" id="cb-template-text">Fill in the fields above to generate your template...</div>
+              <div class="cb-copy-row">
+                <button type="button" class="copy-btn" id="cb-copy-template">Copy template</button>
+              </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="cb-action-row">
+              <button type="button" class="cb-save-btn" id="cb-save-btn">💾 Save template</button>
+              <button type="button" class="cb-submit-btn" id="cb-submit-btn">📤 Submit this idea</button>
+            </div>
+            <div class="cb-toast" id="cb-toast"></div>
+          </div>
+
+          <!-- SAVED TEMPLATES -->
+          <div class="cb-saved-section" id="cb-saved-section">
+            <div class="cb-saved-title">💼 Your saved templates</div>
+            <div id="cb-saved-list"></div>
+          </div>
+
+        </div>
+      `;
+
+      card.appendChild(body);
+      container.appendChild(card);
+
+      // ── Wire up interactions ──
+      const $ = id => body.querySelector("#" + id);
+
+      const problemEl     = $("cb-problem");
+      const audienceEl    = $("cb-audience");
+      const outcomeEl     = $("cb-outcome");
+      const changesEl     = $("cb-changes");
+      const formatCustom  = $("cb-format-custom");
+      const toneCustom    = $("cb-tone-custom");
+      const rulesEl       = $("cb-rules");
+      const exInputEl     = $("cb-example-input");
+      const exOutputEl    = $("cb-example-output");
+
+      const oneoffEl      = $("cb-oneoff-text");
+      const templateEl    = $("cb-template-text");
+      const suggestedWrap = $("cb-suggested-wrap");
+      const suggestedList = $("cb-suggested-list");
+      const toastEl       = $("cb-toast");
+      const savedListEl   = $("cb-saved-list");
+
+      // Chip selection for format
+      body.querySelectorAll("#cb-format-chips .cb-chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          body.querySelectorAll("#cb-format-chips .cb-chip").forEach(c => c.classList.remove("selected"));
+          chip.classList.add("selected");
+          selectedFormat = chip.dataset.val;
+          formatCustom.value = "";
+          updateOutputs();
+        });
+      });
+      formatCustom.addEventListener("input", () => {
+        body.querySelectorAll("#cb-format-chips .cb-chip").forEach(c => c.classList.remove("selected"));
+        selectedFormat = formatCustom.value;
+        updateOutputs();
+      });
+
+      // Chip selection for tone
+      body.querySelectorAll("#cb-tone-chips .cb-chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          body.querySelectorAll("#cb-tone-chips .cb-chip").forEach(c => c.classList.remove("selected"));
+          chip.classList.add("selected");
+          selectedTone = chip.dataset.val;
+          toneCustom.value = "";
+          updateOutputs();
+        });
+      });
+      toneCustom.addEventListener("input", () => {
+        body.querySelectorAll("#cb-tone-chips .cb-chip").forEach(c => c.classList.remove("selected"));
+        selectedTone = toneCustom.value;
+        updateOutputs();
+      });
+
+      // All text inputs trigger live update
+      [problemEl, audienceEl, outcomeEl, changesEl, rulesEl, exInputEl, exOutputEl].forEach(el => {
+        el.addEventListener("input", updateOutputs);
+      });
+
+      // ── Live update outputs ──
+      function getFields() {
+        return {
+          problem:       problemEl.value,
+          audience:      audienceEl.value,
+          outcome:       outcomeEl.value,
+          changes:       changesEl.value,
+          format:        selectedFormat || formatCustom.value,
+          tone:          selectedTone || toneCustom.value,
+          rules:         rulesEl.value,
+          exampleInput:  exInputEl.value,
+          exampleOutput: exOutputEl.value,
+        };
+      }
+
+      function updateOutputs() {
+        const fields = getFields();
+        const gFirst = document.getElementById("globalFirstName")?.value?.trim() || "";
+        const gBiz   = document.getElementById("globalBizName")?.value?.trim() || "";
+        const suggested = generateSuggestedFields(fields.changes);
+
+        // Suggested fields
+        if (suggested.length > 0) {
+          suggestedWrap.style.display = "block";
+          suggestedList.innerHTML = suggested.map(f =>
+            `<span class="cb-suggested-pill">${f}</span>`
+          ).join("");
+        } else {
+          suggestedWrap.style.display = "none";
+        }
+
+        // One-off
+        const oneoff = generateOneOffPrompt(fields, gFirst, gBiz);
+        if (oneoff) {
+          oneoffEl.textContent = oneoff;
+          oneoffEl.classList.remove("empty");
+        } else {
+          oneoffEl.textContent = "Fill in the fields above to generate your prompt...";
+          oneoffEl.classList.add("empty");
+        }
+
+        // Template
+        const template = generateTemplatePrompt(fields, suggested);
+        if (template) {
+          templateEl.textContent = template;
+          templateEl.classList.remove("empty");
+        } else {
+          templateEl.textContent = "Fill in the fields above to generate your template...";
+          templateEl.classList.add("empty");
+        }
+      }
+
+      // ── Copy buttons (same behaviour as rest of app) ──
+      function doCopy(text, btn) {
+        if (!text || text.includes("Fill in the fields")) return;
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(() => {
+            const old = btn.innerHTML;
+            btn.innerHTML = "Copied ✓";
+            btn.style.background = "#e75a00";
+            setTimeout(() => { btn.innerHTML = old; btn.style.background = ""; }, 1200);
+          }).catch(() => fallbackCopy(text, btn));
+        } else { fallbackCopy(text, btn); }
+      }
+
+      $("cb-copy-oneoff").addEventListener("click", (e) => {
+        e.stopPropagation();
+        doCopy(oneoffEl.textContent, $("cb-copy-oneoff"));
+      });
+      $("cb-copy-template").addEventListener("click", (e) => {
+        e.stopPropagation();
+        doCopy(templateEl.textContent, $("cb-copy-template"));
+      });
+
+      // ── Show toast ──
+      function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add("visible");
+        setTimeout(() => toastEl.classList.remove("visible"), 2800);
+      }
+
+      // ── Save template ──
+      $("cb-save-btn").addEventListener("click", () => {
+        const fields = getFields();
+        if (!fields.problem) { showToast("⚠️ Add a problem description first."); return; }
+        const templates = readCustomTemplates();
+        const entry = {
+          id: Date.now(),
+          savedAt: new Date().toISOString(),
+          name: fields.problem.slice(0, 60) + (fields.problem.length > 60 ? "..." : ""),
+          fields,
+          oneoffPrompt: oneoffEl.textContent,
+          templatePrompt: templateEl.textContent,
+          suggestedFields: generateSuggestedFields(fields.changes),
+        };
+        templates.unshift(entry);
+        writeCustomTemplates(templates);
+        renderSavedTemplates();
+        showToast("✅ Template saved!");
+      });
+
+      // ── Submit idea ──
+      $("cb-submit-btn").addEventListener("click", () => {
+        const fields = getFields();
+        if (!fields.problem) { showToast("⚠️ Add a problem description first."); return; }
+        const submissions = readCustomSubmissions();
+        const entry = {
+          id: Date.now(),
+          submittedAt: new Date().toISOString(),
+          fields,
+          oneoffPrompt: oneoffEl.textContent,
+          templatePrompt: templateEl.textContent,
+          suggestedFields: generateSuggestedFields(fields.changes),
+        };
+        submissions.unshift(entry);
+        writeCustomSubmissions(submissions);
+        showToast("📤 Idea submitted and stored locally!");
+      });
+
+      // ── Render saved templates list ──
+      function renderSavedTemplates() {
+        const templates = readCustomTemplates();
+        if (templates.length === 0) {
+          savedListEl.innerHTML = `<div style="font-size:13px; color:#94a3b8;">No saved templates yet. Fill in the builder above and click Save template.</div>`;
+          return;
+        }
+        savedListEl.innerHTML = "";
+        templates.forEach((t) => {
+          const item = document.createElement("div");
+          item.className = "cb-saved-item";
+          const date = new Date(t.savedAt).toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" });
+          item.innerHTML = `
+            <div class="cb-saved-item-name">${t.name}</div>
+            <div class="cb-saved-item-meta">Saved ${date} · ${t.suggestedFields.length} field${t.suggestedFields.length !== 1 ? "s" : ""}</div>
+            <div class="cb-saved-item-actions">
+              <button class="cb-load-btn" data-id="${t.id}">Load</button>
+              <button class="cb-delete-btn" data-id="${t.id}">Delete</button>
+            </div>
+          `;
+          savedListEl.appendChild(item);
+        });
+
+        // Load button
+        savedListEl.querySelectorAll(".cb-load-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const t = readCustomTemplates().find(x => x.id === parseInt(btn.dataset.id));
+            if (!t) return;
+            // Populate fields
+            problemEl.value    = t.fields.problem || "";
+            audienceEl.value   = t.fields.audience || "";
+            outcomeEl.value    = t.fields.outcome || "";
+            changesEl.value    = t.fields.changes || "";
+            rulesEl.value      = t.fields.rules || "";
+            exInputEl.value    = t.fields.exampleInput || "";
+            exOutputEl.value   = t.fields.exampleOutput || "";
+            // Tone chip
+            body.querySelectorAll("#cb-tone-chips .cb-chip").forEach(c => {
+              c.classList.toggle("selected", c.dataset.val === t.fields.tone);
+            });
+            selectedTone = t.fields.tone || "";
+            toneCustom.value = "";
+            // Format chip
+            body.querySelectorAll("#cb-format-chips .cb-chip").forEach(c => {
+              c.classList.toggle("selected", c.dataset.val === t.fields.format);
+            });
+            selectedFormat = t.fields.format || "";
+            formatCustom.value = "";
+            updateOutputs();
+            // Scroll to top of builder
+            card.scrollIntoView({ behavior: "smooth", block: "start" });
+            showToast("✅ Template loaded!");
+          });
+        });
+
+        // Delete button
+        savedListEl.querySelectorAll(".cb-delete-btn").forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const templates = readCustomTemplates().filter(x => x.id !== parseInt(btn.dataset.id));
+            writeCustomTemplates(templates);
+            renderSavedTemplates();
+          });
+        });
+      }
+
+      // Initial render of saved list
+      renderSavedTemplates();
+
+      // Keep outputs in sync if global fields change
+      document.getElementById("globalFirstName")?.addEventListener("input", updateOutputs);
+      document.getElementById("globalBizName")?.addEventListener("input", updateOutputs);
+    }
+
     function render() {
       document.getElementById("pageTitle").textContent = APP[current] ? APP[current].title : current;
       const helpEl = document.getElementById("pageHelp");
@@ -3095,6 +3880,10 @@
         "Prompt Library": {
           why: "Browse every prompt title in one simple index grouped by category.",
           how: "Click any title to jump straight to that prompt card."
+        },
+        "Custom Builder": {
+          why: "Build your own reusable prompt templates for any recurring task — not just the ones we've built for you.",
+          how: "Fill in the fields below, then copy your one-off prompt or save the reusable template for later."
         }
       };
       const c = copy[current] || {
@@ -3106,9 +3895,17 @@
       grid.innerHTML = "";
       const cardRefreshers = [];
 
+      // ── Custom Builder ──
+      if (current === "Custom Builder") {
+        buildCustomBuilderDOM(grid);
+        promptRefreshers = [];
+        buildMenu();
+        return;
+      }
+
       if (current === "Prompt Library") {
         buildPromptLibraryData().forEach((entry) => {
-          if (["Prompt Library", "Favourites"].includes(entry.category)) return;
+          if (["Prompt Library", "Favourites", "Custom Builder"].includes(entry.category)) return;
           const section = document.createElement("div");
           section.className = "card open";
           section.innerHTML = `<div class="card-head"><h3>${entry.category}</h3></div>`;
@@ -3142,7 +3939,7 @@
         const favs = new Set(readFavourites());
         cardsToRender = [];
         Object.keys(APP).forEach((category) => {
-          if (["Favourites", "Prompt Library"].includes(category)) return;
+          if (["Favourites", "Prompt Library", "Custom Builder"].includes(category)) return;
           (APP[category].cards || []).forEach((card) => {
             if (favs.has(getCardId(category, card.subtitle))) {
               cardsToRender.push(Object.assign({}, card, { __category: category }));
@@ -3842,7 +4639,7 @@
     }
 
     // Restore the last visited tab if it exists
-    if (savedPrefs.lastCategory && (APP[savedPrefs.lastCategory] || savedPrefs.lastCategory === "Favourites" || savedPrefs.lastCategory === "Prompt Library")) {
+    if (savedPrefs.lastCategory && (APP[savedPrefs.lastCategory] || savedPrefs.lastCategory === "Favourites" || savedPrefs.lastCategory === "Prompt Library" || savedPrefs.lastCategory === "Custom Builder")) {
       current = savedPrefs.lastCategory;
     }
 
