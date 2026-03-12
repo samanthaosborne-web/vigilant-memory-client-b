@@ -4597,7 +4597,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
         h.textContent = card.subtitle;
         const sourceCategory = card.__category || current;
         const isCustomBuilderCard = sourceCategory === "Custom Builder";
-        const isPersistedCustomBuilderCard = isCustomBuilderCard && String(card.__cardId || "").startsWith("custom-built::");
         const topActions = document.createElement("div");
         topActions.className = "cb-card-top-actions";
         const favouriteBtn = document.createElement("button");
@@ -5219,7 +5218,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           body.appendChild(block);
         });
 
-        if (isPersistedCustomBuilderCard) {
+        if (isCustomBuilderCard) {
           const footerActions = document.createElement("div");
           footerActions.className = "custom-card-footer";
           const deleteCardBtn = document.createElement("button");
