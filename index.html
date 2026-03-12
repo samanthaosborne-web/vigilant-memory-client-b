@@ -306,6 +306,25 @@
       font-weight: 700;
       color: #313131;
     }
+    .cb-builder-head {
+      cursor: default;
+    }
+    .cb-builder-back-btn {
+      background: none;
+      border: 0;
+      padding: 0;
+      margin: 0 0 12px;
+      text-align: left;
+      font-size: 18px;
+      font-weight: 700;
+      color: #313131;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .cb-builder-back-btn:hover {
+      color: #e75a00;
+      text-decoration: underline;
+    }
 
     .kv {
       display: grid;
@@ -3597,8 +3616,8 @@
       card.style.gridColumn = "span 12";
 
       const head = document.createElement("div");
-      head.className = "card-head";
-      head.innerHTML = `<h3>Custom Prompt Builder</h3>`;
+      head.className = "card-head cb-builder-head";
+      head.innerHTML = `<button type="button" class="cb-builder-back-btn">Custom Prompt Builder</button>`;
       card.appendChild(head);
 
       const body = document.createElement("div");
@@ -3764,6 +3783,7 @@
 
       // ── Wire up interactions ──
       const $ = id => body.querySelector("#" + id);
+      const backToBuilderBtn = head.querySelector(".cb-builder-back-btn");
 
       const problemEl     = $("cb-problem");
       const audienceEl    = $("cb-audience");
@@ -3794,6 +3814,16 @@
       const saveBuiltBtn = $("cb-save-built-btn");
       const clearScreenBtn = $("cb-clear-screen-btn");
       const undoClearBtn = $("cb-undo-clear-btn");
+
+      backToBuilderBtn?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        writePrefs({ openCard: null, lastCategory: "Custom Builder" });
+        const firstField = body.querySelector("#cb-problem");
+        if (firstField) {
+          firstField.scrollIntoView({ behavior: "smooth", block: "center" });
+          setTimeout(() => firstField.focus(), 120);
+        }
+      });
 
       oneoffEl.style.display = "none";
       oneoffEl.setAttribute("aria-hidden", "true");
@@ -4457,6 +4487,27 @@ $("cb-submit-btn").addEventListener("click", async () => {
         h.textContent = card.subtitle;
         head.appendChild(h);
         const sourceCategory = card.__category || current;
+        if (sourceCategory === "Custom Builder") {
+          const backBuilderBtn = document.createElement("button");
+          backBuilderBtn.type = "button";
+          backBuilderBtn.className = "favourite-btn";
+          backBuilderBtn.style.marginTop = "0";
+          backBuilderBtn.textContent = "↩ Custom Prompt Builder";
+          backBuilderBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            current = "Custom Builder";
+            writePrefs({ lastCategory: "Custom Builder", openCard: null });
+            render();
+            setTimeout(() => {
+              const firstField = document.getElementById("cb-problem");
+              if (firstField) {
+                firstField.scrollIntoView({ behavior: "smooth", block: "center" });
+                firstField.focus();
+              }
+            }, 60);
+          });
+          head.appendChild(backBuilderBtn);
+        }
         const favouriteBtn = document.createElement("button");
         favouriteBtn.type = "button";
         favouriteBtn.className = "favourite-btn";
