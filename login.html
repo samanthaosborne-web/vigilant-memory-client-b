@@ -113,6 +113,36 @@
     .links { margin-top: 14px; font-size: 16px; color: var(--text-dark); }
     a { color: var(--accent); font-weight: 700; }
 
+    .portal-toggle {
+      display: flex;
+      gap: 0;
+      margin-bottom: 20px;
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .portal-toggle-btn {
+      flex: 1;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      background: #fff;
+      color: var(--text-dark);
+      transition: background 0.15s, color 0.15s;
+    }
+    .portal-toggle-btn.active {
+      background: var(--accent);
+      color: var(--text-light);
+    }
+    .portal-toggle-btn:not(.active):hover {
+      background: #fff3ec;
+    }
+
     @media (max-width: 640px) {
       .auth-card { padding: 18px; }
       h1 { font-size: 34px; }
@@ -127,8 +157,13 @@
   <main class="auth-card">
     <div class="form-shell">
       <img src="./advisastacks-logo.png" alt="AdvisaStacks" style="width:180px; height:auto; margin-bottom:16px;" />
-      <h1>Sign in</h1>
-      <p class="sub">Use your AdvisaStacks account credentials.</p>
+      <div class="portal-toggle">
+        <button type="button" class="portal-toggle-btn active" id="clientToggle">Client Login</button>
+        <button type="button" class="portal-toggle-btn" id="consultantToggle">Consultant Portal</button>
+      </div>
+      <h1 id="loginHeading">Sign in</h1>
+      <p class="sub" id="loginSub">Use your AdvisaStacks account credentials.</p>
+      <input type="hidden" id="portalType" value="client" />
       <form id="loginForm">
         <label for="email">
           <span class="field-title">Email</span>
@@ -160,7 +195,7 @@
         </form>
       </div>
 
-      <p class="links">No account yet? <a href="./signup.html">Create account</a> | <a href="./home.html">Learn more</a></p>
+      <p class="links" id="loginLinks">No account yet? <a href="./signup.html">Create account</a> | <a href="./home.html">Learn more</a></p>
     </div>
   </main>
 

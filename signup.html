@@ -143,8 +143,9 @@
 <body>
   <main class="auth-card">
     <img src="./advisastacks-logo.png" alt="AdvisaStacks" style="width:180px; height:auto; margin-bottom:16px;" />
-    <h1>Create your account</h1>
-    <p class="sub">Sign up to access AdvisaStacks SaaS tools.</p>
+    <h1 id="signupHeading">Create your account</h1>
+    <p class="sub" id="signupSub">Sign up to access AdvisaStacks SaaS tools.</p>
+    <input type="hidden" id="accountType" value="client" />
 
     <form id="signupForm">
       <label class="field" for="firstName">
@@ -192,7 +193,7 @@
       <button type="submit">Create account</button>
       <div id="statusMessage" class="status" aria-live="polite"></div>
     </form>
-    <p style="margin-top:14px; font-size:16px;">Already have an account? <a href="./login.html">Log in</a> | <a href="./home.html">Learn more</a></p>
+    <p style="margin-top:14px; font-size:16px;" id="signupLinks">Already have an account? <a href="./login.html">Log in</a> | <a href="./home.html">Learn more</a></p>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdvisaStacks - Consultant Portal</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AdvisaStacks | Consultant Portal" />
+  <meta property="og:description" content="Monitor and manage your client accounts from the AdvisaStacks Consultant Portal." />
+  <meta property="og:image" content="https://advisastacks.com/AdvisaStacks%20Socials%20Feature.png" />
+  <link rel="icon" type="image/png" href="./advisastacks-logo-favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --panel: #334155;
+      --accent: #e75a00;
+      --accent-light: #ff7a22;
+      --text-light: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-subtle: #475569;
+      --green: #22c55e;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --green-bg: rgba(34,197,94,0.12);
+      --amber-bg: rgba(245,158,11,0.12);
+      --red-bg: rgba(239,68,68,0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; }
+
+    body {
+      font-family: "Roboto", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-light);
+      min-height: 100vh;
+    }
+
+    .portal-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .portal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .portal-logo {
+      width: 140px;
+      height: auto;
+    }
+
+    .portal-badge {
+      background: var(--accent);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .portal-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .portal-user {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .portal-logout-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: var(--text-muted);
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .portal-logout-btn:hover {
+      background: var(--panel);
+      color: var(--text-light);
+    }
+
+    .portal-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .portal-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .portal-title {
+      font-size: clamp(22px, 4vw, 32px);
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .portal-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .summary-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .summary-card {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .summary-card-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .summary-card-value {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--text-light);
+    }
+
+    .summary-card-value.green { color: var(--green); }
+    .summary-card-value.amber { color: var(--amber); }
+    .summary-card-value.red { color: var(--red); }
+
+    .client-table-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .client-table-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .client-table-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .client-search {
+      background: var(--panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 14px;
+      font: inherit;
+      font-size: 14px;
+      color: var(--text-light);
+      width: 240px;
+      max-width: 100%;
+    }
+    .client-search::placeholder { color: var(--text-muted); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(0,0,0,0.15);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background 0.1s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+    tbody td {
+      padding: 12px 16px;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    .business-name {
+      font-weight: 700;
+      color: var(--text-light);
+    }
+
+    .industry-tag {
+      display: inline-block;
+      background: var(--panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+    .status-badge.active { background: var(--green-bg); color: var(--green); }
+    .status-badge.trial { background: var(--amber-bg); color: var(--amber); }
+    .status-badge.needs-setup { background: var(--amber-bg); color: var(--amber); }
+    .status-badge.inactive { background: var(--red-bg); color: var(--red); }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .status-badge.active .status-dot { background: var(--green); }
+    .status-badge.trial .status-dot { background: var(--amber); }
+    .status-badge.needs-setup .status-dot { background: var(--amber); }
+    .status-badge.inactive .status-dot { background: var(--red); }
+
+    .health-signal {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .health-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .health-dot.green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .health-dot.amber { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+    .health-dot.red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+
+    .health-signal.green { color: var(--green); }
+    .health-signal.amber { color: var(--amber); }
+    .health-signal.red { color: var(--red); }
+
+    .usage-bar-wrap {
+      width: 80px;
+      height: 6px;
+      background: var(--panel);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+    .usage-bar {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s;
+    }
+    .usage-bar.green { background: var(--green); }
+    .usage-bar.amber { background: var(--amber); }
+    .usage-bar.red { background: var(--red); }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+    .empty-state p {
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .portal-footer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 20px 28px;
+    }
+
+    .portal-footer-inner {
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      padding: 12px 14px;
+      font-size: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .portal-footer-inner a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--border-subtle);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 768px) {
+      .portal-header { padding: 12px 16px; }
+      .portal-container { padding: 16px 12px; }
+      .summary-cards { grid-template-columns: repeat(2, 1fr); }
+      .client-table-wrapper { overflow-x: auto; }
+      table { min-width: 800px; }
+      .client-search { width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .summary-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="portal-header">
+    <div class="portal-header-left">
+      <img src="./advisastacks-logo.png" alt="AdvisaStacks" class="portal-logo" />
+      <span class="portal-badge">Consultant Portal</span>
+    </div>
+    <div class="portal-header-right">
+      <span class="portal-user" id="portalUserName"></span>
+      <button class="portal-logout-btn" id="portalLogoutBtn" type="button">Log out</button>
+    </div>
+  </header>
+
+  <div class="portal-container">
+    <div class="portal-title-row">
+      <div>
+        <h1 class="portal-title">Client Dashboard</h1>
+        <p class="portal-subtitle">Monitor client activity, tool usage, and account health at a glance.</p>
+      </div>
+    </div>
+
+    <div class="summary-cards" id="summaryCards">
+      <div class="summary-card">
+        <div class="summary-card-label">Total Clients</div>
+        <div class="summary-card-value" id="totalClients"><span class="loading-spinner"></span></div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-label">Active Clients</div>
+        <div class="summary-card-value green" id="activeClients">-</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-label">Needs Attention</div>
+        <div class="summary-card-value amber" id="attentionClients">-</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-label">Inactive</div>
+        <div class="summary-card-value red" id="inactiveClients">-</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-card-label">Total Active Tools</div>
+        <div class="summary-card-value" id="totalActiveTools">-</div>
+      </div>
+    </div>
+
+    <div class="client-table-wrapper">
+      <div class="client-table-header">
+        <span class="client-table-title">Your Clients</span>
+        <input type="text" class="client-search" id="clientSearch" placeholder="Search clients..." />
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Business Name</th>
+            <th>Industry / Trade</th>
+            <th>Status</th>
+            <th>Active Tools</th>
+            <th>Last Active</th>
+            <th>Usage (Month)</th>
+            <th>Health</th>
+          </tr>
+        </thead>
+        <tbody id="clientTableBody">
+          <tr><td colspan="7" style="text-align:center; padding:40px; color:var(--text-muted);"><span class="loading-spinner"></span> Loading client data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="portal-footer">
+    <div class="portal-footer-inner">
+      <div>
+        <a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a>
+        <span style="margin-left:12px; color:var(--text-muted);">E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> &nbsp;|&nbsp; ABN: 37 131 434 727</span>
+      </div>
+      <div>&copy; AdvisaStacks</div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./auth-config.js"></script>
+  <script src="./consultant-portal.js"></script>
+</body>
+</html>
