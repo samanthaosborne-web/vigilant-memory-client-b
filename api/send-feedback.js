@@ -41,14 +41,14 @@ module.exports = async (req, res) => {
 
   const subject = ("Feedback (" + type + "): " + message.replace(/\s+/g, " ").trim().slice(0, 70)).trim();
   const html = [
-    '<div style="font-family:Arial,sans-serif;max-width:680px;margin:0 auto;padding:24px;color:#0f172a;">',
+    '<div style="font-family:Arial,sans-serif;max-width:680px;margin:0 auto;padding:24px;color:#f1f5f9;">',
       '<h2 style="margin:0 0 12px;color:#e75a00;">New webapp feedback</h2>',
       '<p style="margin:0 0 6px;"><strong>Name:</strong> ' + esc(name || "Not provided") + "</p>",
       '<p style="margin:0 0 6px;"><strong>Email:</strong> ' + esc(email || "Not provided") + "</p>",
       '<p style="margin:0 0 6px;"><strong>Area:</strong> ' + esc(area) + "</p>",
       '<p style="margin:0 0 16px;"><strong>Type:</strong> ' + esc(type) + "</p>",
       '<p style="margin:0 0 8px;"><strong>Message</strong></p>',
-      '<pre style="white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin:0 0 14px;">' + esc(message) + "</pre>",
+      '<pre style="white-space:pre-wrap;background:#111a2c;border:1px solid #1e293b;border-radius:8px;padding:12px;margin:0 0 14px;">' + esc(message) + "</pre>",
       '<p style="margin:0;"><strong>Page:</strong> ' + esc(page || "Unknown") + "</p>",
     "</div>"
   ].join("");

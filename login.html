@@ -18,12 +18,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #313131;
-      --surface: #f9faff;
+      --bg: #f9faff;
+      --surface: #313131;
       --accent: #e75a00;
-      --text-dark: #313131;
+      --text-dark: #f9faff;
       --text-muted: #555;
-      --text-light: #f9faff;
+      --text-light: #313131;
     }
 
     * { box-sizing: border-box; }
@@ -131,7 +131,7 @@
       border: none;
       border-radius: 0;
       box-shadow: none;
-      background: #fff;
+      background: #313131;
       color: var(--text-dark);
       transition: background 0.15s, color 0.15s;
     }
@@ -190,7 +190,7 @@
           </label>
           <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
             <button id="mfaVerifyBtn" type="submit">Verify</button>
-            <button id="resendBtn" type="button" style="background:#fff; color:var(--accent); font-size:16px; padding:10px 18px;">Resend code</button>
+            <button id="resendBtn" type="button" style="background:#313131; color:var(--accent); font-size:16px; padding:10px 18px;">Resend code</button>
           </div>
         </form>
       </div>

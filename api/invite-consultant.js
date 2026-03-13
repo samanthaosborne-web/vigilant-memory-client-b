@@ -153,7 +153,7 @@ module.exports = async (req, res) => {
                 '<p>You\'ve been invited to join the <strong>Consultant Portal</strong>.</p>',
                 '<p>Since you already have an AdvisaStacks account, just log in with the Consultant Portal option:</p>',
                 '<a href="' + baseUrl + '/login.html?portal=consultant" style="display:inline-block;',
-                'background:#e75a00;color:#fff;text-decoration:none;padding:12px 24px;border-radius:10px;',
+                'background:#e75a00;color:#313131;text-decoration:none;padding:12px 24px;border-radius:10px;',
                 'font-weight:700;margin:16px 0;">Log in to Consultant Portal</a>',
                 '<p style="color:#666;font-size:14px;">If you didn\'t expect this, you can ignore this email.</p>',
                 '</div>'
