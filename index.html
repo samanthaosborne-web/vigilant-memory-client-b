@@ -730,7 +730,9 @@
     }
     .app-settings.open { display: flex; }
     .app-settings-dialog {
-      width: min(560px, 100%);
+      width: min(640px, 100%);
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
       background: var(--panel);
       color: #f8fafc;
       border: 1px solid var(--border-subtle);
@@ -768,6 +770,126 @@
     }
     .app-settings-actions .cb-submit-btn:hover {
       filter: brightness(0.95);
+    }
+
+    .settings-section {
+      margin-bottom: 16px;
+    }
+    .settings-section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    .brand-fields {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .brand-hint {
+      font-size: 11px;
+      font-weight: 400;
+      color: #64748b;
+    }
+    .brand-colour-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .brand-colour-row label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .brand-colour-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .brand-colour-picker {
+      width: 44px;
+      height: 38px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: #0f172a;
+      cursor: pointer;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .brand-colour-picker::-webkit-color-swatch-wrapper { padding: 2px; }
+    .brand-colour-picker::-webkit-color-swatch { border: none; border-radius: 4px; }
+    .brand-colour-hex {
+      padding: 8px 10px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      background: #1f2937;
+      color: #f8fafc;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 14px;
+      width: 100px;
+    }
+    .brand-colour-hex:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .brand-preview {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .brand-preview-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      padding: 6px 10px;
+      background: #0f172a;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .brand-preview-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(15, 23, 42, 0.92);
+      min-height: 50px;
+    }
+    .brand-preview-logo {
+      max-height: 32px;
+      max-width: 140px;
+      object-fit: contain;
+    }
+    .brand-preview-name {
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .brand-preview-accent {
+      height: 4px;
+      background: var(--accent);
+      transition: background 200ms ease;
+    }
+    .brand-actions { display: flex; justify-content: flex-start; }
+    .brand-reset-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      color: #94a3b8;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: border-color var(--motion-fast), color var(--motion-fast);
+    }
+    .brand-reset-btn:hover {
+      border-color: #ef4444;
+      color: #fca5a5;
     }
 
     /* Global Inputs */
@@ -874,6 +996,39 @@
       }
     }
 
+    /* ── Compact view ── */
+    .grid-compact { gap: 8px; }
+    .grid-compact .card { grid-column: span 12; }
+
+    @media (min-width: 640px) {
+      .grid-compact .card { grid-column: span 6; }
+    }
+    @media (min-width: 860px) {
+      .grid-compact .card { grid-column: span 4; }
+    }
+
+    .grid-compact .card:not(.open) .card-head {
+      padding: 10px 12px;
+      border-bottom: none;
+    }
+    .grid-compact .card:not(.open) .card-head h3 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .grid-compact .card:not(.open) .card-subline {
+      margin-bottom: 2px;
+      font-size: 12px;
+    }
+    .grid-compact .card:not(.open) .card-when {
+      margin-bottom: 0;
+      font-size: 11px;
+    }
+    .grid-compact .card:not(.open) .cb-card-top-actions { display: none; }
+    .grid-compact .card:not(.open) .reveal-btn { display: none; }
+    .grid-compact .card:not(.open) .kv { display: none; }
+    .grid-compact .card.open { grid-column: span 12; }
+    .grid-compact .card-group-heading { grid-column: span 12; }
+
     .card.open {
       background: var(--panel-soft);
       box-shadow: var(--shadow-md);
@@ -905,6 +1060,22 @@
       color: #94a3b8;
       font-size: 13px;
       line-height: 1.35;
+    }
+    .card-when {
+      margin: -4px 0 8px;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.35;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .card-when::before {
+      content: "⏱";
+      font-size: 11px;
+    }
+    .card.open .card-when {
+      display: none;
     }
     .cb-builder-head {
       cursor: default;
@@ -1427,7 +1598,7 @@
     .ai-response-box-head {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       gap: 8px;
       margin-bottom: 8px;
     }
@@ -1454,6 +1625,11 @@
       background: rgba(249,250,255,0.2);
       border-color: rgba(249,250,255,0.45);
       transform: translateY(-1px);
+    }
+    .ai-response-box-actions {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 12px;
     }
     .ai-sent-wrap {
       display: none;
@@ -2423,7 +2599,7 @@
     .onboarding-response-head {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       padding: 8px 12px;
       border-bottom: 1px solid var(--border-subtle);
     }
@@ -2448,6 +2624,11 @@
       background: var(--accent);
       color: #fff;
       border-color: var(--accent);
+    }
+    .onboarding-response-actions {
+      padding: 0 12px 12px;
+      display: flex;
+      justify-content: flex-start;
     }
     .onboarding-response-text {
       padding: 12px;
@@ -2578,18 +2759,59 @@
 
   <div class="app-settings" id="appSettings" aria-hidden="true">
     <div class="app-settings-dialog" role="dialog" aria-modal="true" aria-labelledby="appSettingsTitle">
-      <h3 class="app-settings-title" id="appSettingsTitle">Business defaults</h3>
-      <p class="app-settings-sub">Set these once and they will auto-fill prompt context everywhere.</p>
-      <div class="global-inputs" aria-label="Default prompt settings">
-        <div class="global-field">
-          <label for="globalFirstName">Your First Name</label>
-          <input type="text" id="globalFirstName" placeholder="e.g. John" autocomplete="given-name" />
-        </div>
-        <div class="global-field">
-          <label for="globalBizName">Business Name</label>
-          <input type="text" id="globalBizName" placeholder="e.g. Smith Plumbing" autocomplete="organization" />
+      <h3 class="app-settings-title" id="appSettingsTitle">Settings</h3>
+
+      <div class="settings-section">
+        <div class="settings-section-label">Business defaults</div>
+        <p class="app-settings-sub">Set these once and they will auto-fill into every prompt.</p>
+        <div class="global-inputs" aria-label="Default prompt settings">
+          <div class="global-field">
+            <label for="globalFirstName">Your First Name</label>
+            <input type="text" id="globalFirstName" placeholder="e.g. John" autocomplete="given-name" />
+          </div>
+          <div class="global-field">
+            <label for="globalBizName">Business Name</label>
+            <input type="text" id="globalBizName" placeholder="e.g. Smith Plumbing" autocomplete="organization" />
+          </div>
         </div>
       </div>
+
+      <div class="settings-section">
+        <div class="settings-section-label">Consultant branding</div>
+        <p class="app-settings-sub">Customise how the app looks for your clients. Changes apply to this browser only.</p>
+
+        <div class="brand-fields">
+          <div class="global-field">
+            <label for="brandDisplayName">Display name <span class="brand-hint">(replaces header tagline)</span></label>
+            <input type="text" id="brandDisplayName" placeholder="e.g. Tradie Growth Co" />
+          </div>
+          <div class="global-field">
+            <label for="brandLogoUrl">Logo URL <span class="brand-hint">(direct image link — PNG or SVG)</span></label>
+            <input type="url" id="brandLogoUrl" placeholder="https://example.com/logo.png" />
+          </div>
+          <div class="brand-colour-row">
+            <label for="brandAccentColour">Accent colour</label>
+            <div class="brand-colour-input-wrap">
+              <input type="color" id="brandAccentColour" value="#e75a00" class="brand-colour-picker" />
+              <input type="text" id="brandAccentHex" placeholder="#e75a00" maxlength="7" class="brand-colour-hex" />
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-preview">
+          <div class="brand-preview-label">Preview</div>
+          <div class="brand-preview-header" id="brandPreviewHeader">
+            <img class="brand-preview-logo" id="brandPreviewLogo" src="./Advisastacks Logo White.png" alt="" />
+            <div class="brand-preview-name" id="brandPreviewName">The Ultimate Toolkit for Tradies</div>
+          </div>
+          <div class="brand-preview-accent" id="brandPreviewAccent"></div>
+        </div>
+
+        <div class="brand-actions">
+          <button type="button" class="brand-reset-btn" id="brandResetBtn">Reset to default branding</button>
+        </div>
+      </div>
+
       <div class="app-settings-actions">
         <button type="button" class="cb-submit-btn" id="resetDefaultsBtn">Reset defaults</button>
         <button type="button" class="cb-submit-btn" id="appSettingsCloseBtn">Close</button>
@@ -3927,6 +4149,7 @@
     };
     let current = "Home";
     let savedOnlyFilter = false;
+    let compactView = false;
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
     const PREFS_KEY = "businessToolkitPrefsV1";
@@ -3962,6 +4185,81 @@
       try {
         localStorage.removeItem(PREFS_KEY);
       } catch (e) {
+      }
+    }
+
+    const DEFAULT_ACCENT = "#e75a00";
+    const DEFAULT_TAGLINE = "The Ultimate Toolkit for Tradies";
+    const DEFAULT_LOGO_SRC = "./Advisastacks Logo White.png";
+    const DEFAULT_COPYRIGHT = "AdvisaStacks";
+
+    function isValidHexColour(str) {
+      return /^#[0-9A-Fa-f]{6}$/.test(str);
+    }
+
+    function readBrandPrefs() {
+      const prefs = readPrefs();
+      return {
+        displayName: prefs.brandDisplayName || "",
+        logoUrl: prefs.brandLogoUrl || "",
+        accentColour: prefs.brandAccentColour || DEFAULT_ACCENT
+      };
+    }
+
+    function writeBrandPrefs(patch) {
+      const prefPatch = {};
+      if ("displayName" in patch) prefPatch.brandDisplayName = patch.displayName;
+      if ("logoUrl" in patch) prefPatch.brandLogoUrl = patch.logoUrl;
+      if ("accentColour" in patch) prefPatch.brandAccentColour = patch.accentColour;
+      writePrefs(prefPatch);
+    }
+
+    function applyBranding() {
+      const brand = readBrandPrefs();
+      const colour = isValidHexColour(brand.accentColour) ? brand.accentColour : DEFAULT_ACCENT;
+      document.documentElement.style.setProperty("--accent", colour);
+
+      const tagline = document.querySelector(".header-tagline");
+      if (tagline) {
+        tagline.textContent = brand.displayName || DEFAULT_TAGLINE;
+      }
+
+      const logo = document.querySelector(".header-logo");
+      if (logo) {
+        if (brand.logoUrl) {
+          logo.src = brand.logoUrl;
+          logo.alt = brand.displayName || "Logo";
+          logo.style.display = "";
+          logo.onerror = () => {
+            logo.src = DEFAULT_LOGO_SRC;
+            logo.alt = "AdvisaStacks logo";
+          };
+        } else {
+          logo.src = DEFAULT_LOGO_SRC;
+          logo.alt = "AdvisaStacks logo";
+        }
+      }
+
+      const footerLeft = document.querySelector(".footer-left");
+      if (footerLeft) {
+        const copyrightDiv = footerLeft.querySelectorAll("div")[1];
+        if (copyrightDiv) {
+          copyrightDiv.textContent = "© " + (brand.displayName || DEFAULT_COPYRIGHT);
+        }
+      }
+
+      const previewLogo = document.getElementById("brandPreviewLogo");
+      const previewName = document.getElementById("brandPreviewName");
+      const previewAccent = document.getElementById("brandPreviewAccent");
+      if (previewLogo) {
+        previewLogo.src = brand.logoUrl || DEFAULT_LOGO_SRC;
+        previewLogo.onerror = () => { previewLogo.src = DEFAULT_LOGO_SRC; };
+      }
+      if (previewName) {
+        previewName.textContent = brand.displayName || DEFAULT_TAGLINE;
+      }
+      if (previewAccent) {
+        previewAccent.style.background = colour;
       }
     }
 
@@ -5600,6 +5898,19 @@ $("cb-submit-btn").addEventListener("click", async () => {
         });
         pageControlsEl.appendChild(savedFilterBtn);
       }
+      if (filterEligibleCategories.includes(current)) {
+        const compactToggle = document.createElement("button");
+        compactToggle.type = "button";
+        compactToggle.className = "page-filter-btn" + (compactView ? " active" : "");
+        compactToggle.textContent = "▤ Compact view";
+        if (compactView) compactToggle.classList.add("active");
+        compactToggle.addEventListener("click", () => {
+          compactView = !compactView;
+          writePrefs({ compactView });
+          render();
+        });
+        pageControlsEl.appendChild(compactToggle);
+      }
       if (current === "Home") {
         helpEl.innerHTML = "";
         helpEl.style.display = "none";
@@ -5857,6 +6168,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
       }
 
       let activeGroupHeading = "";
+      grid.classList.toggle("grid-compact", compactView && filterEligibleCategories.includes(current));
+
       cardsToRender.forEach((card, cIndex) => {
         if (card.__groupLabel && card.__groupLabel !== activeGroupHeading) {
           const groupHeading = document.createElement("div");
@@ -5925,6 +6238,15 @@ $("cb-submit-btn").addEventListener("click", async () => {
         head.appendChild(cardSubline);
         const selections = {};
         const kv = document.createElement("div");
+        const cardWhenLine = document.createElement("p");
+        cardWhenLine.className = "card-when";
+        const whenText = card.front?.when || "";
+        if (whenText) {
+          cardWhenLine.textContent = whenText;
+        } else {
+          cardWhenLine.style.display = "none";
+        }
+        head.insertBefore(cardWhenLine, kv);
         kv.className = "kv";
         const titleLabel = h;
         const frontRows = {};
@@ -6415,6 +6737,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
             const text = document.createElement("div");
             text.className = "ai-response-text";
             text.textContent = contentText || "";
+            const actions = document.createElement("div");
+            actions.className = "ai-response-box-actions";
             copyBtn.addEventListener("click", (e) => {
               e.stopPropagation();
               const txt = text.textContent || "";
@@ -6428,9 +6752,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
               }
             });
             head.appendChild(label);
-            head.appendChild(copyBtn);
             box.appendChild(head);
             box.appendChild(text);
+            actions.appendChild(copyBtn);
+            box.appendChild(actions);
             return { box, textEl: text };
           };
           const trySplitTwoResponses = (rawText) => {
@@ -6444,11 +6769,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
             };
             const pairPatterns = [
               {
-                regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*1\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*2\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i,
+                regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:Option|Version|Variation|Response|Answer|Message)\s*1\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:Option|Version|Variation|Response|Answer|Message)\s*2\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i,
                 labels: ["Response 1", "Response 2"]
               },
               {
-                regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*A\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*B\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i,
+                regex: /(?:^|\n)\s*(?:\*\*)?\s*(?:Option|Version|Variation|Response|Answer|Message)\s*A\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*?)\n\s*(?:\*\*)?\s*(?:Option|Version|Response|Answer|Message)\s*B\s*[:\-]?\s*(?:\*\*)?\s*([\s\S]*)/i,
                 labels: ["Response A", "Response B"]
               },
               {
@@ -6467,7 +6792,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
               const b = (m[2] || "").trim();
               if (a && b) return [{ label: p.labels[0], text: a }, { label: p.labels[1], text: b }];
             }
-            const markerRegex = /(?:^|\n)\s*(?:\*\*)?\s*(Option|Version|Response|Answer|Message|Email|SMS|Text)\s*(A|B|1|2)?\s*[:\-]\s*(?:\*\*)?/gi;
+            const markerRegex = /(?:^|\n)\s*(?:\*\*)?\s*(Option|Version|Variation|Response|Answer|Message|Email|SMS|Text)\s*(A|B|1|2)?\s*[:\-]\s*(?:\*\*)?/gi;
             const markers = [];
             let markerMatch;
             while ((markerMatch = markerRegex.exec(text)) !== null) {
@@ -6862,6 +7187,52 @@ $("cb-submit-btn").addEventListener("click", async () => {
     appSettings?.addEventListener("click", (e) => {
       if (e.target === appSettings) closeSettings();
     });
+    const brandNameInput = document.getElementById("brandDisplayName");
+    const brandLogoInput = document.getElementById("brandLogoUrl");
+    const brandColourPicker = document.getElementById("brandAccentColour");
+    const brandColourHex = document.getElementById("brandAccentHex");
+    const brandResetBtn = document.getElementById("brandResetBtn");
+
+    function handleBrandChange() {
+      const displayName = brandNameInput?.value?.trim() || "";
+      const logoUrl = brandLogoInput?.value?.trim() || "";
+      const accentColour = brandColourPicker?.value || DEFAULT_ACCENT;
+      writeBrandPrefs({ displayName, logoUrl, accentColour });
+      if (brandColourHex && document.activeElement !== brandColourHex) {
+        brandColourHex.value = accentColour === DEFAULT_ACCENT ? "" : accentColour;
+      }
+      applyBranding();
+    }
+
+    brandNameInput?.addEventListener("input", handleBrandChange);
+    brandLogoInput?.addEventListener("input", handleBrandChange);
+
+    brandColourPicker?.addEventListener("input", () => {
+      if (brandColourHex) brandColourHex.value = brandColourPicker.value;
+      handleBrandChange();
+    });
+
+    brandColourHex?.addEventListener("input", () => {
+      const val = brandColourHex.value.trim();
+      const normalised = val.startsWith("#") ? val : "#" + val;
+      if (isValidHexColour(normalised)) {
+        brandColourPicker.value = normalised;
+        handleBrandChange();
+      }
+    });
+
+    brandResetBtn?.addEventListener("click", () => {
+      writeBrandPrefs({
+        displayName: "",
+        logoUrl: "",
+        accentColour: DEFAULT_ACCENT
+      });
+      if (brandNameInput) brandNameInput.value = "";
+      if (brandLogoInput) brandLogoInput.value = "";
+      if (brandColourPicker) brandColourPicker.value = DEFAULT_ACCENT;
+      if (brandColourHex) brandColourHex.value = "";
+      applyBranding();
+    });
     menuBackdrop.addEventListener("click", closeMenu);
     document.addEventListener("keydown", (e) => {
       const confirmModal = document.getElementById("appConfirm");
@@ -6923,13 +7294,24 @@ $("cb-submit-btn").addEventListener("click", async () => {
       globalFirstNameInput.value = "";
       globalBizNameInput.value = "";
       refreshPromptText();
-      
-      // Clear out the Quote builder if it's currently rendered
+
       const bizNameField = document.getElementById('qb-biz-name');
       if (bizNameField) {
          bizNameField.value = "";
          bizNameField.dispatchEvent(new Event('input'));
       }
+
+      compactView = false;
+      writeBrandPrefs({ displayName: "", logoUrl: "", accentColour: DEFAULT_ACCENT });
+      const bni = document.getElementById("brandDisplayName");
+      const bli = document.getElementById("brandLogoUrl");
+      const bcp = document.getElementById("brandAccentColour");
+      const bch = document.getElementById("brandAccentHex");
+      if (bni) bni.value = "";
+      if (bli) bli.value = "";
+      if (bcp) bcp.value = DEFAULT_ACCENT;
+      if (bch) bch.value = "";
+      applyBranding();
     });
 
     // --- ONBOARDING ---
@@ -7238,12 +7620,15 @@ $("cb-submit-btn").addEventListener("click", async () => {
                   cpBtn.type = "button";
                   cpBtn.addEventListener("click", () => copyText(entry.text, cpBtn));
                   head.appendChild(lbl);
-                  head.appendChild(cpBtn);
                   box.appendChild(head);
                   const txt = document.createElement("div");
                   txt.className = "onboarding-response-text";
                   txt.textContent = entry.text;
                   box.appendChild(txt);
+                  const actions = document.createElement("div");
+                  actions.className = "onboarding-response-actions";
+                  actions.appendChild(cpBtn);
+                  box.appendChild(actions);
                   responseArea.appendChild(box);
                 });
                 statusEl.textContent = "Two responses ready. Copy the one you need.";
@@ -7254,7 +7639,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 cpBtn.textContent = "Copy";
                 cpBtn.type = "button";
                 cpBtn.addEventListener("click", () => copyText(rawText, cpBtn));
-                streamHead.appendChild(cpBtn);
+                const actions = document.createElement("div");
+                actions.className = "onboarding-response-actions";
+                actions.appendChild(cpBtn);
+                streamBox.appendChild(actions);
                 statusEl.textContent = rawText ? "Final message ready. Copy and use." : "No response yet.";
               }
 
@@ -7330,6 +7718,20 @@ $("cb-submit-btn").addEventListener("click", async () => {
       globalBizNameInput.value = savedPrefs.businessName;
     }
     savedOnlyFilter = !!savedPrefs.savedOnlyFilter;
+    compactView = !!savedPrefs.compactView;
+
+    (function restoreBrand() {
+      const brand = readBrandPrefs();
+      const brandNameInput = document.getElementById("brandDisplayName");
+      const brandLogoInput = document.getElementById("brandLogoUrl");
+      const brandColourPicker = document.getElementById("brandAccentColour");
+      const brandColourHex = document.getElementById("brandAccentHex");
+      if (brandNameInput && brand.displayName) brandNameInput.value = brand.displayName;
+      if (brandLogoInput && brand.logoUrl) brandLogoInput.value = brand.logoUrl;
+      if (brandColourPicker) brandColourPicker.value = brand.accentColour;
+      if (brandColourHex && brand.accentColour !== DEFAULT_ACCENT) brandColourHex.value = brand.accentColour;
+      applyBranding();
+    })();
 
     // Restore the last visited tab if it exists
     const savedCategory = savedPrefs.lastCategory;
