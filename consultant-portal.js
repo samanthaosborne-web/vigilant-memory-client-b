@@ -11,7 +11,12 @@
     supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   }
 
-  // Auth guard - verify 2FA session
+  // ── Auth + Role Guard ──
+  // Three-layer check:
+  // 1. Supabase session exists
+  // 2. 2FA is verified (reuses existing verify-login-code)
+  // 3. memberships table: role='consultant' + portal_access=true
+  //    This is the source of truth — NOT billing_subscriptions.
   function checkAuth() {
     if (!supabaseClient) {
       window.location.replace("./login.html?portal=consultant");
@@ -24,15 +29,10 @@
         return;
       }
 
-      var token = result.data.session.access_token;
-      var user = result.data.session.user;
+      var session = result.data.session;
+      var token = session.access_token;
 
-      // Show user name
-      var firstName = (user.user_metadata && user.user_metadata.first_name) || user.email;
-      var portalUserName = document.getElementById("portalUserName");
-      if (portalUserName) portalUserName.textContent = firstName;
-
-      // Verify 2FA
+      // Step 1: Verify 2FA (same mechanism as tradie app)
       fetch("/api/verify-login-code", {
         method: "POST",
         headers: {
@@ -47,12 +47,51 @@
             window.location.replace("./login.html?portal=consultant");
             return;
           }
-          loadClientData(token, user.id);
+
+          // Step 2: Check consultant portal access via memberships (server-side)
+          fetch("/api/check-consultant-access", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token }
+          })
+            .then(function (r) { return r.json(); })
+            .then(function (accessResult) {
+              if (!accessResult.access) {
+                if (accessResult.hasPendingInvite) {
+                  // Has invite but hasn't completed setup yet
+                  window.location.replace("./consultant-setup.html");
+                  return;
+                }
+                showAccessDenied(accessResult.reason || "You do not have consultant portal access.");
+                return;
+              }
+
+              // Authorized — show portal
+              var portalUserName = document.getElementById("portalUserName");
+              if (portalUserName) {
+                portalUserName.textContent = accessResult.displayName || session.user.email;
+              }
+              loadClientData(token, session.user.id);
+            })
+            .catch(function () {
+              showAccessDenied("Unable to verify access. Please try again.");
+            });
         })
         .catch(function () {
           window.location.replace("./login.html?portal=consultant");
         });
     });
+  }
+
+  function showAccessDenied(message) {
+    var container = document.querySelector(".portal-container");
+    if (container) {
+      container.innerHTML =
+        '<div style="text-align:center; padding:60px 20px;">' +
+        '<h2 style="color:#ef4444; margin-bottom:12px;">Access Denied</h2>' +
+        '<p style="color:#94a3b8;">' + escapeHtml(message) + '</p>' +
+        '<p style="margin-top:16px;"><a href="./login.html" style="color:#e75a00; font-weight:700;">Go to login</a></p>' +
+        '</div>';
+    }
   }
 
   // Logout
@@ -67,26 +106,23 @@
   });
 
   // ── Health signal calculation ──
-  // Computes a green/amber/red health signal based on real metrics
+  // Computes green/amber/red from real metrics:
+  //   status (0-1) + tool count (0-1) + recency (0-1) + monthly usage (0-1)
+  //   ratio >= 0.65 → green, >= 0.35 → amber, else red
   function computeHealth(client) {
     var score = 0;
     var maxScore = 4;
 
-    // Factor 1: Status (0-1)
     if (client.status === "active") score += 1;
     else if (client.status === "trial") score += 0.5;
-    // needs_setup and inactive get 0
 
-    // Factor 2: Active tools (0-1)
     if (client.activeTools >= 3) score += 1;
     else if (client.activeTools >= 1) score += 0.5;
 
-    // Factor 3: Last active recency (0-1)
     var daysSinceActive = getDaysSince(client.lastActiveDate);
     if (daysSinceActive <= 7) score += 1;
     else if (daysSinceActive <= 30) score += 0.5;
 
-    // Factor 4: Usage this month (0-1)
     if (client.usageMonth >= 10) score += 1;
     else if (client.usageMonth >= 3) score += 0.5;
 
@@ -100,8 +136,7 @@
     if (!dateStr) return 999;
     var d = new Date(dateStr);
     if (isNaN(d.getTime())) return 999;
-    var now = new Date();
-    return Math.floor((now - d) / (1000 * 60 * 60 * 24));
+    return Math.floor((new Date() - d) / (1000 * 60 * 60 * 24));
   }
 
   function formatDate(dateStr) {
@@ -115,30 +150,28 @@
     return d.toLocaleDateString("en-AU", { day: "numeric", month: "short", year: "numeric" });
   }
 
-  function getStatusClass(status) {
-    if (status === "active") return "active";
-    if (status === "trial") return "trial";
-    if (status === "needs_setup") return "needs-setup";
+  function getStatusClass(s) {
+    if (s === "active") return "active";
+    if (s === "trial") return "trial";
+    if (s === "needs_setup") return "needs-setup";
     return "inactive";
   }
 
-  function getStatusLabel(status) {
-    if (status === "active") return "Active";
-    if (status === "trial") return "Trial";
-    if (status === "needs_setup") return "Needs Setup";
+  function getStatusLabel(s) {
+    if (s === "active") return "Active";
+    if (s === "trial") return "Trial";
+    if (s === "needs_setup") return "Needs Setup";
     return "Inactive";
   }
 
-  function getHealthLabel(health) {
-    if (health === "green") return "Healthy";
-    if (health === "amber") return "Monitor";
+  function getHealthLabel(h) {
+    if (h === "green") return "Healthy";
+    if (h === "amber") return "Monitor";
     return "At Risk";
   }
 
-  // ── Load client data ──
+  // ── Load client data from consultant_clients table ──
   function loadClientData(token, consultantId) {
-    // Try to load from Supabase consultant_clients table
-    // Falls back to demo data if table doesn't exist
     supabaseClient
       .from("consultant_clients")
       .select("*")
@@ -146,7 +179,6 @@
       .order("business_name", { ascending: true })
       .then(function (result) {
         if (result.error || !result.data || result.data.length === 0) {
-          // Use demo data for initial setup / when no clients exist yet
           renderDashboard(getDemoClients());
           return;
         }
@@ -186,38 +218,27 @@
     ];
   }
 
-  // ── Render dashboard ──
+  // ── Render ──
   var allClients = [];
 
   function renderDashboard(clients) {
     allClients = clients;
+    clients.forEach(function (c) { c.health = computeHealth(c); });
 
-    // Compute health for each client
-    clients.forEach(function (c) {
-      c.health = computeHealth(c);
-    });
-
-    // Summary cards
-    var totalClients = clients.length;
     var activeCount = clients.filter(function (c) { return c.status === "active"; }).length;
-    var trialCount = clients.filter(function (c) { return c.status === "trial"; }).length;
-    var needsSetupCount = clients.filter(function (c) { return c.status === "needs_setup"; }).length;
     var inactiveCount = clients.filter(function (c) { return c.status === "inactive"; }).length;
-    var attentionCount = trialCount + needsSetupCount + clients.filter(function (c) { return c.health === "amber" || c.health === "red"; }).length;
-    // Deduplicate attention count - only count unique clients that need attention
+    var totalTools = clients.reduce(function (sum, c) { return sum + c.activeTools; }, 0);
+
     var attentionSet = {};
     clients.forEach(function (c) {
       if (c.status === "trial" || c.status === "needs_setup" || c.health === "amber" || c.health === "red") {
         attentionSet[c.businessName] = true;
       }
     });
-    attentionCount = Object.keys(attentionSet).length;
 
-    var totalTools = clients.reduce(function (sum, c) { return sum + c.activeTools; }, 0);
-
-    document.getElementById("totalClients").textContent = totalClients;
+    document.getElementById("totalClients").textContent = clients.length;
     document.getElementById("activeClients").textContent = activeCount;
-    document.getElementById("attentionClients").textContent = attentionCount;
+    document.getElementById("attentionClients").textContent = Object.keys(attentionSet).length;
     document.getElementById("inactiveClients").textContent = inactiveCount;
     document.getElementById("totalActiveTools").textContent = totalTools;
 
@@ -226,7 +247,6 @@
 
   function renderTable(clients) {
     var tbody = document.getElementById("clientTableBody");
-
     if (clients.length === 0) {
       tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><p>No clients found.</p></div></td></tr>';
       return;
@@ -236,7 +256,7 @@
     clients.forEach(function (c) {
       var statusClass = getStatusClass(c.status);
       var healthColor = c.health || computeHealth(c);
-      var maxUsage = 60; // normalize usage bar against a reasonable max
+      var maxUsage = 60;
       var usagePct = Math.min(100, Math.round((c.usageMonth / maxUsage) * 100));
       var usageBarColor = usagePct >= 50 ? "green" : usagePct >= 20 ? "amber" : "red";
 
@@ -252,7 +272,6 @@
       html += '<td><span class="health-signal ' + healthColor + '"><span class="health-dot ' + healthColor + '"></span>' + getHealthLabel(healthColor) + '</span></td>';
       html += '</tr>';
     });
-
     tbody.innerHTML = html;
   }
 
@@ -262,15 +281,12 @@
     return div.innerHTML;
   }
 
-  // ── Search / filter ──
+  // ── Search ──
   var searchInput = document.getElementById("clientSearch");
   if (searchInput) {
     searchInput.addEventListener("input", function () {
       var query = searchInput.value.toLowerCase().trim();
-      if (!query) {
-        renderTable(allClients);
-        return;
-      }
+      if (!query) { renderTable(allClients); return; }
       var filtered = allClients.filter(function (c) {
         return c.businessName.toLowerCase().indexOf(query) !== -1 ||
                c.industry.toLowerCase().indexOf(query) !== -1 ||
@@ -280,6 +296,5 @@
     });
   }
 
-  // Init
   checkAuth();
 })();

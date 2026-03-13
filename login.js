@@ -44,11 +44,31 @@
     setPortalType("consultant");
   }
 
+  // For client logins: go to index.html (existing billing gate handles it).
+  // For consultant logins: check memberships via server, then route appropriately.
   function getRedirectUrl() {
     if (portalTypeInput.value === "consultant") {
       return "./consultant-portal.html";
     }
     return "./index.html";
+  }
+
+  // After 2FA, consultant logins check access and may redirect to setup
+  function resolveConsultantRedirect(token) {
+    return fetch("/api/check-consultant-access", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + token }
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (result) {
+        if (result.access) return "./consultant-portal.html";
+        if (result.hasPendingInvite) return "./consultant-setup.html";
+        // No access — still send to portal, it will show access denied
+        return "./consultant-portal.html";
+      })
+      .catch(function () {
+        return "./consultant-portal.html";
+      });
   }
 
   function setStatus(message, type) {
@@ -93,7 +113,13 @@
       .then(function (r) { return r.json(); })
       .then(function (result) {
         if (result.verified) {
-          window.location.replace(getRedirectUrl());
+          if (portalTypeInput.value === "consultant") {
+            resolveConsultantRedirect(token).then(function (url) {
+              window.location.replace(url);
+            });
+          } else {
+            window.location.replace("./index.html");
+          }
         }
       })
       .catch(function () {});
@@ -158,8 +184,13 @@
 
     verifyCode(activeToken, code).then(function (result) {
       if (result.verified) {
-        // Consultant portal skips billing, goes straight to portal
-        window.location.href = getRedirectUrl();
+        if (portalTypeInput.value === "consultant") {
+          resolveConsultantRedirect(activeToken).then(function (url) {
+            window.location.href = url;
+          });
+        } else {
+          window.location.href = "./index.html";
+        }
         return;
       }
       setStatus(result.error || "Invalid or expired code. Please try again.", "error");
