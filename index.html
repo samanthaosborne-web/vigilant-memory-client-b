@@ -6246,7 +6246,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         } else {
           cardWhenLine.style.display = "none";
         }
-        head.insertBefore(cardWhenLine, kv);
+        head.appendChild(cardWhenLine);
         kv.className = "kv";
         const titleLabel = h;
         const frontRows = {};
@@ -7754,3 +7754,4 @@ $("cb-submit-btn").addEventListener("click", async () => {
   </script>
 </body>
 </html>
+
