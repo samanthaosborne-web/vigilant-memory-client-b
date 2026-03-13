@@ -1,6 +1,21 @@
 (function () {
   var form = document.getElementById("signupForm");
   var statusMessage = document.getElementById("statusMessage");
+  var accountTypeInput = document.getElementById("accountType");
+  var signupHeading = document.getElementById("signupHeading");
+  var signupSub = document.getElementById("signupSub");
+  var signupLinks = document.getElementById("signupLinks");
+
+  // Detect consultant portal signup
+  var urlParams = new URLSearchParams(window.location.search);
+  var isConsultant = urlParams.get("portal") === "consultant";
+
+  if (isConsultant && accountTypeInput) {
+    accountTypeInput.value = "consultant";
+    if (signupHeading) signupHeading.textContent = "Create your consultant profile";
+    if (signupSub) signupSub.textContent = "Sign up to access the AdvisaStacks Consultant Portal.";
+    if (signupLinks) signupLinks.innerHTML = 'Already have an account? <a href="./login.html?portal=consultant">Log in</a> | <a href="./home.html">Learn more</a>';
+  }
 
   function setStatus(message, type) {
     statusMessage.textContent = message;
@@ -37,6 +52,7 @@
     var privacyAccepted = document.getElementById("privacyPolicy").checked;
     var advisaAccepted = document.getElementById("advisaDisclaimer").checked;
     var marketingOptIn = document.getElementById("marketingConsent").checked;
+    var accountType = accountTypeInput ? accountTypeInput.value : "client";
 
     if (!firstName) {
       setStatus("Please enter your first name.", "error");
@@ -61,9 +77,10 @@
       email: email,
       password: password,
       options: {
-        emailRedirectTo: window.location.origin + "/login.html",
+        emailRedirectTo: window.location.origin + (accountType === "consultant" ? "/login.html?portal=consultant" : "/login.html"),
         data: {
           first_name: firstName,
+          account_type: accountType,
           legal_disclaimer_accepted: legalAccepted,
           privacy_policy_accepted: privacyAccepted,
           advisastack_disclaimer_accepted: advisaAccepted,

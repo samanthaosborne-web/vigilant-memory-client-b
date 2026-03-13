@@ -2104,17 +2104,32 @@
     .footer-left div {
       line-height: 1.5;
     }
-    .footer-right-info {
-      margin-left: auto;
-      min-width: 250px;
-      display: grid;
-      gap: 4px;
-      text-align: right;
+    .footer-contact-info {
       color: #cbd5e1;
     }
-    .footer-right-info a {
+    .footer-contact-info a {
       color: #f8fafc;
       font-weight: 700;
+    }
+    .footer-right-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+    }
+    .footer-logout-btn {
+      background: transparent;
+      border: 1px solid #64748b;
+      border-radius: 8px;
+      color: #94a3b8;
+      padding: 6px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .footer-logout-btn:hover {
+      background: #334155;
+      color: #f1f5f9;
     }
 
     @media (max-width: 980px) {
@@ -2181,9 +2196,9 @@
         align-items: flex-start;
         text-align: left;
       }
-      .footer-right-info {
+      .footer-right-actions {
         margin-left: 0;
-        text-align: left;
+        margin-top: 6px;
       }
     }
 
@@ -2728,7 +2743,7 @@
       </button>
       <div class="header-utilities">
         <button class="header-utility-btn" id="desktopSavedBtn" type="button">Saved</button>
-        <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Custom Tools · Advanced</button>
+        <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Advanced</button>
         <button class="header-utility-btn" id="desktopSettingsBtn" type="button">Settings</button>
       </div>
     </div>
@@ -2749,7 +2764,7 @@
     <div class="menu-divider"></div>
     <button class="menu-item" data-key="Home">Home</button>
     <button class="menu-item" data-key="Saved">Saved</button>
-    <button class="menu-item" data-key="Custom Tools">Custom Tools (Advanced)</button>
+    <button class="menu-item" data-key="Custom Tools">Advanced</button>
     <div class="menu-divider"></div>
     <div style="flex:1;"></div>
     <button class="menu-item" id="feedbackNavBtn">Feedback form</button>
@@ -2831,11 +2846,11 @@
     <div class="footer-inner">
       <div class="footer-left">
         <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
+        <div class="footer-contact-info">E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> &nbsp;|&nbsp; ABN: 37 131 434 727</div>
         <div>© AdvisaStacks</div>
       </div>
-      <div class="footer-right-info">
-        <div>E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a></div>
-        <div>ABN: 37 131 434 727</div>
+      <div class="footer-right-actions">
+        <button class="footer-logout-btn" id="footerLogoutBtn" type="button">Log out</button>
       </div>
     </div>
   </footer>
@@ -7275,6 +7290,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
     });
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
+      if (window.__supabase) await window.__supabase.auth.signOut();
+      window.location.replace("./login.html");
+    });
+
+    document.getElementById("footerLogoutBtn")?.addEventListener("click", async () => {
       if (window.__supabase) await window.__supabase.auth.signOut();
       window.location.replace("./login.html");
     });

@@ -7,6 +7,49 @@
   var mfaCodeInput = document.getElementById("mfaCode");
   var mfaVerifyBtn = document.getElementById("mfaVerifyBtn");
   var resendBtn = document.getElementById("resendBtn");
+  var portalTypeInput = document.getElementById("portalType");
+
+  // Portal toggle
+  var clientToggle = document.getElementById("clientToggle");
+  var consultantToggle = document.getElementById("consultantToggle");
+  var loginHeading = document.getElementById("loginHeading");
+  var loginSub = document.getElementById("loginSub");
+  var loginLinks = document.getElementById("loginLinks");
+
+  function setPortalType(type) {
+    portalTypeInput.value = type;
+    if (type === "consultant") {
+      clientToggle.classList.remove("active");
+      consultantToggle.classList.add("active");
+      loginHeading.textContent = "Consultant Sign in";
+      loginSub.textContent = "Access the AdvisaStacks Consultant Portal.";
+      loginLinks.innerHTML = 'No account yet? <a href="./signup.html?portal=consultant">Create a profile</a> | <a href="./home.html">Learn more</a>';
+    } else {
+      consultantToggle.classList.remove("active");
+      clientToggle.classList.add("active");
+      loginHeading.textContent = "Sign in";
+      loginSub.textContent = "Use your AdvisaStacks account credentials.";
+      loginLinks.innerHTML = 'No account yet? <a href="./signup.html">Create account</a> | <a href="./home.html">Learn more</a>';
+    }
+  }
+
+  if (clientToggle && consultantToggle) {
+    clientToggle.addEventListener("click", function () { setPortalType("client"); });
+    consultantToggle.addEventListener("click", function () { setPortalType("consultant"); });
+  }
+
+  // Check URL params for portal type
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("portal") === "consultant") {
+    setPortalType("consultant");
+  }
+
+  function getRedirectUrl() {
+    if (portalTypeInput.value === "consultant") {
+      return "./consultant-portal.html";
+    }
+    return "./index.html";
+  }
 
   function setStatus(message, type) {
     statusMessage.textContent = message;
@@ -50,7 +93,7 @@
       .then(function (r) { return r.json(); })
       .then(function (result) {
         if (result.verified) {
-          window.location.replace("./index.html");
+          window.location.replace(getRedirectUrl());
         }
       })
       .catch(function () {});
@@ -115,7 +158,8 @@
 
     verifyCode(activeToken, code).then(function (result) {
       if (result.verified) {
-        window.location.href = "./index.html";
+        // Consultant portal skips billing, goes straight to portal
+        window.location.href = getRedirectUrl();
         return;
       }
       setStatus(result.error || "Invalid or expired code. Please try again.", "error");
