@@ -46,7 +46,11 @@ module.exports = async (req, res) => {
     .eq("user_id", user.id)
     .maybeSingle();
 
-  if (!memberError && membership && membership.portal_access && membership.role === "consultant") {
+  // Allow both consultant and admin roles to access the portal
+  var hasAccess = !memberError && membership && membership.portal_access &&
+    (membership.role === "consultant" || membership.role === "admin");
+
+  if (hasAccess) {
     return json(res, 200, {
       access: true,
       role: membership.role,
