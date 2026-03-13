@@ -2726,16 +2726,16 @@
     :root {
       --bg: #ececeb;
       --text: #18181a;
-      --accent: #e86a45;
+      --accent: #dc6d47;
       --charcoal: #18181a;
-      --surface: #faf9f7;
-      --surface-muted: #f3f1ee;
+      --surface: #f2eee8;
+      --surface-muted: #ece7e1;
       --text-dark: #18181a;
       --text-muted: #767676;
-      --border-subtle: #e3e0db;
-      --border-strong: #d4cfc8;
-      --panel: #faf9f7;
-      --panel-soft: #f7f5f2;
+      --border-subtle: #cfc8bf;
+      --border-strong: #bfb6ac;
+      --panel: #f2eee8;
+      --panel-soft: #ece7e1;
       --radius-sm: 10px;
       --radius-md: 16px;
       --radius-lg: 24px;
@@ -3207,6 +3207,112 @@
       }
     }
 
+    .header-copy {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .site-header,
+    .workspace-panel,
+    .card,
+    .card.open,
+    .cb-saved-item,
+    .workspace-saved-row {
+      border-color: var(--border-subtle);
+    }
+
+    .card,
+    .card.open,
+    .workspace-panel {
+      background: var(--panel);
+    }
+
+    .card-body,
+    .workspace-panel,
+    .workspace-saved-row,
+    .cb-saved-item,
+    .cb-saved-section,
+    .card-head {
+      color: var(--text-dark);
+    }
+
+    .card:hover,
+    .workspace-saved-row:hover,
+    .cb-saved-item:hover {
+      border-color: var(--accent);
+    }
+
+    .card:hover .card-head h3,
+    .card:hover .card-subline,
+    .card:hover .card-when,
+    .card-head:hover h3,
+    .card-head:hover .card-subline,
+    .card-head:hover .card-when {
+      color: inherit;
+    }
+
+    .card-head:hover {
+      background: transparent;
+    }
+
+    input,
+    select,
+    textarea,
+    .qb-input,
+    .cb-input,
+    .type-input,
+    .templates-field input,
+    .templates-field textarea {
+      background: #f1ede8;
+      border-color: var(--border-subtle);
+      color: var(--text-dark);
+    }
+
+    input::placeholder,
+    textarea::placeholder,
+    .qb-input::placeholder,
+    .cb-input::placeholder {
+      color: #8d857b;
+    }
+
+    .cb-chip,
+    .quick-btn,
+    .toggle-chip,
+    .seg-btn,
+    .template-pill,
+    .filters button,
+    .option-chip,
+    .choice-chip {
+      border-color: var(--border-subtle);
+    }
+
+    .cb-chip.selected,
+    .quick-btn.active,
+    .toggle-chip.active,
+    .seg-btn.active,
+    .template-pill.active,
+    .option-chip.active,
+    .choice-chip.active,
+    .home-cta-btn,
+    .copy-btn,
+    .action-primary,
+    .cb-primary-btn,
+    .builder-submit-btn,
+    .template-action-btn,
+    .cb-action-row .cb-submit-btn,
+    .cb-action-row .cb-save-btn {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    @media (max-width: 820px) {
+      .header-copy {
+        align-items: flex-start;
+      }
+    }
+
   </style>
 </head>
 
@@ -3216,10 +3322,12 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <div class="header-brand home-launch" id="homeLaunchBtn" role="button" tabindex="0" aria-label="Go to Home">
-        <img class="header-logo" src="./Advisastacks Logo White.png" alt="AdvisaStacks logo" />
-        <p class="header-tagline">The Ultimate Toolkit for Tradies</p>
-        
+            <div class="header-brand home-launch" id="homeLaunchBtn" role="button" tabindex="0" aria-label="Go to Home">
+        <img class="header-logo" src="./advisastacks-logo.png.png" alt="AdvisaStacks logo" />
+        <div class="header-copy">
+          <p class="header-tagline">Consultant Portal</p>
+          <p class="header-subtagline">The Ultimate Toolkit for Tradies</p>
+        </div>
       </div>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
         <span class="menu-icon" aria-hidden="true">
@@ -3232,6 +3340,7 @@
         <button class="header-utility-btn" id="desktopSavedBtn" type="button">Saved</button>
         <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Advanced</button>
         <button class="header-utility-btn" id="desktopSettingsBtn" type="button">Settings</button>
+        <button class="header-utility-btn" id="desktopLogoutBtn" type="button">Log out</button>
       </div>
     </div>
   </header>
@@ -3303,7 +3412,7 @@
         <div class="brand-preview">
           <div class="brand-preview-label">Preview</div>
           <div class="brand-preview-header" id="brandPreviewHeader">
-            <img class="brand-preview-logo" id="brandPreviewLogo" src="./Advisastacks Logo White.png" alt="" />
+            <img class="brand-preview-logo" id="brandPreviewLogo" src="./advisastacks-logo.png.png" alt="" />
             <div class="brand-preview-name" id="brandPreviewName">The Ultimate Toolkit for Tradies</div>
           </div>
           <div class="brand-preview-accent" id="brandPreviewAccent"></div>
@@ -4140,27 +4249,6 @@
               "Rewrite the message below so it sounds like a real Australian trade business.\n\nMessage type: [Message type]\nTone: [Tone]\n\nRules:\n- Plain English\n- Short sentences\n- No corporate or marketing language\n- No em dashes\n- Friendly, clear, and practical\n\nText to rewrite:\n[PASTE MESSAGE]"
             ],
             "example": {"input":"AI-generated email that sounds too robotic","output":[{"label":"Before","text":"Dear Valued Customer, I hope this message finds you well. I am writing to inform you that your recent electrical service request has been duly noted and we shall endeavour to address your requirements at the earliest convenience."},{"label":"After","text":"Hi Sarah, thanks for getting in touch. I’ve got your request and I’ll be in contact shortly to arrange a time that works. Cheers, Matt"}]}
-          },
-          {
-            "subtitle": "Improve My Message",
-            "chatbot": "AI assistant",
-            "front": {
-              "outcome": "Fix a message so it sounds exactly how you want.",
-              "when": "When the AI response is close but not quite right.",
-              "goodFor": "Improving tone, clarity, and professionalism.",
-              "tip": "Paste the AI message and your edited version."
-            },
-            "ui": {
-              "quickInputs": [{
-                "label": "Goal",
-                "options": ["Shorter", "Friendlier", "Firmer", "Clearer"]
-              }],
-              "fields": ["[AI version]", "[My version]"]
-            },
-            "prompts": [
-              "I'm improving my message style.\n\nHere is the AI version:\n[AI version]\n\nHere is my corrected version:\n[My version]\n\nTask:\n\n1. Identify the style differences (tone, sentence length, wording).\n2. List the key writing rules my business prefers.\n3. Rewrite the AI message again so it matches my style perfectly.\n\nGoal: [Goal], clear, and practical."
-            ],
-            "example": {"input":"Rough draft SMS about a quote","output":[{"label":"Before","text":"hey mate sent u a quote for the job can u have a look when u get a chance and let me no if u wanna go ahead cheers"},{"label":"After","text":"Hey Dave, just sent through the quote for the garage rewire. When you get a chance, have a look and let me know if you're happy to go ahead. I can book you in for next week. Cheers, Matt"}]}
           }
         ]
       }
@@ -4208,7 +4296,7 @@
 
     const DEFAULT_ACCENT = "#e75a00";
     const DEFAULT_TAGLINE = "The Ultimate Toolkit for Tradies";
-    const DEFAULT_LOGO_SRC = "./Advisastacks Logo White.png";
+    const DEFAULT_LOGO_SRC = "./advisastacks-logo.png.png";
     const DEFAULT_COPYRIGHT = "AdvisaStacks";
 
     function isValidHexColour(str) {
@@ -7155,6 +7243,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
     const desktopSavedBtn = document.getElementById("desktopSavedBtn");
     const desktopCustomToolsBtn = document.getElementById("desktopCustomToolsBtn");
     const desktopSettingsBtn = document.getElementById("desktopSettingsBtn");
+    const desktopLogoutBtn = document.getElementById("desktopLogoutBtn");
     const menuSettingsBtn = document.getElementById("menuSettingsBtn");
     const menuPanel = document.getElementById("menuPanel");
     const menuBackdrop = document.getElementById("menuBackdrop");
@@ -7206,6 +7295,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
     desktopCustomToolsBtn?.addEventListener("click", () => navigate("Custom Tools"));
     desktopSettingsBtn?.addEventListener("click", () => {
       openSettings();
+    });
+    desktopLogoutBtn?.addEventListener("click", async () => {
+      if (window.__supabase) await window.__supabase.auth.signOut();
+      window.location.replace("./login.html");
     });
     menuSettingsBtn?.addEventListener("click", () => {
       closeMenu();
