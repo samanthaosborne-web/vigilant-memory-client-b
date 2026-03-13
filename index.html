@@ -25,18 +25,18 @@
   <script defer src="/_vercel/insights/script.js"></script>
   <style>
     :root {
-      --bg: #f1f5f9;
-      --text: #1e293b;
+      --bg: #0f172a;
+      --text: #e2e8f0;
       --accent: #e75a00;
-      --charcoal: #ffffff;
-      --surface: #ffffff;
-      --surface-muted: #f0f1f5;
-      --text-dark: #1e293b;
-      --text-muted: #64748b;
-      --border-subtle: #e2e8f0;
-      --border-strong: #cbd5e1;
-      --panel: #ffffff;
-      --panel-soft: #f8fafc;
+      --charcoal: #1e293b;
+      --surface: #f8fafc;
+      --surface-muted: #1c2637;
+      --text-dark: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border-subtle: #2e3a4f;
+      --border-strong: #3a495f;
+      --panel: #111a2c;
+      --panel-soft: #151f33;
       --radius-sm: 8px;
       --radius-md: 12px;
       --radius-lg: 16px;
@@ -82,7 +82,7 @@
       position: sticky;
       top: 0;
       z-index: 10000;
-      background: rgba(241, 245, 249, 0.95);
+      background: rgba(15, 23, 42, 0.92);
       border-bottom: 1px solid var(--border-subtle);
       backdrop-filter: blur(8px);
       padding-top: env(safe-area-inset-top);
@@ -119,7 +119,7 @@
     }
     .header-tagline {
       margin: 0;
-      color: #1e293b;
+      color: #f8fafc;
       font-family: var(--font-heading);
       font-size: 17px;
       font-weight: 700;
@@ -165,7 +165,7 @@
     .header-utility-btn {
       border: 1px solid var(--border-subtle);
       background: rgba(15, 23, 42, 0.55);
-      color: #64748b;
+      color: #cbd5e1;
       border-radius: 999px;
       padding: 7px 11px;
       font-size: 13px;
@@ -220,7 +220,7 @@
     .desktop-nav-btn {
       border: 1px solid var(--border-subtle);
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border-radius: 999px;
       padding: 8px 14px;
       font-size: 14px;
@@ -247,7 +247,7 @@
       right: 0;
       width: min(360px, 92vw);
       height: 100vh;
-      background: #ffffff;
+      background: #111a2c;
       border-left: 1px solid var(--border-subtle);
       transform: translateX(110%);
       transition: transform 220ms ease;
@@ -284,7 +284,7 @@
       background: transparent;
       border: 1px solid var(--border-subtle);
       border-radius: 12px;
-      color: #64748b;
+      color: #cbd5e1;
       font-size: 15px;
       font-weight: 700;
       padding: 11px 12px;
@@ -314,7 +314,7 @@
 
     .menu-item-logout {
       margin-top: 8px;
-      background: #f1f5f9;
+      background: #0f172a;
       border-color: #334155;
       color: #f9faff;
     }
@@ -326,7 +326,7 @@
       transform: translateX(0);
     }
     .menu-divider {
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #334155;
       margin: 6px 0;
     }
 
@@ -340,7 +340,7 @@
       margin: 10px 0 6px;
       font-size: 24px;
       font-weight: 800;
-      color: #1e293b;
+      color: #f8fafc;
     }
     .page-controls {
       display: flex;
@@ -354,7 +354,7 @@
     .page-filter-btn {
       border: 1px solid #475569;
       background: #111827;
-      color: #1e293b;
+      color: #e2e8f0;
       border-radius: 999px;
       padding: 8px 12px;
       font-size: 14px;
@@ -404,7 +404,7 @@
     }
     .home-kicker {
       margin: 0;
-      color: #1e293b;
+      color: #f8fafc;
       font-family: var(--font-heading);
       font-size: 36px;
       font-weight: 800;
@@ -413,7 +413,7 @@
     }
     .home-defaults-btn {
       background: #e75a00;
-      color: #ffffff;
+      color: #fff;
       border: 1px solid #e75a00;
       border-radius: 10px;
       padding: 9px 14px;
@@ -438,11 +438,11 @@
       margin: 0;
       font-size: 16px;
       font-weight: 800;
-      color: #1e293b;
+      color: #f8fafc;
     }
     .welcome-text {
       margin: 0;
-      color: #64748b;
+      color: #cbd5e1;
       font-size: 14px;
       line-height: 1.45;
     }
@@ -464,12 +464,12 @@
     .welcome-primary-btn {
       border: 1px solid #e75a00;
       background: #e75a00;
-      color: #ffffff;
+      color: #fff;
     }
     .welcome-secondary-btn {
       border: 1px solid #475569;
-      background: #f1f5f9;
-      color: #1e293b;
+      background: #0f172a;
+      color: #e2e8f0;
     }
     .welcome-primary-btn:hover,
     .welcome-secondary-btn:hover {
@@ -500,7 +500,7 @@
       margin: 2px auto 0;
       max-width: 900px;
       text-align: center;
-      color: #64748b;
+      color: #cbd5e1;
       font-size: 15px;
       line-height: 1.55;
     }
@@ -534,7 +534,7 @@
       border-left: 2px solid rgba(231, 90, 0, 0.65);
       background: var(--panel-soft);
       border-radius: 10px;
-      color: #1e293b;
+      color: #f8fafc;
       text-align: left;
       padding: 12px;
       font: inherit;
@@ -546,7 +546,7 @@
     .home-task-btn strong {
       font-size: 16px;
       font-weight: 700;
-      color: #1e293b;
+      color: #f8fafc;
     }
     .home-task-btn span {
       font-size: 14px;
@@ -578,7 +578,7 @@
     .home-cta-btn.primary {
       background: #e75a00;
       border-color: #e75a00;
-      color: #ffffff;
+      color: #fff;
     }
     .home-cta-btn:hover {
       filter: brightness(0.96);
@@ -598,7 +598,7 @@
     .workspace-panel h4 {
       margin: 0;
       font-size: 15px;
-      color: #1e293b;
+      color: #f8fafc;
       font-weight: 700;
     }
     .workspace-muted {
@@ -608,7 +608,7 @@
       margin: 0;
     }
     .workspace-group {
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #334155;
       padding-top: 8px;
       display: grid;
       gap: 8px;
@@ -620,7 +620,7 @@
     .workspace-group-title {
       font-size: 13px;
       font-weight: 700;
-      color: #64748b;
+      color: #cbd5e1;
       text-transform: uppercase;
       letter-spacing: 0.4px;
     }
@@ -682,8 +682,8 @@
     .app-confirm.open { display: flex; }
     .app-confirm-dialog {
       width: min(520px, 100%);
-      background: #f1f5f9;
-      color: #1e293b;
+      background: #0f172a;
+      color: #f8fafc;
       border: 1px solid var(--border-strong);
       border-radius: 14px;
       box-shadow: 0 12px 30px rgba(15, 23, 42, 0.28);
@@ -693,13 +693,13 @@
       margin: 0 0 8px;
       font-size: 18px;
       font-weight: 800;
-      color: #1e293b;
+      color: #f8fafc;
     }
     .app-confirm-text {
       margin: 0;
       font-size: 14px;
       line-height: 1.55;
-      color: #64748b;
+      color: #cbd5e1;
     }
     .app-confirm-actions {
       display: flex;
@@ -709,12 +709,12 @@
     }
     .app-confirm-actions .cb-submit-btn {
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border-color: var(--border-strong);
     }
     .app-confirm-actions .cb-save-btn {
       background: #e75a00;
-      color: #ffffff;
+      color: #fff;
       border-color: #e75a00;
     }
     .app-settings {
@@ -734,7 +734,7 @@
       max-height: calc(100vh - 32px);
       overflow-y: auto;
       background: var(--panel);
-      color: #1e293b;
+      color: #f8fafc;
       border: 1px solid var(--border-subtle);
       border-radius: 14px;
       box-shadow: var(--shadow-lg);
@@ -744,7 +744,7 @@
       margin: 0 0 6px;
       font-size: 20px;
       font-weight: 800;
-      color: #1e293b;
+      color: #f8fafc;
     }
     .app-settings-sub {
       margin: 0 0 10px;
@@ -761,11 +761,11 @@
     .app-settings-actions .cb-submit-btn {
       background: #e75a00;
       border-color: #e75a00;
-      color: #ffffff;
+      color: #fff;
     }
     .app-settings-actions .cb-submit-btn:last-child {
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border-color: var(--border-strong);
     }
     .app-settings-actions .cb-submit-btn:hover {
@@ -801,7 +801,7 @@
     .brand-colour-row label {
       font-size: 13px;
       font-weight: 600;
-      color: #64748b;
+      color: #cbd5e1;
     }
     .brand-colour-input-wrap {
       display: flex;
@@ -813,7 +813,7 @@
       height: 38px;
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
-      background: #f1f5f9;
+      background: #0f172a;
       cursor: pointer;
       padding: 2px;
       flex-shrink: 0;
@@ -825,7 +825,7 @@
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
       background: #1f2937;
-      color: #1e293b;
+      color: #f8fafc;
       font-family: "SF Mono", "Fira Code", monospace;
       font-size: 14px;
       width: 100px;
@@ -847,7 +847,7 @@
       letter-spacing: 0.5px;
       color: #64748b;
       padding: 6px 10px;
-      background: #f1f5f9;
+      background: #0f172a;
       border-bottom: 1px solid var(--border-subtle);
     }
     .brand-preview-header {
@@ -855,7 +855,7 @@
       align-items: center;
       gap: 10px;
       padding: 10px 12px;
-      background: rgba(241, 245, 249, 0.95);
+      background: rgba(15, 23, 42, 0.92);
       min-height: 50px;
     }
     .brand-preview-logo {
@@ -867,7 +867,7 @@
       font-family: var(--font-heading);
       font-size: 14px;
       font-weight: 700;
-      color: #1e293b;
+      color: #f8fafc;
     }
     .brand-preview-accent {
       height: 4px;
@@ -899,7 +899,7 @@
       gap: 10px;
       margin: 4px 0 10px;
       padding: 12px;
-      background: #f1f5f9;
+      background: #0f172a;
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
     }
@@ -921,7 +921,7 @@
     .global-field label {
       font-size: 13px;
       font-weight: 600;
-      color: #64748b;
+      color: #cbd5e1;
     }
 
     .global-field input {
@@ -1113,14 +1113,14 @@
     .kv .label {
       min-width: 118px;
       font-weight: 400;
-      color: #64748b;
+      color: #cbd5e1;
     }
 
     .favourite-btn {
       margin-top: 12px;
       margin-bottom: 8px;
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
       font-weight: 700;
@@ -1230,7 +1230,7 @@
       border-radius: 8px;
       padding: 10px 12px;
       margin-bottom: 14px;
-      color: #64748b;
+      color: #cbd5e1;
       font-size: 14px;
       line-height: 1.45;
     }
@@ -1243,7 +1243,7 @@
     .workflow-step {
       border: 1px solid var(--border-subtle);
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border-radius: 999px;
       padding: 5px 9px;
       font-size: 12px;
@@ -1267,7 +1267,7 @@
       font-weight: 700;
       margin-bottom: 10px;
       opacity: 1;
-      color: #64748b;
+      color: #cbd5e1;
     }
 
     .chips,
@@ -1291,7 +1291,7 @@
       display: inline-flex;
       padding: 8px 10px;
       border: 1px solid var(--border-subtle);
-      background: #ffffff;
+      background: #111a2c;
       color: #dbe3ef;
       font-size: 13px;
       line-height: 1.1;
@@ -1308,8 +1308,8 @@
     .custom-input {
       padding: 9px 11px;
       border: 1px solid var(--border-strong);
-      background: #f1f5f9;
-      color: #1e293b;
+      background: #0f172a;
+      color: #f8fafc;
       font-size: 16px;
       line-height: 1.3;
       font-family: inherit;
@@ -1337,7 +1337,7 @@
     .qb-wrapper { background: #111827; border-radius: 12px; padding: 24px; color: #e5e7eb; font-family: inherit; }
     .qb-wrapper * { box-sizing: border-box; }
     .qb-header { font-size: 22px; font-weight: 700; color: #f9fafb; margin: 0 0 24px 0; }
-    .qb-section { margin-bottom: 24px; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+    .qb-section { margin-bottom: 24px; border-top: 1px solid #334155; padding-top: 20px; }
     .qb-section:first-of-type { border-top: none; padding-top: 0; }
     .qb-title { font-size: 14px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 16px; letter-spacing: 0.5px; }
     .qb-grid-2 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
@@ -1345,27 +1345,27 @@
     .qb-grid-3 { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 16px; }
     @media(min-width: 640px) { .qb-grid-3 { grid-template-columns: 1fr 1fr 1fr; } }
     .qb-field { display: flex; flex-direction: column; gap: 8px; }
-    .qb-field label { font-size: 14px; font-weight: 700; color: #1e293b; }
+    .qb-field label { font-size: 14px; font-weight: 700; color: #e2e8f0; }
     .qb-input { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 16px; color: #0f172a; background: #fff; width: 100%; transition: border-color 0.2s; font-family: inherit; }
     .qb-input:focus { outline: none; border-color: #e75a00; box-shadow: 0 0 0 3px rgba(231,90,0,0.1); }
     textarea.qb-input { resize: vertical; min-height: 80px; }
     
     /* Line Items Logic */
-    .qb-line-item { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; }
+    .qb-line-item { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; }
     .qb-remove-line { position: absolute; top: 12px; right: 12px; color: #ef4444; background: none; border: none; cursor: pointer; font-size: 13px; font-weight: 700; padding: 4px; }
     .qb-remove-line:hover { text-decoration: underline; }
-    .qb-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: #1f2937; color: #e5e7eb; border-radius: 6px; font-size: 14px; font-weight: 700; border: 1px solid #e2e8f0; cursor: pointer; transition: background 0.2s; }
+    .qb-add-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: #1f2937; color: #e5e7eb; border-radius: 6px; font-size: 14px; font-weight: 700; border: 1px solid #334155; cursor: pointer; transition: background 0.2s; }
     .qb-add-btn:hover { background: #273449; }
 
     .qb-toggle-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .qb-toggle-label { font-size: 14px; font-weight: 600; color: #e5e7eb; }
     .qb-toggle { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
     .qb-toggle input { opacity: 0; width: 0; height: 0; }
-    .qb-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #64748b; transition: .3s; border-radius: 24px; }
+    .qb-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .3s; border-radius: 24px; }
     .qb-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
     .qb-toggle input:checked + .qb-slider { background-color: #1e293b; }
     .qb-toggle input:checked + .qb-slider:before { transform: translateX(20px); }
-    .qb-total-box { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 14px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #64748b; margin-bottom: 16px; font-size: 14px; }
+    .qb-total-box { background: #0f172a; border: 1px solid #334155; padding: 14px 16px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #cbd5e1; margin-bottom: 16px; font-size: 14px; }
     .qb-total-val { font-size: 16px; color: #f9fafb; font-weight: 900; }
     .prompt-block {
       padding: 10px 0 6px;
@@ -1387,7 +1387,7 @@
       margin: 0 0 10px;
       font-weight: 400;
       color: #f9faff;
-      background: #ffffff;
+      background: #111a2c;
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
       padding: 14px 16px;
@@ -1410,7 +1410,7 @@
 
     .copy-btn {
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border: 1px solid var(--border-subtle);
       padding: 8px 14px;
       cursor: pointer;
@@ -1426,7 +1426,7 @@
 
     .copy-btn:hover {
       border-color: var(--border-strong);
-      color: #1e293b;
+      color: #f8fafc;
       background: rgba(148, 163, 184, 0.08);
     }
 
@@ -1488,7 +1488,7 @@
     }
     .ai-preview-btn {
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border: 1px solid #475569;
       border-radius: 8px;
       padding: 6px 10px;
@@ -1509,7 +1509,7 @@
       background: linear-gradient(135deg, #e75a00 0%, #ff7a1a 100%);
       border: none;
       border-radius: 8px;
-      color: #1e293b;
+      color: #f8fafc;
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
@@ -1707,12 +1707,12 @@
     .cb-header {
       font-size: 20px;
       font-weight: 700;
-      color: #1e293b;
+      color: #f8fafc;
       margin: 0 0 6px;
     }
     .cb-subtext {
       font-size: 14px;
-      color: #64748b;
+      color: #cbd5e1;
       margin: 0 0 20px;
       line-height: 1.5;
     }
@@ -1753,8 +1753,8 @@
       border: 1px solid var(--border-strong);
       border-radius: 8px;
       font-size: 16px;
-      color: #1e293b;
-      background: #f1f5f9;
+      color: #f8fafc;
+      background: #0f172a;
       width: 100%;
       font-family: inherit;
       transition: border-color 0.15s;
@@ -1777,8 +1777,8 @@
       border-radius: 20px;
       font-size: 12px;
       font-weight: 600;
-      color: #64748b;
-      background: #f1f5f9;
+      color: #cbd5e1;
+      background: #0f172a;
       cursor: pointer;
       transition: all 0.15s;
       user-select: none;
@@ -1787,7 +1787,7 @@
     .cb-chip.selected {
       background: #e75a00;
       border-color: #e75a00;
-      color: #ffffff;
+      color: #fff;
     }
     /* Output area */
     .cb-output-section {
@@ -1806,7 +1806,7 @@
       margin-bottom: 16px;
     }
     .cb-output-block {
-      background: #f1f5f9;
+      background: #0f172a;
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
       padding: 16px;
@@ -1825,7 +1825,7 @@
     }
     .cb-output-label .cb-badge {
       background: #e75a00;
-      color: #ffffff;
+      color: #fff;
       border-radius: 4px;
       padding: 2px 7px;
       font-size: 10px;
@@ -1839,7 +1839,7 @@
       font-family: inherit;
       min-height: 40px;
       background: #162130;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #334155;
       border-radius: 8px;
       padding: 10px 12px;
     }
@@ -1854,7 +1854,7 @@
       flex-wrap: wrap;
     }
     .cb-suggested-inputs {
-      background: #f1f5f9;
+      background: #0f172a;
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
       padding: 14px 16px;
@@ -1874,13 +1874,13 @@
       gap: 6px;
     }
     .cb-suggested-pill {
-      background: #ffffff;
+      background: #111a2c;
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
       padding: 4px 10px;
       font-size: 12px;
       font-weight: 600;
-      color: #64748b;
+      color: #cbd5e1;
     }
     /* Action buttons */
     .cb-action-row {
@@ -1909,7 +1909,7 @@
       gap: 6px;
       padding: 10px 16px;
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
       font-size: 13px;
@@ -1925,7 +1925,7 @@
       gap: 6px;
       padding: 10px 16px;
       background: transparent;
-      color: #64748b;
+      color: #cbd5e1;
       border: 1px solid var(--border-strong);
       border-radius: var(--radius-sm);
       font-size: 13px;
@@ -1942,7 +1942,7 @@
     .cb-action-row .cb-submit-btn,
     .cb-action-row .cb-save-btn {
       background: #e75a00;
-      color: #ffffff;
+      color: #fff;
       border-color: #e75a00;
     }
     .cb-action-row .cb-submit-btn:hover,
@@ -1958,8 +1958,8 @@
     .cb-toast {
       display: none;
       padding: 10px 14px;
-      background: #f1f5f9;
-      color: #ffffff;
+      background: #0f172a;
+      color: #fff;
       border-radius: 8px;
       font-size: 13px;
       font-weight: 600;
@@ -1969,7 +1969,7 @@
     /* Saved templates section */
     .cb-saved-section {
       margin-top: 24px;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #334155;
       padding-top: 18px;
     }
     .cb-saved-title {
@@ -1979,7 +1979,7 @@
       margin-bottom: 12px;
     }
     .cb-saved-item {
-      background: #f1f5f9;
+      background: #0f172a;
       border: 1px solid var(--border-subtle);
       border-radius: 8px;
       padding: 12px 14px;
@@ -2105,10 +2105,10 @@
       line-height: 1.5;
     }
     .footer-contact-info {
-      color: #64748b;
+      color: #cbd5e1;
     }
     .footer-contact-info a {
-      color: #1e293b;
+      color: #f8fafc;
       font-weight: 700;
     }
     .footer-right-actions {
@@ -2225,7 +2225,7 @@
     }
     .example-toggle:hover {
       border-color: var(--border-strong);
-      color: #64748b;
+      color: #cbd5e1;
       background: rgba(148, 163, 184, 0.04);
     }
     .example-toggle[aria-expanded="true"] {
@@ -2287,7 +2287,7 @@
     }
     .example-response-box .ai-response-text {
       font-size: 14px;
-      color: #64748b;
+      color: #cbd5e1;
       line-height: 1.55;
     }
     .ai-response-box-head {
@@ -2429,7 +2429,7 @@
       font-family: var(--font-body);
       font-size: 0.85rem;
       font-weight: 600;
-      color: #64748b;
+      color: #cbd5e1;
       margin-bottom: 6px;
     }
     .onboarding-field input {
@@ -2460,7 +2460,7 @@
     .onboarding-primary-btn {
       padding: 12px 28px;
       background: var(--accent);
-      color: #ffffff;
+      color: #fff;
       border: none;
       border-radius: 8px;
       font-family: var(--font-body);
@@ -2499,7 +2499,7 @@
       font-family: var(--font-heading);
       font-size: 1.1rem;
       font-weight: 600;
-      color: #1e293b;
+      color: #e2e8f0;
       margin: 0 0 8px;
     }
     .onboarding-workflow {
@@ -2542,7 +2542,7 @@
     }
     .onboarding-chip.selected {
       background: var(--accent);
-      color: #ffffff;
+      color: #fff;
       border-color: var(--accent);
     }
     .onboarding-fields-grid {
@@ -2565,7 +2565,7 @@
       background: var(--bg);
       border: 1px solid var(--border-subtle);
       border-radius: 6px;
-      color: #1e293b;
+      color: #e2e8f0;
       font-size: 0.85rem;
       font-family: var(--font-body);
       box-sizing: border-box;
@@ -2637,7 +2637,7 @@
     }
     .onboarding-copy-btn:hover {
       background: var(--accent);
-      color: #ffffff;
+      color: #fff;
       border-color: var(--accent);
     }
     .onboarding-response-actions {
@@ -2648,7 +2648,7 @@
     .onboarding-response-text {
       padding: 12px;
       font-size: 0.88rem;
-      color: #1e293b;
+      color: #e2e8f0;
       white-space: pre-wrap;
       line-height: 1.5;
       font-family: var(--font-body);
@@ -2720,974 +2720,6 @@
         grid-template-columns: 1fr;
       }
     }
-  
-
-    /* === 2026 UI refresh override === */
-    :root {
-      --bg: #ececeb;
-      --text: #18181a;
-      --accent: #dc6d47;
-      --charcoal: #18181a;
-      --surface: #f2eee8;
-      --surface-muted: #ece7e1;
-      --text-dark: #18181a;
-      --text-muted: #767676;
-      --border-subtle: #cfc8bf;
-      --border-strong: #bfb6ac;
-      --panel: #f2eee8;
-      --panel-soft: #ece7e1;
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 10px 28px rgba(0,0,0,0.06);
-      --shadow-lg: 0 18px 44px rgba(0,0,0,0.08);
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text-dark);
-    }
-
-    .site-header {
-      background: rgba(236, 236, 235, 0.92);
-      border-bottom: 1px solid var(--border-subtle);
-      backdrop-filter: blur(14px);
-    }
-
-    .header-inner {
-      max-width: 1240px;
-      min-height: 140px;
-      padding: 26px 24px 18px;
-    }
-
-    .header-brand {
-      gap: 10px;
-    }
-
-    .header-logo {
-      width: min(100%, 360px);
-      height: auto;
-      max-height: 110px;
-      filter: none;
-    }
-
-    .header-tagline {
-      color: var(--text-dark);
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .header-subtagline {
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
-    .menu-btn {
-      background: #ffffff;
-      border: 1px solid var(--border-subtle);
-      border-radius: 999px;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .menu-icon span {
-      background: var(--text-dark);
-    }
-
-    .header-utilities {
-      gap: 8px;
-    }
-
-    .header-utility-btn,
-    .desktop-nav-btn,
-    .page-filter-btn,
-    .menu-item {
-      background: rgba(255,255,255,0.72);
-      color: var(--text-dark);
-      border: 1px solid var(--border-subtle);
-      box-shadow: none;
-    }
-
-    .header-utility-btn:hover,
-    .desktop-nav-btn:hover,
-    .page-filter-btn:hover,
-    .menu-item:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: #fff8f5;
-    }
-
-    .header-utility-btn.active,
-    .desktop-nav-btn.active,
-    .page-filter-btn.active,
-    .menu-item.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .desktop-nav {
-      max-width: 1240px;
-      padding: 0 24px 18px;
-      gap: 10px;
-      border-bottom: 0;
-    }
-
-    main {
-      max-width: 1240px;
-      padding: 28px 24px 56px;
-    }
-
-    .page-title {
-      color: var(--text-dark);
-      letter-spacing: -0.03em;
-      font-size: clamp(38px, 5vw, 56px);
-      margin: 0 0 12px;
-    }
-
-    .page-help,
-    .home-subcopy,
-    .home-value-note,
-    .workspace-muted,
-    .help-tip,
-    .card-subline,
-    .card-when,
-    .footer-contact-info,
-    .cb-saved-item-meta {
-      color: var(--text-muted);
-    }
-
-    .home-cta-btn,
-    .copy-btn,
-    .action-primary,
-    .cb-primary-btn,
-    .builder-submit-btn,
-    .template-action-btn {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      box-shadow: none;
-    }
-
-    .home-cta-btn.secondary,
-    .copy-btn.secondary,
-    .action-secondary,
-    .cb-secondary-btn,
-    .template-secondary-btn {
-      background: #fff;
-      border-color: var(--border-subtle);
-      color: var(--text-dark);
-    }
-
-    .grid {
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border-subtle);
-      border-radius: 24px;
-      box-shadow: var(--shadow-sm);
-      overflow: clip;
-    }
-
-    .card:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--border-strong);
-    }
-
-    .card.open {
-      background: var(--panel);
-      box-shadow: var(--shadow-md);
-    }
-
-    .card-head {
-      background: transparent;
-      color: var(--text-dark);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 18px 20px 16px;
-      gap: 0;
-    }
-
-    .card-head:hover {
-      background: rgba(0,0,0,0.015);
-    }
-
-    .card-head h3 {
-      color: var(--text-dark);
-      margin: 0 0 8px;
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
-
-    .card-subline {
-      margin: 0 0 8px;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .card-when {
-      margin: 0;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .card-body {
-      background: transparent;
-      color: var(--text-dark);
-      padding: 20px;
-    }
-
-    .cb-card-top-actions {
-      margin-bottom: 14px;
-      gap: 8px;
-    }
-
-    .cb-card-top-btn,
-    .favourite-btn,
-    .reveal-btn,
-    .cb-load-btn,
-    .cb-delete-btn,
-    .workspace-index-link {
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: #fff;
-      color: var(--text-dark);
-      box-shadow: none;
-    }
-
-    .cb-card-top-btn:hover,
-    .favourite-btn:hover,
-    .reveal-btn:hover,
-    .cb-load-btn:hover,
-    .cb-delete-btn:hover,
-    .workspace-index-link:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: #fff8f5;
-    }
-
-    .favourite-btn.active,
-    .cb-load-btn.active,
-    .reveal-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .card-group-heading {
-      color: #7a746d;
-      margin: 6px 0 -2px;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-    }
-
-    .workspace-grid {
-      gap: 18px;
-    }
-
-    .workspace-panel {
-      border: 1px solid var(--border-subtle);
-      background: rgba(255,255,255,0.62);
-      border-radius: 22px;
-      padding: 18px;
-      gap: 14px;
-    }
-
-    .workspace-panel h4 {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text-dark);
-    }
-
-    .workspace-group {
-      border-top: 1px solid var(--border-subtle);
-      padding-top: 12px;
-      gap: 10px;
-    }
-
-    .workspace-group-title {
-      color: #7a746d;
-      letter-spacing: 0.08em;
-    }
-
-    .workspace-index-list {
-      display: grid;
-      gap: 8px;
-    }
-
-    .workspace-index-link {
-      justify-content: flex-start;
-      text-align: left;
-      padding: 10px 14px;
-    }
-
-    .workspace-saved-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .workspace-saved-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      background: #fff;
-    }
-
-    .workspace-saved-text {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-      color: var(--text-dark);
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    .workspace-saved-bullet {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent);
-      flex: 0 0 6px;
-      margin-top: 1px;
-    }
-
-    .workspace-saved-label {
-      min-width: 0;
-      overflow-wrap: anywhere;
-    }
-
-    .workspace-saved-open {
-      border: 1px solid var(--border-subtle);
-      background: #fff;
-      color: var(--text-dark);
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .workspace-saved-open:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: #fff8f5;
-    }
-
-    .grid-compact {
-      gap: 16px;
-    }
-
-    .grid-compact .card {
-      background: #faf9f7;
-    }
-
-    @media (min-width: 640px) {
-      .grid-compact .card { grid-column: span 6; }
-    }
-
-    @media (min-width: 980px) {
-      .grid-compact .card { grid-column: span 4; }
-    }
-
-    .grid-compact .card:not(.open) .card-head {
-      padding: 16px 16px 14px;
-      min-height: 158px;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 0;
-    }
-
-    .grid-compact .card:not(.open) .cb-card-top-actions {
-      display: flex;
-      margin-bottom: 12px;
-    }
-
-    .grid-compact .card:not(.open) .cb-card-top-btn,
-    .grid-compact .card:not(.open) .favourite-btn {
-      padding: 8px 12px;
-      font-size: 12px;
-    }
-
-    .grid-compact .card:not(.open) .card-head h3 {
-      font-size: 18px;
-      margin: 0 0 8px;
-      line-height: 1.2;
-    }
-
-    .grid-compact .card:not(.open) .card-subline {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 40px;
-      margin: 0 0 8px;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .grid-compact .card:not(.open) .card-when {
-      font-size: 12px;
-      line-height: 1.35;
-      min-height: 32px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .grid-compact .card:not(.open) .kv,
-    .grid-compact .card:not(.open) .reveal-btn {
-      display: none;
-    }
-
-    .grid-compact .card.open {
-      grid-column: 1 / -1;
-    }
-
-    .cb-saved-section {
-      border-top: 1px solid var(--border-subtle);
-      padding-top: 18px;
-    }
-
-    .cb-saved-title,
-    .cb-saved-item-name {
-      color: var(--text-dark);
-    }
-
-    .cb-saved-item {
-      background: #fff;
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 14px;
-    }
-
-    .cb-saved-item-actions {
-      gap: 10px;
-    }
-
-    @media (max-width: 820px) {
-      .header-inner {
-        min-height: 120px;
-        padding: 18px 16px 14px;
-      }
-
-      .header-logo {
-        width: min(100%, 280px);
-        max-height: 84px;
-      }
-
-      .desktop-nav,
-      main {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-
-      .workspace-saved-row {
-        grid-template-columns: 1fr;
-        align-items: stretch;
-      }
-
-      .workspace-saved-open {
-        width: 100%;
-      }
-
-      .grid-compact .card:not(.open) .card-head {
-        min-height: 0;
-      }
-    }
-
-    .header-copy {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .site-header,
-    .workspace-panel,
-    .card,
-    .card.open,
-    .cb-saved-item,
-    .workspace-saved-row {
-      border-color: var(--border-subtle);
-    }
-
-    .card,
-    .card.open,
-    .workspace-panel {
-      background: var(--panel);
-    }
-
-    .card-body,
-    .workspace-panel,
-    .workspace-saved-row,
-    .cb-saved-item,
-    .cb-saved-section,
-    .card-head {
-      color: var(--text-dark);
-    }
-
-    .card:hover,
-    .workspace-saved-row:hover,
-    .cb-saved-item:hover {
-      border-color: var(--accent);
-    }
-
-    .card:hover .card-head h3,
-    .card:hover .card-subline,
-    .card:hover .card-when,
-    .card-head:hover h3,
-    .card-head:hover .card-subline,
-    .card-head:hover .card-when {
-      color: inherit;
-    }
-
-    .card-head:hover {
-      background: transparent;
-    }
-
-    input,
-    select,
-    textarea,
-    .qb-input,
-    .cb-input,
-    .type-input,
-    .templates-field input,
-    .templates-field textarea {
-      background: #f1ede8;
-      border-color: var(--border-subtle);
-      color: var(--text-dark);
-    }
-
-    input::placeholder,
-    textarea::placeholder,
-    .qb-input::placeholder,
-    .cb-input::placeholder {
-      color: #8d857b;
-    }
-
-    .cb-chip,
-    .quick-btn,
-    .toggle-chip,
-    .seg-btn,
-    .template-pill,
-    .filters button,
-    .option-chip,
-    .choice-chip {
-      border-color: var(--border-subtle);
-    }
-
-    .cb-chip.selected,
-    .quick-btn.active,
-    .toggle-chip.active,
-    .seg-btn.active,
-    .template-pill.active,
-    .option-chip.active,
-    .choice-chip.active,
-    .home-cta-btn,
-    .copy-btn,
-    .action-primary,
-    .cb-primary-btn,
-    .builder-submit-btn,
-    .template-action-btn,
-    .cb-action-row .cb-submit-btn,
-    .cb-action-row .cb-save-btn {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    @media (max-width: 820px) {
-      .header-copy {
-        align-items: flex-start;
-      }
-    }
-
-  
-
-    /* Final visual cleanup v3 */
-    :root {
-      --bg: #e6e3de;
-      --text: #17181b;
-      --accent: #e06000;
-      --surface: #ece8e1;
-      --surface-muted: #e3ded5;
-      --text-dark: #17181b;
-      --text-muted: #6d675f;
-      --border-subtle: #cfc5b8;
-      --border-strong: #bcae9b;
-      --panel: #ece8e1;
-      --panel-soft: #e4dfd7;
-      --shadow-sm: 0 1px 2px rgba(20, 17, 12, 0.05);
-      --shadow-md: 0 10px 24px rgba(20, 17, 12, 0.07);
-      --shadow-lg: 0 18px 34px rgba(20, 17, 12, 0.08);
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 22px;
-    }
-
-    html,
-    body {
-      overflow-x: hidden;
-      background: var(--bg);
-    }
-
-    body {
-      color: var(--text-dark);
-    }
-
-    .site-header {
-      background: rgba(230, 227, 222, 0.94);
-      backdrop-filter: blur(10px);
-    }
-
-    .header-inner,
-    .desktop-nav,
-    main,
-    footer {
-      max-width: 1040px;
-    }
-
-    .header-inner {
-      min-height: 92px;
-      padding: 18px 20px 14px;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .header-brand {
-      width: auto;
-      flex: 1 1 auto;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 14px;
-    }
-
-    .header-copy {
-      align-items: flex-start;
-      gap: 4px;
-    }
-
-    .header-logo {
-      width: 155px;
-      max-width: 155px;
-      height: auto;
-      max-height: 62px;
-      object-fit: contain;
-    }
-
-    .header-tagline {
-      text-align: left;
-      font-size: 20px;
-      color: var(--text-dark);
-    }
-
-    .header-subtagline {
-      text-align: left;
-      color: #8b8174;
-      font-style: normal;
-      font-size: 13px;
-    }
-
-    .header-utility-btn,
-    .desktop-nav-btn,
-    .page-filter-btn,
-    .menu-item,
-    .footer-logout-btn,
-    .brand-reset-btn {
-      background: rgba(255, 255, 255, 0.38);
-      color: var(--text-dark);
-      border: 1px solid var(--border-subtle);
-    }
-
-    .header-utility-btn:hover,
-    .desktop-nav-btn:hover,
-    .page-filter-btn:hover,
-    .menu-item:hover,
-    .brand-reset-btn:hover {
-      background: #f3eee7;
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .header-utility-btn.active,
-    .desktop-nav-btn.active,
-    .page-filter-btn.active,
-    .menu-item.active {
-      background: rgba(224, 96, 0, 0.10);
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .menu-btn {
-      background: #fff7f1;
-      border-color: var(--accent);
-      box-shadow: none;
-    }
-
-    .menu-icon span {
-      background: var(--accent);
-    }
-
-    main {
-      padding: 24px 20px 36px;
-    }
-
-    .page-title {
-      font-size: clamp(54px, 7vw, 70px);
-      line-height: 0.96;
-      letter-spacing: -0.04em;
-      margin-bottom: 16px;
-      color: #141518;
-    }
-
-    .page-help,
-    .home-subcopy,
-    .home-value-note,
-    .workspace-muted,
-    .help-tip,
-    .card-subline,
-    .card-when,
-    .app-settings-sub,
-    .footer-contact-info {
-      color: #7c7367;
-    }
-
-    .page-controls {
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .card,
-    .card.open,
-    .workspace-panel,
-    .workspace-saved-row,
-    .cb-saved-item,
-    .cb-saved-section,
-    .app-settings-dialog,
-    .menu-panel,
-    .brand-preview,
-    .example-head,
-    .example-body,
-    .card-body,
-    .custom-card,
-    .custom-card-builder,
-    .templates-copy-shell,
-    .templates-copy-body {
-      background: var(--surface);
-      border-color: var(--border-subtle);
-      box-shadow: none;
-    }
-
-    .card,
-    .workspace-saved-row,
-    .cb-saved-item,
-    .workspace-panel,
-    .cb-saved-section {
-      border-width: 1.5px;
-      border-radius: 18px;
-    }
-
-    .card:hover,
-    .workspace-saved-row:hover,
-    .cb-saved-item:hover {
-      border-color: var(--accent);
-      box-shadow: var(--shadow-sm);
-      transform: translateY(-1px);
-    }
-
-    .card:hover .card-head h3,
-    .card:hover .card-subline,
-    .card:hover .card-when,
-    .card-head:hover h3,
-    .card-head:hover .card-subline,
-    .card-head:hover .card-when {
-      color: var(--text-dark) !important;
-    }
-
-    .card-head,
-    .card-body,
-    .cb-builder-shell,
-    .cb-tabs,
-    .cb-example-inline,
-    .example-section,
-    .builder-shell,
-    .workspace-panel,
-    .app-settings,
-    .brand-preview-header,
-    .brand-preview-accent {
-      background: transparent;
-    }
-
-    input,
-    textarea,
-    select,
-    .global-field input,
-    .global-field textarea,
-    .brand-colour-hex,
-    .brand-colour-picker,
-    .search-input,
-    .templates-copy-input,
-    .templates-copy-textarea,
-    .cb-input,
-    .cb-textarea,
-    .cb-chip,
-    .cb-choice,
-    .cb-tab,
-    .cb-toggle,
-    .cb-inline-btn,
-    .cb-card-top-btn,
-    .favourite-btn,
-    .reveal-btn,
-    .workspace-saved-open,
-    .cb-submit-btn,
-    .cb-save-btn,
-    .builder-submit-btn,
-    .template-action-btn {
-      background: var(--panel-soft);
-      color: var(--text-dark);
-      border-color: var(--border-strong);
-      box-shadow: none;
-    }
-
-    input::placeholder,
-    textarea::placeholder,
-    .search-input::placeholder {
-      color: #998f81;
-    }
-
-    .cb-submit-btn,
-    .builder-submit-btn,
-    .template-action-btn,
-    .action-primary,
-    .cb-primary-btn,
-    .cb-action-row .cb-submit-btn,
-    .cb-action-row .cb-save-btn,
-    .workspace-saved-open {
-      background: rgba(224, 96, 0, 0.08);
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .cb-submit-btn:hover,
-    .builder-submit-btn:hover,
-    .template-action-btn:hover,
-    .action-primary:hover,
-    .cb-primary-btn:hover,
-    .workspace-saved-open:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .workspace-saved-label,
-    .cb-saved-item-name,
-    .card-head h3,
-    .settings-section-label {
-      color: var(--text-dark);
-    }
-
-    .workspace-saved-bullet {
-      color: var(--accent);
-    }
-
-    .grid {
-      gap: 18px;
-    }
-
-    .grid-compact {
-      gap: 12px;
-    }
-
-    .grid-compact .card:not(.open) {
-      min-height: 136px;
-    }
-
-    .grid-compact .card:not(.open) .card-head {
-      padding: 16px 16px 14px;
-      gap: 8px;
-      min-height: 0;
-    }
-
-    .grid-compact .card:not(.open) .card-head h3 {
-      font-size: 18px;
-      line-height: 1.22;
-      margin: 0;
-    }
-
-    .grid-compact .card:not(.open) .card-subline,
-    .grid-compact .card:not(.open) .card-when {
-      font-size: 14px;
-      line-height: 1.4;
-      color: #7c7367;
-    }
-
-    footer {
-      padding: 6px 20px 28px;
-    }
-
-    .footer-inner {
-      background: transparent;
-      border: 0;
-      border-radius: 0;
-      padding: 0;
-      box-shadow: none;
-      color: #7f776d;
-      align-items: center;
-    }
-
-    .footer-left {
-      gap: 2px;
-    }
-
-    .footer-right-actions {
-      display: none !important;
-    }
-
-    .app-settings-dialog {
-      width: min(720px, calc(100vw - 28px));
-      background: #ece8e1;
-      border-radius: 20px;
-    }
-
-    .app-settings-title {
-      color: var(--text-dark);
-    }
-
-    .settings-section {
-      border-top-color: var(--border-subtle);
-    }
-
-    @media (max-width: 820px) {
-      .header-inner {
-        min-height: 82px;
-        padding: 14px 14px 12px;
-      }
-
-      .header-logo {
-        width: 128px;
-        max-width: 128px;
-      }
-
-      .header-tagline {
-        font-size: 16px;
-      }
-
-      .page-title {
-        font-size: 48px;
-      }
-    }
-
   </style>
 </head>
 
@@ -3697,12 +2729,10 @@
 
   <header class="site-header">
     <div class="header-inner">
-            <div class="header-brand home-launch" id="homeLaunchBtn" role="button" tabindex="0" aria-label="Go to Home">
-        <img class="header-logo" src="./advisastacks-logo.png.png" alt="AdvisaStacks logo" />
-        <div class="header-copy">
-          <p class="header-tagline">Consultant Portal</p>
-          <p class="header-subtagline">The Ultimate Toolkit for Tradies</p>
-        </div>
+      <div class="header-brand home-launch" id="homeLaunchBtn" role="button" tabindex="0" aria-label="Go to Home">
+        <img class="header-logo" src="./Advisastacks Logo White.png" alt="AdvisaStacks logo" />
+        <p class="header-tagline">The Ultimate Toolkit for Tradies</p>
+        
       </div>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
         <span class="menu-icon" aria-hidden="true">
@@ -3715,7 +2745,6 @@
         <button class="header-utility-btn" id="desktopSavedBtn" type="button">Saved</button>
         <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Advanced</button>
         <button class="header-utility-btn" id="desktopSettingsBtn" type="button">Settings</button>
-        <button class="header-utility-btn" id="desktopLogoutBtn" type="button">Log out</button>
       </div>
     </div>
   </header>
@@ -3762,6 +2791,42 @@
         </div>
       </div>
 
+      <div class="settings-section">
+        <div class="settings-section-label">Consultant branding</div>
+        <p class="app-settings-sub">Customise how the app looks for your clients. Changes apply to this browser only.</p>
+
+        <div class="brand-fields">
+          <div class="global-field">
+            <label for="brandDisplayName">Display name <span class="brand-hint">(replaces header tagline)</span></label>
+            <input type="text" id="brandDisplayName" placeholder="e.g. Tradie Growth Co" />
+          </div>
+          <div class="global-field">
+            <label for="brandLogoUrl">Logo URL <span class="brand-hint">(direct image link — PNG or SVG)</span></label>
+            <input type="url" id="brandLogoUrl" placeholder="https://example.com/logo.png" />
+          </div>
+          <div class="brand-colour-row">
+            <label for="brandAccentColour">Accent colour</label>
+            <div class="brand-colour-input-wrap">
+              <input type="color" id="brandAccentColour" value="#e75a00" class="brand-colour-picker" />
+              <input type="text" id="brandAccentHex" placeholder="#e75a00" maxlength="7" class="brand-colour-hex" />
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-preview">
+          <div class="brand-preview-label">Preview</div>
+          <div class="brand-preview-header" id="brandPreviewHeader">
+            <img class="brand-preview-logo" id="brandPreviewLogo" src="./Advisastacks Logo White.png" alt="" />
+            <div class="brand-preview-name" id="brandPreviewName">The Ultimate Toolkit for Tradies</div>
+          </div>
+          <div class="brand-preview-accent" id="brandPreviewAccent"></div>
+        </div>
+
+        <div class="brand-actions">
+          <button type="button" class="brand-reset-btn" id="brandResetBtn">Reset to default branding</button>
+        </div>
+      </div>
+
       <div class="app-settings-actions">
         <button type="button" class="cb-submit-btn" id="resetDefaultsBtn">Reset defaults</button>
         <button type="button" class="cb-submit-btn" id="appSettingsCloseBtn">Close</button>
@@ -3783,6 +2848,9 @@
         <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
         <div class="footer-contact-info">E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> &nbsp;|&nbsp; ABN: 37 131 434 727</div>
         <div>© AdvisaStacks</div>
+      </div>
+      <div class="footer-right-actions">
+        <button class="footer-logout-btn" id="footerLogoutBtn" type="button">Log out</button>
       </div>
     </div>
   </footer>
@@ -4126,6 +3194,32 @@
             "example": {"input":"SMS · Friendly · Ben · INV-0042 · $1,450","output":[{"label":"Version 1","text":"Hi Ben, just a quick reminder that invoice #INV-0042 for $1,450 was due a couple of days ago. No stress — it might’ve slipped through. You can pay via bank transfer or the link in the invoice. Let me know if there are any questions. Cheers, Matt"},{"label":"Version 2","text":"Hey Ben, friendly heads up — invoice #INV-0042 ($1,450) is now a couple of days past due. Just wanted to make sure it’s on your radar. Payment details are in the invoice. Give me a shout if anything needs sorting. Matt"}]}
           },
           {
+            "subtitle": "Final Notice (Still professional)",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "Multiple follow-ups, no response.",
+              "goodFor": "Final nudge before escalation.",
+              "roi": "Stops endless chasing.",
+              "tip": "State what happens next (pause work, formal follow-up), without drama."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["SMS", "Email"]
+                },
+                {
+                  "label": "Action",
+                  "options": ["Pause further work", "Formal reminder", "Debt collection"]
+                }
+              ],
+              "fields": ["[Client name]", "[Invoice #]", "[Amount]", "[Due date]", "[date/time]", "[Payment link or bank details]"]
+            },
+            "prompts": [
+              "Write a [Channel] issuing a final notice.\n\nTone: Firm, professional, no insults, no AI language.\nGoal: get payment or a confirmed payment date by [date/time].\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nDue date: [Due date]\nDeadline to respond/pay: [date/time]\nNext action if unpaid: [Action]\nPayment info: [Payment link or bank details]\n\nWrite:\n- clear overdue statement\n- clear deadline\n- clear next step (what happens if not paid)\n- polite close\n\nReturn 2 versions."
+            ],
+            "example": {"input":"Email · Firm · Karen · INV-0038 · $3,200","output":[{"label":"Version 1","text":"Hi Karen,\n\nThis is a follow-up regarding invoice #INV-0038 for $3,200, which is now 10 days overdue.\n\nI understand things get busy, but I do need to get this sorted. Could you confirm when payment will be made? Bank details and the invoice are attached for reference.\n\nIf there’s an issue with the invoice, please let me know so we can resolve it.\n\nRegards,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Karen,\n\nJust following up on invoice #INV-0038 ($3,200), which was due 10 days ago. I’d appreciate it if you could let me know when to expect payment.\n\nPayment details are in the original invoice. If anything needs clarifying, happy to discuss.\n\nRegards,\nMatt"}]}
+          },
+          {
             "subtitle": "Deposit Request (Before booking in)",
             "chatbot": "AI assistant",
             "front": {
@@ -4150,6 +3244,62 @@
               "Write a [Channel] requesting a deposit.\n\nTone: Friendly, clear, confident. No AI language.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nDeposit amount: [Deposit $ or %]\nReason: [Reason]\nPreferred payment method: [Payment link or bank details]\nProposed start date (optional): [date]\n\nWrite a message that:\n- thanks them for proceeding\n- explains deposit purpose in one sentence\n- gives payment instructions\n- confirms what happens after payment (booking confirmed / materials ordered)\n\nReturn 2 versions."
             ],
             "example": {"input":"Email · Mark · INV-0031 · $4,100 · 30 days overdue","output":[{"label":"Version 1","text":"Hi Mark,\n\nThis is a final notice regarding invoice #INV-0031 for $4,100, which is now 30 days overdue.\n\nI’ve sent two previous reminders and haven’t heard back. I’d like to resolve this directly before taking further steps.\n\nPlease arrange payment within 7 days or contact me to discuss a payment plan. I’m happy to work something out, but I do need a response.\n\nRegards,\nMatt — Cooper Electrical\nABN: 37 131 434 727"}]}
+          },
+          {
+            "subtitle": "Progress Payment Request (Mid-job)",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "Milestone reached, staged payments.",
+              "goodFor": "Larger jobs, multi-day work.",
+              "roi": "Stops cashflow crunch mid-job.",
+              "tip": "Tie it to progress and next steps."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["SMS", "Email"]
+                },
+                {
+                  "label": "Milestone",
+                  "options": ["Rough-in complete", "Materials delivered", "Day X complete"]
+                }
+              ],
+              "fields": ["[Client name]", "[Job type]", "[Amount]", "[Today / date]", "[Payment link or bank details]"]
+            },
+            "prompts": [
+              "Write a [Channel] requesting a progress payment.\n\nTone: Direct but polite. No AI language.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nMilestone completed: [Milestone]\nProgress payment amount: [Amount]\nDue: [Today / date]\nPayment info: [Payment link or bank details]\n\nWrite a message that:\n- confirms milestone completed\n- requests the progress payment\n- states what’s next once paid (continue work / schedule next stage)\n\nReturn 2 versions."
+            ],
+            "example": {"input":"SMS · Both · Emma · pool house wiring · 30% · $900","output":[{"label":"Version 1","text":"Hi Emma, great news — the pool house wiring job is locked in! To confirm your booking and order materials, I just need a 30% deposit of $900. You can pay by bank transfer to: Cooper Electrical, BSB 062-000, Acc 1234 5678. Once that’s through I’ll confirm your start date. Cheers, Matt"},{"label":"Version 2","text":"Hey Emma, thanks for going ahead with the pool house job. To get you booked in and order the parts, there’s a 30% deposit of $900. Bank details: Cooper Electrical, BSB 062-000, Acc 1234 5678. I’ll confirm the schedule as soon as it comes through. Matt"}]}
+          },
+          {
+            "subtitle": "Payment Terms (Set expectations upfront)",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "Before starting work / sending quote.",
+              "goodFor": "Reducing disputes later.",
+              "roi": "Fewer late payments.",
+              "tip": "Keep it simple: due date, method, late fees (if used)."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Where used",
+                  "options": ["Quote", "Invoice", "Booking confirmation"]
+                },
+                {
+                  "label": "Terms",
+                  "options": ["Due on completion", "7 days", "Deposit required"]
+                },
+                {
+                  "label": "Late policy",
+                  "options": ["Late fee", "Pause work", "None"]
+                }
+              ],
+              "fields": ["[card/bank transfer/etc]"]
+            },
+            "prompts": [
+              "Write a short “Payment Terms” section.\n\nWhere this will appear: [Where used]\nTerms: [Terms]\nAccepted payment methods: [card/bank transfer/etc]\nLate policy (optional): [Late policy]\n\nMake it plain English, short, and easy to understand.\nReturn:\n- a short version (3–4 lines)\n- a longer version (6–8 lines)"
+            ],
+            "example": {"input":"SMS · Rough-in complete · Phil · commercial fitout · $5,200","output":[{"label":"Version 1","text":"Hi Phil, quick update — the rough-in is now complete on the commercial fitout. As per our agreement, the progress payment of $5,200 is now due. Bank details: Cooper Electrical, BSB 062-000, Acc 1234 5678. Once that’s sorted I’ll get the next stage underway. Cheers, Matt"},{"label":"Version 2","text":"Hey Phil, rough-in is done and looking good. The progress payment of $5,200 is due at this stage. Payment to: BSB 062-000, Acc 1234 5678 (Cooper Electrical). I’ll kick off the next phase once it’s through. Matt"}]}
           },
           {
             "subtitle": "Reply to “I’ll pay next week”",
@@ -4180,6 +3330,32 @@
               "Write a [Channel] reply.\n\nClient said: “I’ll pay next week.”\nGoal: [Preferred outcome].\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nPayment link/details: [Payment info]\n\nTone: [Tone]. No AI language.\n\nWrite a short reply that:\n- thanks them\n- asks for a specific day/time\n- confirms how to pay\n- optional: offers a split payment if appropriate\n\nReturn 2 versions (one softer, one firmer)."
             ],
             "example": {"input":"Quote · 7 days · Bank transfer · Late fee","output":[{"label":"Short version","text":"Payment terms: Due within 7 days of invoice date. Accepted methods: bank transfer. A late fee of 2% per month applies to overdue invoices. Questions? Contact us before the due date."},{"label":"Longer version","text":"Payment Terms\n\nAll invoices are due within 7 days of the invoice date. We accept payment by bank transfer. Bank details are included on each invoice.\n\nA late payment fee of 2% per month may apply to invoices that remain unpaid after the due date. If you anticipate any issues with payment, please contact us before the due date so we can discuss options.\n\nBy accepting this quote, you agree to these payment terms."}]}
+          },
+          {
+            "subtitle": "Overdue + Dispute (Client pushing back)",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "They’re refusing to pay or raising an issue.",
+              "goodFor": "Staying calm + moving toward resolution.",
+              "roi": "Faster resolution, protects reputation.",
+              "tip": "Separate the issue from the payment plan."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["Email", "SMS"]
+                },
+                {
+                  "label": "Goal",
+                  "options": ["Arrange call", "Site visit", "Partial payment now"]
+                }
+              ],
+              "fields": ["[Client name]", "[Invoice #]", "[Amount]", "[brief issue summary]", "[summary of work completed]", "[e.g., inspect, fix, clarify scope]", "[e.g., pay undisputed portion now / pay after inspection by date]"]
+            },
+            "prompts": [
+              "Write a professional [Channel].\n\nSituation: Invoice is overdue and the client is disputing payment.\nIssue: [brief issue summary]\nGoal: [Goal]\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nWork completed: [summary of work completed]\nWhat I’m willing to do: [e.g., inspect, fix, clarify scope]\nPayment expectation: [e.g., pay undisputed portion now / pay after inspection by date]\n\nRules:\n- calm, factual, no blame\n- confirm next step and time\n- keep it short and clear\nReturn 2 versions."
+            ],
+            "example": {"input":"SMS · Friendly · Confirm date · Steve · INV-0045 · $2,300","output":[{"label":"Version 1 (softer)","text":"No worries Steve, appreciate you letting me know. Could you confirm which day next week? That way I can update my records. Payment to: BSB 062-000, Acc 1234 5678. Cheers, Matt"},{"label":"Version 2 (firmer)","text":"Thanks Steve. Can you lock in a specific day? The invoice (#INV-0045, $2,300) has been outstanding for a while now. If you can confirm a date I’ll note it down. Bank details: BSB 062-000, Acc 1234 5678. Matt"}]}
           }
         ]
       },
@@ -4302,6 +3478,33 @@
             "example": {"input":"SMS · Friendly · Helen · 30 mins · previous job ran over","output":[{"label":"Version 1","text":"Hi Helen, really sorry but I’m running about 30 minutes behind — the previous job ran over a bit. I’ll be there as soon as I can. Apologies for the delay. Matt"},{"label":"Version 2","text":"Hey Helen, heads up — I’m running about 30 mins late, the last job took a bit longer than expected. On my way shortly. Sorry about that! Matt"}]}
           },
           {
+            "subtitle": "Job Update During Work",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Let the customer know what’s happening on site.",
+              "when": "End of day on a multi-day job, or if the client isn't on site.",
+              "goodFor": "Showing progress and proving value.",
+              "roi": "Massive trust boost, stops them nagging.",
+              "tip": "Highlight what's done, what's next, and any roadblocks."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["SMS", "Email"]
+                },
+                {
+                  "label": "Roadblocks",
+                  "options": ["None", "Need a decision", "Need site access"]
+                }
+              ],
+              "fields": ["[Client name]", "[Completed today]", "[Plan for tomorrow]"]
+            },
+            "prompts": [
+              "Write a [Channel] update.\n\nSituation: Updating the client on today's progress.\n\nDetails:\nClient: [Client name]\nDone today: [Completed today]\nPlan for tomorrow: [Plan for tomorrow]\nRoadblocks: [Roadblocks]\n\nRules:\n- No AI language\n- Plain English\n- Dot points are good for readability.\n\nReturn 2 versions."
+            ],
+            "example": {"input":"SMS · Friendly · Andrew · Wednesday · parts on backorder","output":[{"label":"Version 1","text":"Hi Andrew, just letting you know I need to push our Wednesday job back — the switchboard parts are on backorder and I don’t want to start without the right gear. I’ll let you know as soon as they’re in and we’ll rebook. Sorry for the inconvenience. Matt"},{"label":"Version 2","text":"Hey Andrew, unfortunately I need to reschedule Wednesday. The parts I ordered are on backorder and I’d rather wait than use a substitute. I’ll be in touch as soon as they arrive. Apologies, Matt"}]}
+          },
+          {
             "subtitle": "Job Complete Message",
             "chatbot": "AI assistant",
             "front": {
@@ -4327,6 +3530,64 @@
               "Write a [Channel].\n\nSituation: Job is finished and we have left the site.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nNext step: [Next step]\n\nRules:\n- Friendly, proud of the work\n- Plain English\n- No AI language\n\nReturn 2 versions."
             ],
             "example": {"input":"SMS · Friendly · Rob · found old wiring that needs replacing","output":[{"label":"Version 1","text":"Hi Rob, quick update while I’m on site — I’ve found some old wiring behind the wall that’s not up to current standards. I’d recommend replacing it while I’m here. It’ll add about $350 and an extra hour. Let me know if you’re happy to go ahead. Matt"},{"label":"Version 2","text":"Hey Rob, just found some dodgy wiring behind the wall that really should be replaced for safety. Extra cost would be around $350. Want me to sort it while I’m here? Much cheaper than coming back later. Matt"}]}
+          },
+          {
+            "subtitle": "Request Info Before Arrival",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Ask for photos, access details, or measurements.",
+              "when": "When you need details before you can quote or start.",
+              "goodFor": "Stopping blind call-outs.",
+              "roi": "Saves fuel and time.",
+              "tip": "Tell them exactly what to photograph or measure."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["SMS", "Email"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Helpful", "Direct"]
+                },
+                {
+                  "label": "Needed",
+                  "options": ["Site photos", "Measurements", "Access code"]
+                }
+              ],
+              "fields": ["[Client name]", "[Job type]"]
+            },
+            "prompts": [
+              "Write a [Channel].\n\nSituation: Need more info before arriving.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nInfo needed: [Needed]\nTone: [Tone]\n\nRules:\n- Plain English\n- No AI language\n- Explain that providing this helps us prepare better and faster.\n\nReturn 2 versions."
+            ],
+            "example": {"input":"SMS · Friendly · Jess · downlight installation","output":[{"label":"Version 1","text":"Hi Jess, all done! The downlights are in and everything’s tested and working. I’ve tidied up and locked the front door behind me. Invoice will come through shortly. Let me know if you have any questions. Cheers, Matt"},{"label":"Version 2","text":"Hey Jess, job’s wrapped up — downlights are all installed and tested. Left everything clean and tidy. I’ll send the invoice through today. Give me a shout if you need anything. Matt"}]}
+          },
+          {
+            "subtitle": "Set Expectations (Scope / Access / Prep)",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Prevent misunderstandings before starting work.",
+              "when": "Days before a messy or disruptive job.",
+              "goodFor": "Stopping complaints about noise, mess, or power cuts.",
+              "roi": "Zero day-of-job arguments.",
+              "tip": "Be blunt about the disruption so they can prepare."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["Email", "SMS"]
+                },
+                {
+                  "label": "Disruption",
+                  "options": ["Power off", "Water off", "Loud noise", "Messy"]
+                }
+              ],
+              "fields": ["[Client name]", "[Job type]", "[Prep needed e.g., move cars]"]
+            },
+            "prompts": [
+              "Write a [Channel].\n\nSituation: Warning the client about disruption before we start a job.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nDisruption expected: [Disruption]\nClient needs to do this prep: [Prep needed e.g., move cars]\n\nRules:\n- Professional, clear\n- Plain English\n- No AI language\n- Better to warn them now than surprise them later.\n\nReturn 2 versions."
+            ],
+            "example": {"input":"SMS · Friendly · Tina · access to garage + meter box","output":[{"label":"Version 1","text":"Hi Tina, just getting prepped for tomorrow. Could you make sure the garage and meter box are accessible? Also, will someone be home to let me in, or should I know about a key/code? Cheers, Matt"},{"label":"Version 2","text":"Hey Tina, quick one ahead of tomorrow — I’ll need access to the garage and meter box. Is someone going to be there, or is there a key I should know about? Matt"}]}
           }
         ]
       },
@@ -4443,6 +3704,169 @@
               "Write a professional public reply to this negative Google review.\n\nTone: [Tone]. No AI language. No arguing.\n\nNegative review:\n[PASTE REVIEW]\n\nFacts (brief, optional):\n[FACTS]\n\nGoal: [Goal]\nContact method: [phone/email]\n\nWrite a reply that:\n- acknowledges their experience\n- avoids blaming\n- invites them to contact you to resolve it\n- stays short and professional\nReturn 2 versions."
             ],
             "example": {"input":"SMS · Friendly · Mike","output":[{"label":"Version 1","text":"Hey Mike, I know you’re busy — just a gentle reminder about the Google review if you get a spare minute: [review link]. No worries if not, just thought I’d pop it back in your inbox. Cheers, Matt"},{"label":"Version 2","text":"Hi Mike, totally understand things get hectic. If you’ve got 30 seconds, that Google review would really help: [review link]. Appreciate it either way! Matt"}]}
+          },
+          {
+            "subtitle": "Reply to a Positive Review",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "Someone leaves a good review — respond publicly.",
+              "goodFor": "Trust + professionalism.",
+              "roi": "Helps conversions.",
+              "tip": "Mention the job type + thank them."
+            },
+            "ui": {
+              "quickInputs": [{
+                "label": "Tone",
+                "options": ["Friendly", "Professional"]
+              }],
+              "fields": ["[Name]", "[Job type]", "[Suburb]"]
+            },
+            "prompts": [
+              "Write a short public reply to a positive Google review.\n\nTone: [Tone]. No AI language.\n\nDetails:\nReviewer name: [Name]\nJob type: [Job type]\nSuburb (optional): [Suburb]\n\nWrite a reply that:\n- thanks them\n- mentions the job briefly\n- invites them to reach out again\nReturn 2 options."
+            ],
+            "example": {"input":"Calm · Resolve privately","output":[{"label":"Example output","text":"Hi [Name], thanks for taking the time to share your experience. I’m sorry to hear things didn’t meet your expectations. I’d really like the chance to look into this and make it right. Could you contact me directly on 0412 345 678 or matt@cooperelectrical.com.au so we can sort this out? — Matt, Cooper Electrical"}]}
+          },
+          {
+            "subtitle": "Google Review Request (After invoice paid)",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "Once payment is received (clean close).",
+              "goodFor": "Customers who liked the work but you forgot to ask.",
+              "roi": "Turns finished jobs into social proof.",
+              "tip": "Make it easy, don’t guilt them."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["SMS", "Email"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Friendly", "Direct"]
+                }
+              ],
+              "fields": ["[Client name]", "[Job type]", "[Review link]"]
+            },
+            "prompts": [
+              "Write a [Channel].\n\nContext: Job is complete and invoice has been paid. I’m asking for a Google review.\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nGoogle review link: [Review link]\n\nWrite a short message that:\n- thanks them again\n- asks for a quick review\n- includes the link\nReturn 2 versions."
+            ],
+            "example": {"input":"Friendly · Leanne · smoke alarm install · Balmain","output":[{"label":"Example output","text":"Thanks so much Leanne! Really glad the smoke alarm install went smoothly. It was great working in Balmain — lovely area. If you ever need anything else, don’t hesitate to reach out. Cheers, Matt — Cooper Electrical"}]}
+          },
+          {
+            "subtitle": "Referral Thank You (Simple + professional)",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "After someone refers a new customer.",
+              "goodFor": "Building loyalty + more referrals.",
+              "roi": "Encourages repeat behaviour.",
+              "tip": "Be specific: “Thanks for sending [Name] my way.”"
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["SMS", "Email"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Friendly", "Direct"]
+                }
+              ],
+              "fields": ["[Client name]", "[Name]"]
+            },
+            "prompts": [
+              "Write a short [Channel] thanking someone for a referral.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nReferred person (optional): [Name]\n\nWrite a message that:\n- thanks them genuinely\n- acknowledges the referral\n- keeps it short and friendly\nReturn 2 versions."
+            ],
+            "example": {"input":"SMS · Friendly · Suggest what to mention · Tony · garden lighting","output":[{"label":"Version 1","text":"Hey Tony, thanks for sorting the payment so quickly! If you’ve got a minute, a quick Google review would really help: [review link]. If you’re not sure what to write, you could mention the garden lighting result or the tidy finish — whatever stood out. Cheers, Matt"},{"label":"Version 2","text":"Hi Tony, payment received — thanks legend. Would you mind leaving a quick Google review? [review link]. You could mention the garden lights or anything else you were happy with. Really appreciate it. Matt"}]}
+          },
+          {
+            "subtitle": "Turn a Review into a Short Testimonial Blurb",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "After getting a review, to reuse in marketing.",
+              "goodFor": "Website / socials / quotes.",
+              "roi": "More trust, more leads.",
+              "tip": "Keep it real. Don’t over-polish."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Use for",
+                  "options": ["Website", "Instagram", "Quote PDF", "Facebook"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Plain", "Polished"]
+                }
+              ],
+              "fields": ["[PASTE REVIEW]", "[Business name]", "[Service type]"]
+            },
+            "prompts": [
+              "Rewrite this customer review into 3 short testimonial versions.\n\nUse for: [Use for]\nTone: [Tone]\nBusiness: [Business name]\nService type: [Service type]\n\nReview text:\n[PASTE REVIEW]\n\nRules:\n- keep it believable (no hype)\n- keep it short\nReturn:\n1) 1 sentence version\n2) 2 sentence version\n3) 1 punchy version (max 12 words)"
+            ],
+            "example": {"input":"SMS · Friendly · Brendan","output":[{"label":"Version 1","text":"Hey Brendan, just wanted to say thanks for the referral — really appreciate you thinking of us. We’ll take good care of them. If you ever need anything, you know where to find me. Cheers, Matt"},{"label":"Version 2","text":"Brendan, thanks legend for sending your mate my way. Word of mouth means everything for a small business. I’ll look after them. Cheers, Matt"}]}
+          },
+          {
+            "subtitle": "Ask for Photos of the Job (For socials)",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "After completing a job (or when customer shares photos).",
+              "goodFor": "Marketing content without effort.",
+              "roi": "Better content, more enquiries.",
+              "tip": "Make it easy: “Can you text them to me?”"
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["SMS", "Email"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Friendly", "Direct"]
+                },
+                {
+                  "label": "How to send",
+                  "options": ["Text them to me", "Email them", "Send via message"]
+                },
+                {
+                  "label": "What photos",
+                  "options": ["Before/after", "Finished result", "Install"]
+                }
+              ],
+              "fields": ["[Client name]"]
+            },
+            "prompts": [
+              "Write a [Channel] asking a customer for photos of the completed job.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nWhat photos: [What photos]\nHow to send: [How to send]\n\nWrite a message that:\n- thanks them\n- asks for photos\n- explains it helps the business\nReturn 2 versions."
+            ],
+            "example": {"input":"5-star review from Claire about a ceiling fan install","output":[{"label":"Example output","text":"“Matt was on time, super tidy and the ceiling fan looks great. Would definitely recommend Cooper Electrical.” — Claire, Drummoyne\n\n(Shortened from original Google review. Suitable for website or social media.)"}]}
+          },
+          {
+            "subtitle": "“Can I use this as a case study?” (Permission message)",
+            "chatbot": "AI assistant",
+            "front": {
+              "when": "Great job, you want permission to use it in marketing.",
+              "goodFor": "Compliance + trust.",
+              "roi": "Stronger social proof.",
+              "tip": "Keep it simple and give them an easy yes."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Channel",
+                  "options": ["SMS", "Email"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Friendly", "Professional"]
+                },
+                {
+                  "label": "Permission requested",
+                  "options": ["Photos", "Testimonial", "Both"]
+                }
+              ],
+              "fields": ["[Client name]", "[Job type]"]
+            },
+            "prompts": [
+              "Write a [Channel] asking permission to use a completed job as a case study.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nJob type: [Job type]\nPermission requested: [Permission requested]\n\nWrite a message that:\n- thanks them\n- asks permission clearly\n- reassures them you won’t share private details\n- makes it easy to say yes/no\n\nReturn 2 versions."
+            ],
+            "example": {"input":"SMS · Friendly · Before/after · Sue","output":[{"label":"Version 1","text":"Hi Sue, hope you’re loving the new setup! Would you mind sending through a couple of photos — before and after if you have them? We’d love to share the result on our socials (no personal details). Just text them to this number. Cheers, Matt"},{"label":"Version 2","text":"Hey Sue, quick favour — do you have any before/after photos of the job? Would love to use them on our page to show off the work. Just flick them through to this number whenever suits. Thanks! Matt"}]}
           }
         ]
       },
@@ -4503,6 +3927,33 @@
             "example": {"input":"Facebook · Friendly · downlight install · Balmain","output":[{"label":"Facebook version","text":"Just finished a downlight install in Balmain — the customer wanted a clean, modern look and I reckon we nailed it. If you’re in the area and thinking about upgrading your lighting, send us a message for a free quote. Happy to come take a look 👇"},{"label":"Instagram version","text":"Downlight install complete in Balmain ✨\n\nClean lines, warm light, happy customer. If you’re after something similar, DM us or hit the link in bio for a free quote.\n\n#electrician #balmain #sydneyelectrician #downlights #cooperelectrical"}]}
           },
           {
+            "subtitle": "Answer a Common Customer Question",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Build authority by sharing knowledge.",
+              "when": "When customers ask the same question repeatedly.",
+              "goodFor": "Building authority.",
+              "roi": "Better quality enquiries.",
+              "tip": "Use real customer questions."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Platform",
+                  "options": ["Facebook", "Instagram", "Website"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Friendly", "Expert", "Witty"]
+                }
+              ],
+              "fields": ["[Question customers ask]", "[Short answer]", "[Trade type]"]
+            },
+            "prompts": [
+              "Write a simple post answering a common question customers ask.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nTrade: [Trade type]\nCustomer question: [Question customers ask]\nShort answer: [Short answer]\n\nWrite a short helpful post that:\n- explains the answer simply\n- builds trust\n- invites people to contact us if they need help"
+            ],
+            "example": {"input":"Facebook · Professional · switchboard · Marrickville","output":[{"label":"Example output","text":"Switchboard upgrade in Marrickville — swipe to see the before and after.\n\nThe old board was well past its use-by date with no safety switches. The new board is fully compliant, has RCD protection on every circuit, and room to grow if they need more down the track.\n\nIf your switchboard looks like the first photo, it might be time for an upgrade. Drop us a message for a free assessment."}]}
+          },
+          {
             "subtitle": "Seasonal Promotion",
             "chatbot": "AI assistant",
             "front": {
@@ -4530,6 +3981,60 @@
             "example": {"input":"Facebook · Friendly · electrician · Do I need a sparky to change a light fitting?","output":[{"label":"Example output","text":"One we get asked a lot: \"Do I need an electrician just to change a light fitting?\"\n\nShort answer: yes, in Australia all electrical work (including swapping a light fitting) must be done by a licensed electrician. It’s not just about rules — it’s about safety. Incorrect wiring can cause fires or electric shock.\n\nThe good news? It’s usually a quick job and won’t cost as much as you think. Send us a message if you need a hand."}]}
           },
           {
+            "subtitle": "Turn a Review into a Post",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Leverage social proof.",
+              "when": "After getting a great Google review.",
+              "goodFor": "Trust and credibility.",
+              "roi": "More conversions.",
+              "tip": "Pair this with a photo of the completed job."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Platform",
+                  "options": ["Facebook", "Instagram"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Friendly", "Professional", "Witty"]
+                }
+              ],
+              "fields": ["[Paste review text]", "[Job type]", "[Suburb]"]
+            },
+            "prompts": [
+              "Write a social media post using this customer review.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nReview text: [Paste review text]\nJob type: [Job type]\nSuburb: [Suburb]\n\nWrite a short post that:\n- thanks the customer\n- highlights the work done\n- encourages people to get in touch for similar work"
+            ],
+            "example": {"input":"Facebook · Friendly · ceiling fan installation · getting hot this summer · Inner West Sydney","output":[{"label":"Example output","text":"Summer’s here and it’s already heating up — if you’ve been thinking about getting a ceiling fan installed, now’s the time.\n\nWe’re booking ceiling fan installs across the Inner West right now. Quick job, makes a huge difference. We supply and install, or fit one you’ve already bought.\n\nSend us a message to book in before the real heat hits."}]}
+          },
+          {
+            "subtitle": "“We’re Booking Up” Post",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Create urgency and secure future work.",
+              "when": "When schedule is filling.",
+              "goodFor": "Creating urgency.",
+              "roi": "More bookings.",
+              "tip": "Be specific about your availability."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Platform",
+                  "options": ["Facebook", "Instagram"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Friendly", "Direct", "Witty"]
+                }
+              ],
+              "fields": ["[Service]", "[How far ahead you're booked]", "[Area served]"]
+            },
+            "prompts": [
+              "Write a social media post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nService: [Service]\nCurrent schedule: [How far ahead you're booked]\nService area: [Area served]\n\nWrite a post that:\n- mentions demand\n- encourages people to book early\n- invites enquiries"
+            ],
+            "example": {"input":"Facebook · Friendly · 5-star from David about a meter box upgrade","output":[{"label":"Example output","text":"Really appreciate this one from David ⭐\n\n\"Matt was great — turned up on time, explained everything clearly and did a top job on the meter box. Would definitely use Cooper Electrical again.\"\n\nThanks David — reviews like this are what keep us going. If you need an electrician who turns up when they say they will, give us a shout."}]}
+          },
+          {
             "subtitle": "“We’re in Your Area Today” Post",
             "chatbot": "AI assistant",
             "front": {
@@ -4555,6 +4060,33 @@
               "Write a short local availability post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nTrade: [Trade]\nSuburb: [Suburb]\nAvailable time slot: [Available slot time]\n\nWrite a short post that:\n- says we’re already working in the area\n- mentions the available time\n- invites people to message quickly if they need help"
             ],
             "example": {"input":"Facebook · Direct · Inner West · next 2 weeks","output":[{"label":"Example output","text":"Quick heads up — the next two weeks are filling up fast. If you’ve got electrical work you’ve been putting off, now’s the time to get it sorted.\n\nWe’re covering the Inner West and surrounding areas. Send us a message with what you need and we’ll get you a quote and a booking.\n\nFirst in, first served."}]}
+          },
+          {
+            "subtitle": "New Service Announcement",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Promote a new offering to your audience.",
+              "when": "When offering a new service.",
+              "goodFor": "Upselling existing audience.",
+              "roi": "Extra revenue streams.",
+              "tip": "Focus on the problem it solves, not just the feature."
+            },
+            "ui": {
+              "quickInputs": [{
+                  "label": "Platform",
+                  "options": ["Facebook", "Instagram", "Email"]
+                },
+                {
+                  "label": "Tone",
+                  "options": ["Friendly", "Professional", "Witty"]
+                }
+              ],
+              "fields": ["[Service name]", "[What problem it solves]", "[Service area]"]
+            },
+            "prompts": [
+              "Write a short announcement post for a new service.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nNew service: [Service name]\nProblem it solves: [What problem it solves]\nService area: [Service area]\n\nWrite a post that:\n- explains the service\n- says who it’s for\n- invites enquiries"
+            ],
+            "example": {"input":"Facebook · Friendly · Leichhardt · today","output":[{"label":"Example output","text":"We’re in Leichhardt today and have a gap this arvo. If you’ve got a quick electrical job that needs doing — powerpoints, light fittings, fan installs — send us a message and we might be able to fit you in today.\n\nNo call-out fee for the local area."}]}
           }
         ]
       },
@@ -4585,9 +4117,50 @@
               "Rewrite the message below so it sounds like a real Australian trade business.\n\nMessage type: [Message type]\nTone: [Tone]\n\nRules:\n- Plain English\n- Short sentences\n- No corporate or marketing language\n- No em dashes\n- Friendly, clear, and practical\n\nText to rewrite:\n[PASTE MESSAGE]"
             ],
             "example": {"input":"AI-generated email that sounds too robotic","output":[{"label":"Before","text":"Dear Valued Customer, I hope this message finds you well. I am writing to inform you that your recent electrical service request has been duly noted and we shall endeavour to address your requirements at the earliest convenience."},{"label":"After","text":"Hi Sarah, thanks for getting in touch. I’ve got your request and I’ll be in contact shortly to arrange a time that works. Cheers, Matt"}]}
+          },
+          {
+            "subtitle": "Improve My Message",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Fix a message so it sounds exactly how you want.",
+              "when": "When the AI response is close but not quite right.",
+              "goodFor": "Improving tone, clarity, and professionalism.",
+              "tip": "Paste the AI message and your edited version."
+            },
+            "ui": {
+              "quickInputs": [{
+                "label": "Goal",
+                "options": ["Shorter", "Friendlier", "Firmer", "Clearer"]
+              }],
+              "fields": ["[AI version]", "[My version]"]
+            },
+            "prompts": [
+              "I'm improving my message style.\n\nHere is the AI version:\n[AI version]\n\nHere is my corrected version:\n[My version]\n\nTask:\n\n1. Identify the style differences (tone, sentence length, wording).\n2. List the key writing rules my business prefers.\n3. Rewrite the AI message again so it matches my style perfectly.\n\nGoal: [Goal], clear, and practical."
+            ],
+            "example": {"input":"Rough draft SMS about a quote","output":[{"label":"Before","text":"hey mate sent u a quote for the job can u have a look when u get a chance and let me no if u wanna go ahead cheers"},{"label":"After","text":"Hey Dave, just sent through the quote for the garage rewire. When you get a chance, have a look and let me know if you're happy to go ahead. I can book you in for next week. Cheers, Matt"}]}
           }
         ]
-      }
+      },
+"Templates": {
+  "title": "Templates",
+  "cards": [
+    {
+      "subtitle": "Quote Template",
+      "chatbot": "AI assistant",
+      "front": {
+        "outcome": "Create a structured quote prompt you can paste into your AI assistant.",
+        "when": "When you need a quote draft fast.",
+        "goodFor": "Creating editable client ready quotes using your own job details.",
+        "roi": "Saves admin time and makes your documents more consistent.",
+        "tip": "Fill in every field before copying the prompt."
+      },
+      "prompts": [
+        "Create a clean, editable quote."
+      ],
+      "example": {"input":"Cooper Electrical · Rachel · bathroom renovation · $4,200","output":[{"label":"Example output","text":"QUOTE\n\nCooper Electrical\nMatt Cooper\n0412 345 678 | matt@cooperelectrical.com.au\nABN: 37 131 434 727\n\nPrepared for: Rachel Thompson\nProject: Bathroom renovation — electrical\nDate: 15 March 2026\n\nScope of work:\n• Relocate 2x powerpoints\n• Install 4x LED downlights\n• Install heated towel rail circuit\n• New exhaust fan wiring\n\nSubtotal (ex GST): $3,818.18\nGST (10%): $381.82\nTotal (inc GST): $4,200.00\n\nPayment: 30% deposit to confirm, balance due on completion.\nQuote valid for 30 days."}]}
+    }
+  ]
+}
     };
     let current = "Home";
     let savedOnlyFilter = false;
@@ -4632,7 +4205,7 @@
 
     const DEFAULT_ACCENT = "#e75a00";
     const DEFAULT_TAGLINE = "The Ultimate Toolkit for Tradies";
-    const DEFAULT_LOGO_SRC = "./advisastacks-logo.png.png.png";
+    const DEFAULT_LOGO_SRC = "./Advisastacks Logo White.png";
     const DEFAULT_COPYRIGHT = "AdvisaStacks";
 
     function isValidHexColour(str) {
@@ -6481,9 +6054,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
         workspaceBody.hidden = false;
         workspaceBody.innerHTML = `
           <div class="workspace-grid">
-            <p class="workspace-muted">Quick access to your saved cards and the full prompt index.</p>
+            <p class="workspace-muted">Use this area to quickly access saved cards and browse the full prompt index.</p>
             <div class="home-cta-row">
-              <button type="button" class="home-cta-btn" id="workspaceSavedFilterBtn">${savedOnlyFilter ? "Saved only is on" : "Turn on Saved only"}</button>
+              <button type="button" class="home-cta-btn" id="workspaceSavedFilterBtn">${savedOnlyFilter ? "★ Saved only is ON" : "★ Turn on Saved only"}</button>
               <button type="button" class="home-cta-btn" id="workspaceBuilderBtn">Open Custom Tools</button>
             </div>
             <div class="workspace-panel">
@@ -6531,29 +6104,19 @@ $("cb-submit-btn").addEventListener("click", async () => {
           savedWrap.innerHTML = `<p class="workspace-muted">No saved cards yet. Tap “Save favourites” on any card to collect them here.</p>`;
         } else {
           const rows = document.createElement("div");
-          rows.className = "workspace-saved-list";
+          rows.className = "workspace-btn-row";
           savedList.forEach((entry) => {
-            const row = document.createElement("div");
-            row.className = "workspace-saved-row";
-
-            const textWrap = document.createElement("div");
-            textWrap.className = "workspace-saved-text";
-            textWrap.innerHTML = `<span class="workspace-saved-bullet" aria-hidden="true"></span><span class="workspace-saved-label">${entry.subtitle}</span>`;
-
-            const openBtn = document.createElement("button");
-            openBtn.type = "button";
-            openBtn.className = "workspace-saved-open";
-            openBtn.textContent = "Open";
-            openBtn.addEventListener("click", () => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "copy-btn";
+            btn.textContent = entry.subtitle + " • " + displayCategoryLabel(entry.category);
+            btn.addEventListener("click", () => {
               const targetCategory = resolveRouteKey(entry.category);
               current = targetCategory;
               writePrefs({ lastCategory: targetCategory, openCard: entry.subtitle });
               render();
             });
-
-            row.appendChild(textWrap);
-            row.appendChild(openBtn);
-            rows.appendChild(row);
+            rows.appendChild(btn);
           });
           savedWrap.appendChild(rows);
         }
@@ -7579,7 +7142,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
     const desktopSavedBtn = document.getElementById("desktopSavedBtn");
     const desktopCustomToolsBtn = document.getElementById("desktopCustomToolsBtn");
     const desktopSettingsBtn = document.getElementById("desktopSettingsBtn");
-    const desktopLogoutBtn = document.getElementById("desktopLogoutBtn");
     const menuSettingsBtn = document.getElementById("menuSettingsBtn");
     const menuPanel = document.getElementById("menuPanel");
     const menuBackdrop = document.getElementById("menuBackdrop");
@@ -7631,10 +7193,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
     desktopCustomToolsBtn?.addEventListener("click", () => navigate("Custom Tools"));
     desktopSettingsBtn?.addEventListener("click", () => {
       openSettings();
-    });
-    desktopLogoutBtn?.addEventListener("click", async () => {
-      if (window.__supabase) await window.__supabase.auth.signOut();
-      window.location.replace("./login.html");
     });
     menuSettingsBtn?.addEventListener("click", () => {
       closeMenu();
