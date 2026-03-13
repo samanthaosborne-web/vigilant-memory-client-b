@@ -43,7 +43,7 @@ async function sendEmail(to, code) {
         '<h2 style="color:#e75a00;margin:0 0 12px;">AdvisaStacks</h2>',
         "<p>Your login verification code is:</p>",
         '<div style="font-size:32px;font-weight:900;letter-spacing:0.2em;padding:16px;',
-        'background:#313131;border-radius:8px;text-align:center;margin:16px 0;">',
+        'background:#f4f4f4;border-radius:8px;text-align:center;margin:16px 0;">',
         code,
         "</div>",
         '<p style="color:#666;font-size:14px;">This code expires in 10 minutes.',

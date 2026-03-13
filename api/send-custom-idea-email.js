@@ -64,24 +64,24 @@ module.exports = async (req, res) => {
       if (!value) return "";
       return (
         '<tr>' +
-          '<td style="padding:8px 10px;border:1px solid #1e293b;background:#111a2c;font-weight:700;width:180px;">' + escapeHtml(label) + "</td>" +
-          '<td style="padding:8px 10px;border:1px solid #1e293b;">' + escapeHtml(value) + "</td>" +
+          '<td style="padding:8px 10px;border:1px solid #e2e8f0;background:#f8fafc;font-weight:700;width:180px;">' + escapeHtml(label) + "</td>" +
+          '<td style="padding:8px 10px;border:1px solid #e2e8f0;">' + escapeHtml(value) + "</td>" +
         "</tr>"
       );
     })
     .join("");
 
   const html = [
-    '<div style="font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:24px;color:#f1f5f9;">',
+    '<div style="font-family:Arial,sans-serif;max-width:760px;margin:0 auto;padding:24px;color:#0f172a;">',
       '<h2 style="margin:0 0 12px;color:#e75a00;">New Custom Builder submission</h2>',
       '<p style="margin:0 0 6px;"><strong>Submitted:</strong> ' + escapeHtml(submittedAt) + "</p>",
       '<p style="margin:0 0 6px;"><strong>User email:</strong> ' + escapeHtml(submitterEmail) + "</p>",
       '<p style="margin:0 0 16px;"><strong>User id:</strong> ' + escapeHtml(submitterId) + "</p>",
       '<table style="width:100%;border-collapse:collapse;margin-bottom:16px;">' + rowsHtml + "</table>",
-      '<h3 style="margin:0 0 8px;color:#cbd5e1;">One-off prompt</h3>',
-      '<pre style="white-space:pre-wrap;background:#111a2c;border:1px solid #1e293b;border-radius:8px;padding:12px;margin:0 0 16px;">' + escapeHtml(oneoffPrompt) + "</pre>",
-      '<h3 style="margin:0 0 8px;color:#cbd5e1;">Template prompt</h3>',
-      '<pre style="white-space:pre-wrap;background:#111a2c;border:1px solid #1e293b;border-radius:8px;padding:12px;margin:0;">' + escapeHtml(templatePrompt) + "</pre>",
+      '<h3 style="margin:0 0 8px;color:#334155;">One-off prompt</h3>',
+      '<pre style="white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin:0 0 16px;">' + escapeHtml(oneoffPrompt) + "</pre>",
+      '<h3 style="margin:0 0 8px;color:#334155;">Template prompt</h3>',
+      '<pre style="white-space:pre-wrap;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin:0;">' + escapeHtml(templatePrompt) + "</pre>",
     "</div>"
   ].join("");
 
