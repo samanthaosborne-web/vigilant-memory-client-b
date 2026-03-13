@@ -65,7 +65,9 @@
                 return;
               }
 
-              // Authorized — show portal
+              // Authorized — reveal the page and show portal
+              document.body.classList.remove("auth-pending");
+              document.body.style.visibility = "visible";
               var portalUserName = document.getElementById("portalUserName");
               if (portalUserName) {
                 portalUserName.textContent = accessResult.displayName || session.user.email;
@@ -83,6 +85,9 @@
   }
 
   function showAccessDenied(message) {
+    // Make page visible so user sees the error
+    document.body.classList.remove("auth-pending");
+    document.body.style.visibility = "visible";
     var container = document.querySelector(".portal-container");
     if (container) {
       container.innerHTML =
