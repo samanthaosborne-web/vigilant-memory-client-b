@@ -2722,72 +2722,115 @@
     }
   
 
-    /* === 2026 UI refresh override === */
+    /* === 2026 redesign overrides === */
     :root {
-      --bg: #ececeb;
-      --text: #18181a;
-      --accent: #dc6d47;
-      --charcoal: #18181a;
-      --surface: #f2eee8;
-      --surface-muted: #ece7e1;
-      --text-dark: #18181a;
-      --text-muted: #767676;
-      --border-subtle: #cfc8bf;
-      --border-strong: #bfb6ac;
-      --panel: #f2eee8;
-      --panel-soft: #ece7e1;
-      --radius-sm: 10px;
+      --bg: #e9e5df;
+      --surface: #f4f0ea;
+      --surface-muted: #eee8e1;
+      --panel: #f4f0ea;
+      --panel-soft: #efe9e2;
+      --text: #1d2430;
+      --text-dark: #1d2430;
+      --text-muted: #6f746f;
+      --border-subtle: #d2c7b8;
+      --border-strong: #c3b6a6;
+      --accent: #de6b2f;
+      --shadow-sm: 0 1px 2px rgba(31, 29, 27, 0.04);
+      --shadow-md: 0 10px 24px rgba(31, 29, 27, 0.08);
+      --shadow-lg: 0 18px 40px rgba(31, 29, 27, 0.10);
+      --radius-sm: 12px;
       --radius-md: 16px;
       --radius-lg: 24px;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 10px 28px rgba(0,0,0,0.06);
-      --shadow-lg: 0 18px 44px rgba(0,0,0,0.08);
+      --space-1: 6px;
+      --space-2: 10px;
+      --space-3: 16px;
+      --space-4: 24px;
+    }
+
+    html {
+      background: var(--bg);
+      overflow-y: scroll;
     }
 
     body {
       background: var(--bg);
-      color: var(--text-dark);
+      color: var(--text);
     }
 
     .site-header {
-      background: rgba(236, 236, 235, 0.92);
+      position: sticky;
+      top: 0;
+      background: rgba(233, 229, 223, 0.92);
       border-bottom: 1px solid var(--border-subtle);
       backdrop-filter: blur(14px);
     }
 
-    .header-inner {
+    .header-inner,
+    .desktop-nav,
+    main,
+    .footer-inner {
       max-width: 1240px;
-      min-height: 140px;
-      padding: 26px 24px 18px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .header-inner {
+      min-height: 92px;
+      padding-top: 18px;
+      padding-bottom: 16px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+      justify-content: unset;
     }
 
     .header-brand {
-      gap: 10px;
+      width: auto;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      justify-items: start;
+      gap: 18px;
     }
 
     .header-logo {
-      width: min(100%, 360px);
+      width: 126px;
       height: auto;
-      max-height: 110px;
-      filter: none;
+      max-height: 56px;
+      object-fit: contain;
+      display: block;
     }
 
     .header-tagline {
-      color: var(--text-dark);
-      font-size: 18px;
+      text-align: left;
+      font-size: clamp(18px, 2.2vw, 28px);
       font-weight: 800;
+      line-height: 1.06;
+      color: var(--text-dark);
+      margin: 0;
     }
 
-    .header-subtagline {
+    .header-brand::after {
+      content: 'The Ultimate Toolkit for Tradies';
+      grid-column: 2;
+      font-size: 15px;
+      line-height: 1.35;
       color: var(--text-muted);
-      font-size: 13px;
+      margin-top: 2px;
     }
 
     .menu-btn {
-      background: #ffffff;
+      position: static;
+      transform: none;
       border: 1px solid var(--border-subtle);
+      background: var(--surface);
       border-radius: 999px;
-      box-shadow: var(--shadow-sm);
+      min-width: 44px;
+      min-height: 44px;
+      box-shadow: none;
     }
 
     .menu-icon span {
@@ -2795,609 +2838,10 @@
     }
 
     .header-utilities {
-      gap: 8px;
-    }
-
-    .header-utility-btn,
-    .desktop-nav-btn,
-    .page-filter-btn,
-    .menu-item {
-      background: rgba(255,255,255,0.72);
-      color: var(--text-dark);
-      border: 1px solid var(--border-subtle);
-      box-shadow: none;
-    }
-
-    .header-utility-btn:hover,
-    .desktop-nav-btn:hover,
-    .page-filter-btn:hover,
-    .menu-item:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: #fff8f5;
-    }
-
-    .header-utility-btn.active,
-    .desktop-nav-btn.active,
-    .page-filter-btn.active,
-    .menu-item.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .desktop-nav {
-      max-width: 1240px;
-      padding: 0 24px 18px;
+      position: static;
+      transform: none;
       gap: 10px;
-      border-bottom: 0;
-    }
-
-    main {
-      max-width: 1240px;
-      padding: 28px 24px 56px;
-    }
-
-    .page-title {
-      color: var(--text-dark);
-      letter-spacing: -0.03em;
-      font-size: clamp(38px, 5vw, 56px);
-      margin: 0 0 12px;
-    }
-
-    .page-help,
-    .home-subcopy,
-    .home-value-note,
-    .workspace-muted,
-    .help-tip,
-    .card-subline,
-    .card-when,
-    .footer-contact-info,
-    .cb-saved-item-meta {
-      color: var(--text-muted);
-    }
-
-    .home-cta-btn,
-    .copy-btn,
-    .action-primary,
-    .cb-primary-btn,
-    .builder-submit-btn,
-    .template-action-btn {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-      box-shadow: none;
-    }
-
-    .home-cta-btn.secondary,
-    .copy-btn.secondary,
-    .action-secondary,
-    .cb-secondary-btn,
-    .template-secondary-btn {
-      background: #fff;
-      border-color: var(--border-subtle);
-      color: var(--text-dark);
-    }
-
-    .grid {
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--border-subtle);
-      border-radius: 24px;
-      box-shadow: var(--shadow-sm);
-      overflow: clip;
-    }
-
-    .card:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--border-strong);
-    }
-
-    .card.open {
-      background: var(--panel);
-      box-shadow: var(--shadow-md);
-    }
-
-    .card-head {
-      background: transparent;
-      color: var(--text-dark);
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 18px 20px 16px;
-      gap: 0;
-    }
-
-    .card-head:hover {
-      background: rgba(0,0,0,0.015);
-    }
-
-    .card-head h3 {
-      color: var(--text-dark);
-      margin: 0 0 8px;
-      font-size: 22px;
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
-
-    .card-subline {
-      margin: 0 0 8px;
-      font-size: 14px;
-      line-height: 1.45;
-    }
-
-    .card-when {
-      margin: 0;
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    .card-body {
-      background: transparent;
-      color: var(--text-dark);
-      padding: 20px;
-    }
-
-    .cb-card-top-actions {
-      margin-bottom: 14px;
-      gap: 8px;
-    }
-
-    .cb-card-top-btn,
-    .favourite-btn,
-    .reveal-btn,
-    .cb-load-btn,
-    .cb-delete-btn,
-    .workspace-index-link {
-      border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: #fff;
-      color: var(--text-dark);
-      box-shadow: none;
-    }
-
-    .cb-card-top-btn:hover,
-    .favourite-btn:hover,
-    .reveal-btn:hover,
-    .cb-load-btn:hover,
-    .cb-delete-btn:hover,
-    .workspace-index-link:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: #fff8f5;
-    }
-
-    .favourite-btn.active,
-    .cb-load-btn.active,
-    .reveal-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .card-group-heading {
-      color: #7a746d;
-      margin: 6px 0 -2px;
-      font-size: 12px;
-      letter-spacing: 0.12em;
-    }
-
-    .workspace-grid {
-      gap: 18px;
-    }
-
-    .workspace-panel {
-      border: 1px solid var(--border-subtle);
-      background: rgba(255,255,255,0.62);
-      border-radius: 22px;
-      padding: 18px;
-      gap: 14px;
-    }
-
-    .workspace-panel h4 {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text-dark);
-    }
-
-    .workspace-group {
-      border-top: 1px solid var(--border-subtle);
-      padding-top: 12px;
-      gap: 10px;
-    }
-
-    .workspace-group-title {
-      color: #7a746d;
-      letter-spacing: 0.08em;
-    }
-
-    .workspace-index-list {
-      display: grid;
-      gap: 8px;
-    }
-
-    .workspace-index-link {
-      justify-content: flex-start;
-      text-align: left;
-      padding: 10px 14px;
-    }
-
-    .workspace-saved-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .workspace-saved-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
       align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      background: #fff;
-    }
-
-    .workspace-saved-text {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-      color: var(--text-dark);
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.4;
-    }
-
-    .workspace-saved-bullet {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: var(--accent);
-      flex: 0 0 6px;
-      margin-top: 1px;
-    }
-
-    .workspace-saved-label {
-      min-width: 0;
-      overflow-wrap: anywhere;
-    }
-
-    .workspace-saved-open {
-      border: 1px solid var(--border-subtle);
-      background: #fff;
-      color: var(--text-dark);
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .workspace-saved-open:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: #fff8f5;
-    }
-
-    .grid-compact {
-      gap: 16px;
-    }
-
-    .grid-compact .card {
-      background: #faf9f7;
-    }
-
-    @media (min-width: 640px) {
-      .grid-compact .card { grid-column: span 6; }
-    }
-
-    @media (min-width: 980px) {
-      .grid-compact .card { grid-column: span 4; }
-    }
-
-    .grid-compact .card:not(.open) .card-head {
-      padding: 16px 16px 14px;
-      min-height: 158px;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 0;
-    }
-
-    .grid-compact .card:not(.open) .cb-card-top-actions {
-      display: flex;
-      margin-bottom: 12px;
-    }
-
-    .grid-compact .card:not(.open) .cb-card-top-btn,
-    .grid-compact .card:not(.open) .favourite-btn {
-      padding: 8px 12px;
-      font-size: 12px;
-    }
-
-    .grid-compact .card:not(.open) .card-head h3 {
-      font-size: 18px;
-      margin: 0 0 8px;
-      line-height: 1.2;
-    }
-
-    .grid-compact .card:not(.open) .card-subline {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 40px;
-      margin: 0 0 8px;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .grid-compact .card:not(.open) .card-when {
-      font-size: 12px;
-      line-height: 1.35;
-      min-height: 32px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .grid-compact .card:not(.open) .kv,
-    .grid-compact .card:not(.open) .reveal-btn {
-      display: none;
-    }
-
-    .grid-compact .card.open {
-      grid-column: 1 / -1;
-    }
-
-    .cb-saved-section {
-      border-top: 1px solid var(--border-subtle);
-      padding-top: 18px;
-    }
-
-    .cb-saved-title,
-    .cb-saved-item-name {
-      color: var(--text-dark);
-    }
-
-    .cb-saved-item {
-      background: #fff;
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 14px;
-    }
-
-    .cb-saved-item-actions {
-      gap: 10px;
-    }
-
-    @media (max-width: 820px) {
-      .header-inner {
-        min-height: 120px;
-        padding: 18px 16px 14px;
-      }
-
-      .header-logo {
-        width: min(100%, 280px);
-        max-height: 84px;
-      }
-
-      .desktop-nav,
-      main {
-        padding-left: 16px;
-        padding-right: 16px;
-      }
-
-      .workspace-saved-row {
-        grid-template-columns: 1fr;
-        align-items: stretch;
-      }
-
-      .workspace-saved-open {
-        width: 100%;
-      }
-
-      .grid-compact .card:not(.open) .card-head {
-        min-height: 0;
-      }
-    }
-
-    .header-copy {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-
-    .site-header,
-    .workspace-panel,
-    .card,
-    .card.open,
-    .cb-saved-item,
-    .workspace-saved-row {
-      border-color: var(--border-subtle);
-    }
-
-    .card,
-    .card.open,
-    .workspace-panel {
-      background: var(--panel);
-    }
-
-    .card-body,
-    .workspace-panel,
-    .workspace-saved-row,
-    .cb-saved-item,
-    .cb-saved-section,
-    .card-head {
-      color: var(--text-dark);
-    }
-
-    .card:hover,
-    .workspace-saved-row:hover,
-    .cb-saved-item:hover {
-      border-color: var(--accent);
-    }
-
-    .card:hover .card-head h3,
-    .card:hover .card-subline,
-    .card:hover .card-when,
-    .card-head:hover h3,
-    .card-head:hover .card-subline,
-    .card-head:hover .card-when {
-      color: inherit;
-    }
-
-    .card-head:hover {
-      background: transparent;
-    }
-
-    input,
-    select,
-    textarea,
-    .qb-input,
-    .cb-input,
-    .type-input,
-    .templates-field input,
-    .templates-field textarea {
-      background: #f1ede8;
-      border-color: var(--border-subtle);
-      color: var(--text-dark);
-    }
-
-    input::placeholder,
-    textarea::placeholder,
-    .qb-input::placeholder,
-    .cb-input::placeholder {
-      color: #8d857b;
-    }
-
-    .cb-chip,
-    .quick-btn,
-    .toggle-chip,
-    .seg-btn,
-    .template-pill,
-    .filters button,
-    .option-chip,
-    .choice-chip {
-      border-color: var(--border-subtle);
-    }
-
-    .cb-chip.selected,
-    .quick-btn.active,
-    .toggle-chip.active,
-    .seg-btn.active,
-    .template-pill.active,
-    .option-chip.active,
-    .choice-chip.active,
-    .home-cta-btn,
-    .copy-btn,
-    .action-primary,
-    .cb-primary-btn,
-    .builder-submit-btn,
-    .template-action-btn,
-    .cb-action-row .cb-submit-btn,
-    .cb-action-row .cb-save-btn {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    @media (max-width: 820px) {
-      .header-copy {
-        align-items: flex-start;
-      }
-    }
-
-  
-
-    /* Final visual cleanup v3 */
-    :root {
-      --bg: #e6e3de;
-      --text: #17181b;
-      --accent: #e06000;
-      --surface: #ece8e1;
-      --surface-muted: #e3ded5;
-      --text-dark: #17181b;
-      --text-muted: #6d675f;
-      --border-subtle: #cfc5b8;
-      --border-strong: #bcae9b;
-      --panel: #ece8e1;
-      --panel-soft: #e4dfd7;
-      --shadow-sm: 0 1px 2px rgba(20, 17, 12, 0.05);
-      --shadow-md: 0 10px 24px rgba(20, 17, 12, 0.07);
-      --shadow-lg: 0 18px 34px rgba(20, 17, 12, 0.08);
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 22px;
-    }
-
-    html,
-    body {
-      overflow-x: hidden;
-      background: var(--bg);
-    }
-
-    body {
-      color: var(--text-dark);
-    }
-
-    .site-header {
-      background: rgba(230, 227, 222, 0.94);
-      backdrop-filter: blur(10px);
-    }
-
-    .header-inner,
-    .desktop-nav,
-    main,
-    footer {
-      max-width: 1040px;
-    }
-
-    .header-inner {
-      min-height: 92px;
-      padding: 18px 20px 14px;
-      justify-content: space-between;
-      gap: 16px;
-    }
-
-    .header-brand {
-      width: auto;
-      flex: 1 1 auto;
-      flex-direction: row;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 14px;
-    }
-
-    .header-copy {
-      align-items: flex-start;
-      gap: 4px;
-    }
-
-    .header-logo {
-      width: 155px;
-      max-width: 155px;
-      height: auto;
-      max-height: 62px;
-      object-fit: contain;
-    }
-
-    .header-tagline {
-      text-align: left;
-      font-size: 20px;
-      color: var(--text-dark);
-    }
-
-    .header-subtagline {
-      text-align: left;
-      color: #8b8174;
-      font-style: normal;
-      font-size: 13px;
     }
 
     .header-utility-btn,
@@ -3405,200 +2849,218 @@
     .page-filter-btn,
     .menu-item,
     .footer-logout-btn,
-    .brand-reset-btn {
-      background: rgba(255, 255, 255, 0.38);
-      color: var(--text-dark);
+    .welcome-secondary-btn,
+    .home-cta-btn,
+    .brand-reset-btn,
+    .reset-defaults-btn,
+    .cb-submit-btn {
+      height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
       border: 1px solid var(--border-subtle);
-    }
-
-    .header-utility-btn:hover,
-    .desktop-nav-btn:hover,
-    .page-filter-btn:hover,
-    .menu-item:hover,
-    .brand-reset-btn:hover {
-      background: #f3eee7;
-      color: var(--accent);
-      border-color: var(--accent);
+      background: rgba(244, 240, 234, 0.82);
+      color: var(--text-dark);
+      box-shadow: none;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1;
     }
 
     .header-utility-btn.active,
     .desktop-nav-btn.active,
     .page-filter-btn.active,
     .menu-item.active {
-      background: rgba(224, 96, 0, 0.10);
-      color: var(--accent);
+      background: rgba(222, 107, 47, 0.14);
       border-color: var(--accent);
+      color: var(--text-dark);
     }
 
-    .menu-btn {
-      background: #fff7f1;
+    .header-utility-btn:hover,
+    .desktop-nav-btn:hover,
+    .page-filter-btn:hover,
+    .menu-item:hover,
+    .footer-logout-btn:hover,
+    .welcome-secondary-btn:hover,
+    .home-cta-btn:hover,
+    .brand-reset-btn:hover,
+    .reset-defaults-btn:hover,
+    .cb-submit-btn:hover {
       border-color: var(--accent);
-      box-shadow: none;
+      color: var(--text-dark);
+      background: #f7f2eb;
+      filter: none;
+      transform: none;
     }
 
-    .menu-icon span {
-      background: var(--accent);
+    .desktop-nav {
+      padding-top: 0;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .desktop-nav-btn {
+      min-width: 0;
+      background: rgba(244, 240, 234, 0.74);
     }
 
     main {
-      padding: 24px 20px 36px;
+      padding-top: 24px;
+      padding-bottom: 36px;
     }
 
     .page-title {
-      font-size: clamp(54px, 7vw, 70px);
-      line-height: 0.96;
+      margin: 0 0 8px;
+      font-size: clamp(34px, 4vw, 62px);
+      line-height: 0.98;
       letter-spacing: -0.04em;
-      margin-bottom: 16px;
-      color: #141518;
-    }
-
-    .page-help,
-    .home-subcopy,
-    .home-value-note,
-    .workspace-muted,
-    .help-tip,
-    .card-subline,
-    .card-when,
-    .app-settings-sub,
-    .footer-contact-info {
-      color: #7c7367;
+      color: var(--text-dark);
     }
 
     .page-controls {
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 12px;
+      margin: 0 0 18px;
     }
 
-    .card,
-    .card.open,
+    .page-help {
+      margin: 0 0 24px;
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--text-muted);
+      max-width: 900px;
+    }
+
+    .help-details,
+    .welcome-panel,
     .workspace-panel,
-    .workspace-saved-row,
-    .cb-saved-item,
-    .cb-saved-section,
+    .global-inputs,
     .app-settings-dialog,
-    .menu-panel,
-    .brand-preview,
-    .example-head,
-    .example-body,
-    .card-body,
-    .custom-card,
-    .custom-card-builder,
-    .templates-copy-shell,
-    .templates-copy-body {
+    .app-confirm-dialog,
+    .brand-preview {
       background: var(--surface);
-      border-color: var(--border-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
       box-shadow: none;
     }
 
-    .card,
-    .workspace-saved-row,
-    .cb-saved-item,
-    .workspace-panel,
-    .cb-saved-section {
-      border-width: 1.5px;
-      border-radius: 18px;
+    .help-details {
+      border-left: 3px solid var(--accent);
+      padding: 14px 16px;
     }
 
-    .card:hover,
-    .workspace-saved-row:hover,
-    .cb-saved-item:hover {
-      border-color: var(--accent);
-      box-shadow: var(--shadow-sm);
-      transform: translateY(-1px);
+    .help-details summary {
+      color: var(--text-dark);
+      font-size: 15px;
     }
 
-    .card:hover .card-head h3,
-    .card:hover .card-subline,
-    .card:hover .card-when,
-    .card-head:hover h3,
-    .card-head:hover .card-subline,
-    .card-head:hover .card-when {
-      color: var(--text-dark) !important;
+    .home-explainer {
+      gap: 22px;
     }
 
-    .card-head,
-    .card-body,
-    .cb-builder-shell,
-    .cb-tabs,
-    .cb-example-inline,
-    .example-section,
-    .builder-shell,
-    .workspace-panel,
-    .app-settings,
-    .brand-preview-header,
-    .brand-preview-accent {
-      background: transparent;
+    .home-intro-center {
+      gap: 12px;
+      padding: 34px 28px 30px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 28px;
+      background: var(--surface);
     }
 
-    input,
-    textarea,
-    select,
-    .global-field input,
-    .global-field textarea,
-    .brand-colour-hex,
-    .brand-colour-picker,
-    .search-input,
-    .templates-copy-input,
-    .templates-copy-textarea,
-    .cb-input,
-    .cb-textarea,
-    .cb-chip,
-    .cb-choice,
-    .cb-tab,
-    .cb-toggle,
-    .cb-inline-btn,
-    .cb-card-top-btn,
-    .favourite-btn,
-    .reveal-btn,
-    .workspace-saved-open,
-    .cb-submit-btn,
+    .home-kicker {
+      font-size: clamp(44px, 5vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      color: var(--text-dark);
+      margin: 0;
+    }
+
+    .home-subcopy,
+    .home-value-note,
+    .welcome-text,
+    .workspace-muted,
+    .footer-contact-info,
+    .card-subline,
+    .card-when,
+    .cb-field-help,
+    .app-settings-sub {
+      color: var(--text-muted) !important;
+    }
+
+    .home-subcopy {
+      font-size: 18px;
+      max-width: 760px;
+    }
+
+    .home-value-note {
+      font-size: 17px;
+      max-width: 980px;
+      margin-top: 4px;
+    }
+
+    .home-defaults-btn,
+    .welcome-primary-btn,
+    .home-cta-btn.primary,
     .cb-save-btn,
-    .builder-submit-btn,
-    .template-action-btn {
-      background: var(--panel-soft);
-      color: var(--text-dark);
-      border-color: var(--border-strong);
+    .app-settings-actions .cb-submit-btn:first-child {
+      height: 48px;
+      padding: 0 22px;
+      border-radius: 14px;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #fff;
+      box-shadow: none;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .home-defaults-btn:hover,
+    .welcome-primary-btn:hover,
+    .home-cta-btn.primary:hover,
+    .cb-save-btn:hover,
+    .app-settings-actions .cb-submit-btn:first-child:hover {
+      background: #d26024;
+      border-color: #d26024;
+      color: #fff;
+      filter: none;
+    }
+
+    .home-task-grid {
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .home-task-btn,
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
       box-shadow: none;
     }
 
-    input::placeholder,
-    textarea::placeholder,
-    .search-input::placeholder {
-      color: #998f81;
+    .home-task-btn {
+      min-height: 136px;
+      padding: 20px 20px 18px;
+      gap: 10px;
+      border-left: 1px solid var(--border-subtle);
     }
 
-    .cb-submit-btn,
-    .builder-submit-btn,
-    .template-action-btn,
-    .action-primary,
-    .cb-primary-btn,
-    .cb-action-row .cb-submit-btn,
-    .cb-action-row .cb-save-btn,
-    .workspace-saved-open {
-      background: rgba(224, 96, 0, 0.08);
-      color: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .cb-submit-btn:hover,
-    .builder-submit-btn:hover,
-    .template-action-btn:hover,
-    .action-primary:hover,
-    .cb-primary-btn:hover,
-    .workspace-saved-open:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
-    .workspace-saved-label,
-    .cb-saved-item-name,
-    .card-head h3,
-    .settings-section-label {
+    .home-task-btn strong {
+      font-size: 19px;
+      line-height: 1.15;
       color: var(--text-dark);
     }
 
-    .workspace-saved-bullet {
-      color: var(--accent);
+    .home-task-btn span {
+      font-size: 16px;
+      line-height: 1.5;
+      color: #88909a;
+    }
+
+    .home-task-btn:hover,
+    .card:hover {
+      background: #f6f1ea;
+      border-color: var(--accent);
+      transform: translateY(-1px);
     }
 
     .grid {
@@ -3606,85 +3068,263 @@
     }
 
     .grid-compact {
-      gap: 12px;
+      gap: 14px;
+    }
+
+    .card-head {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid rgba(210, 199, 184, 0.65);
+      background: transparent;
+    }
+
+    .card-head h3,
+    .welcome-title,
+    .workspace-panel h4,
+    .app-settings-title,
+    .app-confirm-title {
+      color: var(--text-dark);
+    }
+
+    .card.open,
+    .grid-compact .card.open {
+      grid-column: span 12;
     }
 
     .grid-compact .card:not(.open) {
-      min-height: 136px;
+      min-height: 178px;
     }
 
     .grid-compact .card:not(.open) .card-head {
-      padding: 16px 16px 14px;
+      padding: 18px;
+      display: grid;
+      align-content: start;
       gap: 8px;
-      min-height: 0;
+      min-height: 100%;
     }
 
     .grid-compact .card:not(.open) .card-head h3 {
       font-size: 18px;
-      line-height: 1.22;
       margin: 0;
+      line-height: 1.18;
     }
 
-    .grid-compact .card:not(.open) .card-subline,
+    .grid-compact .card:not(.open) .card-subline {
+      font-size: 15px;
+      margin: 0;
+      line-height: 1.45;
+    }
+
     .grid-compact .card:not(.open) .card-when {
       font-size: 14px;
-      line-height: 1.4;
-      color: #7c7367;
+      margin-top: auto;
     }
 
-    footer {
-      padding: 6px 20px 28px;
+    .card-group-heading {
+      color: #6e736e;
+      margin: 4px 0 -2px;
     }
 
-    .footer-inner {
-      background: transparent;
-      border: 0;
-      border-radius: 0;
-      padding: 0;
-      box-shadow: none;
-      color: #7f776d;
-      align-items: center;
+    input,
+    textarea,
+    select,
+    .global-field input,
+    .brand-colour-hex,
+    .cb-input,
+    .cb-textarea,
+    .cb-select,
+    .cb-chip,
+    .cb-toggle,
+    .cb-pill,
+    .cb-segment button {
+      background: #f6f1ea !important;
+      color: var(--text-dark) !important;
+      border-color: var(--border-strong) !important;
     }
 
-    .footer-left {
-      gap: 2px;
+    input::placeholder,
+    textarea::placeholder,
+    .global-field input::placeholder,
+    .cb-input::placeholder,
+    .cb-textarea::placeholder {
+      color: #9a9a95 !important;
     }
 
-    .footer-right-actions {
-      display: none !important;
+    .cb-chip,
+    .cb-toggle,
+    .cb-pill,
+    .cb-segment button,
+    .reveal-btn,
+    .cb-save-btn,
+    .cb-submit-btn {
+      border-radius: 12px !important;
+      min-height: 42px;
+      padding: 0 14px !important;
+      font-weight: 700;
+      box-shadow: none !important;
+    }
+
+    .cb-chip.active,
+    .cb-toggle.active,
+    .cb-pill.active,
+    .cb-segment button.active,
+    .reveal-btn.active {
+      border-color: var(--accent) !important;
+      background: rgba(222, 107, 47, 0.12) !important;
+      color: var(--text-dark) !important;
+    }
+
+    .app-settings {
+      background: rgba(39, 35, 31, 0.22);
     }
 
     .app-settings-dialog {
-      width: min(720px, calc(100vw - 28px));
-      background: #ece8e1;
-      border-radius: 20px;
+      width: min(760px, 100%);
+      padding: 20px;
+      max-height: min(84vh, 860px);
     }
 
-    .app-settings-title {
-      color: var(--text-dark);
+    .brand-fields,
+    .brand-colour-row,
+    .brand-preview,
+    .brand-actions,
+    .settings-section:has(.brand-fields),
+    .settings-section:has(.brand-preview) {
+      display: none !important;
     }
 
-    .settings-section {
-      border-top-color: var(--border-subtle);
+    footer {
+      background: transparent;
+      border-top: 0;
+      padding: 10px 0 28px;
     }
 
-    @media (max-width: 820px) {
+    .footer-inner {
+      padding-top: 0;
+      padding-bottom: 0;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+    }
+
+    .footer-left,
+    .footer-left div,
+    .footer-inner a {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .footer-inner a {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .footer-right-actions {
+      display: none;
+    }
+
+    @media (min-width: 981px) {
       .header-inner {
-        min-height: 82px;
-        padding: 14px 14px 12px;
+        min-height: 92px;
+      }
+      .header-utilities {
+        display: inline-flex;
+      }
+      main {
+        padding-top: 26px;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .header-inner,
+      .desktop-nav,
+      main,
+      .footer-inner {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .header-inner {
+        min-height: 84px;
+        grid-template-columns: 1fr auto;
+        gap: 14px;
+      }
+
+      .header-brand {
+        gap: 12px;
       }
 
       .header-logo {
-        width: 128px;
-        max-width: 128px;
+        width: 92px;
+        max-height: 46px;
       }
 
       .header-tagline {
-        font-size: 16px;
+        font-size: 17px;
+      }
+
+      .header-brand::after {
+        font-size: 13px;
+      }
+
+      .home-intro-center {
+        padding: 26px 20px 24px;
+      }
+
+      .home-kicker {
+        font-size: 50px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner {
+        min-height: 76px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+
+      .header-brand {
+        grid-template-columns: 72px 1fr;
+        gap: 10px;
+      }
+
+      .header-logo {
+        width: 72px;
+        max-height: 40px;
+      }
+
+      .header-tagline {
+        font-size: 15px;
+      }
+
+      .header-brand::after {
+        font-size: 12px;
+      }
+
+      .home-intro-center {
+        padding: 22px 16px 20px;
+        border-radius: 22px;
+      }
+
+      .home-kicker {
+        font-size: 38px;
       }
 
       .page-title {
-        font-size: 48px;
+        font-size: 44px;
+      }
+
+      .page-help,
+      .home-subcopy,
+      .home-value-note {
+        font-size: 16px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
       }
     }
 
@@ -3697,12 +3337,10 @@
 
   <header class="site-header">
     <div class="header-inner">
-            <div class="header-brand home-launch" id="homeLaunchBtn" role="button" tabindex="0" aria-label="Go to Home">
+      <div class="header-brand home-launch" id="homeLaunchBtn" role="button" tabindex="0" aria-label="Go to Home">
         <img class="header-logo" src="./advisastacks-logo.png.png" alt="AdvisaStacks logo" />
-        <div class="header-copy">
-          <p class="header-tagline">Consultant Portal</p>
-          <p class="header-subtagline">The Ultimate Toolkit for Tradies</p>
-        </div>
+        <p class="header-tagline">The Ultimate Toolkit for Tradies</p>
+        
       </div>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
         <span class="menu-icon" aria-hidden="true">
@@ -3715,7 +3353,6 @@
         <button class="header-utility-btn" id="desktopSavedBtn" type="button">Saved</button>
         <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Advanced</button>
         <button class="header-utility-btn" id="desktopSettingsBtn" type="button">Settings</button>
-        <button class="header-utility-btn" id="desktopLogoutBtn" type="button">Log out</button>
       </div>
     </div>
   </header>
@@ -3762,6 +3399,42 @@
         </div>
       </div>
 
+      <div class="settings-section">
+        <div class="settings-section-label">Consultant branding</div>
+        <p class="app-settings-sub">Customise how the app looks for your clients. Changes apply to this browser only.</p>
+
+        <div class="brand-fields">
+          <div class="global-field">
+            <label for="brandDisplayName">Display name <span class="brand-hint">(replaces header tagline)</span></label>
+            <input type="text" id="brandDisplayName" placeholder="e.g. Tradie Growth Co" />
+          </div>
+          <div class="global-field">
+            <label for="brandLogoUrl">Logo URL <span class="brand-hint">(direct image link — PNG or SVG)</span></label>
+            <input type="url" id="brandLogoUrl" placeholder="https://example.com/logo.png" />
+          </div>
+          <div class="brand-colour-row">
+            <label for="brandAccentColour">Accent colour</label>
+            <div class="brand-colour-input-wrap">
+              <input type="color" id="brandAccentColour" value="#e75a00" class="brand-colour-picker" />
+              <input type="text" id="brandAccentHex" placeholder="#e75a00" maxlength="7" class="brand-colour-hex" />
+            </div>
+          </div>
+        </div>
+
+        <div class="brand-preview">
+          <div class="brand-preview-label">Preview</div>
+          <div class="brand-preview-header" id="brandPreviewHeader">
+            <img class="brand-preview-logo" id="brandPreviewLogo" src="./advisastacks-logo.png.png" alt="" />
+            <div class="brand-preview-name" id="brandPreviewName">The Ultimate Toolkit for Tradies</div>
+          </div>
+          <div class="brand-preview-accent" id="brandPreviewAccent"></div>
+        </div>
+
+        <div class="brand-actions">
+          <button type="button" class="brand-reset-btn" id="brandResetBtn">Reset to default branding</button>
+        </div>
+      </div>
+
       <div class="app-settings-actions">
         <button type="button" class="cb-submit-btn" id="resetDefaultsBtn">Reset defaults</button>
         <button type="button" class="cb-submit-btn" id="appSettingsCloseBtn">Close</button>
@@ -3783,6 +3456,9 @@
         <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
         <div class="footer-contact-info">E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> &nbsp;|&nbsp; ABN: 37 131 434 727</div>
         <div>© AdvisaStacks</div>
+      </div>
+      <div class="footer-right-actions">
+        <button class="footer-logout-btn" id="footerLogoutBtn" type="button">Log out</button>
       </div>
     </div>
   </footer>
@@ -4585,6 +4261,27 @@
               "Rewrite the message below so it sounds like a real Australian trade business.\n\nMessage type: [Message type]\nTone: [Tone]\n\nRules:\n- Plain English\n- Short sentences\n- No corporate or marketing language\n- No em dashes\n- Friendly, clear, and practical\n\nText to rewrite:\n[PASTE MESSAGE]"
             ],
             "example": {"input":"AI-generated email that sounds too robotic","output":[{"label":"Before","text":"Dear Valued Customer, I hope this message finds you well. I am writing to inform you that your recent electrical service request has been duly noted and we shall endeavour to address your requirements at the earliest convenience."},{"label":"After","text":"Hi Sarah, thanks for getting in touch. I’ve got your request and I’ll be in contact shortly to arrange a time that works. Cheers, Matt"}]}
+          },
+          {
+            "subtitle": "Improve My Message",
+            "chatbot": "AI assistant",
+            "front": {
+              "outcome": "Fix a message so it sounds exactly how you want.",
+              "when": "When the AI response is close but not quite right.",
+              "goodFor": "Improving tone, clarity, and professionalism.",
+              "tip": "Paste the AI message and your edited version."
+            },
+            "ui": {
+              "quickInputs": [{
+                "label": "Goal",
+                "options": ["Shorter", "Friendlier", "Firmer", "Clearer"]
+              }],
+              "fields": ["[AI version]", "[My version]"]
+            },
+            "prompts": [
+              "I'm improving my message style.\n\nHere is the AI version:\n[AI version]\n\nHere is my corrected version:\n[My version]\n\nTask:\n\n1. Identify the style differences (tone, sentence length, wording).\n2. List the key writing rules my business prefers.\n3. Rewrite the AI message again so it matches my style perfectly.\n\nGoal: [Goal], clear, and practical."
+            ],
+            "example": {"input":"Rough draft SMS about a quote","output":[{"label":"Before","text":"hey mate sent u a quote for the job can u have a look when u get a chance and let me no if u wanna go ahead cheers"},{"label":"After","text":"Hey Dave, just sent through the quote for the garage rewire. When you get a chance, have a look and let me know if you're happy to go ahead. I can book you in for next week. Cheers, Matt"}]}
           }
         ]
       }
@@ -4632,7 +4329,7 @@
 
     const DEFAULT_ACCENT = "#e75a00";
     const DEFAULT_TAGLINE = "The Ultimate Toolkit for Tradies";
-    const DEFAULT_LOGO_SRC = "./advisastacks-logo.png.png.png";
+    const DEFAULT_LOGO_SRC = "./advisastacks-logo.png.png";
     const DEFAULT_COPYRIGHT = "AdvisaStacks";
 
     function isValidHexColour(str) {
@@ -6481,9 +6178,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
         workspaceBody.hidden = false;
         workspaceBody.innerHTML = `
           <div class="workspace-grid">
-            <p class="workspace-muted">Quick access to your saved cards and the full prompt index.</p>
+            <p class="workspace-muted">Use this area to quickly access saved cards and browse the full prompt index.</p>
             <div class="home-cta-row">
-              <button type="button" class="home-cta-btn" id="workspaceSavedFilterBtn">${savedOnlyFilter ? "Saved only is on" : "Turn on Saved only"}</button>
+              <button type="button" class="home-cta-btn" id="workspaceSavedFilterBtn">${savedOnlyFilter ? "★ Saved only is ON" : "★ Turn on Saved only"}</button>
               <button type="button" class="home-cta-btn" id="workspaceBuilderBtn">Open Custom Tools</button>
             </div>
             <div class="workspace-panel">
@@ -6531,29 +6228,19 @@ $("cb-submit-btn").addEventListener("click", async () => {
           savedWrap.innerHTML = `<p class="workspace-muted">No saved cards yet. Tap “Save favourites” on any card to collect them here.</p>`;
         } else {
           const rows = document.createElement("div");
-          rows.className = "workspace-saved-list";
+          rows.className = "workspace-btn-row";
           savedList.forEach((entry) => {
-            const row = document.createElement("div");
-            row.className = "workspace-saved-row";
-
-            const textWrap = document.createElement("div");
-            textWrap.className = "workspace-saved-text";
-            textWrap.innerHTML = `<span class="workspace-saved-bullet" aria-hidden="true"></span><span class="workspace-saved-label">${entry.subtitle}</span>`;
-
-            const openBtn = document.createElement("button");
-            openBtn.type = "button";
-            openBtn.className = "workspace-saved-open";
-            openBtn.textContent = "Open";
-            openBtn.addEventListener("click", () => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "copy-btn";
+            btn.textContent = entry.subtitle + " • " + displayCategoryLabel(entry.category);
+            btn.addEventListener("click", () => {
               const targetCategory = resolveRouteKey(entry.category);
               current = targetCategory;
               writePrefs({ lastCategory: targetCategory, openCard: entry.subtitle });
               render();
             });
-
-            row.appendChild(textWrap);
-            row.appendChild(openBtn);
-            rows.appendChild(row);
+            rows.appendChild(btn);
           });
           savedWrap.appendChild(rows);
         }
@@ -7579,7 +7266,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
     const desktopSavedBtn = document.getElementById("desktopSavedBtn");
     const desktopCustomToolsBtn = document.getElementById("desktopCustomToolsBtn");
     const desktopSettingsBtn = document.getElementById("desktopSettingsBtn");
-    const desktopLogoutBtn = document.getElementById("desktopLogoutBtn");
     const menuSettingsBtn = document.getElementById("menuSettingsBtn");
     const menuPanel = document.getElementById("menuPanel");
     const menuBackdrop = document.getElementById("menuBackdrop");
@@ -7631,10 +7317,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
     desktopCustomToolsBtn?.addEventListener("click", () => navigate("Custom Tools"));
     desktopSettingsBtn?.addEventListener("click", () => {
       openSettings();
-    });
-    desktopLogoutBtn?.addEventListener("click", async () => {
-      if (window.__supabase) await window.__supabase.auth.signOut();
-      window.location.replace("./login.html");
     });
     menuSettingsBtn?.addEventListener("click", () => {
       closeMenu();
