@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdvisaStacks - Consultant Setup</title>
+  <link rel="icon" type="image/png" href="./advisastacks-logo-favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #313131;
+      --surface: #f9faff;
+      --accent: #e75a00;
+      --text-dark: #313131;
+      --text-muted: #555;
+      --text-light: #f9faff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Roboto", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-light);
+    }
+    .setup-card {
+      width: min(600px, 100%);
+      background: var(--surface);
+      color: var(--text-dark);
+      border: 4px solid var(--accent);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 16px 34px rgba(0,0,0,0.28);
+    }
+    h1 { margin: 0 0 8px; color: var(--accent); font-size: clamp(24px, 4vw, 34px); }
+    .sub { margin: 0 0 20px; font-size: 15px; color: var(--text-muted); }
+    form { display: grid; gap: 16px; }
+    label { display: grid; gap: 7px; font-size: 14px; font-weight: 700; color: var(--accent); }
+    input {
+      width: 100%;
+      border: 3px solid var(--text-dark);
+      border-radius: 16px;
+      padding: 12px 14px;
+      font: inherit;
+      font-size: 18px;
+      color: var(--text-dark);
+      background: var(--surface);
+    }
+    button {
+      justify-self: start;
+      background: var(--accent);
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      color: var(--text-light);
+      padding: 12px 26px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.24);
+    }
+    button:disabled { opacity: 0.7; cursor: default; }
+    .status { min-height: 20px; font-size: 14px; font-weight: 600; }
+    .status.error { color: #b30000; }
+    .status.ok { color: #0f6e29; }
+    a { color: var(--accent); font-weight: 700; }
+
+    /* Loading / blocked states */
+    .loading-state, .blocked-state { text-align: center; padding: 20px 0; }
+    .blocked-state { color: #b30000; }
+    .spinner {
+      display: inline-block; width: 24px; height: 24px;
+      border: 3px solid #ddd; border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 640px) {
+      .setup-card { padding: 18px; }
+      input { font-size: 16px; padding: 10px 12px; border-width: 2px; }
+      button { font-size: 16px; padding: 10px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="setup-card">
+    <img src="./advisastacks-logo.png" alt="AdvisaStacks" style="width:180px; height:auto; margin-bottom:16px;" />
+
+    <!-- Loading state: shown while checking invite -->
+    <div id="loadingState" class="loading-state">
+      <span class="spinner"></span>
+      <p style="color:var(--text-muted); margin-top:12px;">Verifying your invite...</p>
+    </div>
+
+    <!-- Blocked state: shown when no valid invite -->
+    <div id="blockedState" class="blocked-state" style="display:none;">
+      <h1>Access Denied</h1>
+      <p id="blockedMessage">You do not have a pending consultant invite.</p>
+      <p style="margin-top:14px;"><a href="./login.html">Go to login</a></p>
+    </div>
+
+    <!-- Setup form: shown when invite is valid -->
+    <div id="setupForm" style="display:none;">
+      <h1>Complete your consultant profile</h1>
+      <p class="sub">You've been invited to the AdvisaStacks Consultant Portal. Complete your profile to get started.</p>
+      <p style="font-size:14px; color:var(--text-muted); margin-bottom:16px;" id="emailDisplay"></p>
+
+      <form id="consultantSetupForm">
+        <label for="displayName">
+          Your Full Name
+          <input id="displayName" type="text" autocomplete="name" required placeholder="e.g. Sam Johnson" />
+        </label>
+        <button type="submit" id="setupBtn">Complete Setup</button>
+        <div id="statusMessage" class="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./auth-config.js"></script>
+  <script>
+    (function () {
+      var SUPABASE_URL = window.SUPABASE_URL || "";
+      var SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || "";
+      if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+
+      var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      var loadingState = document.getElementById("loadingState");
+      var blockedState = document.getElementById("blockedState");
+      var blockedMessage = document.getElementById("blockedMessage");
+      var setupFormDiv = document.getElementById("setupForm");
+      var setupForm = document.getElementById("consultantSetupForm");
+      var setupBtn = document.getElementById("setupBtn");
+      var statusMessage = document.getElementById("statusMessage");
+      var emailDisplay = document.getElementById("emailDisplay");
+
+      function showBlocked(msg) {
+        loadingState.style.display = "none";
+        setupFormDiv.style.display = "none";
+        blockedState.style.display = "block";
+        blockedMessage.textContent = msg || "You do not have a pending consultant invite.";
+      }
+
+      function showSetup() {
+        loadingState.style.display = "none";
+        blockedState.style.display = "none";
+        setupFormDiv.style.display = "block";
+      }
+
+      function setStatus(msg, type) {
+        statusMessage.textContent = msg;
+        statusMessage.className = "status " + (type || "");
+      }
+
+      // Supabase invite links redirect here with tokens in the URL hash.
+      // The Supabase client auto-picks up the session from the URL.
+      async function init() {
+        // Wait for Supabase to process URL tokens (invite magic link)
+        var result = await supabaseClient.auth.getSession();
+
+        if (!result.data || !result.data.session) {
+          // No session — maybe they navigated here directly without a valid link
+          showBlocked("No active session. Please use the invite link from your email, or log in first.");
+          return;
+        }
+
+        var session = result.data.session;
+        var user = session.user;
+        emailDisplay.textContent = "Signed in as: " + user.email;
+
+        // Check consultant access via server endpoint
+        try {
+          var resp = await fetch("/api/check-consultant-access", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + session.access_token }
+          });
+          var data = await resp.json();
+
+          if (data.access) {
+            // Already has access — go straight to portal
+            window.location.replace("./consultant-portal.html");
+            return;
+          }
+
+          if (data.hasPendingInvite) {
+            // Has pending invite — show setup form
+            showSetup();
+          } else {
+            showBlocked(data.reason || "You do not have consultant portal access.");
+          }
+        } catch (err) {
+          showBlocked("Unable to verify invite status. Please try again.");
+        }
+      }
+
+      // Handle form submission
+      setupForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        setStatus("", "");
+        setupBtn.disabled = true;
+
+        var displayName = document.getElementById("displayName").value.trim();
+        if (!displayName) {
+          setStatus("Please enter your full name.", "error");
+          setupBtn.disabled = false;
+          return;
+        }
+
+        var session = (await supabaseClient.auth.getSession()).data?.session;
+        if (!session) {
+          setStatus("Session expired. Please reload and try again.", "error");
+          setupBtn.disabled = false;
+          return;
+        }
+
+        setStatus("Setting up your consultant profile...", "");
+
+        try {
+          var resp = await fetch("/api/accept-consultant-invite", {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + session.access_token,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ displayName: displayName })
+          });
+
+          var result = await resp.json();
+
+          if (!resp.ok) {
+            setStatus(result.error || "Setup failed. Please try again.", "error");
+            setupBtn.disabled = false;
+            return;
+          }
+
+          setStatus("Profile created! Redirecting to Consultant Portal...", "ok");
+          setTimeout(function () {
+            window.location.href = "./consultant-portal.html";
+          }, 1000);
+        } catch (err) {
+          setStatus("Network error. Please try again.", "error");
+          setupBtn.disabled = false;
+        }
+      });
+
+      init();
+    })();
+  </script>
+</body>
+</html>
