@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
   const billingUrl = APP_URL.replace(/\/$/, "") + "/billing.html";
 
   const html = [
-    '<div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#f9faff;">',
+    '<div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#313131;">',
 
     '<img src="' + logoUrl + '" alt="AdvisaStacks" style="width:160px;height:auto;margin-bottom:20px;" />',
 
@@ -73,7 +73,7 @@ module.exports = async (req, res) => {
     'Use <strong style="color:#e75a00;">TOOLSDOWN</strong> when you go through billing to claim your free week and see if it fits the way you work.',
     '</p>',
 
-    '<a href="' + billingUrl + '" style="display:inline-block;background:#e75a00;color:#313131;',
+    '<a href="' + billingUrl + '" style="display:inline-block;background:#e75a00;color:#f9faff;',
     'text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:700;font-size:16px;',
     'box-shadow:0 4px 12px rgba(0,0,0,0.2);">Get Access!</a>',
 
