@@ -129,7 +129,14 @@
     return fetch("/api/send-login-code", {
       method: "POST",
       headers: { Authorization: "Bearer " + token }
-    }).then(function (r) { return r.ok; });
+    }).then(function (r) {
+      if (r.ok) return { ok: true };
+      return r.json().then(function (body) {
+        return { ok: false, error: body.error };
+      }).catch(function () {
+        return { ok: false, error: null };
+      });
+    });
   }
 
   function verifyCode(token, code) {
@@ -158,11 +165,11 @@
       if (!activeToken) return;
       resendBtn.disabled = true;
       setStatus("Sending a new code...", "");
-      sendCode(activeToken).then(function (ok) {
-        if (ok) {
+      sendCode(activeToken).then(function (result) {
+        if (result.ok) {
           setStatus("New code sent to your email.", "ok");
         } else {
-          setStatus("Failed to resend code. Try again.", "error");
+          setStatus(result.error || "Failed to resend code. Try again.", "error");
         }
         resendBtn.disabled = false;
       });
@@ -221,9 +228,9 @@
       var token = result.data.session.access_token;
       setStatus("Sending verification code to your email...", "");
 
-      sendCode(token).then(function (ok) {
-        if (!ok) {
-          setStatus("Failed to send verification code. Please try again.", "error");
+      sendCode(token).then(function (result) {
+        if (!result.ok) {
+          setStatus(result.error || "Failed to send verification code. Please try again.", "error");
           loginBtn.disabled = false;
           return;
         }
