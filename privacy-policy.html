@@ -9,7 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@700;800&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing: border-box; }
+    :root {
+      --bg: #faf5ed;
+      --panel: #e6dbcf;
+      --border: #dcdcdc;
+      --text: #292727;
+      --muted: #292727;
+      --accent: #e75a00;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       padding: 24px;
@@ -18,6 +30,7 @@
       color: var(--text);
       line-height: 1.6;
     }
+
     main {
       max-width: 920px;
       margin: 0 auto;
@@ -26,19 +39,48 @@
       border-radius: 14px;
       padding: 24px;
     }
-    h1, h2 {
+
+    h1,
+    h2 {
       margin: 0 0 8px;
       font-family: "Manrope", "Inter", system-ui, sans-serif;
       letter-spacing: -0.01em;
-      color: #292727;
+      color: var(--text);
     }
-    h1 { font-size: 32px; }
-    h2 { font-size: 18px; margin-top: 18px; }
-    p { margin: 0 0 10px; color: #292727; }
-    .meta { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
-    .fine { color: var(--muted); font-size: 14px; }
-    a { color: var(--accent); font-weight: 700; }
-    .back { margin-top: 18px; }
+
+    h1 {
+      font-size: 32px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-top: 18px;
+    }
+
+    p {
+      margin: 0 0 10px;
+      color: var(--text);
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .fine {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    a {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .back {
+      margin-top: 18px;
+    }
   </style>
 </head>
 <body>
@@ -49,14 +91,14 @@
     <p>AdvisaStacks (ABN 37 131 434 727) respects your privacy and handles personal information in line with Australian privacy expectations.</p>
 
     <h2>What we collect</h2>
-    <p>We may collect account details (such as your name and email), subscription and billing status, and service usage data needed to run and secure the app.</p>
+    <p>We may collect account details such as your name and email, subscription and billing status, and service usage data needed to run and secure the app.</p>
     <p>When you use prompt tools, content you enter may be processed to generate AI outputs.</p>
 
     <h2>How we use information</h2>
     <p>We use information to deliver the service, maintain account access, support subscriptions, improve reliability, and provide support when requested.</p>
 
-    <h2>Third-party services</h2>
-    <p>AdvisaStacks uses third-party providers for authentication, billing, and AI processing. These providers process data only as required to operate those services.</p>
+    <h2>Third party services</h2>
+    <p>AdvisaStacks uses third party providers for authentication, billing, and AI processing. These providers process data only as required to operate those services.</p>
 
     <h2>Storage and security</h2>
     <p>We take reasonable steps to protect information in our systems. No method of storage or transmission is guaranteed to be 100% secure.</p>
@@ -64,8 +106,14 @@
     <h2>Your choices</h2>
     <p>You can request access, correction, or deletion of your personal information by contacting us.</p>
 
-    <p class="fine">Contact: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> | ABN: 37 131 434 727</p>
-    <p class="back"><a href="./home.html">&larr; Back to AdvisaStacks</a></p>
+    <p class="fine">
+      Contact: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> |
+      ABN: 37 131 434 727
+    </p>
+
+    <p class="back">
+      <a href="./home.html">&larr; Back to AdvisaStacks</a>
+    </p>
   </main>
 </body>
 </html>
