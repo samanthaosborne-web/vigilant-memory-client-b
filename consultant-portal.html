@@ -14,14 +14,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f0eeeb;
-      --surface: #f7f6f3;
-      --panel: #ece9e4;
+      --bg: #c3b6a6;
+      --surface: #c3b6a6;
+      --panel: #c3b6a6;
       --accent: #c7612e;
       --accent-light: #d4733f;
-      --text-light: #2d2a26;
-      --text-muted: #7a756e;
-      --border-subtle: #ddd9d3;
+      --text-light: #292727;
+      --text-muted: #292727;
+      --border-subtle: #a89b8b;
       --green: #22c55e;
       --amber: #f59e0b;
       --red: #ef4444;
@@ -63,7 +63,7 @@
 
     .portal-badge {
       background: var(--accent);
-      color: #ffffff;
+      color: #241f72;
       font-size: 11px;
       font-weight: 700;
       padding: 4px 10px;
@@ -351,6 +351,124 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* Settings modal */
+    .cp-settings-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 30020;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(41,39,39,0.30);
+      backdrop-filter: blur(3px);
+    }
+    .cp-settings-overlay.open { display: flex; }
+    .cp-settings-dialog {
+      width: min(560px, 100%);
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+      background: var(--surface);
+      color: var(--text-light);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(41,39,39,0.10);
+      padding: 20px;
+    }
+    .cp-settings-title {
+      margin: 0 0 4px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-light);
+    }
+    .cp-settings-sub {
+      margin: 0 0 12px;
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .cp-settings-section {
+      margin-bottom: 16px;
+    }
+    .cp-settings-section-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .cp-settings-inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 12px;
+      background: var(--panel);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+    }
+    .cp-settings-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .cp-settings-field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .cp-settings-field input {
+      padding: 10px 12px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--text-light);
+      background: var(--surface);
+    }
+    .cp-settings-field input:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+    .cp-settings-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .cp-settings-btn {
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--surface);
+      color: var(--text-muted);
+    }
+    .cp-settings-btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #241f72;
+    }
+    .cp-preview-section {
+      margin-top: 16px;
+    }
+    .cp-preview-frame {
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .cp-preview-frame iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+    }
+
     @media (max-width: 768px) {
       .portal-header { padding: 12px 16px; }
       .portal-container { padding: 16px 12px; }
@@ -370,11 +488,12 @@
 
   <header class="portal-header">
     <div class="portal-header-left">
-      <img src="./Advisastacks Logo White.png" alt="AdvisaStacks" class="portal-logo" />
+      <img src="./advisastacks-logo.png.png" alt="AdvisaStacks" class="portal-logo" />
       <span class="portal-badge">Consultant Portal</span>
     </div>
     <div class="portal-header-right">
       <span class="portal-user" id="portalUserName"></span>
+      <button class="portal-logout-btn" id="portalSettingsBtn" type="button">Settings</button>
       <button class="portal-logout-btn" id="portalLogoutBtn" type="button">Log out</button>
     </div>
   </header>
@@ -434,13 +553,48 @@
     </div>
   </div>
 
+  <!-- Settings Modal -->
+  <div class="cp-settings-overlay" id="cpSettingsOverlay" aria-hidden="true">
+    <div class="cp-settings-dialog" role="dialog" aria-modal="true" aria-labelledby="cpSettingsTitle">
+      <h3 class="cp-settings-title" id="cpSettingsTitle">Settings</h3>
+
+      <div class="cp-settings-section">
+        <div class="cp-settings-section-label">Business defaults</div>
+        <p class="cp-settings-sub">Set these once and they will auto-fill into every prompt.</p>
+        <div class="cp-settings-inputs">
+          <div class="cp-settings-field">
+            <label for="cpFirstName">Your First Name</label>
+            <input type="text" id="cpFirstName" placeholder="e.g. John" autocomplete="given-name" />
+          </div>
+          <div class="cp-settings-field">
+            <label for="cpBizName">Business Name</label>
+            <input type="text" id="cpBizName" placeholder="e.g. Smith Plumbing" autocomplete="organization" />
+          </div>
+        </div>
+      </div>
+
+      <div class="cp-preview-section">
+        <div class="cp-settings-section-label">Client Home Page Preview</div>
+        <p class="cp-settings-sub">Preview how the main client page looks.</p>
+        <div class="cp-preview-frame">
+          <iframe src="./home.html" title="Client Home Page Preview"></iframe>
+        </div>
+      </div>
+
+      <div class="cp-settings-actions">
+        <button type="button" class="cp-settings-btn" id="cpSettingsResetBtn">Reset defaults</button>
+        <button type="button" class="cp-settings-btn primary" id="cpSettingsCloseBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="portal-footer">
     <div class="portal-footer-inner">
       <div>
         <a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a>
         <span style="margin-left:12px; color:var(--text-muted);">E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> &nbsp;|&nbsp; ABN: 37 131 434 727</span>
       </div>
-      <div>&copy; AdvisaStacks</div>
+      <div><img src="./advisastacks-logo.png.png" alt="AdvisaStacks" style="width:100px; height:auto;" /></div>
     </div>
   </footer>
 

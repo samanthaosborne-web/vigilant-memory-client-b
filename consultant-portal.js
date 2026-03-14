@@ -301,5 +301,57 @@
     });
   }
 
+  // ── Settings Modal ──
+  var PREFS_KEY = "advisastacks_prefs";
+
+  function readPrefs() {
+    try { return JSON.parse(localStorage.getItem(PREFS_KEY)) || {}; } catch (_) { return {}; }
+  }
+  function writePrefs(patch) {
+    var prefs = readPrefs();
+    Object.keys(patch).forEach(function (k) { prefs[k] = patch[k]; });
+    try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (_) {}
+  }
+
+  var settingsOverlay = document.getElementById("cpSettingsOverlay");
+  var settingsBtn = document.getElementById("portalSettingsBtn");
+  var settingsCloseBtn = document.getElementById("cpSettingsCloseBtn");
+  var settingsResetBtn = document.getElementById("cpSettingsResetBtn");
+  var cpFirstName = document.getElementById("cpFirstName");
+  var cpBizName = document.getElementById("cpBizName");
+
+  function openSettings() {
+    var prefs = readPrefs();
+    if (cpFirstName) cpFirstName.value = prefs.firstName || "";
+    if (cpBizName) cpBizName.value = prefs.businessName || "";
+    settingsOverlay.classList.add("open");
+    settingsOverlay.setAttribute("aria-hidden", "false");
+  }
+
+  function closeSettings() {
+    // Save on close
+    var patch = {};
+    if (cpFirstName) patch.firstName = cpFirstName.value.trim();
+    if (cpBizName) patch.businessName = cpBizName.value.trim();
+    writePrefs(patch);
+    settingsOverlay.classList.remove("open");
+    settingsOverlay.setAttribute("aria-hidden", "true");
+  }
+
+  if (settingsBtn) settingsBtn.addEventListener("click", openSettings);
+  if (settingsCloseBtn) settingsCloseBtn.addEventListener("click", closeSettings);
+  if (settingsOverlay) {
+    settingsOverlay.addEventListener("click", function (e) {
+      if (e.target === settingsOverlay) closeSettings();
+    });
+  }
+  if (settingsResetBtn) {
+    settingsResetBtn.addEventListener("click", function () {
+      if (cpFirstName) cpFirstName.value = "";
+      if (cpBizName) cpBizName.value = "";
+      writePrefs({ firstName: "", businessName: "" });
+    });
+  }
+
   checkAuth();
 })();

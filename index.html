@@ -26,21 +26,21 @@
   <style>
     :root {
       /* ── Warm light palette ── */
-      --bg: #f0eeeb;
-      --text: #2d2a26;
+      --bg: #c3b6a6;
+      --text: #292727;
       --accent: #c7612e;
       --accent-hover: #b35425;
       --accent-light: rgba(199, 97, 46, 0.10);
-      --surface: #f7f6f3;
-      --surface-muted: #eae8e4;
-      --text-dark: #2d2a26;
-      --text-muted: #7a756e;
-      --text-light: #a39e96;
-      --border-subtle: #ddd9d3;
-      --border-strong: #ccc7bf;
-      --panel: #f7f6f3;
-      --panel-soft: #f3f1ed;
-      --card-bg: #ece9e4;
+      --surface: #c3b6a6;
+      --surface-muted: #b8ab9b;
+      --text-dark: #292727;
+      --text-muted: #292727;
+      --text-light: #292727;
+      --border-subtle: #a89b8b;
+      --border-strong: #9d907f;
+      --panel: #c3b6a6;
+      --panel-soft: #bdb0a0;
+      --card-bg: #c3b6a6;
 
       /* ── Spacing scale (4px base) ── */
       --space-1: 4px;
@@ -86,6 +86,13 @@
       color: var(--text);
       font-size: 15px;
       line-height: 1.55;
+    }
+
+    /* Global button text colour override */
+    button, .btn, a.btn, .reveal-btn, .home-defaults-btn, .home-cta-btn.primary,
+    .welcome-primary-btn, .ai-run-now-btn, .ai-run-btn, .desktop-nav-btn.active,
+    .menu-item-logout:hover, .cb-submit-btn, .onboarding-primary-btn {
+      color: #241f72;
     }
 
     h1, h2, h3, .page-title, .card-head h3 {
@@ -1278,9 +1285,10 @@
       flex-wrap: wrap;
       gap: var(--space-2);
       margin-bottom: var(--space-3);
+      align-items: center;
     }
     .workflow-step {
-      border: 1px solid var(--border-subtle);
+      border: none;
       background: transparent;
       color: var(--text-muted);
       border-radius: var(--radius-md);
@@ -1290,9 +1298,14 @@
       line-height: 1.1;
     }
     .workflow-step.is-active {
-      border-color: var(--accent);
       color: var(--accent);
       background: var(--accent-light);
+    }
+    .workflow-arrow {
+      color: var(--text-muted);
+      font-size: var(--font-sm);
+      font-weight: 700;
+      line-height: 1;
     }
     .workflow-note {
       margin: 0 0 var(--space-3);
@@ -3824,7 +3837,7 @@
       <div class="footer-left">
         <div><a href="./privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a href="./legal-disclaimer.html">Legal Disclaimer</a></div>
         <div class="footer-contact-info">E: <a href="mailto:info@advisastacks.com">info@advisastacks.com</a> &nbsp;|&nbsp; ABN: 37 131 434 727</div>
-        <div>© AdvisaStacks</div>
+        <div><img src="./advisastacks-logo.png.png" alt="AdvisaStacks" style="width:100px; height:auto;" /></div>
       </div>
     </div>
   </footer>
@@ -3934,11 +3947,11 @@
       "Winning Work": {
         "title": "Winning Work",
         "cards": [{
-            "subtitle": "Quote Follow-Up (24 hours)",
+            "subtitle": "Quote Follow-Up",
             "chatbot": "AI assistant",
             "front": {
               "outcome": "Nudge the client to approve the quote without sounding pushy.",
-              "when": "24–48 hours after sending a quote.",
+              "when": "Best for: do two of these: 24–48 hours and then 3-5 days after sending a quote.",
               "goodFor": "Getting a clear yes or next step without chasing.",
               "roi": "More quotes accepted, fewer jobs going cold.",
               "tip": "Keep it short. Ask one clear question."
@@ -3961,39 +3974,6 @@
             },
             "prompts": ["Write a [Channel] to [Client name] following up a quote sent [Quote sent date] for [Job type].\n\nTone: [Tone].\nGoal: get them to take the next step: [Next step].\nInclude:\n- 1 polite line checking they received it\n- 1 line summarising the job in plain English\n- 1 clear question as the call to action\n- optional: 1 sentence about next availability if helpful\n\nAdd this at the end: [Next step link or instruction].\nReturn 2 versions."],
             "example": {"input":"SMS · Friendly · Sarah · bathroom renovation","output":[{"label":"Version 1","text":"Hi Sarah, just checking in — did you get the quote I sent through yesterday for the bathroom reno? Happy to answer any questions. If you're good to go, just reply YES and I'll lock in a start date for you. Cheers, Matt — Cooper Electrical"},{"label":"Version 2","text":"Hey Sarah, hope you've had a chance to look over the bathroom reno quote. Let me know if anything needs adjusting — otherwise just reply YES to lock it in and I'll get you on the schedule. Talk soon, Matt"}]}
-          },
-          {
-            "subtitle": "Quote Follow-Up (3–5 days)",
-            "chatbot": "AI assistant",
-            "front": {
-              "outcome": "Bring the job back to the top of their mind and close the loop.",
-              "when": "3–5 days after quote, or when they have gone quiet.",
-              "goodFor": "Getting a yes or no, and freeing up your diary if it is a no.",
-              "roi": "Fewer dead quotes, steadier pipeline.",
-              "tip": "Give an easy out, hold a spot or close it off."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Firm"]
-                },
-                {
-                  "label": "Urgency",
-                  "options": ["None", "We are booking up", "Quote valid until (date)"]
-                },
-                {
-                  "label": "Offer",
-                  "options": ["Call me", "Text OK to proceed", "Pick a date"]
-                }
-              ],
-              "fields": ["[Client name]", "[Job type]", "[Availability window]"]
-            },
-            "prompts": ["Write a short [Channel] to [Client name].\n\nContext: I sent a quote for [Job type] about 3–5 days ago and have not heard back.\nTone: [Tone]. No AI language.\n\nGoal: prompt a decision (yes/no) and make it easy.\nInclude:\n- friendly check in\n- simple reminder of what the quote covers\n- one clear question: proceed, adjust scope, or close it off?\nOptional urgency: [Urgency].\nMake the next step: [Offer].\nOptional availability: [Availability window].\n\nReturn 2 versions."],
-            "example": {"input":"Email · Firm · Dave · kitchen rewire · We are booking up","output":[{"label":"Version 1","text":"Hi Dave,\n\nJust following up on the kitchen rewire quote I sent through last week. Wanted to check whether you’ve had a chance to look it over.\n\nWe’re starting to book up for the next few weeks, so if you’d like to go ahead, it’d be great to lock in a date soon. If the scope or price needs adjusting, happy to chat about options.\n\nOtherwise, no worries at all — just let me know either way so I can plan accordingly.\n\nCheers,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Dave,\n\nFollowing up on the kitchen rewire quote from last week. I know things get busy, so just wanted to check in.\n\nWe’re booking up quickly at the moment. If you want to secure a spot, let me know and I’ll get you locked in. If the quote doesn’t suit, I’m happy to look at adjusting the scope.\n\nEither way, just let me know where you’re at.\n\nCheers,\nMatt"}]}
           },
           {
             "subtitle": "Handling “Can you do it cheaper?”",
@@ -4674,7 +4654,7 @@
 
     const DEFAULT_ACCENT = "#e75a00";
     const DEFAULT_TAGLINE = "The Ultimate Toolkit for Tradies";
-    const DEFAULT_LOGO_SRC = "./advisastacks-logo.png.png.png";
+    const DEFAULT_LOGO_SRC = "./advisastacks-logo.png.png";
     const DEFAULT_COPYRIGHT = "AdvisaStacks";
 
     function isValidHexColour(str) {
@@ -4699,52 +4679,7 @@
     }
 
     function applyBranding() {
-      const brand = readBrandPrefs();
-      const colour = isValidHexColour(brand.accentColour) ? brand.accentColour : DEFAULT_ACCENT;
-      document.documentElement.style.setProperty("--accent", colour);
-
-      const tagline = document.querySelector(".header-tagline");
-      if (tagline) {
-        tagline.textContent = brand.displayName || DEFAULT_TAGLINE;
-      }
-
-      const logo = document.querySelector(".header-logo");
-      if (logo) {
-        if (brand.logoUrl) {
-          logo.src = brand.logoUrl;
-          logo.alt = brand.displayName || "Logo";
-          logo.style.display = "";
-          logo.onerror = () => {
-            logo.src = DEFAULT_LOGO_SRC;
-            logo.alt = "AdvisaStacks logo";
-          };
-        } else {
-          logo.src = DEFAULT_LOGO_SRC;
-          logo.alt = "AdvisaStacks logo";
-        }
-      }
-
-      const footerLeft = document.querySelector(".footer-left");
-      if (footerLeft) {
-        const copyrightDiv = footerLeft.querySelectorAll("div")[1];
-        if (copyrightDiv) {
-          copyrightDiv.textContent = "© " + (brand.displayName || DEFAULT_COPYRIGHT);
-        }
-      }
-
-      const previewLogo = document.getElementById("brandPreviewLogo");
-      const previewName = document.getElementById("brandPreviewName");
-      const previewAccent = document.getElementById("brandPreviewAccent");
-      if (previewLogo) {
-        previewLogo.src = brand.logoUrl || DEFAULT_LOGO_SRC;
-        previewLogo.onerror = () => { previewLogo.src = DEFAULT_LOGO_SRC; };
-      }
-      if (previewName) {
-        previewName.textContent = brand.displayName || DEFAULT_TAGLINE;
-      }
-      if (previewAccent) {
-        previewAccent.style.background = colour;
-      }
+      // Branding customization removed — use fixed defaults
     }
 
     function readUsageStats() {
@@ -6834,8 +6769,10 @@ $("cb-submit-btn").addEventListener("click", async () => {
         workflowSteps.className = "workflow-steps";
         workflowSteps.innerHTML = `
           <span class="workflow-step is-active">Fill details</span>
+          <span class="workflow-arrow">\u2192</span>
           <span class="workflow-step">Run with AI</span>
-          <span class="workflow-step">Step 3: Copy and use</span>
+          <span class="workflow-arrow">\u2192</span>
+          <span class="workflow-step">Copy and use</span>
         `;
         body.appendChild(workflowSteps);
         const workflowStepPills = Array.from(workflowSteps.querySelectorAll(".workflow-step"));
@@ -7196,7 +7133,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           sentPromptWrap.appendChild(sentPromptText);
           const responseStatus = document.createElement("div");
           responseStatus.className = "ai-response-status";
-          responseStatus.textContent = "Step 3: Final message will appear here.";
+          responseStatus.textContent = "Final message will appear here.";
           const responseBoxes = document.createElement("div");
           responseBoxes.className = "ai-response-boxes";
           const errorMsg = document.createElement("div");
@@ -7686,52 +7623,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
     appSettings?.addEventListener("click", (e) => {
       if (e.target === appSettings) closeSettings();
     });
-    const brandNameInput = document.getElementById("brandDisplayName");
-    const brandLogoInput = document.getElementById("brandLogoUrl");
-    const brandColourPicker = document.getElementById("brandAccentColour");
-    const brandColourHex = document.getElementById("brandAccentHex");
-    const brandResetBtn = document.getElementById("brandResetBtn");
-
-    function handleBrandChange() {
-      const displayName = brandNameInput?.value?.trim() || "";
-      const logoUrl = brandLogoInput?.value?.trim() || "";
-      const accentColour = brandColourPicker?.value || DEFAULT_ACCENT;
-      writeBrandPrefs({ displayName, logoUrl, accentColour });
-      if (brandColourHex && document.activeElement !== brandColourHex) {
-        brandColourHex.value = accentColour === DEFAULT_ACCENT ? "" : accentColour;
-      }
-      applyBranding();
-    }
-
-    brandNameInput?.addEventListener("input", handleBrandChange);
-    brandLogoInput?.addEventListener("input", handleBrandChange);
-
-    brandColourPicker?.addEventListener("input", () => {
-      if (brandColourHex) brandColourHex.value = brandColourPicker.value;
-      handleBrandChange();
-    });
-
-    brandColourHex?.addEventListener("input", () => {
-      const val = brandColourHex.value.trim();
-      const normalised = val.startsWith("#") ? val : "#" + val;
-      if (isValidHexColour(normalised)) {
-        brandColourPicker.value = normalised;
-        handleBrandChange();
-      }
-    });
-
-    brandResetBtn?.addEventListener("click", () => {
-      writeBrandPrefs({
-        displayName: "",
-        logoUrl: "",
-        accentColour: DEFAULT_ACCENT
-      });
-      if (brandNameInput) brandNameInput.value = "";
-      if (brandLogoInput) brandLogoInput.value = "";
-      if (brandColourPicker) brandColourPicker.value = DEFAULT_ACCENT;
-      if (brandColourHex) brandColourHex.value = "";
-      applyBranding();
-    });
+    // Client branding removed
     menuBackdrop.addEventListener("click", closeMenu);
     document.addEventListener("keydown", (e) => {
       const confirmModal = document.getElementById("appConfirm");
@@ -7806,16 +7698,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
       }
 
       compactView = false;
-      writeBrandPrefs({ displayName: "", logoUrl: "", accentColour: DEFAULT_ACCENT });
-      const bni = document.getElementById("brandDisplayName");
-      const bli = document.getElementById("brandLogoUrl");
-      const bcp = document.getElementById("brandAccentColour");
-      const bch = document.getElementById("brandAccentHex");
-      if (bni) bni.value = "";
-      if (bli) bli.value = "";
-      if (bcp) bcp.value = DEFAULT_ACCENT;
-      if (bch) bch.value = "";
-      applyBranding();
     });
 
     // --- ONBOARDING ---
@@ -7942,7 +7824,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         } else if (step === 2) {
           html += '<h2 class="onboarding-heading">See how it works</h2>';
           html += '<p class="onboarding-subtext">This is a real card from the app. We\u2019ve pre-filled it with example data \u2014 hit Run with AI to see what it generates.</p>';
-          html += '<div class="onboarding-card-title">Quote Follow-Up (24 hours)</div>';
+          html += '<div class="onboarding-card-title">Quote Follow-Up</div>';
           html += '<div class="onboarding-workflow"><span class="active">Fill details</span><span>\u2192</span><span>Run with AI</span><span>\u2192</span><span>Copy and use</span></div>';
 
           // Chips
@@ -8224,18 +8106,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
     savedOnlyFilter = !!savedPrefs.savedOnlyFilter;
     compactView = !!savedPrefs.compactView;
 
-    (function restoreBrand() {
-      const brand = readBrandPrefs();
-      const brandNameInput = document.getElementById("brandDisplayName");
-      const brandLogoInput = document.getElementById("brandLogoUrl");
-      const brandColourPicker = document.getElementById("brandAccentColour");
-      const brandColourHex = document.getElementById("brandAccentHex");
-      if (brandNameInput && brand.displayName) brandNameInput.value = brand.displayName;
-      if (brandLogoInput && brand.logoUrl) brandLogoInput.value = brand.logoUrl;
-      if (brandColourPicker) brandColourPicker.value = brand.accentColour;
-      if (brandColourHex && brand.accentColour !== DEFAULT_ACCENT) brandColourHex.value = brand.accentColour;
-      applyBranding();
-    })();
+    // Client branding restore removed
 
     // Restore the last visited tab if it exists
     const savedCategory = savedPrefs.lastCategory;
