@@ -234,6 +234,60 @@
 
     .message.error { color: var(--accent-hover); }
     .message.ok { color: var(--accent); }
+
+    .btn-danger {
+      background: transparent;
+      color: #b91c1c;
+      border: 1px solid #b91c1c;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+      color: #ffffff;
+      border-color: #b91c1c;
+    }
+
+    .cancel-confirm-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 100;
+      place-items: center;
+    }
+
+    .cancel-confirm-overlay.visible {
+      display: grid;
+    }
+
+    .cancel-confirm-dialog {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: var(--shadow-md);
+      text-align: center;
+    }
+
+    .cancel-confirm-dialog h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      color: var(--text-dark);
+    }
+
+    .cancel-confirm-dialog p {
+      margin: 0 0 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .cancel-confirm-dialog .dialog-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
@@ -274,11 +328,23 @@
     <div class="actions">
       <button id="manageBtn" class="btn-secondary">Manage Billing</button>
       <button id="openAppBtn" class="btn-secondary">Open App</button>
+      <button id="cancelMembershipBtn" class="btn-danger" style="display:none;">Cancel My Membership</button>
       <button id="logoutBtn" class="btn-secondary">Log out</button>
     </div>
 
     <div id="billingMessage" class="message" aria-live="polite"></div>
   </main>
+
+  <div id="cancelOverlay" class="cancel-confirm-overlay">
+    <div class="cancel-confirm-dialog">
+      <h2>Cancel your membership?</h2>
+      <p>You'll keep access until the end of your current billing period. After that, your subscription will not renew.</p>
+      <div class="dialog-actions">
+        <button id="cancelConfirmBtn" class="btn-danger">Yes, cancel</button>
+        <button id="cancelDismissBtn" class="btn-secondary">Keep membership</button>
+      </div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./auth-config.js"></script>
