@@ -155,7 +155,7 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     const session = await getUserAndSession(supabase);
     if (!session) {
-      window.location.replace("./login.html");
+      window.location.replace("./login.html?redirect=billing");
       return;
     }
 
@@ -171,15 +171,15 @@
       if (twoFaResp.ok) {
         const twoFaResult = await twoFaResp.json();
         if (!twoFaResult.verified) {
-          window.location.replace("./login.html");
+          window.location.replace("./login.html?redirect=billing");
           return;
         }
       } else {
-        window.location.replace("./login.html");
+        window.location.replace("./login.html?redirect=billing");
         return;
       }
     } catch (_twoFaError) {
-      window.location.replace("./login.html");
+      window.location.replace("./login.html?redirect=billing");
       return;
     }
 

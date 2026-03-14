@@ -44,11 +44,13 @@
     setPortalType("consultant");
   }
 
-  // For client logins: go to index.html (existing billing gate handles it).
-  // For consultant logins: check memberships via server, then route appropriately.
-  function getRedirectUrl() {
-    if (portalTypeInput.value === "consultant") {
-      return "./consultant-portal.html";
+  // Allowed redirect targets after login (to prevent open redirect)
+  var ALLOWED_REDIRECTS = { billing: "./billing.html" };
+
+  function getClientRedirectUrl() {
+    var redirect = urlParams.get("redirect");
+    if (redirect && ALLOWED_REDIRECTS[redirect]) {
+      return ALLOWED_REDIRECTS[redirect];
     }
     return "./index.html";
   }
@@ -118,7 +120,7 @@
               window.location.replace(url);
             });
           } else {
-            window.location.replace("./index.html");
+            window.location.replace(getClientRedirectUrl());
           }
         }
       })
@@ -197,7 +199,7 @@
             window.location.replace(url);
           });
         } else {
-          window.location.replace("./index.html");
+          window.location.replace(getClientRedirectUrl());
         }
         return;
       }
