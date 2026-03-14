@@ -5553,37 +5553,36 @@
         return "<p>" + html + "</p>";
       }
 
-      function downloadQuotePdf() {
+      function downloadQuoteDocx() {
         const content = aiResponseArea.innerText || "";
         if (!content.trim()) return;
-        const bizName = globalBizNameInput ? globalBizNameInput.value.trim() : "Quote";
-        const clientName = state.fields["[Client name]"] || "";
+        const clientName = state.fields["[Client name]"] || "Quote";
         const brandColour = state.fields["[Brand Colour]"] || "#122033";
         const logoSrc = (state.fields["[Include Logo]"] === "Yes" && state.logoBase64 && state.logoMimeType)
           ? "data:" + state.logoMimeType + ";base64," + state.logoBase64 : "";
-        const htmlDoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Quote' +
-          (clientName ? " - " + clientName : "") +
-          '</title><style>' +
-          'body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:720px;margin:40px auto;padding:0 30px;color:#1a1a2e;line-height:1.6;font-size:15px;}' +
-          'h1,h2,h3{color:' + brandColour + ';margin:18px 0 8px;}' +
-          'h1{font-size:24px;border-bottom:2px solid ' + brandColour + ';padding-bottom:8px;}' +
-          'h2{font-size:18px;}h3{font-size:15px;}' +
-          'hr{border:none;border-top:1px solid #ddd;margin:20px 0;}' +
-          'ul{padding-left:20px;}li{margin:4px 0;}' +
-          'strong{color:#1a1a2e;}' +
-          '.quote-logo{max-height:60px;max-width:200px;margin-bottom:16px;}' +
-          '@media print{body{margin:20px;}}' +
+        const htmlBody =
+          '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
+          '<head><meta charset="utf-8"><style>' +
+          'body{font-family:Calibri,Arial,sans-serif;margin:40px;color:#1a1a2e;line-height:1.6;font-size:12pt;}' +
+          'h1,h2,h3{color:' + brandColour + ';}' +
+          'h1{font-size:20pt;border-bottom:2pt solid ' + brandColour + ';padding-bottom:6pt;}' +
+          'h2{font-size:14pt;}h3{font-size:12pt;}' +
+          'ul{padding-left:18pt;}li{margin:3pt 0;}' +
+          'hr{border:none;border-top:1pt solid #ccc;margin:14pt 0;}' +
+          'table{border-collapse:collapse;width:100%;}td,th{border:1pt solid #ccc;padding:6pt 8pt;text-align:left;}' +
           '</style></head><body>' +
-          (logoSrc ? '<img class="quote-logo" src="' + logoSrc + '" alt="Logo"/>' : '') +
+          (logoSrc ? '<img src="' + logoSrc + '" style="max-height:50pt;max-width:160pt;margin-bottom:12pt;" />' : '') +
           markdownToHtml(content) +
           '</body></html>';
-        const printWin = window.open("", "_blank");
-        if (!printWin) return;
-        printWin.document.write(htmlDoc);
-        printWin.document.close();
-        printWin.onload = function () {
-          setTimeout(function () { printWin.print(); }, 300);
-        };
+        const blob = new Blob(['\ufeff' + htmlBody], { type: "application/msword" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = (clientName.replace(/[^a-zA-Z0-9 ]/g, "").trim() || "Quote") + ".doc";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
       }
 
       const copyResponseBtn = document.createElement("button");
@@ -5606,11 +5605,11 @@
       downloadBtn.type = "button";
       downloadBtn.className = "templates-run-btn";
       downloadBtn.style.background = "#122033";
-      downloadBtn.innerHTML = "\u2193 Download PDF";
+      downloadBtn.innerHTML = "\u2193 Download Word Doc";
       downloadBtn.style.display = "none";
       downloadBtn.addEventListener("click", function (e) {
         e.stopPropagation();
-        downloadQuotePdf();
+        downloadQuoteDocx();
       });
 
       runBtn.addEventListener("click", async function (e) {
