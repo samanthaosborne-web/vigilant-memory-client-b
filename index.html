@@ -5556,7 +5556,7 @@
 
       function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
 
-      function downloadQuoteDocx() {
+      function downloadQuotePdf() {
         const aiContent = aiResponseArea.innerText || "";
         if (!aiContent.trim()) return;
         const bizName = globalBizNameInput ? globalBizNameInput.value.trim() : "";
@@ -5602,14 +5602,14 @@
           const lineTotal = (parseFloat(qty) || 1) * cost;
           itemRows +=
             '<tr>' +
-            '<td style="padding:8pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;">' + esc(item.name) + '</td>' +
-            '<td style="padding:8pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:center;">' + esc(qty) + '</td>' +
-            '<td style="padding:8pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:right;">$' + cost.toFixed(2) + '</td>' +
-            '<td style="padding:8pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:right;">$' + lineTotal.toFixed(2) + '</td>' +
+            '<td style="padding:7pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;">' + esc(item.name) + '</td>' +
+            '<td style="padding:7pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:center;">' + esc(qty) + '</td>' +
+            '<td style="padding:7pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:right;">$' + cost.toFixed(2) + '</td>' +
+            '<td style="padding:7pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:right;">$' + lineTotal.toFixed(2) + '</td>' +
             '</tr>';
         });
         if (!itemRows) {
-          itemRows = '<tr><td colspan="4" style="padding:8pt 10pt;font-size:10pt;color:#999;">No items listed</td></tr>';
+          itemRows = '<tr><td colspan="4" style="padding:7pt 10pt;font-size:10pt;color:#999;">No items listed</td></tr>';
         }
 
         // Logo or business name header (250x250px = ~188pt, scaled proportionally)
@@ -5617,25 +5617,35 @@
           ? '<img src="' + logoSrc + '" style="max-height:188pt;max-width:188pt;" />'
           : '<div style="font-size:22pt;font-weight:bold;color:' + brandColour + ';line-height:1.2;">' + esc(bizName) + '</div>';
 
-        // Pay now / review buttons
-        let ctaButtons = "";
-        if (state.fields["[Include Pay Now Button]"] === "Yes" && state.fields["[Pay Now Link]"]) {
-          ctaButtons += '<a href="' + esc(state.fields["[Pay Now Link]"]) + '" style="display:inline-block;padding:10pt 22pt;background:' + brandColour + ';color:#ffffff;text-decoration:none;border-radius:4pt;font-size:10pt;font-weight:bold;margin-right:10pt;">Pay Now via Credit Card</a>';
-        }
-        if (state.fields["[Include Review Button]"] === "Yes" && state.fields["[Review Link]"]) {
-          ctaButtons += '<a href="' + esc(state.fields["[Review Link]"]) + '" style="display:inline-block;padding:10pt 22pt;background:#333333;color:#ffffff;text-decoration:none;border-radius:4pt;font-size:10pt;font-weight:bold;">Leave a Google Review</a>';
+        // Pay now / review CTA buttons
+        let ctaSection = "";
+        const hasPayBtn = state.fields["[Include Pay Now Button]"] === "Yes" && state.fields["[Pay Now Link]"];
+        const hasReviewBtn = state.fields["[Include Review Button]"] === "Yes" && state.fields["[Review Link]"];
+        if (hasPayBtn || hasReviewBtn) {
+          ctaSection =
+            '<div style="margin-top:14pt;">' +
+            '<div style="font-size:10pt;font-weight:bold;color:#222;margin-bottom:3pt;">Editable action buttons</div>' +
+            '<div style="font-size:8pt;color:#666;margin-bottom:8pt;">Add your live hyperlinks to these buttons before sending.</div>' +
+            '<table style="width:100%;border:none;"><tr>' +
+            (hasPayBtn ? '<td style="width:50%;padding:0 4pt 0 0;"><a href="' + esc(state.fields["[Pay Now Link]"]) + '" style="display:block;background:' + brandColour + ';padding:12pt 10pt;text-align:center;border-radius:3pt;text-decoration:none;">' +
+              '<div style="color:#ffffff;font-size:10pt;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">PAY NOW VIA CREDIT CARD</div>' +
+              '<div style="color:rgba(255,255,255,0.75);font-size:7pt;margin-top:2pt;">Insert payment link</div></a></td>' : '') +
+            (hasReviewBtn ? '<td style="width:50%;padding:0 0 0 4pt;"><a href="' + esc(state.fields["[Review Link]"]) + '" style="display:block;background:#333333;padding:12pt 10pt;text-align:center;border-radius:3pt;text-decoration:none;">' +
+              '<div style="color:#ffffff;font-size:10pt;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">LEAVE A GOOGLE REVIEW HERE</div>' +
+              '<div style="color:rgba(255,255,255,0.75);font-size:7pt;margin-top:2pt;">Insert review link</div></a></td>' : '') +
+            '</tr></table></div>';
         }
 
         // Bank details
         let bankSection = "";
         if (accName || bsb || accNum) {
           bankSection =
-            '<table style="width:100%;border-collapse:collapse;margin-top:16pt;">' +
+            '<table style="width:100%;border-collapse:collapse;margin-top:14pt;">' +
             '<tr><td style="padding:10pt 12pt;border:1pt solid #ddd;background:#fafafa;">' +
-            '<div style="font-size:11pt;font-weight:bold;color:' + brandColour + ';margin-bottom:6pt;">Bank Details</div>' +
-            (accName ? '<div style="font-size:10pt;margin:2pt 0;"><strong>Account Name:</strong> ' + esc(accName) + '</div>' : '') +
-            (bsb ? '<div style="font-size:10pt;margin:2pt 0;"><strong>BSB:</strong> ' + esc(bsb) + '</div>' : '') +
-            (accNum ? '<div style="font-size:10pt;margin:2pt 0;"><strong>Account Number:</strong> ' + esc(accNum) + '</div>' : '') +
+            '<div style="font-size:10pt;font-weight:bold;color:#222;margin-bottom:4pt;">Bank details</div>' +
+            (accName ? '<div style="font-size:9pt;margin:2pt 0;">Account name: ' + esc(accName) + '</div>' : '') +
+            (bsb ? '<div style="font-size:9pt;margin:2pt 0;">BSB: ' + esc(bsb) + '</div>' : '') +
+            (accNum ? '<div style="font-size:9pt;margin:2pt 0;">Account number: ' + esc(accNum) + '</div>' : '') +
             '</td></tr></table>';
         }
 
@@ -5656,27 +5666,43 @@
           }
         }
 
-        // Scope, timeline, terms, notes — from AI content, falling back to form fields
-        let scopeContent = "";
-        if (scope) scopeContent += '<div style="font-size:10pt;margin:4pt 0;"><strong>Scope of Work:</strong> ' + esc(scope) + '</div>';
-        if (timeline) scopeContent += '<div style="font-size:10pt;margin:4pt 0;"><strong>Timeline:</strong> ' + esc(timeline) + '</div>';
-
         // Unit column for job summary
         const firstItemUnits = state.items.length > 0 ? (state.items[0].units || "1") : "1";
 
+        // Determine if single page — under 10 items
+        const isSinglePage = itemNum < 10;
+
+        // T&Cs + Notes bottom section
+        let tcSection = "";
+        if (terms || notes) {
+          tcSection =
+            '<div style="padding:10pt 14pt;border:1pt solid #e0e0e0;border-radius:2pt;margin-top:10pt;">' +
+            (terms ? '<div style="font-size:9pt;margin-bottom:4pt;"><strong>Terms &amp; Conditions:</strong> ' + esc(terms) + '</div>' : '') +
+            (notes ? '<div style="font-size:9pt;"><strong>Notes:</strong> ' + esc(notes) + '</div>' : '') +
+            '</div>';
+        }
+
         const htmlBody =
-          '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
-          '<head><meta charset="utf-8">' +
-          '<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->' +
+          '<!DOCTYPE html><html><head><meta charset="utf-8">' +
+          '<title>Quote - ' + esc(clientName || 'Quote') + '</title>' +
           '<style>' +
-          '@page{size:A4;margin:50pt 50pt 40pt 50pt;}' +
-          'body{font-family:Calibri,Helvetica,Arial,sans-serif;margin:0;padding:0;color:#222;line-height:1.5;font-size:10pt;-webkit-print-color-adjust:exact;}' +
-          'table{border-collapse:collapse;}' +
-          'p{margin:0 0 6pt 0;}' +
+          '@page { size: A4; margin: 40pt 45pt 35pt 45pt; }' +
+          '@media print { body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; } }' +
+          'body { font-family: Calibri, Helvetica, Arial, sans-serif; margin: 0; padding: 0; color: #222; line-height: 1.45; font-size: 10pt; }' +
+          'table { border-collapse: collapse; }' +
+          'p { margin: 0 0 4pt 0; }' +
+          'h2 { font-size: 11pt; margin: 6pt 0 3pt 0; color: #222; }' +
+          'h3 { font-size: 10pt; margin: 4pt 0 2pt 0; color: #444; }' +
+          '.quote-wrapper { display: flex; flex-direction: column; min-height: ' + (isSinglePage ? '100vh' : 'auto') + '; }' +
+          '.quote-main { flex: 1; }' +
+          '.quote-footer { margin-top: auto; }' +
           '</style></head><body>' +
 
+          '<div class="quote-wrapper">' +
+          '<div class="quote-main">' +
+
           /* ===== HEADER: Logo left, QUOTE title + number right ===== */
-          '<table style="width:100%;border:none;margin-bottom:20pt;"><tr>' +
+          '<table style="width:100%;border:none;margin-bottom:16pt;"><tr>' +
           '<td style="width:50%;vertical-align:top;padding:0;">' + headerLeft + '</td>' +
           '<td style="width:50%;vertical-align:top;text-align:right;padding:0;">' +
           '<div style="font-size:32pt;font-weight:bold;color:#222;letter-spacing:1pt;margin-bottom:4pt;">QUOTE</div>' +
@@ -5684,109 +5710,121 @@
           '</td></tr></table>' +
 
           /* ===== FROM / PREPARED FOR two-column boxed ===== */
-          '<table style="width:100%;border:1pt solid #e0e0e0;margin-bottom:18pt;"><tr>' +
-          '<td style="width:50%;vertical-align:top;padding:14pt 16pt;border-right:1pt solid #e0e0e0;">' +
-          '<div style="font-size:9pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;margin-bottom:8pt;">From</div>' +
-          '<div style="font-size:12pt;font-weight:bold;color:#222;margin-bottom:4pt;">' + esc(bizName) + '</div>' +
-          (bizPhone ? '<div style="font-size:10pt;color:#444;margin-bottom:2pt;">Phone: ' + esc(bizPhone) + '</div>' : '') +
-          (bizEmail ? '<div style="font-size:10pt;color:#444;margin-bottom:2pt;">Email: ' + esc(bizEmail) + '</div>' : '') +
-          (abn ? '<div style="font-size:10pt;color:#444;">ABN: ' + esc(abn) + '</div>' : '') +
+          '<table style="width:100%;border:1pt solid #e0e0e0;margin-bottom:14pt;"><tr>' +
+          '<td style="width:50%;vertical-align:top;padding:12pt 14pt;border-right:1pt solid #e0e0e0;">' +
+          '<div style="font-size:9pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;margin-bottom:6pt;">From</div>' +
+          '<div style="font-size:11pt;font-weight:bold;color:#222;margin-bottom:3pt;">' + esc(bizName) + '</div>' +
+          (bizPhone ? '<div style="font-size:9pt;color:#444;margin-bottom:1pt;">Phone: ' + esc(bizPhone) + '</div>' : '') +
+          (bizEmail ? '<div style="font-size:9pt;color:#444;margin-bottom:1pt;">Email: ' + esc(bizEmail) + '</div>' : '') +
+          (abn ? '<div style="font-size:9pt;color:#444;">ABN: ' + esc(abn) + '</div>' : '') +
           '</td>' +
-          '<td style="width:50%;vertical-align:top;padding:14pt 16pt;">' +
-          '<div style="font-size:9pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;margin-bottom:8pt;">Prepared For</div>' +
-          '<div style="font-size:12pt;font-weight:bold;color:#222;margin-bottom:4pt;">' + esc(clientName) + '</div>' +
-          (clientCompany ? '<div style="font-size:10pt;color:#444;margin-bottom:2pt;">' + esc(clientCompany) + '</div>' : '') +
-          (clientEmail ? '<div style="font-size:10pt;color:#444;margin-bottom:2pt;">' + esc(clientEmail) + '</div>' : '') +
+          '<td style="width:50%;vertical-align:top;padding:12pt 14pt;">' +
+          '<div style="font-size:9pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;margin-bottom:6pt;">Prepared For</div>' +
+          '<div style="font-size:11pt;font-weight:bold;color:#222;margin-bottom:3pt;">' + esc(clientName) + '</div>' +
+          (clientCompany ? '<div style="font-size:9pt;color:#444;margin-bottom:1pt;">' + esc(clientCompany) + '</div>' : '') +
+          (clientEmail ? '<div style="font-size:9pt;color:#444;margin-bottom:1pt;">' + esc(clientEmail) + '</div>' : '') +
           '</td></tr></table>' +
 
           /* ===== Job summary row ===== */
           (jobName || projectTitle || depositDue ?
-            '<table style="width:100%;border:1pt solid #e0e0e0;margin-bottom:18pt;">' +
+            '<table style="width:100%;border:1pt solid #e0e0e0;margin-bottom:14pt;">' +
             '<tr style="background:#f7f7f7;">' +
-            '<td style="padding:6pt 16pt;font-size:9pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;border-bottom:1pt solid #e0e0e0;border-right:1pt solid #e0e0e0;">Job</td>' +
-            '<td style="padding:6pt 16pt;font-size:9pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;border-bottom:1pt solid #e0e0e0;border-right:1pt solid #e0e0e0;">Unit</td>' +
-            '<td style="padding:6pt 16pt;font-size:9pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;border-bottom:1pt solid #e0e0e0;">Payment due</td>' +
+            '<td style="padding:5pt 14pt;font-size:8pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;border-bottom:1pt solid #e0e0e0;border-right:1pt solid #e0e0e0;">Job</td>' +
+            '<td style="padding:5pt 14pt;font-size:8pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;border-bottom:1pt solid #e0e0e0;border-right:1pt solid #e0e0e0;">Unit</td>' +
+            '<td style="padding:5pt 14pt;font-size:8pt;font-weight:bold;color:#555;text-transform:uppercase;letter-spacing:0.5pt;border-bottom:1pt solid #e0e0e0;">Payment due</td>' +
             '</tr>' +
             '<tr>' +
-            '<td style="padding:10pt 16pt;font-size:10pt;font-weight:bold;border-right:1pt solid #e0e0e0;">' + esc(jobName || projectTitle) + '</td>' +
-            '<td style="padding:10pt 16pt;font-size:10pt;border-right:1pt solid #e0e0e0;">' + esc(firstItemUnits) + '</td>' +
-            '<td style="padding:10pt 16pt;font-size:10pt;">' + esc(depositDue || dateStr) + '</td>' +
+            '<td style="padding:8pt 14pt;font-size:10pt;font-weight:bold;border-right:1pt solid #e0e0e0;">' + esc(jobName || projectTitle) + '</td>' +
+            '<td style="padding:8pt 14pt;font-size:10pt;border-right:1pt solid #e0e0e0;">' + esc(firstItemUnits) + '</td>' +
+            '<td style="padding:8pt 14pt;font-size:10pt;">' + esc(depositDue || dateStr) + '</td>' +
             '</tr></table>' : '') +
 
-          /* ===== AI-generated scope/description content ===== */
-          (aiContent.trim() ? '<div style="margin-bottom:18pt;font-size:10pt;line-height:1.7;">' + markdownToHtml(aiContent) + '</div>' : '') +
-
           /* ===== Line items table ===== */
-          '<table style="width:100%;border-collapse:collapse;margin-bottom:6pt;">' +
+          '<table style="width:100%;border-collapse:collapse;margin-bottom:4pt;">' +
           '<tr style="background:' + brandColour + ';">' +
-          '<th style="padding:10pt 14pt;font-size:9pt;color:#ffffff;text-align:left;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Description</th>' +
-          '<th style="padding:10pt 14pt;font-size:9pt;color:#ffffff;text-align:center;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Unit</th>' +
-          '<th style="padding:10pt 14pt;font-size:9pt;color:#ffffff;text-align:right;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Amount ex GST</th>' +
-          '<th style="padding:10pt 14pt;font-size:9pt;color:#ffffff;text-align:right;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Total</th>' +
+          '<th style="padding:8pt 12pt;font-size:9pt;color:#ffffff;text-align:left;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Description</th>' +
+          '<th style="padding:8pt 12pt;font-size:9pt;color:#ffffff;text-align:center;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Unit</th>' +
+          '<th style="padding:8pt 12pt;font-size:9pt;color:#ffffff;text-align:right;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Amount ex GST</th>' +
+          '<th style="padding:8pt 12pt;font-size:9pt;color:#ffffff;text-align:right;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Total</th>' +
           '</tr>' +
           itemRows +
           '</table>' +
 
           /* ===== Totals box — right aligned ===== */
-          '<table style="width:100%;border:none;margin-bottom:20pt;"><tr><td style="width:55%;"></td><td style="width:45%;">' +
+          '<table style="width:100%;border:none;margin-bottom:14pt;"><tr><td style="width:55%;"></td><td style="width:45%;">' +
           '<table style="width:100%;border-collapse:collapse;border:1pt solid #e0e0e0;">' +
-          '<tr><td style="padding:8pt 14pt;font-size:10pt;text-align:left;border-bottom:1pt solid #e0e0e0;">Subtotal</td>' +
-          '<td style="padding:8pt 14pt;font-size:10pt;text-align:right;border-bottom:1pt solid #e0e0e0;">$' + subtotal.toFixed(2) + '</td></tr>' +
-          (discount > 0 ? '<tr><td style="padding:8pt 14pt;font-size:10pt;text-align:left;border-bottom:1pt solid #e0e0e0;">Discount</td>' +
-            '<td style="padding:8pt 14pt;font-size:10pt;text-align:right;border-bottom:1pt solid #e0e0e0;">-$' + discount.toFixed(2) + '</td></tr>' : '') +
-          (includeGST ? '<tr><td style="padding:8pt 14pt;font-size:10pt;text-align:left;font-weight:bold;border-bottom:1pt solid #e0e0e0;">GST 10%</td>' +
-            '<td style="padding:8pt 14pt;font-size:10pt;text-align:right;font-weight:bold;border-bottom:1pt solid #e0e0e0;">$' + gstAmt.toFixed(2) + '</td></tr>' : '') +
+          '<tr><td style="padding:7pt 12pt;font-size:10pt;text-align:left;border-bottom:1pt solid #e0e0e0;">Subtotal</td>' +
+          '<td style="padding:7pt 12pt;font-size:10pt;text-align:right;border-bottom:1pt solid #e0e0e0;">$' + subtotal.toFixed(2) + '</td></tr>' +
+          (discount > 0 ? '<tr><td style="padding:7pt 12pt;font-size:10pt;text-align:left;border-bottom:1pt solid #e0e0e0;">Discount</td>' +
+            '<td style="padding:7pt 12pt;font-size:10pt;text-align:right;border-bottom:1pt solid #e0e0e0;">-$' + discount.toFixed(2) + '</td></tr>' : '') +
+          (includeGST ? '<tr><td style="padding:7pt 12pt;font-size:10pt;text-align:left;font-weight:bold;border-bottom:1pt solid #e0e0e0;">GST 10%</td>' +
+            '<td style="padding:7pt 12pt;font-size:10pt;text-align:right;font-weight:bold;border-bottom:1pt solid #e0e0e0;">$' + gstAmt.toFixed(2) + '</td></tr>' : '') +
           '<tr style="background:' + brandColour + ';">' +
-          '<td style="padding:10pt 14pt;font-size:11pt;color:#ffffff;font-weight:bold;text-align:left;">Total incl. GST</td>' +
-          '<td style="padding:10pt 14pt;font-size:11pt;color:#ffffff;font-weight:bold;text-align:right;">$' + total.toFixed(2) + '</td></tr>' +
+          '<td style="padding:9pt 12pt;font-size:11pt;color:#ffffff;font-weight:bold;text-align:left;">Total incl. GST</td>' +
+          '<td style="padding:9pt 12pt;font-size:11pt;color:#ffffff;font-weight:bold;text-align:right;">$' + total.toFixed(2) + '</td></tr>' +
           depositInfo +
           '</table></td></tr></table>' +
 
           /* ===== Bank details ===== */
           bankSection +
 
-          /* ===== Terms & Notes ===== */
-          (terms || notes ?
-            '<div style="margin-top:18pt;padding:12pt 16pt;border:1pt solid #e0e0e0;border-radius:2pt;">' +
-            (terms ? '<div style="font-size:10pt;margin-bottom:6pt;"><strong>Terms &amp; Conditions:</strong> ' + esc(terms) + '</div>' : '') +
-            (notes ? '<div style="font-size:10pt;"><strong>Notes:</strong> ' + esc(notes) + '</div>' : '') +
-            '</div>' : '') +
-
           /* ===== CTA Buttons ===== */
-          (ctaButtons ?
-            '<div style="margin-top:20pt;">' +
-            '<div style="font-size:11pt;font-weight:bold;color:#222;margin-bottom:4pt;">Editable action buttons</div>' +
-            '<div style="font-size:9pt;color:#666;margin-bottom:10pt;">Add your live hyperlinks to these buttons in Word before sending.</div>' +
-            '<table style="width:100%;border:none;"><tr>' +
-            (state.fields["[Include Pay Now Button]"] === "Yes" ? '<td style="width:50%;padding:0 4pt 0 0;"><div style="background:' + brandColour + ';padding:14pt 10pt;text-align:center;border-radius:3pt;">' +
-              '<div style="color:#ffffff;font-size:11pt;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">PAY NOW VIA CREDIT CARD</div>' +
-              '<div style="color:rgba(255,255,255,0.75);font-size:8pt;margin-top:3pt;">Insert payment link</div></div></td>' : '') +
-            (state.fields["[Include Review Button]"] === "Yes" ? '<td style="width:50%;padding:0 0 0 4pt;"><div style="background:#333333;padding:14pt 10pt;text-align:center;border-radius:3pt;">' +
-              '<div style="color:#ffffff;font-size:11pt;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">LEAVE A GOOGLE REVIEW HERE</div>' +
-              '<div style="color:rgba(255,255,255,0.75);font-size:8pt;margin-top:3pt;">Insert review link</div></div></td>' : '') +
-            '</tr></table></div>' : '') +
+          ctaSection +
 
-          /* ===== Thank you footer ===== */
-          '<div style="margin-top:24pt;font-size:10pt;color:#444;">Thank you for the opportunity to provide this quote.</div>' +
+          /* ===== AI-generated scope/description content ===== */
+          (aiContent.trim() ? '<div style="margin-top:12pt;font-size:9pt;line-height:1.6;">' + markdownToHtml(aiContent) + '</div>' : '') +
+
+          '</div>' + /* end .quote-main */
+
+          /* ===== FOOTER SECTION — always at bottom ===== */
+          '<div class="quote-footer">' +
+
+          /* ===== Terms & Conditions at the bottom ===== */
+          tcSection +
+
+          /* ===== Thank you line ===== */
+          '<div style="margin-top:14pt;font-size:10pt;color:#444;">Thank you for the opportunity to provide this quote.</div>' +
 
           /* ===== Contact footer ===== */
-          '<div style="margin-top:40pt;padding-top:10pt;border-top:1pt solid #e0e0e0;text-align:center;font-size:8pt;color:#999;">' +
+          '<div style="margin-top:30pt;padding-top:8pt;border-top:1pt solid #e0e0e0;text-align:center;font-size:8pt;color:#999;">' +
           (myName ? esc(myName) : esc(bizName)) +
           (bizEmail ? ' &nbsp;|&nbsp; ' + esc(bizEmail) : '') +
           (bizPhone ? ' &nbsp;|&nbsp; ' + esc(bizPhone) : '') +
           '</div>' +
 
+          '</div>' + /* end .quote-footer */
+          '</div>' + /* end .quote-wrapper */
+
           '</body></html>';
 
-        const blob = new Blob(['\ufeff' + htmlBody], { type: "application/msword" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = (clientName.replace(/[^a-zA-Z0-9 ]/g, "").trim() || "Quote") + ".doc";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+        // Open in new window for print-to-PDF
+        const printWin = window.open("", "_blank", "width=800,height=1100");
+        if (!printWin) {
+          // Fallback if popup blocked: use iframe
+          const iframe = document.createElement("iframe");
+          iframe.style.position = "fixed";
+          iframe.style.right = "0";
+          iframe.style.bottom = "0";
+          iframe.style.width = "0";
+          iframe.style.height = "0";
+          iframe.style.border = "0";
+          document.body.appendChild(iframe);
+          iframe.contentDocument.open();
+          iframe.contentDocument.write(htmlBody);
+          iframe.contentDocument.close();
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+          setTimeout(function () { document.body.removeChild(iframe); }, 5000);
+          return;
+        }
+        printWin.document.open();
+        printWin.document.write(htmlBody);
+        printWin.document.close();
+        // Give images time to load then trigger print
+        setTimeout(function () {
+          printWin.focus();
+          printWin.print();
+        }, logoSrc ? 600 : 200);
       }
 
       const copyResponseBtn = document.createElement("button");
@@ -5809,11 +5847,11 @@
       downloadBtn.type = "button";
       downloadBtn.className = "templates-run-btn";
       downloadBtn.style.background = "#122033";
-      downloadBtn.innerHTML = "\u2193 Download Word Doc";
+      downloadBtn.innerHTML = "\u2193 Download PDF";
       downloadBtn.style.display = "none";
       downloadBtn.addEventListener("click", function (e) {
         e.stopPropagation();
-        downloadQuoteDocx();
+        downloadQuotePdf();
       });
 
       runBtn.addEventListener("click", async function (e) {
@@ -5876,8 +5914,8 @@
             }
           }
           // Auto-download the DOCX immediately after AI finishes
-          downloadQuoteDocx();
-          aiResponseArea.textContent = "Your quote has been downloaded as a Word document.";
+          downloadQuotePdf();
+          aiResponseArea.textContent = "Your quote PDF is ready. Use the print dialog to save as PDF.";
           downloadBtn.style.display = "";
         } catch (err) {
           aiResponseArea.textContent = "\u26a0\ufe0f " + (err.message || "Something went wrong. Please try again.");
