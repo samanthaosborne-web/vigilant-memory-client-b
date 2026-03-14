@@ -6,6 +6,10 @@
   const manageBtn = document.getElementById("manageBtn");
   const openAppBtn = document.getElementById("openAppBtn");
   const logoutBtn = document.getElementById("logoutBtn");
+  const cancelMembershipBtn = document.getElementById("cancelMembershipBtn");
+  const cancelOverlay = document.getElementById("cancelOverlay");
+  const cancelConfirmBtn = document.getElementById("cancelConfirmBtn");
+  const cancelDismissBtn = document.getElementById("cancelDismissBtn");
 
   const ACTIVE_STATUSES = new Set(["active", "trialing"]);
 
@@ -188,12 +192,53 @@
     const { active } = await loadSubscriptionStatus(supabase, session.user.id);
     openAppBtn.disabled = !active;
 
+    if (active) {
+      cancelMembershipBtn.style.display = "";
+    }
+
     monthlyBtn.addEventListener("click", () => startCheckout("monthly", supabase));
     annualBtn.addEventListener("click", () => startCheckout("annual", supabase));
     manageBtn.addEventListener("click", () => openPortal(supabase));
 
     openAppBtn.addEventListener("click", () => {
       window.location.href = "./index.html";
+    });
+
+    cancelMembershipBtn.addEventListener("click", () => {
+      cancelOverlay.classList.add("visible");
+    });
+
+    cancelDismissBtn.addEventListener("click", () => {
+      cancelOverlay.classList.remove("visible");
+    });
+
+    cancelConfirmBtn.addEventListener("click", async () => {
+      cancelConfirmBtn.disabled = true;
+      cancelConfirmBtn.textContent = "Cancelling...";
+      try {
+        const currentSession = await getUserAndSession(supabase);
+        if (!currentSession) {
+          window.location.replace("./login.html");
+          return;
+        }
+        const response = await fetch("/api/cancel-subscription", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + currentSession.access_token
+          }
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.error || "Unable to cancel membership");
+        cancelOverlay.classList.remove("visible");
+        setMessage(payload.message, "ok");
+        cancelMembershipBtn.style.display = "none";
+      } catch (error) {
+        cancelOverlay.classList.remove("visible");
+        setMessage(error.message || "Unable to cancel membership", "error");
+      } finally {
+        cancelConfirmBtn.disabled = false;
+        cancelConfirmBtn.textContent = "Yes, cancel";
+      }
     });
 
     logoutBtn.addEventListener("click", async () => {
