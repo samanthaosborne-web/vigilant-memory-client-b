@@ -573,11 +573,41 @@
         </div>
       </div>
 
+      <div class="cp-settings-section">
+        <div class="cp-settings-section-label">Branding</div>
+        <p class="cp-settings-sub">Customise how AdvisaStacks appears for your clients.</p>
+        <div class="cp-settings-inputs" style="flex-direction:column;">
+          <div class="cp-settings-field" style="min-width:100%;">
+            <label for="cpLogoUrl">Logo URL</label>
+            <input type="url" id="cpLogoUrl" placeholder="https://yourdomain.com/logo.png" />
+          </div>
+          <div class="cp-settings-field" style="min-width:100%;">
+            <label for="cpAccentColour">Accent Colour</label>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="color" id="cpAccentColourPicker" style="width:44px;height:38px;border:1px solid var(--border-subtle);border-radius:6px;padding:2px;cursor:pointer;" />
+              <input type="text" id="cpAccentColour" placeholder="#c7612e" style="width:120px;" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="cp-preview-section">
         <div class="cp-settings-section-label">Client Home Page Preview</div>
-        <p class="cp-settings-sub">Preview how the main client page looks.</p>
-        <div class="cp-preview-frame">
-          <iframe src="./home.html" title="Client Home Page Preview"></iframe>
+        <p class="cp-settings-sub">This is how the client Home page looks. <a href="./home.html" target="_blank" rel="noopener" style="color:var(--accent);font-weight:700;">Open in new tab →</a></p>
+        <div class="cp-preview-frame" style="border:1px solid var(--border-subtle);border-radius:10px;overflow:hidden;margin-top:8px;background:var(--panel);">
+          <div style="padding:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <img id="cpPreviewLogo" src="./advisastacks-logo.png.png" alt="Logo" style="height:32px;max-width:120px;object-fit:contain;" />
+              <strong id="cpPreviewName" style="font-size:14px;color:var(--text-light);">AdvisaStacks</strong>
+            </div>
+            <div id="cpPreviewAccentBar" style="height:4px;border-radius:2px;background:#c7612e;margin-bottom:12px;"></div>
+            <p style="font-size:13px;color:var(--text-muted);margin:0;">AI prompt tools for trade business communication workflows.</p>
+            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+              <span style="background:var(--card-bg);border:1px solid var(--border-subtle);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text-light);">Win Work</span>
+              <span style="background:var(--card-bg);border:1px solid var(--border-subtle);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text-light);">Get Paid</span>
+              <span style="background:var(--card-bg);border:1px solid var(--border-subtle);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--text-light);">Job Updates</span>
+            </div>
+          </div>
         </div>
       </div>
 

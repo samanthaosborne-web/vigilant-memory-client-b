@@ -88,11 +88,20 @@
       line-height: 1.55;
     }
 
-    /* Global button text colour override */
-    button, .btn, a.btn, .reveal-btn, .home-defaults-btn, .home-cta-btn.primary,
-    .welcome-primary-btn, .ai-run-now-btn, .ai-run-btn, .desktop-nav-btn.active,
-    .menu-item-logout:hover, .cb-submit-btn, .onboarding-primary-btn {
-      color: #241f72;
+    /* Global button text colour: #c3b6a6 on accent buttons */
+    .reveal-btn, .home-defaults-btn, .home-cta-btn.primary,
+    .welcome-primary-btn, .ai-run-now-btn, .ai-run-btn,
+    .cb-submit-btn, .onboarding-primary-btn,
+    button:not(.menu-item):not(.menu-btn):not(.desktop-nav-btn):not(.page-filter-btn):not(.home-task-btn):not(.home-cta-btn):not(.workspace-index-link):not(.workspace-saved-open):not(.favourite-btn):not(.cb-card-top-btn):not(.cb-load-btn):not(.cb-delete-btn):not(.header-utility-btn):not(.brand-reset-btn):not(.reset-defaults-btn):not(.menu-item-logout) {
+      color: #c3b6a6;
+    }
+    /* Hover: button background becomes #241f72 (not menu buttons) */
+    .reveal-btn:hover, .home-defaults-btn:hover, .home-cta-btn.primary:hover,
+    .welcome-primary-btn:hover, .ai-run-now-btn:hover,
+    .cb-submit-btn:hover, .onboarding-primary-btn:hover,
+    button:not(.menu-item):not(.menu-btn):not(.desktop-nav-btn):not(.page-filter-btn):not(.home-task-btn):not(.home-cta-btn):not(.workspace-index-link):not(.workspace-saved-open):not(.favourite-btn):not(.cb-card-top-btn):not(.cb-load-btn):not(.cb-delete-btn):not(.header-utility-btn):not(.brand-reset-btn):not(.reset-defaults-btn):not(.menu-item-logout):hover {
+      background: #241f72 !important;
+      color: #c3b6a6 !important;
     }
 
     h1, h2, h3, .page-title, .card-head h3 {
@@ -244,7 +253,7 @@
     .desktop-nav {
       max-width: 960px;
       margin: 0 auto;
-      padding: var(--space-2) var(--space-6);
+      padding: var(--space-4) var(--space-6) var(--space-2);
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-2);
@@ -3008,10 +3017,11 @@
     .cb-delete-btn,
     .workspace-index-link {
       border-radius: 999px;
-      border: 1px solid var(--border-subtle);
-      background: #fff;
+      border: none;
+      background: transparent;
       color: var(--text-dark);
       box-shadow: none;
+      text-decoration: underline;
     }
 
     .cb-card-top-btn:hover,
@@ -3020,9 +3030,9 @@
     .cb-load-btn:hover,
     .cb-delete-btn:hover,
     .workspace-index-link:hover {
-      border-color: var(--accent);
+      border: none;
       color: var(--accent);
-      background: #fff8f5;
+      background: transparent;
     }
 
     .favourite-btn.active,
@@ -3046,7 +3056,7 @@
 
     .workspace-panel {
       border: 1px solid var(--border-subtle);
-      background: rgba(255,255,255,0.62);
+      background: var(--card-bg);
       border-radius: 22px;
       padding: 18px;
       gap: 14px;
@@ -3093,7 +3103,7 @@
       padding: 12px 14px;
       border: 1px solid var(--border-subtle);
       border-radius: 16px;
-      background: #fff;
+      background: var(--card-bg);
     }
 
     .workspace-saved-text {
@@ -3122,8 +3132,8 @@
     }
 
     .workspace-saved-open {
-      border: 1px solid var(--border-subtle);
-      background: #fff;
+      border: none;
+      background: transparent;
       color: var(--text-dark);
       border-radius: 999px;
       padding: 8px 14px;
@@ -3131,12 +3141,12 @@
       font-weight: 700;
       cursor: pointer;
       white-space: nowrap;
+      text-decoration: underline;
     }
 
     .workspace-saved-open:hover {
-      border-color: var(--accent);
       color: var(--accent);
-      background: #fff8f5;
+      background: transparent;
     }
 
     .grid-compact {
@@ -3144,7 +3154,7 @@
     }
 
     .grid-compact .card {
-      background: #faf9f7;
+      background: var(--card-bg);
     }
 
     @media (min-width: 640px) {
@@ -3755,7 +3765,7 @@
             <div class="header-brand home-launch" id="homeLaunchBtn" role="button" tabindex="0" aria-label="Go to Home">
         <img class="header-logo" src="./advisastacks-logo.png.png" alt="AdvisaStacks logo" />
         <div class="header-copy">
-          <p class="header-tagline">Consultant Portal</p>
+          <p class="header-tagline" id="headerUserName">AdvisaStacks</p>
           <p class="header-subtagline">The Ultimate Toolkit for Tradies</p>
         </div>
       </div>
@@ -3775,7 +3785,7 @@
     </div>
   </header>
   <nav class="desktop-nav" aria-label="Primary navigation">
-    <button class="desktop-nav-btn" data-key="Win Work">Win Work</button>
+    <button class="desktop-nav-btn" data-key="Win Work">Get Jobs</button>
     <button class="desktop-nav-btn" data-key="Manage Jobs">Manage Jobs</button>
     <button class="desktop-nav-btn" data-key="Get Paid">Get Paid</button>
     <button class="desktop-nav-btn" data-key="Grow">Grow</button>
@@ -3783,7 +3793,7 @@
 
   <div class="menu-backdrop" id="menuBackdrop"></div>
   <nav class="menu-panel" id="menuPanel" aria-label="Categories" aria-hidden="true">
-    <button class="menu-item" data-key="Win Work">Win Work</button>
+    <button class="menu-item" data-key="Win Work">Get Jobs</button>
     <button class="menu-item" data-key="Manage Jobs">Manage Jobs</button>
     <button class="menu-item" data-key="Get Paid">Get Paid</button>
     <button class="menu-item" data-key="Grow">Grow</button>
@@ -4876,7 +4886,7 @@
     }
 
     function displayCategoryLabel(category) {
-      if (category === "Winning Work") return "Win Work";
+      if (category === "Winning Work") return "Get Jobs";
       if (category === "Getting Paid") return "Get Paid";
       if (category === "Job Updates" || category === "Fix My Message") return "Manage Jobs";
       if (category === "Get More Enquiries" || category === "Reviews & Referrals") return "Grow";
@@ -6127,7 +6137,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
       function renderSavedTemplates() {
         const templates = readCustomTemplates();
         if (templates.length === 0) {
-          savedListEl.innerHTML = `<div style="font-size:13px; color:#94a3b8;">No saved templates yet. Fill in the builder above and click Save template.</div>`;
+          savedListEl.innerHTML = `<div style="font-size:13px; color:#292727;">No saved templates yet. Fill in the builder above and click Save template.</div>`;
           return;
         }
         savedListEl.innerHTML = "";
@@ -6202,7 +6212,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
     function render() {
       const pageTitleLookup = {
         "Home": "Choose a task",
-        "Winning Work": "Win Work",
+        "Winning Work": "Get Jobs",
         "Getting Paid": "Get Paid",
         "Grow": "Grow",
         "Saved": "Saved",
@@ -6247,7 +6257,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           how: "Add items and fill out the structured form below and we will build the perfect context prompt."
         },
         "Win Work": {
-          why: "Use this area to win more work with clear, fast replies.",
+          why: "Use this area to get more jobs with clear, fast replies.",
           how: "Select a card, fill details, run with AI, and send."
         },
         "Manage Jobs": {
@@ -6364,7 +6374,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
             </div>
             <div class="home-task-grid">
               <button type="button" class="home-task-btn" data-nav="Win Work">
-                <strong>Win Work</strong>
+                <strong>Get Jobs</strong>
                 <span>Follow-ups and lead replies that help close jobs.</span>
               </button>
               <button type="button" class="home-task-btn" data-nav="Manage Jobs">
@@ -7863,7 +7873,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           html += '<h2 class="onboarding-heading">That\u2019s the whole workflow</h2>';
           html += '<p class="onboarding-subtext">Every card in the app works the same way: pick a situation, fill in your details, run with AI, and copy the result. You\u2019ve got ' + totalCards + ' cards ready to use across quoting, job updates, payments, reviews, and more.</p>';
           html += '<div class="onboarding-category-grid">';
-          html += '<button type="button" class="onboarding-category-btn" data-nav="Win Work"><strong>Win Work</strong><span>Follow-ups and lead replies</span></button>';
+          html += '<button type="button" class="onboarding-category-btn" data-nav="Win Work"><strong>Get Jobs</strong><span>Follow-ups and lead replies</span></button>';
           html += '<button type="button" class="onboarding-category-btn" data-nav="Manage Jobs"><strong>Manage Jobs</strong><span>Customer updates and message fixes</span></button>';
           html += '<button type="button" class="onboarding-category-btn" data-nav="Get Paid"><strong>Get Paid</strong><span>Payment reminders and overdue follow-ups</span></button>';
           html += '<button type="button" class="onboarding-category-btn" data-nav="Grow"><strong>Grow</strong><span>Reviews, referrals, and enquiry growth</span></button>';
@@ -8105,6 +8115,16 @@ $("cb-submit-btn").addEventListener("click", async () => {
     }
     savedOnlyFilter = !!savedPrefs.savedOnlyFilter;
     compactView = !!savedPrefs.compactView;
+
+    // Set header to show user's name
+    function updateHeaderName() {
+      const nameEl = document.getElementById("headerUserName");
+      if (!nameEl) return;
+      const fn = globalFirstNameInput?.value?.trim();
+      nameEl.textContent = fn ? fn : "AdvisaStacks";
+    }
+    updateHeaderName();
+    globalFirstNameInput?.addEventListener("input", updateHeaderName);
 
     // Client branding restore removed
 

@@ -319,23 +319,81 @@
   var settingsResetBtn = document.getElementById("cpSettingsResetBtn");
   var cpFirstName = document.getElementById("cpFirstName");
   var cpBizName = document.getElementById("cpBizName");
+  var cpLogoUrl = document.getElementById("cpLogoUrl");
+  var cpAccentColourPicker = document.getElementById("cpAccentColourPicker");
+  var cpAccentColour = document.getElementById("cpAccentColour");
+  var cpPreviewLogo = document.getElementById("cpPreviewLogo");
+  var cpPreviewName = document.getElementById("cpPreviewName");
+  var cpPreviewAccentBar = document.getElementById("cpPreviewAccentBar");
+
+  var DEFAULT_ACCENT = "#c7612e";
+  var DEFAULT_LOGO = "./advisastacks-logo.png.png";
+
+  function isValidHex(val) {
+    return /^#[0-9a-fA-F]{6}$/.test(val.trim());
+  }
+
+  function updatePreview() {
+    var logo = (cpLogoUrl && cpLogoUrl.value.trim()) ? cpLogoUrl.value.trim() : DEFAULT_LOGO;
+    var name = (cpBizName && cpBizName.value.trim()) ? cpBizName.value.trim() : "AdvisaStacks";
+    var accent = (cpAccentColour && isValidHex(cpAccentColour.value)) ? cpAccentColour.value.trim() : DEFAULT_ACCENT;
+
+    if (cpPreviewLogo) cpPreviewLogo.src = logo;
+    if (cpPreviewName) cpPreviewName.textContent = name;
+    if (cpPreviewAccentBar) cpPreviewAccentBar.style.background = accent;
+  }
 
   function openSettings() {
     var prefs = readPrefs();
     if (cpFirstName) cpFirstName.value = prefs.firstName || "";
     if (cpBizName) cpBizName.value = prefs.businessName || "";
+    if (cpLogoUrl) cpLogoUrl.value = prefs.logoUrl || "";
+    var savedAccent = prefs.accentColour || DEFAULT_ACCENT;
+    if (cpAccentColour) cpAccentColour.value = savedAccent;
+    if (cpAccentColourPicker) cpAccentColourPicker.value = isValidHex(savedAccent) ? savedAccent : DEFAULT_ACCENT;
+    updatePreview();
     settingsOverlay.classList.add("open");
     settingsOverlay.setAttribute("aria-hidden", "false");
   }
 
   function closeSettings() {
-    // Save on close
     var patch = {};
     if (cpFirstName) patch.firstName = cpFirstName.value.trim();
     if (cpBizName) patch.businessName = cpBizName.value.trim();
+    if (cpLogoUrl) patch.logoUrl = cpLogoUrl.value.trim();
+    if (cpAccentColour) patch.accentColour = isValidHex(cpAccentColour.value) ? cpAccentColour.value.trim() : DEFAULT_ACCENT;
     writePrefs(patch);
     settingsOverlay.classList.remove("open");
     settingsOverlay.setAttribute("aria-hidden", "true");
+  }
+
+  // Live preview: logo URL
+  if (cpLogoUrl) {
+    cpLogoUrl.addEventListener("input", updatePreview);
+  }
+
+  // Live preview: biz name
+  if (cpBizName) {
+    cpBizName.addEventListener("input", updatePreview);
+  }
+
+  // Live preview: colour picker → sync hex text + preview bar
+  if (cpAccentColourPicker) {
+    cpAccentColourPicker.addEventListener("input", function () {
+      if (cpAccentColour) cpAccentColour.value = cpAccentColourPicker.value;
+      if (cpPreviewAccentBar) cpPreviewAccentBar.style.background = cpAccentColourPicker.value;
+    });
+  }
+
+  // Live preview: hex text → sync picker + preview bar
+  if (cpAccentColour) {
+    cpAccentColour.addEventListener("input", function () {
+      var val = cpAccentColour.value.trim();
+      if (isValidHex(val)) {
+        if (cpAccentColourPicker) cpAccentColourPicker.value = val;
+        if (cpPreviewAccentBar) cpPreviewAccentBar.style.background = val;
+      }
+    });
   }
 
   if (settingsBtn) settingsBtn.addEventListener("click", openSettings);
@@ -349,7 +407,11 @@
     settingsResetBtn.addEventListener("click", function () {
       if (cpFirstName) cpFirstName.value = "";
       if (cpBizName) cpBizName.value = "";
-      writePrefs({ firstName: "", businessName: "" });
+      if (cpLogoUrl) cpLogoUrl.value = "";
+      if (cpAccentColour) cpAccentColour.value = DEFAULT_ACCENT;
+      if (cpAccentColourPicker) cpAccentColourPicker.value = DEFAULT_ACCENT;
+      writePrefs({ firstName: "", businessName: "", logoUrl: "", accentColour: DEFAULT_ACCENT });
+      updatePreview();
     });
   }
 
