@@ -18,14 +18,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f9faff;
-      --surface: #f9faff;
-      --accent: #e75a00;
-      --text-dark: #313131;
-      --text-muted: #5a5a5a;
-      --text-light: #f9faff;
+      --bg: #c3b6a6;
+      --surface: #c3b6a6;
+      --card-bg: #c3b6a6;
+      --accent: #c7612e;
+      --accent-hover: #b35425;
+      --text-dark: #292727;
+      --text-muted: #292727;
+      --text-light: #292727;
+      --border-subtle: #a89b8b;
       --ok: #0f6e29;
       --warn: #8a5100;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --shadow-sm: 0 1px 2px rgba(45, 42, 38, 0.06);
+      --shadow-md: 0 4px 12px rgba(45, 42, 38, 0.08);
     }
 
     * { box-sizing: border-box; }
@@ -38,43 +45,43 @@
       place-items: center;
       font-family: "Roboto", system-ui, sans-serif;
       background: var(--bg);
-      color: var(--text-light);
+      color: var(--text-dark);
     }
 
     .card {
-      width: min(900px, 100%);
+      width: min(720px, 100%);
       background: var(--surface);
       color: var(--text-dark);
-      border: 4px solid var(--accent);
-      border-radius: 16px;
-      padding: 24px;
-      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
     }
 
     h1 {
-      margin: 0 0 6px;
-      font-size: clamp(30px, 5vw, 46px);
-      line-height: 1.05;
-      color: var(--accent);
+      margin: 0 0 4px;
+      font-size: clamp(24px, 4vw, 32px);
+      line-height: 1.1;
+      color: var(--text-dark);
     }
 
     .sub {
-      margin: 0 0 18px;
-      font-size: 15px;
+      margin: 0 0 16px;
+      font-size: 14px;
       color: var(--text-muted);
     }
 
     .status-pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
       font-size: 13px;
       font-weight: 700;
-      margin-bottom: 18px;
-      border: 2px solid #d8d8d8;
-      background: #fff;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-subtle);
+      background: var(--card-bg);
       color: var(--text-dark);
     }
 
@@ -90,29 +97,31 @@
 
     .plans {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
-      margin-bottom: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
     }
 
     .plan {
-      border: 3px solid #313131;
-      border-radius: 14px;
-      padding: 14px;
-      background: #fff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      background: var(--card-bg);
     }
 
     .plan h2 {
-      margin: 0 0 8px;
-      font-size: 22px;
-      color: var(--accent);
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-dark);
     }
 
     .price {
-      font-size: 34px;
+      font-size: 28px;
       font-weight: 900;
       line-height: 1;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      color: var(--text-dark);
     }
 
     .price small {
@@ -123,20 +132,20 @@
 
     .plan p {
       margin: 0 0 12px;
-      font-size: 14px;
-      color: #333;
-      min-height: 38px;
+      font-size: 13px;
+      color: var(--text-muted);
+      min-height: 34px;
     }
 
     .billing-logo {
-      width: 180px;
+      width: 140px;
       height: auto;
       margin-bottom: 12px;
     }
 
     .hero-sub {
-      margin: 0 0 18px;
-      font-size: 18px;
+      margin: 0 0 16px;
+      font-size: 15px;
       font-style: italic;
       color: var(--text-muted);
     }
@@ -144,12 +153,12 @@
     .value-list {
       list-style: none;
       padding: 0;
-      margin: 0 0 18px;
+      margin: 0 0 16px;
     }
 
     .value-list li {
-      padding: 6px 0;
-      font-size: 15px;
+      padding: 5px 0;
+      font-size: 14px;
       line-height: 1.5;
       color: var(--text-dark);
     }
@@ -158,32 +167,39 @@
       content: "\2713";
       color: var(--accent);
       font-weight: 900;
-      margin-right: 10px;
+      margin-right: 8px;
     }
 
     .reassurance {
-      margin: 0 0 18px;
-      font-size: 14px;
-      color: var(--text-muted);
+      margin: 0 0 16px;
+      font-size: 13px;
+      color: var(--text-light);
       font-style: italic;
     }
 
     .microcopy {
       margin-top: 8px;
-      font-size: 13px;
-      color: var(--text-muted);
+      font-size: 12px;
+      color: var(--text-light);
     }
 
     button {
-      background: var(--accent);
-      color: var(--text-light);
-      border: 2px solid var(--accent);
-      border-radius: 10px;
-      padding: 10px 14px;
+      background: #e75a00;
+      color: #ffffff;
+      border: 1px solid #e75a00;
+      border-radius: var(--radius-sm);
+      padding: 9px 16px;
       font: inherit;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.24);
+      box-shadow: var(--shadow-sm);
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    button:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
 
     button:disabled {
@@ -194,19 +210,25 @@
     .actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 8px;
+      gap: 8px;
+      margin-top: 12px;
     }
 
     .btn-secondary {
-      background: #fff;
-      color: var(--accent);
+      background: #e75a00;
+      color: #ffffff;
+      border-color: #e75a00;
+    }
+
+    .btn-secondary:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
 
     .message {
-      min-height: 22px;
+      min-height: 20px;
       margin-top: 12px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
     }
 

@@ -10,12 +10,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f9faff;
-      --surface: #f9faff;
-      --accent: #e75a00;
-      --text-dark: #313131;
-      --text-muted: #5a5a5a;
-      --text-light: #f9faff;
+      --bg: #c3b6a6;
+      --surface: #c3b6a6;
+      --accent: #c7612e;
+      --text-dark: #292727;
+      --text-muted: #292727;
+      --text-light: #292727;
     }
     * { box-sizing: border-box; }
     body {
@@ -61,17 +61,17 @@
       gap: 6px;
       font-size: 13px;
       font-weight: 700;
-      color: #334155;
+      color: var(--text-dark);
     }
     input, textarea, select {
       width: 100%;
-      border: 2px solid #cbd5e1;
+      border: 2px solid #a89b8b;
       border-radius: 10px;
       padding: 10px 12px;
       font: inherit;
       font-size: 14px;
-      color: #0f172a;
-      background: #fff;
+      color: var(--text-dark);
+      background: var(--surface);
     }
     textarea { min-height: 130px; resize: vertical; }
     input:focus, textarea:focus, select:focus {
@@ -89,20 +89,29 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid var(--accent);
-      background: var(--accent);
-      color: var(--text-light);
+      border: 2px solid #e75a00;
+      background: #e75a00;
+      color: #ffffff;
       border-radius: 10px;
       padding: 10px 14px;
       font: inherit;
       font-weight: 700;
       text-decoration: none;
       cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    button:hover, a.btn:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
     a.btn.secondary {
-      background: #313131;
-      border-color: #313131;
-      color: #f9faff;
+      background: #e75a00;
+      border-color: #e75a00;
+      color: #ffffff;
+    }
+    a.btn.secondary:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
     .status {
       min-height: 20px;
