@@ -2162,6 +2162,90 @@
       border-color: var(--border-strong);
       color: var(--text-dark);
     }
+    .footer-cancel-btn {
+      background: #2563eb;
+      border: 1px solid #2563eb;
+      border-radius: var(--radius-sm);
+      color: #ffffff;
+      padding: 6px 14px;
+      font-size: var(--font-sm);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--motion-fast);
+    }
+    .footer-cancel-btn:hover {
+      background: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+    .cancel-confirm-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+      place-items: center;
+    }
+    .cancel-confirm-overlay.visible {
+      display: grid;
+    }
+    .cancel-confirm-dialog {
+      background: var(--card-bg, #faf5ed);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+    .cancel-confirm-dialog h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      color: var(--text-dark);
+    }
+    .cancel-confirm-dialog p {
+      margin: 0 0 20px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .cancel-confirm-dialog .dialog-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+    .cancel-confirm-dialog .dialog-btn-cancel {
+      background: #2563eb;
+      color: #ffffff;
+      border: 1px solid #2563eb;
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .cancel-confirm-dialog .dialog-btn-cancel:hover {
+      background: #1d4ed8;
+    }
+    .cancel-confirm-dialog .dialog-btn-keep {
+      background: var(--surface, #faf5ed);
+      color: var(--text-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .cancel-confirm-dialog .dialog-btn-keep:hover {
+      border-color: var(--border-strong);
+    }
+    .cancel-message {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .cancel-message.ok { color: #16a34a; }
+    .cancel-message.error { color: #dc2626; }
 
     @media (max-width: 980px) {
       .desktop-nav {
@@ -3744,10 +3828,23 @@
         <div><img src="./advisastacks-logo.png.png" alt="AdvisaStacks" style="width:100px; height:auto;" /></div>
       </div>
       <div class="footer-right-actions">
+        <button class="footer-cancel-btn" id="cancelMembershipBtn" type="button" style="display:none;">Cancel My Membership</button>
         <button class="footer-logout-btn" id="footerLogoutBtn" type="button">Log out</button>
       </div>
     </div>
   </footer>
+
+  <div id="cancelOverlay" class="cancel-confirm-overlay">
+    <div class="cancel-confirm-dialog">
+      <h2>Cancel your membership?</h2>
+      <p>You'll keep access until the end of your current billing period. After that, your subscription will not renew.</p>
+      <div class="dialog-actions">
+        <button id="cancelConfirmBtn" class="dialog-btn-cancel">Yes, cancel</button>
+        <button id="cancelDismissBtn" class="dialog-btn-keep">Keep membership</button>
+      </div>
+      <div id="cancelMessage" class="cancel-message"></div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./auth-config.js"></script>
@@ -3815,6 +3912,7 @@
               const syncPayload = await syncResp.json();
               if (syncPayload && syncPayload.active) {
                 document.body.classList.remove("auth-pending");
+                document.getElementById("cancelMembershipBtn").style.display = "";
                 return;
               }
             }
@@ -3839,6 +3937,7 @@
             return;
           }
           document.body.classList.remove("auth-pending");
+          document.getElementById("cancelMembershipBtn").style.display = "";
           window.__currentUserId = data.session.user.id;
         })
         .catch(() => {
@@ -8631,6 +8730,51 @@ $("cb-submit-btn").addEventListener("click", async () => {
       writePrefs({ hasVisited: true });
     }
 
+  </script>
+  <script>
+    (function () {
+      var cancelBtn = document.getElementById("cancelMembershipBtn");
+      var overlay = document.getElementById("cancelOverlay");
+      var confirmBtn = document.getElementById("cancelConfirmBtn");
+      var dismissBtn = document.getElementById("cancelDismissBtn");
+      var msgEl = document.getElementById("cancelMessage");
+
+      cancelBtn.addEventListener("click", function () {
+        msgEl.textContent = "";
+        overlay.classList.add("visible");
+      });
+
+      dismissBtn.addEventListener("click", function () {
+        overlay.classList.remove("visible");
+      });
+
+      confirmBtn.addEventListener("click", async function () {
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "Cancelling...";
+        msgEl.textContent = "";
+        try {
+          var sb = window.__supabase;
+          if (!sb) throw new Error("Not authenticated");
+          var sess = await sb.auth.getSession();
+          if (!sess.data.session) throw new Error("Not authenticated");
+          var resp = await fetch("/api/cancel-subscription", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + sess.data.session.access_token }
+          });
+          var payload = await resp.json();
+          if (!resp.ok) throw new Error(payload.error || "Unable to cancel membership");
+          overlay.classList.remove("visible");
+          cancelBtn.style.display = "none";
+          alert(payload.message);
+        } catch (err) {
+          msgEl.textContent = err.message || "Unable to cancel membership";
+          msgEl.className = "cancel-message error";
+        } finally {
+          confirmBtn.disabled = false;
+          confirmBtn.textContent = "Yes, cancel";
+        }
+      });
+    })();
   </script>
 </body>
 </html>
