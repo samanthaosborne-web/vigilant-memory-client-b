@@ -168,14 +168,6 @@
       line-height: 1.2;
       text-align: left;
     }
-    .header-subtagline {
-      margin: 0;
-      color: var(--text-muted);
-      font-size: var(--font-xs);
-      font-style: normal;
-      line-height: 1.3;
-      text-align: left;
-    }
 
     .menu-btn {
       position: absolute;
@@ -551,14 +543,6 @@
       font-size: var(--font-sm);
       line-height: 1.5;
       max-width: 600px;
-    }
-    .home-value-note {
-      margin: var(--space-2) auto 0;
-      max-width: 680px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: var(--font-sm);
-      line-height: 1.55;
     }
     @media (max-width: 980px) {
       .desktop-nav {
@@ -1082,12 +1066,6 @@
       font-size: var(--font-lg);
       font-weight: 700;
       color: var(--text-dark);
-    }
-    .card-subline {
-      margin: -2px 0 var(--space-2);
-      color: var(--text-muted);
-      font-size: var(--font-sm);
-      line-height: 1.4;
     }
     .card-when {
       margin: -2px 0 var(--space-2);
@@ -2227,9 +2205,6 @@
       .header-tagline {
         font-size: var(--font-sm);
       }
-      .header-subtagline {
-        font-size: 11px;
-      }
 
       .menu-panel {
         width: min(340px, 94vw);
@@ -2830,11 +2805,6 @@
       font-weight: 800;
     }
 
-    .header-subtagline {
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
     .menu-btn {
       background: #ffffff;
       border: 1px solid var(--border-subtle);
@@ -2899,10 +2869,8 @@
 
     .page-help,
     .home-subcopy,
-    .home-value-note,
     .workspace-muted,
     .help-tip,
-    .card-subline,
     .card-when,
     .footer-contact-info,
     .cb-saved-item-meta {
@@ -2973,12 +2941,6 @@
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -0.02em;
-    }
-
-    .card-subline {
-      margin: 0 0 8px;
-      font-size: 14px;
-      line-height: 1.45;
     }
 
     .card-when {
@@ -3234,10 +3196,8 @@
     }
 
     .card:hover .card-head h3,
-    .card:hover .card-subline,
     .card:hover .card-when,
     .card-head:hover h3,
-    .card-head:hover .card-subline,
     .card-head:hover .card-when {
       color: inherit;
     }
@@ -3386,12 +3346,7 @@
       color: var(--text-dark);
     }
 
-    .header-subtagline {
-      text-align: left;
-      color: #8b8174;
-      font-style: normal;
-      font-size: 13px;
-    }
+
 
     .header-utility-btn,
     .desktop-nav-btn,
@@ -3447,10 +3402,8 @@
 
     .page-help,
     .home-subcopy,
-    .home-value-note,
     .workspace-muted,
     .help-tip,
-    .card-subline,
     .card-when,
     .app-settings-sub,
     .footer-contact-info {
@@ -3501,10 +3454,8 @@
     }
 
     .card:hover .card-head h3,
-    .card:hover .card-subline,
     .card:hover .card-when,
     .card-head:hover h3,
-    .card-head:hover .card-subline,
     .card-head:hover .card-when {
       color: var(--text-dark) !important;
     }
@@ -4735,36 +4686,6 @@
         localStorage.removeItem(PREFS_KEY);
       } catch (e) {
       }
-    }
-
-    const DEFAULT_ACCENT = "#e75a00";
-    const DEFAULT_TAGLINE = "The Ultimate Toolkit for Tradies";
-    const DEFAULT_LOGO_SRC = "./advisastacks-logo.png.png";
-    const DEFAULT_COPYRIGHT = "AdvisaStacks";
-
-    function isValidHexColour(str) {
-      return /^#[0-9A-Fa-f]{6}$/.test(str);
-    }
-
-    function readBrandPrefs() {
-      const prefs = readPrefs();
-      return {
-        displayName: prefs.brandDisplayName || "",
-        logoUrl: prefs.brandLogoUrl || "",
-        accentColour: prefs.brandAccentColour || DEFAULT_ACCENT
-      };
-    }
-
-    function writeBrandPrefs(patch) {
-      const prefPatch = {};
-      if ("displayName" in patch) prefPatch.brandDisplayName = patch.displayName;
-      if ("logoUrl" in patch) prefPatch.brandLogoUrl = patch.logoUrl;
-      if ("accentColour" in patch) prefPatch.brandAccentColour = patch.accentColour;
-      writePrefs(prefPatch);
-    }
-
-    function applyBranding() {
-      // Branding customization removed — use fixed defaults
     }
 
     function readUsageStats() {
