@@ -1094,13 +1094,15 @@
       text-align: left;
       font-size: 18px;
       font-weight: 700;
-      color: var(--text-dark);
+      color: #292727;
       font-family: inherit;
-      cursor: pointer;
+      cursor: default;
+      text-decoration: none;
+      pointer-events: none;
     }
     .cb-builder-back-btn:hover {
-      color: var(--accent);
-      text-decoration: underline;
+      color: #292727;
+      text-decoration: none;
     }
 
     .kv {
@@ -3837,6 +3839,7 @@
             return;
           }
           document.body.classList.remove("auth-pending");
+          window.__currentUserId = data.session.user.id;
         })
         .catch(() => {
           window.location.replace("./login.html");
@@ -4850,7 +4853,7 @@
       if (key === "Win Work") return "Winning Work";
       if (key === "Get Paid") return "Getting Paid";
       if (key === "Job Updates") return "Manage Jobs";
-      if (key === "Fix My Message") return "Custom Tools";
+      if (key === "Fix My Message") return "Fix My Message";
       if (key === "Reviews & Referrals" || key === "Get More Enquiries") return "Grow";
       if (key === "Grow the Business") return "Grow";
       if (key === "Saved tools" || key === "Saved" || key === "Workspace") return "Saved";
@@ -4987,8 +4990,8 @@
           .templates-item-row .templates-field { margin:0; }
           .templates-item-remove { background:none; border:1px solid #d5dbe2; border-radius:8px; width:36px; height:42px; cursor:pointer; color:#6d7e94; font-size:18px; display:flex; align-items:center; justify-content:center; }
           .templates-item-remove:hover { border-color:var(--accent); color:var(--accent); }
-          .templates-add-item-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#6d7e94; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-top:4px; }
-          .templates-add-item-btn:hover { border-color:var(--accent); color:var(--accent); }
+          .templates-add-item-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#292727; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-top:4px; }
+          .templates-add-item-btn:hover { border-color:var(--accent); color:#292727; }
           .templates-inline-link { display:flex; gap:10px; align-items:end; margin-top:6px; margin-bottom:10px; }
           .templates-inline-link .templates-field { flex:1; margin:0; }
           .templates-colour-row { display:flex; gap:10px; align-items:end; margin-top:8px; margin-bottom:10px; }
@@ -5000,8 +5003,8 @@
           .templates-deposit-info { font-size:13px; color:#6d7e94; margin-top:6px; }
           .templates-logo-note { font-size:13px; color:#6d7e94; margin-top:6px; line-height:1.4; }
           .templates-upload-area { margin-top:10px; }
-          .templates-upload-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#6d7e94; font-family:inherit; font-size:14px; cursor:pointer; }
-          .templates-upload-btn:hover { border-color:var(--accent); color:var(--accent); }
+          .templates-upload-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#292727; font-family:inherit; font-size:14px; cursor:pointer; }
+          .templates-upload-btn:hover { border-color:var(--accent); color:#292727; }
           .templates-logo-preview { margin-top:8px; max-width:120px; max-height:80px; border-radius:6px; border:1px solid #d5dbe2; }
           @media (max-width:760px) {
             .templates-grid-2, .templates-grid-3 { grid-template-columns:1fr; }
@@ -5054,60 +5057,41 @@
         const depositAmt = getDepositAmount();
 
         let text =
-          "Create a clean, editable client-ready quote using the details below.\n\n" +
-          "Business context\n" +
-          "Business name: " + bizName + "\n" +
-          "My name: " + myName + "\n\n" +
-          "Quote details\n" +
-          "Job Name: " + state.fields["[Job Name]"] + "\n" +
-          "ABN: " + state.fields["[ABN]"] + "\n" +
-          "Business email: " + state.fields["[Business email]"] + "\n" +
-          "Business phone: " + state.fields["[Business phone]"] + "\n" +
-          "Client name: " + state.fields["[Client name]"] + "\n" +
-          "Client company: " + state.fields["[Client company]"] + "\n" +
-          "Client email: " + state.fields["[Client email]"] + "\n" +
-          "Project title: " + state.fields["[Project title]"] + "\n" +
+          "Generate a professional, client-ready quote summary using the details below.\n\n" +
+          "IMPORTANT: The downloadable Word document layout (logo, tables, totals, bank details) is handled by a separate template. " +
+          "Your job is to write ONLY the quote content — a concise, professional summary of the scope of work, any relevant notes, and terms. " +
+          "Do NOT recreate headers, addresses, line-item tables, totals, or bank details — those are built from the form data automatically.\n\n" +
+          "Business: " + bizName + "\n" +
+          "Contact: " + myName + "\n" +
+          "Client: " + state.fields["[Client name]"] + (state.fields["[Client company]"] ? " (" + state.fields["[Client company]"] + ")" : "") + "\n" +
+          "Job: " + state.fields["[Job Name]"] + "\n" +
+          "Project: " + state.fields["[Project title]"] + "\n\n" +
           "Scope of work: " + state.fields["[Scope of work]"] + "\n" +
-          "Timeline: " + state.fields["[Timeline]"] + "\n" +
-          "Terms: " + state.fields["[Terms]"] + "\n" +
-          "Notes: " + state.fields["[Notes]"] + "\n\n" +
+          "Timeline: " + state.fields["[Timeline]"] + "\n\n" +
           "Items\n" + (getItemsText() || "(none)") + "\n\n" +
           "Pricing\n" +
           "Subtotal (ex GST): " + money(subtotal) + "\n" +
           "Discount: " + money(state.fields["[Discount]"]) + "\n" +
           "Include GST: " + state.fields["[Include GST]"] + "\n" +
-          "Total (inc GST): " + money(total) + "\n\n" +
-          "Payment\n" +
-          "Deposit due: " + (state.fields["[Deposit Due]"] || "N/A") + "\n";
+          "Total (inc GST): " + money(total) + "\n\n";
 
         if (depositAmt > 0) {
-          text += "Deposit amount: " + money(depositAmt) + " (" + state.fields["[Deposit Percent]"] + "% of total)\n";
+          text += "Deposit: " + money(depositAmt) + " (" + state.fields["[Deposit Percent]"] + "% of total), due " + (state.fields["[Deposit Due]"] || "TBC") + "\n\n";
         }
 
-        text +=
-          "Account name: " + state.fields["[Account Name]"] + "\n" +
-          "BSB: " + state.fields["[BSB]"] + "\n" +
-          "Account number: " + state.fields["[Account Number]"] + "\n\n" +
-          "Extras\n" +
-          "Include Pay now button: " + state.fields["[Include Pay Now Button]"];
-        if (state.fields["[Include Pay Now Button]"] === "Yes" && state.fields["[Pay Now Link]"]) {
-          text += " (link: " + state.fields["[Pay Now Link]"] + ")";
+        text += "Terms: " + state.fields["[Terms]"] + "\n" +
+          "Notes: " + state.fields["[Notes]"] + "\n";
+
+        if (state.fields["[Formatting reference notes]"]) {
+          text += "Formatting reference notes: " + state.fields["[Formatting reference notes]"] + "\n";
         }
-        text += "\nInclude Google review button: " + state.fields["[Include Review Button]"];
-        if (state.fields["[Include Review Button]"] === "Yes" && state.fields["[Review Link]"]) {
-          text += " (link: " + state.fields["[Review Link]"] + ")";
-        }
-        if (state.fields["[Brand Colour]"]) {
-          text += "\nBrand colour: " + state.fields["[Brand Colour]"];
-        }
-        if (state.fields["[Include Logo]"] === "Yes") {
-          text += "\nInclude uploaded logo: Yes (see attached image)";
-        }
-        text += "\n" + "Formatting reference notes: " + state.fields["[Formatting reference notes]"] + "\n\n" +
-          "Requirements\n" +
-          "Use clear headings.\n" +
-          "Make it look polished and client-ready.\n" +
-          "Return only the finished quote.";
+
+        text += "\nRequirements:\n" +
+          "- Write a professional scope summary in plain Australian English.\n" +
+          "- Be direct and concise — this will appear on a premium branded quote document.\n" +
+          "- Use clear section headings with ## markdown for any sections you add.\n" +
+          "- Do NOT include logo instructions, addresses, or totals tables.\n" +
+          "- Return only the finished quote content.";
         return text;
       }
 
@@ -5553,27 +5537,221 @@
         return "<p>" + html + "</p>";
       }
 
+      function esc(s) { return (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
       function downloadQuoteDocx() {
-        const content = aiResponseArea.innerText || "";
-        if (!content.trim()) return;
-        const clientName = state.fields["[Client name]"] || "Quote";
-        const brandColour = state.fields["[Brand Colour]"] || "#122033";
+        const aiContent = aiResponseArea.innerText || "";
+        if (!aiContent.trim()) return;
+        const bizName = globalBizNameInput ? globalBizNameInput.value.trim() : "";
+        const myName = globalFirstNameInput ? globalFirstNameInput.value.trim() : "";
+        const brandColour = state.fields["[Brand Colour]"] || "#e75a00";
         const logoSrc = (state.fields["[Include Logo]"] === "Yes" && state.logoBase64 && state.logoMimeType)
           ? "data:" + state.logoMimeType + ";base64," + state.logoBase64 : "";
+        const clientName = state.fields["[Client name]"] || "";
+        const clientCompany = state.fields["[Client company]"] || "";
+        const clientEmail = state.fields["[Client email]"] || "";
+        const jobName = state.fields["[Job Name]"] || "";
+        const projectTitle = state.fields["[Project title]"] || "";
+        const bizEmail = state.fields["[Business email]"] || "";
+        const bizPhone = state.fields["[Business phone]"] || "";
+        const abn = state.fields["[ABN]"] || "";
+        const scope = state.fields["[Scope of work]"] || "";
+        const timeline = state.fields["[Timeline]"] || "";
+        const terms = state.fields["[Terms]"] || "";
+        const notes = state.fields["[Notes]"] || "";
+        const depositDue = state.fields["[Deposit Due]"] || "";
+        const depositPct = state.fields["[Deposit Percent]"] || "";
+        const accName = state.fields["[Account Name]"] || "";
+        const bsb = state.fields["[BSB]"] || "";
+        const accNum = state.fields["[Account Number]"] || "";
+        const includeGST = state.fields["[Include GST]"] === "Yes";
+        const subtotal = getSubtotal();
+        const total = getTotal();
+        const depositAmt = getDepositAmount();
+        const discount = parseFloat(state.fields["[Discount]"]) || 0;
+        const gstAmt = includeGST ? (subtotal - discount) * 0.1 : 0;
+        const quoteNum = "Q-" + String(Date.now()).slice(-6);
+        const today = new Date();
+        const dateStr = today.toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" });
+
+        // Build items rows
+        let itemRows = "";
+        let itemNum = 0;
+        state.items.forEach(function (item) {
+          if (!item.name && !item.cost) return;
+          itemNum++;
+          const qty = item.units || "1";
+          const cost = parseFloat(item.cost) || 0;
+          const lineTotal = (parseFloat(qty) || 1) * cost;
+          itemRows +=
+            '<tr>' +
+            '<td style="padding:8pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;">' + esc(item.name) + '</td>' +
+            '<td style="padding:8pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:center;">' + esc(qty) + '</td>' +
+            '<td style="padding:8pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:right;">$' + cost.toFixed(2) + '</td>' +
+            '<td style="padding:8pt 10pt;border-bottom:1pt solid #e0e0e0;font-size:10pt;text-align:right;">$' + lineTotal.toFixed(2) + '</td>' +
+            '</tr>';
+        });
+        if (!itemRows) {
+          itemRows = '<tr><td colspan="4" style="padding:8pt 10pt;font-size:10pt;color:#999;">No items listed</td></tr>';
+        }
+
+        // Logo or business name header
+        const headerLeft = logoSrc
+          ? '<img src="' + logoSrc + '" style="max-height:55pt;max-width:180pt;" />'
+          : '<div style="font-size:20pt;font-weight:bold;color:' + brandColour + ';">' + esc(bizName) + '</div>';
+
+        // Pay now / review buttons
+        let ctaButtons = "";
+        if (state.fields["[Include Pay Now Button]"] === "Yes" && state.fields["[Pay Now Link]"]) {
+          ctaButtons += '<a href="' + esc(state.fields["[Pay Now Link]"]) + '" style="display:inline-block;padding:10pt 22pt;background:' + brandColour + ';color:#ffffff;text-decoration:none;border-radius:4pt;font-size:10pt;font-weight:bold;margin-right:10pt;">Pay Now via Credit Card</a>';
+        }
+        if (state.fields["[Include Review Button]"] === "Yes" && state.fields["[Review Link]"]) {
+          ctaButtons += '<a href="' + esc(state.fields["[Review Link]"]) + '" style="display:inline-block;padding:10pt 22pt;background:#333333;color:#ffffff;text-decoration:none;border-radius:4pt;font-size:10pt;font-weight:bold;">Leave a Google Review</a>';
+        }
+
+        // Bank details
+        let bankSection = "";
+        if (accName || bsb || accNum) {
+          bankSection =
+            '<table style="width:100%;border-collapse:collapse;margin-top:16pt;">' +
+            '<tr><td style="padding:10pt 12pt;border:1pt solid #ddd;background:#fafafa;">' +
+            '<div style="font-size:11pt;font-weight:bold;color:' + brandColour + ';margin-bottom:6pt;">Bank Details</div>' +
+            (accName ? '<div style="font-size:10pt;margin:2pt 0;"><strong>Account Name:</strong> ' + esc(accName) + '</div>' : '') +
+            (bsb ? '<div style="font-size:10pt;margin:2pt 0;"><strong>BSB:</strong> ' + esc(bsb) + '</div>' : '') +
+            (accNum ? '<div style="font-size:10pt;margin:2pt 0;"><strong>Account Number:</strong> ' + esc(accNum) + '</div>' : '') +
+            '</td></tr></table>';
+        }
+
+        // Deposit info
+        let depositInfo = "";
+        if (depositAmt > 0 && depositPct) {
+          depositInfo =
+            '<tr>' +
+            '<td style="padding:5pt 10pt;font-size:10pt;text-align:right;"><strong>Deposit (' + esc(depositPct) + '%):</strong></td>' +
+            '<td style="padding:5pt 10pt;font-size:10pt;text-align:right;width:90pt;">$' + depositAmt.toFixed(2) + '</td>' +
+            '</tr>';
+          if (depositDue) {
+            depositInfo +=
+              '<tr>' +
+              '<td style="padding:5pt 10pt;font-size:10pt;text-align:right;"><strong>Deposit Due:</strong></td>' +
+              '<td style="padding:5pt 10pt;font-size:10pt;text-align:right;">' + esc(depositDue) + '</td>' +
+              '</tr>';
+          }
+        }
+
+        // Scope, timeline, terms, notes — from AI content, falling back to form fields
+        let scopeContent = "";
+        if (scope) scopeContent += '<div style="font-size:10pt;margin:4pt 0;"><strong>Scope of Work:</strong> ' + esc(scope) + '</div>';
+        if (timeline) scopeContent += '<div style="font-size:10pt;margin:4pt 0;"><strong>Timeline:</strong> ' + esc(timeline) + '</div>';
+
         const htmlBody =
           '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
-          '<head><meta charset="utf-8"><style>' +
-          'body{font-family:Calibri,Arial,sans-serif;margin:40px;color:#1a1a2e;line-height:1.6;font-size:12pt;}' +
-          'h1,h2,h3{color:' + brandColour + ';}' +
-          'h1{font-size:20pt;border-bottom:2pt solid ' + brandColour + ';padding-bottom:6pt;}' +
-          'h2{font-size:14pt;}h3{font-size:12pt;}' +
-          'ul{padding-left:18pt;}li{margin:3pt 0;}' +
-          'hr{border:none;border-top:1pt solid #ccc;margin:14pt 0;}' +
-          'table{border-collapse:collapse;width:100%;}td,th{border:1pt solid #ccc;padding:6pt 8pt;text-align:left;}' +
+          '<head><meta charset="utf-8">' +
+          '<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom></w:WordDocument></xml><![endif]-->' +
+          '<style>' +
+          '@page{size:A4;margin:60pt 50pt 50pt 50pt;}' +
+          'body{font-family:Calibri,Helvetica,Arial,sans-serif;margin:0;padding:0;color:#222;line-height:1.5;font-size:10pt;-webkit-print-color-adjust:exact;}' +
+          'table{border-collapse:collapse;}' +
           '</style></head><body>' +
-          (logoSrc ? '<img src="' + logoSrc + '" style="max-height:50pt;max-width:160pt;margin-bottom:12pt;" />' : '') +
-          markdownToHtml(content) +
+
+          /* ===== HEADER: Logo left, QUOTE title + number right ===== */
+          '<table style="width:100%;border:none;margin-bottom:6pt;"><tr>' +
+          '<td style="width:50%;vertical-align:top;padding:0;">' + headerLeft + '</td>' +
+          '<td style="width:50%;vertical-align:top;text-align:right;padding:0;">' +
+          '<div style="font-size:26pt;font-weight:bold;color:' + brandColour + ';letter-spacing:2pt;">QUOTE</div>' +
+          '<div style="font-size:10pt;color:#666;margin-top:4pt;">' + esc(quoteNum) + '</div>' +
+          '<div style="font-size:10pt;color:#666;">' + esc(dateStr) + '</div>' +
+          '</td></tr></table>' +
+
+          /* ===== Accent line ===== */
+          '<div style="border-top:3pt solid ' + brandColour + ';margin:10pt 0 16pt 0;"></div>' +
+
+          /* ===== FROM / PREPARED FOR two-column ===== */
+          '<table style="width:100%;border:1pt solid #e0e0e0;margin-bottom:16pt;"><tr>' +
+          '<td style="width:50%;vertical-align:top;padding:12pt 14pt;border-right:1pt solid #e0e0e0;">' +
+          '<div style="font-size:8pt;font-weight:bold;color:' + brandColour + ';text-transform:uppercase;letter-spacing:1pt;margin-bottom:6pt;">From</div>' +
+          '<div style="font-size:11pt;font-weight:bold;">' + esc(bizName) + '</div>' +
+          (myName ? '<div style="font-size:10pt;color:#444;">' + esc(myName) + '</div>' : '') +
+          (bizEmail ? '<div style="font-size:10pt;color:#444;">' + esc(bizEmail) + '</div>' : '') +
+          (bizPhone ? '<div style="font-size:10pt;color:#444;">' + esc(bizPhone) + '</div>' : '') +
+          (abn ? '<div style="font-size:10pt;color:#444;">ABN: ' + esc(abn) + '</div>' : '') +
+          '</td>' +
+          '<td style="width:50%;vertical-align:top;padding:12pt 14pt;">' +
+          '<div style="font-size:8pt;font-weight:bold;color:' + brandColour + ';text-transform:uppercase;letter-spacing:1pt;margin-bottom:6pt;">Prepared For</div>' +
+          '<div style="font-size:11pt;font-weight:bold;">' + esc(clientName) + '</div>' +
+          (clientCompany ? '<div style="font-size:10pt;color:#444;">' + esc(clientCompany) + '</div>' : '') +
+          (clientEmail ? '<div style="font-size:10pt;color:#444;">' + esc(clientEmail) + '</div>' : '') +
+          '</td></tr></table>' +
+
+          /* ===== Job summary row ===== */
+          (jobName || projectTitle || depositDue ?
+            '<table style="width:100%;border:1pt solid #e0e0e0;margin-bottom:16pt;"><tr>' +
+            (jobName || projectTitle ? '<td style="padding:10pt 14pt;border-right:1pt solid #e0e0e0;">' +
+              '<div style="font-size:8pt;font-weight:bold;color:' + brandColour + ';text-transform:uppercase;letter-spacing:1pt;">Job</div>' +
+              '<div style="font-size:10pt;font-weight:bold;">' + esc(jobName || projectTitle) + '</div></td>' : '') +
+            (depositDue ? '<td style="padding:10pt 14pt;">' +
+              '<div style="font-size:8pt;font-weight:bold;color:' + brandColour + ';text-transform:uppercase;letter-spacing:1pt;">Payment Due</div>' +
+              '<div style="font-size:10pt;font-weight:bold;">' + esc(depositDue) + '</div></td>' : '') +
+            '</tr></table>' : '') +
+
+          /* ===== Scope / timeline ===== */
+          (scopeContent ? '<div style="margin-bottom:16pt;padding:10pt 14pt;border:1pt solid #e0e0e0;background:#fafafa;">' + scopeContent + '</div>' : '') +
+
+          /* ===== AI-generated scope/description content ===== */
+          '<div style="margin-bottom:16pt;font-size:10pt;line-height:1.6;">' + markdownToHtml(aiContent) + '</div>' +
+
+          /* ===== Line items table ===== */
+          '<table style="width:100%;border-collapse:collapse;margin-bottom:4pt;">' +
+          '<tr style="background:' + brandColour + ';">' +
+          '<th style="padding:9pt 10pt;font-size:9pt;color:#ffffff;text-align:left;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Description</th>' +
+          '<th style="padding:9pt 10pt;font-size:9pt;color:#ffffff;text-align:center;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Qty</th>' +
+          '<th style="padding:9pt 10pt;font-size:9pt;color:#ffffff;text-align:right;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Unit Price</th>' +
+          '<th style="padding:9pt 10pt;font-size:9pt;color:#ffffff;text-align:right;font-weight:bold;text-transform:uppercase;letter-spacing:0.5pt;">Amount</th>' +
+          '</tr>' +
+          itemRows +
+          '</table>' +
+
+          /* ===== Totals box — right aligned ===== */
+          '<table style="width:100%;border:none;margin-bottom:16pt;"><tr><td style="width:55%;"></td><td style="width:45%;">' +
+          '<table style="width:100%;border-collapse:collapse;">' +
+          '<tr><td style="padding:5pt 10pt;font-size:10pt;text-align:right;"><strong>Subtotal (ex GST):</strong></td>' +
+          '<td style="padding:5pt 10pt;font-size:10pt;text-align:right;width:90pt;">$' + subtotal.toFixed(2) + '</td></tr>' +
+          (discount > 0 ? '<tr><td style="padding:5pt 10pt;font-size:10pt;text-align:right;"><strong>Discount:</strong></td>' +
+            '<td style="padding:5pt 10pt;font-size:10pt;text-align:right;">-$' + discount.toFixed(2) + '</td></tr>' : '') +
+          (includeGST ? '<tr><td style="padding:5pt 10pt;font-size:10pt;text-align:right;"><strong>GST (10%):</strong></td>' +
+            '<td style="padding:5pt 10pt;font-size:10pt;text-align:right;">$' + gstAmt.toFixed(2) + '</td></tr>' : '') +
+          '<tr style="background:' + brandColour + ';">' +
+          '<td style="padding:8pt 10pt;font-size:11pt;text-align:right;color:#ffffff;font-weight:bold;">Total' + (includeGST ? ' (inc GST)' : '') + ':</td>' +
+          '<td style="padding:8pt 10pt;font-size:11pt;text-align:right;color:#ffffff;font-weight:bold;">$' + total.toFixed(2) + '</td></tr>' +
+          depositInfo +
+          '</table></td></tr></table>' +
+
+          /* ===== Bank details ===== */
+          bankSection +
+
+          /* ===== AI-generated notes (terms, notes, scope detail from AI) ===== */
+          (terms || notes ?
+            '<div style="margin-top:16pt;padding:10pt 14pt;border-top:1pt solid #e0e0e0;">' +
+            (terms ? '<div style="font-size:10pt;margin-bottom:6pt;"><strong>Terms &amp; Conditions:</strong> ' + esc(terms) + '</div>' : '') +
+            (notes ? '<div style="font-size:10pt;"><strong>Notes:</strong> ' + esc(notes) + '</div>' : '') +
+            '</div>' : '') +
+
+          /* ===== CTA Buttons ===== */
+          (ctaButtons ? '<div style="margin-top:16pt;text-align:center;">' + ctaButtons + '</div>' : '') +
+
+          /* ===== Thank you footer ===== */
+          '<div style="margin-top:24pt;text-align:center;font-size:11pt;color:' + brandColour + ';font-weight:bold;">Thank you for your business!</div>' +
+
+          /* ===== Contact footer ===== */
+          '<div style="margin-top:10pt;text-align:center;font-size:8pt;color:#999;">' +
+          (bizName ? esc(bizName) : '') +
+          (bizPhone ? ' &nbsp;|&nbsp; ' + esc(bizPhone) : '') +
+          (bizEmail ? ' &nbsp;|&nbsp; ' + esc(bizEmail) : '') +
+          (abn ? ' &nbsp;|&nbsp; ABN ' + esc(abn) : '') +
+          '</div>' +
+
           '</body></html>';
+
         const blob = new Blob(['\ufeff' + htmlBody], { type: "application/msword" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
@@ -5640,7 +5818,7 @@
               model: "claude-sonnet-4-20250514",
               max_tokens: 2000,
               stream: true,
-              system: "You are a practical AI assistant helping Australian tradies and small business owners create professional quotes. Write in plain, professional Australian English. Be direct, clear, and concise. If a logo image is provided, acknowledge it and note where it should be placed in the quote layout. Return only the finished quote document.",
+              system: "You are a professional quote writer for Australian tradies and small business owners. Write in plain, professional Australian English. Be direct and concise. Your output will be inserted into a premium branded Word document template that already handles: the business logo, company addresses, line-item pricing table, totals, bank details, and CTA buttons. Your job is to write ONLY the descriptive content: a polished scope-of-work summary, any relevant project notes, terms, and a professional closing line. Do NOT output headers with business names/addresses, do NOT recreate pricing tables or totals, do NOT mention logo placement. Use ## markdown headings to structure sections. Keep it concise and client-ready.",
               messages: [{ role: "user", content: msgContent }]
             })
           });
@@ -7939,10 +8117,24 @@ $("cb-submit-btn").addEventListener("click", async () => {
     globalBizNameInput.addEventListener("input", handleGlobalDefaultsChange);
 
     // --- ONBOARDING ---
+    function hasUserCompletedOnboarding() {
+      var prefs = readPrefs();
+      var uid = window.__currentUserId || "";
+      if (!uid) return prefs.onboardingComplete || prefs.onboardingDismissed || prefs.hasVisited;
+      var done = prefs.onboardedUsers || [];
+      return done.indexOf(uid) !== -1;
+    }
+
+    function markUserOnboardingComplete() {
+      var prefs = readPrefs();
+      var uid = window.__currentUserId || "";
+      var done = prefs.onboardedUsers || [];
+      if (uid && done.indexOf(uid) === -1) done.push(uid);
+      writePrefs({ onboardingComplete: true, hasVisited: true, onboardingDismissed: true, onboardedUsers: done });
+    }
+
     function initOnboarding() {
-      const prefs = readPrefs();
-      if (prefs.onboardingComplete || prefs.onboardingDismissed) return;
-      if (prefs.hasVisited) return;
+      if (hasUserCompletedOnboarding()) return;
 
       const overlay = document.getElementById("onboardingOverlay");
       if (!overlay) return;
@@ -7953,7 +8145,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
       const totalCards = Object.values(APP).reduce((n, cat) => n + (cat.cards ? cat.cards.length : 0), 0);
 
       function closeOnboarding(navigateTo) {
-        writePrefs({ onboardingComplete: true, hasVisited: true, onboardingDismissed: true });
+        markUserOnboardingComplete();
         overlay.classList.add("hidden");
         setTimeout(() => {
           overlay.style.display = "none";
@@ -8332,7 +8524,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
     // --- APP INITIALIZATION ---
     const savedPrefs = readPrefs();
-    const isFirstVisit = !savedPrefs.hasVisited;
+    const isFirstVisit = !hasUserCompletedOnboarding();
 
     // Restore global inputs if they exist
     if (savedPrefs.firstName) {
