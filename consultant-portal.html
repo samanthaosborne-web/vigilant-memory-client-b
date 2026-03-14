@@ -587,8 +587,13 @@
         <p class="cp-settings-sub">Customise how AdvisaStacks appears for your clients.</p>
         <div class="cp-settings-inputs" style="flex-direction:column;">
           <div class="cp-settings-field" style="min-width:100%;">
-            <label for="cpLogoUrl">Logo URL</label>
-            <input type="url" id="cpLogoUrl" placeholder="https://yourdomain.com/logo.png" />
+            <label>Logo</label>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <img id="cpLogoThumb" src="./advisastacks-logo.png.png" alt="Logo preview" style="height:40px;max-width:100px;object-fit:contain;border:1px solid var(--border-subtle);border-radius:6px;padding:4px;background:var(--surface);" />
+              <button type="button" id="cpLogoUploadBtn" style="padding:8px 14px;border:1px dashed var(--border-subtle);border-radius:6px;background:none;color:var(--text-muted);font-family:inherit;font-size:14px;cursor:pointer;">Upload image</button>
+              <button type="button" id="cpLogoRemoveBtn" style="padding:8px 10px;border:1px solid var(--border-subtle);border-radius:6px;background:none;color:var(--text-muted);font-family:inherit;font-size:13px;cursor:pointer;display:none;" title="Remove logo">Remove</button>
+              <input type="file" id="cpLogoFileInput" accept="image/png,image/jpeg,image/gif,image/webp,image/svg+xml" style="display:none;" />
+            </div>
           </div>
           <div class="cp-settings-field" style="min-width:100%;">
             <label for="cpAccentColour">Accent Colour</label>
