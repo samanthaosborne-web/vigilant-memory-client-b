@@ -3709,7 +3709,6 @@
         <img class="header-logo" src="./advisastacks-logo.png.png" alt="AdvisaStacks logo" />
         <div class="header-copy">
           <p class="header-tagline" id="headerUserName">AdvisaStacks</p>
-          <p class="header-subtagline">The Ultimate Toolkit for Tradies</p>
         </div>
       </div>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-controls="menuPanel" aria-haspopup="true" aria-expanded="false">
@@ -3721,8 +3720,9 @@
       </button>
       <div class="header-utilities">
         <button class="header-utility-btn" id="desktopSavedBtn" type="button">Saved</button>
-        <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Advanced</button>
+        <button class="header-utility-btn" id="desktopCustomToolsBtn" type="button">Tools</button>
         <button class="header-utility-btn" id="desktopSettingsBtn" type="button">Settings</button>
+        <button class="header-utility-btn" id="headerLogoutBtn" type="button">Log out</button>
       </div>
     </div>
   </header>
@@ -3742,7 +3742,7 @@
     <div class="menu-divider"></div>
     <button class="menu-item" data-key="Home">Home</button>
     <button class="menu-item" data-key="Saved">Saved</button>
-    <button class="menu-item" data-key="Custom Tools">Advanced</button>
+    <button class="menu-item" data-key="Custom Tools">Tools</button>
     <div class="menu-divider"></div>
     <div style="flex:1;"></div>
     <button class="menu-item" id="feedbackNavBtn">Feedback form</button>
@@ -4571,60 +4571,6 @@
             "example": {"input":"Facebook · Friendly · downlight install · Balmain","output":[{"label":"Facebook version","text":"Just finished a downlight install in Balmain — the customer wanted a clean, modern look and I reckon we nailed it. If you’re in the area and thinking about upgrading your lighting, send us a message for a free quote. Happy to come take a look 👇"},{"label":"Instagram version","text":"Downlight install complete in Balmain ✨\n\nClean lines, warm light, happy customer. If you’re after something similar, DM us or hit the link in bio for a free quote.\n\n#electrician #balmain #sydneyelectrician #downlights #cooperelectrical"}]}
           },
           {
-            "subtitle": "Answer a Common Customer Question",
-            "chatbot": "AI assistant",
-            "front": {
-              "outcome": "Build authority by sharing knowledge.",
-              "when": "When customers ask the same question repeatedly.",
-              "goodFor": "Building authority.",
-              "roi": "Better quality enquiries.",
-              "tip": "Use real customer questions."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Platform",
-                  "options": ["Facebook", "Instagram", "Website"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Expert", "Witty"]
-                }
-              ],
-              "fields": ["[Question customers ask]", "[Short answer]", "[Trade type]"]
-            },
-            "prompts": [
-              "Write a simple post answering a common question customers ask.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nTrade: [Trade type]\nCustomer question: [Question customers ask]\nShort answer: [Short answer]\n\nWrite a short helpful post that:\n- explains the answer simply\n- builds trust\n- invites people to contact us if they need help"
-            ],
-            "example": {"input":"Facebook · Professional · switchboard · Marrickville","output":[{"label":"Example output","text":"Switchboard upgrade in Marrickville — swipe to see the before and after.\n\nThe old board was well past its use-by date with no safety switches. The new board is fully compliant, has RCD protection on every circuit, and room to grow if they need more down the track.\n\nIf your switchboard looks like the first photo, it might be time for an upgrade. Drop us a message for a free assessment."}]}
-          },
-          {
-            "subtitle": "Seasonal Promotion",
-            "chatbot": "AI assistant",
-            "front": {
-              "outcome": "Drive urgency during peak seasons.",
-              "when": "At seasonal peaks (e.g. blocked drains winter, air con summer).",
-              "goodFor": "Generating immediate leads.",
-              "roi": "Quick influx of bookings.",
-              "tip": "Explain why this service matters right now."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Platform",
-                  "options": ["Facebook", "Instagram"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Direct", "Witty"]
-                }
-              ],
-              "fields": ["[Service]", "[Season reason]", "[Offer (optional)]", "[Suburb or service area]"]
-            },
-            "prompts": [
-              "Write a seasonal promotion post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nService: [Service]\nSeason reason: [Season reason]\nOffer (optional): [Offer (optional)]\nService area: [Suburb or service area]\n\nWrite a short post that:\n- explains why the service is important right now\n- encourages people to book early\n- invites enquiries"
-            ],
-            "example": {"input":"Facebook · Friendly · electrician · Do I need a sparky to change a light fitting?","output":[{"label":"Example output","text":"One we get asked a lot: \"Do I need an electrician just to change a light fitting?\"\n\nShort answer: yes, in Australia all electrical work (including swapping a light fitting) must be done by a licensed electrician. It’s not just about rules — it’s about safety. Incorrect wiring can cause fires or electric shock.\n\nThe good news? It’s usually a quick job and won’t cost as much as you think. Send us a message if you need a hand."}]}
-          },
-          {
             "subtitle": "Turn a Review into a Post",
             "chatbot": "AI assistant",
             "front": {
@@ -4650,60 +4596,6 @@
               "Write a social media post using this customer review.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nReview text: [Paste review text]\nJob type: [Job type]\nSuburb: [Suburb]\n\nWrite a short post that:\n- thanks the customer\n- highlights the work done\n- encourages people to get in touch for similar work"
             ],
             "example": {"input":"Facebook · Friendly · ceiling fan installation · getting hot this summer · Inner West Sydney","output":[{"label":"Example output","text":"Summer’s here and it’s already heating up — if you’ve been thinking about getting a ceiling fan installed, now’s the time.\n\nWe’re booking ceiling fan installs across the Inner West right now. Quick job, makes a huge difference. We supply and install, or fit one you’ve already bought.\n\nSend us a message to book in before the real heat hits."}]}
-          },
-          {
-            "subtitle": "“We’re Booking Up” Post",
-            "chatbot": "AI assistant",
-            "front": {
-              "outcome": "Create urgency and secure future work.",
-              "when": "When schedule is filling.",
-              "goodFor": "Creating urgency.",
-              "roi": "More bookings.",
-              "tip": "Be specific about your availability."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Platform",
-                  "options": ["Facebook", "Instagram"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Direct", "Witty"]
-                }
-              ],
-              "fields": ["[Service]", "[How far ahead you're booked]", "[Area served]"]
-            },
-            "prompts": [
-              "Write a social media post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nService: [Service]\nCurrent schedule: [How far ahead you're booked]\nService area: [Area served]\n\nWrite a post that:\n- mentions demand\n- encourages people to book early\n- invites enquiries"
-            ],
-            "example": {"input":"Facebook · Friendly · 5-star from David about a meter box upgrade","output":[{"label":"Example output","text":"Really appreciate this one from David ⭐\n\n\"Matt was great — turned up on time, explained everything clearly and did a top job on the meter box. Would definitely use Cooper Electrical again.\"\n\nThanks David — reviews like this are what keep us going. If you need an electrician who turns up when they say they will, give us a shout."}]}
-          },
-          {
-            "subtitle": "“We’re in Your Area Today” Post",
-            "chatbot": "AI assistant",
-            "front": {
-              "outcome": "Fill last-minute gaps in your schedule.",
-              "when": "When you have jobs in one suburb.",
-              "goodFor": "Quick local leads.",
-              "roi": "Last-minute jobs.",
-              "tip": "Post this early in the morning."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Platform",
-                  "options": ["Facebook", "Instagram"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Direct", "Witty"]
-                }
-              ],
-              "fields": ["[Suburb]", "[Trade]", "[Available slot time]"]
-            },
-            "prompts": [
-              "Write a short local availability post.\n\nPlatform: [Platform]\nTone: [Tone]\n\nDetails:\nTrade: [Trade]\nSuburb: [Suburb]\nAvailable time slot: [Available slot time]\n\nWrite a short post that:\n- says we’re already working in the area\n- mentions the available time\n- invites people to message quickly if they need help"
-            ],
-            "example": {"input":"Facebook · Direct · Inner West · next 2 weeks","output":[{"label":"Example output","text":"Quick heads up — the next two weeks are filling up fast. If you’ve got electrical work you’ve been putting off, now’s the time to get it sorted.\n\nWe’re covering the Inner West and surrounding areas. Send us a message with what you need and we’ll get you a quote and a booking.\n\nFirst in, first served."}]}
           },
           {
             "subtitle": "New Service Announcement",
@@ -5036,7 +4928,8 @@
     function resolveRouteKey(key) {
       if (key === "Win Work") return "Winning Work";
       if (key === "Get Paid") return "Getting Paid";
-      if (key === "Job Updates" || key === "Fix My Message") return "Manage Jobs";
+      if (key === "Job Updates") return "Manage Jobs";
+      if (key === "Fix My Message") return "Custom Tools";
       if (key === "Reviews & Referrals" || key === "Get More Enquiries") return "Grow";
       if (key === "Grow the Business") return "Grow";
       if (key === "Saved tools" || key === "Saved" || key === "Workspace") return "Saved";
@@ -5048,9 +4941,9 @@
       if (key === current) return true;
       if (key === "Win Work" && current === "Winning Work") return true;
       if (key === "Get Paid" && current === "Getting Paid") return true;
-      if (key === "Manage Jobs" && (current === "Manage Jobs" || current === "Job Updates" || current === "Fix My Message")) return true;
+      if (key === "Manage Jobs" && (current === "Manage Jobs" || current === "Job Updates")) return true;
       if (key === "Grow" && (current === "Grow" || current === "Reviews & Referrals" || current === "Get More Enquiries")) return true;
-      if (key === "Custom Tools" && (current === "Custom Tools" || current === "Custom Builder" || current === "Templates")) return true;
+      if (key === "Custom Tools" && (current === "Custom Tools" || current === "Custom Builder" || current === "Templates" || current === "Fix My Message")) return true;
       if (key === "Saved" && current === "Saved") return true;
       return false;
     }
@@ -5071,9 +4964,10 @@
     function displayCategoryLabel(category) {
       if (category === "Winning Work") return "Get Jobs";
       if (category === "Getting Paid") return "Get Paid";
-      if (category === "Job Updates" || category === "Fix My Message") return "Manage Jobs";
+      if (category === "Job Updates") return "Manage Jobs";
+      if (category === "Fix My Message") return "Tools";
       if (category === "Get More Enquiries" || category === "Reviews & Referrals") return "Grow";
-      if (category === "Custom Builder") return "Custom Tools";
+      if (category === "Custom Builder") return "Tools";
       return category;
     }
 
@@ -6399,7 +6293,9 @@ $("cb-submit-btn").addEventListener("click", async () => {
         "Getting Paid": "Get Paid",
         "Grow": "Grow",
         "Saved": "Saved",
-        "Custom Tools": "Custom Tools"
+        "Custom Tools": "Tools",
+        "Fix My Message": "Tools",
+        "Templates": "Tools"
       };
       const pageTitleEl = document.getElementById("pageTitle");
       pageTitleEl.textContent = pageTitleLookup[current] || (APP[current] ? APP[current].title : current);
@@ -6477,6 +6373,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         "Job Updates",
         "Fix My Message",
         "Manage Jobs",
+        "Custom Tools",
         "Getting Paid",
         "Reviews & Referrals",
         "Get More Enquiries",
@@ -6484,7 +6381,12 @@ $("cb-submit-btn").addEventListener("click", async () => {
       ];
       const canShowSavedFilter = filterEligibleCategories.includes(current);
       pageControlsEl.innerHTML = "";
-      if (current === "Custom Tools" || current === "Templates") {
+      if (current === "Custom Tools" || current === "Templates" || current === "Fix My Message") {
+        const fixMessageBtn = document.createElement("button");
+        fixMessageBtn.type = "button";
+        fixMessageBtn.className = "page-filter-btn" + (current === "Fix My Message" ? " active" : "");
+        fixMessageBtn.textContent = "Fix My Message";
+        fixMessageBtn.addEventListener("click", () => navigate("Fix My Message"));
         const customBuilderBtn = document.createElement("button");
         customBuilderBtn.type = "button";
         customBuilderBtn.className = "page-filter-btn" + (current === "Custom Tools" ? " active" : "");
@@ -6495,6 +6397,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         templatesBtn.className = "page-filter-btn" + (current === "Templates" ? " active" : "");
         templatesBtn.textContent = "Templates";
         templatesBtn.addEventListener("click", () => navigate("Templates"));
+        pageControlsEl.appendChild(fixMessageBtn);
         pageControlsEl.appendChild(customBuilderBtn);
         pageControlsEl.appendChild(templatesBtn);
       }
@@ -6538,7 +6441,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
               </button>
               <button type="button" class="home-task-btn" data-nav="Manage Jobs">
                 <strong>Manage Jobs</strong>
-                <span>Customer updates and message fixes while jobs run.</span>
+                <span>Customer updates while jobs run.</span>
               </button>
               <button type="button" class="home-task-btn" data-nav="Get Paid">
                 <strong>Get Paid</strong>
@@ -6549,7 +6452,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
                 <span>Reviews, referrals, and enquiry growth prompts.</span>
               </button>
             </div>
-            <p class="home-value-note">Handle your quotes, invoices, and customer updates without the headache of writing them from scratch. Choose a job card, enter your details, and instantly generate an AI-powered message that sounds exactly like you.</p>
           </div>
         `;
         homeBody.querySelector("#homeSetDefaultsBtn")?.addEventListener("click", () => openSettings());
@@ -6566,8 +6468,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
       if (current === "Manage Jobs") {
         cardsToRender = [];
         [
-          { label: "Job Updates", key: "Job Updates" },
-          { label: "Fix My Message", key: "Fix My Message" }
+          { label: "Job Updates", key: "Job Updates" }
         ].forEach((group) => {
           (APP[group.key]?.cards || []).forEach((card) => {
             cardsToRender.push(Object.assign({}, card, {
@@ -6591,6 +6492,13 @@ $("cb-submit-btn").addEventListener("click", async () => {
             }));
           });
         });
+      }
+
+      // ── Fix My Message (under Tools) ──
+      if (current === "Fix My Message") {
+        cardsToRender = (APP["Fix My Message"]?.cards || []).map((card) =>
+          Object.assign({}, card, { __category: "Fix My Message" })
+        );
       }
 
       // ── Custom Builder / Custom Tools ──
@@ -6630,7 +6538,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
             <p class="workspace-muted">Use this area to quickly access saved cards and browse the full prompt index.</p>
             <div class="home-cta-row">
               <button type="button" class="home-cta-btn" id="workspaceSavedFilterBtn">${savedOnlyFilter ? "★ Saved only is ON" : "★ Turn on Saved only"}</button>
-              <button type="button" class="home-cta-btn" id="workspaceBuilderBtn">Open Custom Tools</button>
+              <button type="button" class="home-cta-btn" id="workspaceBuilderBtn">Open Tools</button>
             </div>
             <div class="workspace-panel">
               <h4>Saved cards</h4>
@@ -6795,7 +6703,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           const backBuilderBtn = document.createElement("button");
           backBuilderBtn.type = "button";
           backBuilderBtn.className = "favourite-btn cb-card-top-btn";
-          backBuilderBtn.textContent = "Custom Tools";
+          backBuilderBtn.textContent = "Tools";
           backBuilderBtn.addEventListener("click", (e) => {
             e.stopPropagation();
             navigate("Custom Tools");
@@ -7815,6 +7723,11 @@ $("cb-submit-btn").addEventListener("click", async () => {
     });
 
     document.getElementById("footerLogoutBtn")?.addEventListener("click", async () => {
+      if (window.__supabase) await window.__supabase.auth.signOut();
+      window.location.replace("./login.html");
+    });
+
+    document.getElementById("headerLogoutBtn")?.addEventListener("click", async () => {
       if (window.__supabase) await window.__supabase.auth.signOut();
       window.location.replace("./login.html");
     });
