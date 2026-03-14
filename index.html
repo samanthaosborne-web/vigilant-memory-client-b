@@ -3837,6 +3837,7 @@
             return;
           }
           document.body.classList.remove("auth-pending");
+          window.__currentUserId = data.session.user.id;
         })
         .catch(() => {
           window.location.replace("./login.html");
@@ -8114,10 +8115,24 @@ $("cb-submit-btn").addEventListener("click", async () => {
     globalBizNameInput.addEventListener("input", handleGlobalDefaultsChange);
 
     // --- ONBOARDING ---
+    function hasUserCompletedOnboarding() {
+      var prefs = readPrefs();
+      var uid = window.__currentUserId || "";
+      if (!uid) return prefs.onboardingComplete || prefs.onboardingDismissed || prefs.hasVisited;
+      var done = prefs.onboardedUsers || [];
+      return done.indexOf(uid) !== -1;
+    }
+
+    function markUserOnboardingComplete() {
+      var prefs = readPrefs();
+      var uid = window.__currentUserId || "";
+      var done = prefs.onboardedUsers || [];
+      if (uid && done.indexOf(uid) === -1) done.push(uid);
+      writePrefs({ onboardingComplete: true, hasVisited: true, onboardingDismissed: true, onboardedUsers: done });
+    }
+
     function initOnboarding() {
-      const prefs = readPrefs();
-      if (prefs.onboardingComplete || prefs.onboardingDismissed) return;
-      if (prefs.hasVisited) return;
+      if (hasUserCompletedOnboarding()) return;
 
       const overlay = document.getElementById("onboardingOverlay");
       if (!overlay) return;
@@ -8128,7 +8143,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
       const totalCards = Object.values(APP).reduce((n, cat) => n + (cat.cards ? cat.cards.length : 0), 0);
 
       function closeOnboarding(navigateTo) {
-        writePrefs({ onboardingComplete: true, hasVisited: true, onboardingDismissed: true });
+        markUserOnboardingComplete();
         overlay.classList.add("hidden");
         setTimeout(() => {
           overlay.style.display = "none";
@@ -8507,7 +8522,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
     // --- APP INITIALIZATION ---
     const savedPrefs = readPrefs();
-    const isFirstVisit = !savedPrefs.hasVisited;
+    const isFirstVisit = !hasUserCompletedOnboarding();
 
     // Restore global inputs if they exist
     if (savedPrefs.firstName) {
