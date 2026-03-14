@@ -1094,13 +1094,15 @@
       text-align: left;
       font-size: 18px;
       font-weight: 700;
-      color: var(--text-dark);
+      color: #292727;
       font-family: inherit;
-      cursor: pointer;
+      cursor: default;
+      text-decoration: none;
+      pointer-events: none;
     }
     .cb-builder-back-btn:hover {
-      color: var(--accent);
-      text-decoration: underline;
+      color: #292727;
+      text-decoration: none;
     }
 
     .kv {
@@ -4851,7 +4853,7 @@
       if (key === "Win Work") return "Winning Work";
       if (key === "Get Paid") return "Getting Paid";
       if (key === "Job Updates") return "Manage Jobs";
-      if (key === "Fix My Message") return "Custom Tools";
+      if (key === "Fix My Message") return "Fix My Message";
       if (key === "Reviews & Referrals" || key === "Get More Enquiries") return "Grow";
       if (key === "Grow the Business") return "Grow";
       if (key === "Saved tools" || key === "Saved" || key === "Workspace") return "Saved";
@@ -4988,8 +4990,8 @@
           .templates-item-row .templates-field { margin:0; }
           .templates-item-remove { background:none; border:1px solid #d5dbe2; border-radius:8px; width:36px; height:42px; cursor:pointer; color:#6d7e94; font-size:18px; display:flex; align-items:center; justify-content:center; }
           .templates-item-remove:hover { border-color:var(--accent); color:var(--accent); }
-          .templates-add-item-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#6d7e94; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-top:4px; }
-          .templates-add-item-btn:hover { border-color:var(--accent); color:var(--accent); }
+          .templates-add-item-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#292727; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-top:4px; }
+          .templates-add-item-btn:hover { border-color:var(--accent); color:#292727; }
           .templates-inline-link { display:flex; gap:10px; align-items:end; margin-top:6px; margin-bottom:10px; }
           .templates-inline-link .templates-field { flex:1; margin:0; }
           .templates-colour-row { display:flex; gap:10px; align-items:end; margin-top:8px; margin-bottom:10px; }
@@ -5001,8 +5003,8 @@
           .templates-deposit-info { font-size:13px; color:#6d7e94; margin-top:6px; }
           .templates-logo-note { font-size:13px; color:#6d7e94; margin-top:6px; line-height:1.4; }
           .templates-upload-area { margin-top:10px; }
-          .templates-upload-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#6d7e94; font-family:inherit; font-size:14px; cursor:pointer; }
-          .templates-upload-btn:hover { border-color:var(--accent); color:var(--accent); }
+          .templates-upload-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#292727; font-family:inherit; font-size:14px; cursor:pointer; }
+          .templates-upload-btn:hover { border-color:var(--accent); color:#292727; }
           .templates-logo-preview { margin-top:8px; max-width:120px; max-height:80px; border-radius:6px; border:1px solid #d5dbe2; }
           @media (max-width:760px) {
             .templates-grid-2, .templates-grid-3 { grid-template-columns:1fr; }
