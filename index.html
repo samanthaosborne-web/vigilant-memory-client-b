@@ -28,9 +28,9 @@
       /* ── Warm light palette ── */
       --bg: #c3b6a6;
       --text: #292727;
-      --accent: #c7612e;
-      --accent-hover: #b35425;
-      --accent-light: rgba(199, 97, 46, 0.10);
+      --accent: #e75a00;
+      --accent-hover: #241f72;
+      --accent-light: rgba(231, 90, 0, 0.10);
       --surface: #c3b6a6;
       --surface-muted: #b8ab9b;
       --text-dark: #292727;
@@ -88,20 +88,21 @@
       line-height: 1.55;
     }
 
-    /* Global button text colour: #c3b6a6 on accent buttons */
+    /* Global button colours: #fff text on #e75a00 bg (except menu/nav buttons) */
     .reveal-btn, .home-defaults-btn, .home-cta-btn.primary,
     .welcome-primary-btn, .ai-run-now-btn, .ai-run-btn,
     .cb-submit-btn, .onboarding-primary-btn,
     button:not(.menu-item):not(.menu-btn):not(.desktop-nav-btn):not(.page-filter-btn):not(.home-task-btn):not(.home-cta-btn):not(.workspace-index-link):not(.workspace-saved-open):not(.favourite-btn):not(.cb-card-top-btn):not(.cb-load-btn):not(.cb-delete-btn):not(.header-utility-btn):not(.brand-reset-btn):not(.reset-defaults-btn):not(.menu-item-logout) {
-      color: #c3b6a6;
+      color: #ffffff;
     }
-    /* Hover: button background becomes #241f72 (not menu buttons) */
+    /* Hover: button background & border becomes #241f72 */
     .reveal-btn:hover, .home-defaults-btn:hover, .home-cta-btn.primary:hover,
     .welcome-primary-btn:hover, .ai-run-now-btn:hover,
     .cb-submit-btn:hover, .onboarding-primary-btn:hover,
     button:not(.menu-item):not(.menu-btn):not(.desktop-nav-btn):not(.page-filter-btn):not(.home-task-btn):not(.home-cta-btn):not(.workspace-index-link):not(.workspace-saved-open):not(.favourite-btn):not(.cb-card-top-btn):not(.cb-load-btn):not(.cb-delete-btn):not(.header-utility-btn):not(.brand-reset-btn):not(.reset-defaults-btn):not(.menu-item-logout):hover {
       background: #241f72 !important;
-      color: #c3b6a6 !important;
+      border-color: #241f72 !important;
+      color: #ffffff !important;
     }
 
     h1, h2, h3, .page-title, .card-head h3 {
@@ -471,6 +472,7 @@
     }
     .home-defaults-btn:hover {
       background: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
     .welcome-panel {
       background: var(--panel-soft);
@@ -516,14 +518,16 @@
     }
     .welcome-primary-btn:hover {
       background: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
     .welcome-secondary-btn {
-      border: 1px solid var(--border-subtle);
-      background: var(--surface);
-      color: var(--text-dark);
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #ffffff;
     }
     .welcome-secondary-btn:hover {
-      border-color: var(--border-strong);
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
 
     /* ── Task cards grid (home) ── */
@@ -616,25 +620,29 @@
       margin-top: var(--space-1);
     }
     .home-cta-btn {
-      background: var(--surface);
-      color: var(--text-dark);
-      border: 1px solid var(--border-subtle);
+      background: #e75a00;
+      color: #ffffff;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-md);
       padding: 8px 14px;
       font: inherit;
       font-size: var(--font-sm);
       font-weight: 600;
       cursor: pointer;
-      transition: border-color var(--motion-fast), color var(--motion-fast);
-    }
-    .home-cta-btn.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
+      transition: background var(--motion-fast), border-color var(--motion-fast);
     }
     .home-cta-btn:hover {
-      border-color: var(--border-strong);
-      color: var(--accent);
+      background: #241f72;
+      border-color: #241f72;
+    }
+    .home-cta-btn.primary {
+      background: #e75a00;
+      border-color: #e75a00;
+      color: #ffffff;
+    }
+    .home-cta-btn.primary:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
     .workspace-grid {
       display: grid;
@@ -1172,9 +1180,9 @@
     .favourite-btn {
       margin-top: var(--space-3);
       margin-bottom: var(--space-2);
-      background: var(--surface);
-      color: var(--text-muted);
-      border: 1px solid var(--border-subtle);
+      background: #e75a00;
+      color: #ffffff;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
       font-weight: 700;
       padding: 7px 12px;
@@ -1183,8 +1191,8 @@
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
     .favourite-btn:hover {
-      border-color: var(--border-strong);
-      background: var(--surface-muted);
+      background: #241f72;
+      border-color: #241f72;
     }
     .cb-card-top-actions {
       display: flex;
@@ -1203,6 +1211,13 @@
       border-radius: var(--radius-sm);
       width: auto;
       white-space: nowrap;
+      background: #e75a00;
+      color: #ffffff;
+      border: 1px solid #e75a00;
+    }
+    .cb-card-top-btn:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
     .custom-card-footer {
       display: flex;
@@ -1247,9 +1262,10 @@
     }
 
     .reveal-btn:hover {
-      background: var(--accent-hover);
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(199, 97, 46, 0.25);
+      box-shadow: 0 4px 12px rgba(36, 31, 114, 0.25);
     }
 
     .reveal-btn:focus {
@@ -1472,9 +1488,9 @@
     }
 
     .copy-btn {
-      background: var(--surface);
-      color: var(--text-muted);
-      border: 1px solid var(--border-subtle);
+      background: #e75a00;
+      color: #ffffff;
+      border: 1px solid #e75a00;
       padding: 7px 14px;
       cursor: pointer;
       font-weight: 700;
@@ -1488,8 +1504,9 @@
     }
 
     .copy-btn:hover {
-      border-color: var(--border-strong);
-      color: var(--text-dark);
+      background: #241f72;
+      border-color: #241f72;
+      color: #ffffff;
     }
 
     .copy-btn:active {
@@ -1579,9 +1596,10 @@
       transition: transform var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast);
     }
     .ai-run-now-btn:hover {
-      background: var(--accent-hover);
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(199,97,46,0.25);
+      box-shadow: 0 4px 12px rgba(36,31,114,0.25);
     }
     .ai-run-now-btn.loading,
     .ai-run-now-btn:disabled {
@@ -1615,8 +1633,9 @@
     }
     .ai-run-btn:hover:not(:disabled) {
       transform: translateY(-1px);
-      background: var(--accent-hover);
-      box-shadow: 0 4px 14px rgba(199,97,46,0.30);
+      background: #241f72;
+      border-color: #241f72;
+      box-shadow: 0 4px 14px rgba(36,31,114,0.30);
     }
     .ai-run-btn:active:not(:disabled) { transform: translateY(0); }
     .ai-run-btn:disabled {
@@ -1672,10 +1691,10 @@
       letter-spacing: 0.5px;
     }
     .ai-copy-response-btn {
-      background: var(--surface-muted);
-      border: 1px solid var(--border-subtle);
+      background: #e75a00;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
-      color: var(--text-muted);
+      color: #ffffff;
       font-family: inherit;
       font-size: var(--font-xs);
       font-weight: 600;
@@ -1684,8 +1703,8 @@
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
     .ai-copy-response-btn:hover {
-      background: var(--surface);
-      border-color: var(--border-strong);
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
     }
     .ai-response-box-actions {
@@ -1970,9 +1989,9 @@
       align-items: center;
       gap: var(--space-2);
       padding: 9px 16px;
-      background: var(--surface);
-      color: var(--text-muted);
-      border: 1px solid var(--border-subtle);
+      background: #e75a00;
+      color: #ffffff;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
       font-size: var(--font-sm);
       font-weight: 700;
@@ -1980,15 +1999,15 @@
       font-family: inherit;
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
-    .cb-save-btn:hover { border-color: var(--border-strong); transform: translateY(-1px); }
+    .cb-save-btn:hover { background: #241f72; border-color: #241f72; transform: translateY(-1px); }
     .cb-submit-btn {
       display: inline-flex;
       align-items: center;
       gap: var(--space-2);
       padding: 9px 16px;
-      background: var(--surface);
-      color: var(--text-muted);
-      border: 1px solid var(--border-strong);
+      background: #e75a00;
+      color: #ffffff;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
       font-size: var(--font-sm);
       font-weight: 700;
@@ -1997,8 +2016,8 @@
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
     }
     .cb-submit-btn:hover {
-      background: var(--surface-muted);
-      border-color: var(--border-strong);
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
     }
     .cb-action-row .cb-submit-btn,
@@ -2009,7 +2028,8 @@
     }
     .cb-action-row .cb-submit-btn:hover,
     .cb-action-row .cb-save-btn:hover {
-      background: var(--accent-hover);
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
     }
     @media (max-width: 640px) {
@@ -2071,29 +2091,29 @@
       padding: 4px 10px;
       border-radius: 7px;
       border: 1px solid #e75a00;
-      color: #e75a00;
-      background: none;
+      color: #ffffff;
+      background: #e75a00;
       cursor: pointer;
       font-family: inherit;
-      transition: transform var(--motion-fast), background var(--motion-fast), color var(--motion-fast);
+      transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
-    .cb-load-btn:hover { background: rgba(231,90,0,0.1); transform: translateY(-1px); }
+    .cb-load-btn:hover { background: #241f72; border-color: #241f72; transform: translateY(-1px); }
     .cb-delete-btn {
       font-size: 12px;
       font-weight: 600;
       padding: 4px 10px;
       border-radius: 7px;
-      border: 1px solid var(--border-strong);
-      color: #94a3b8;
-      background: none;
+      border: 1px solid #e75a00;
+      color: #ffffff;
+      background: #e75a00;
       cursor: pointer;
       font-family: inherit;
-      transition: transform var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast), background var(--motion-fast);
+      transition: transform var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast);
     }
     .cb-delete-btn:hover {
-      border-color: #ef4444;
-      color: #ef4444;
-      background: rgba(239,68,68,0.08);
+      border-color: #241f72;
+      color: #ffffff;
+      background: #241f72;
       transform: translateY(-1px);
     }
 
@@ -2534,7 +2554,8 @@
       transition: background 200ms, opacity 200ms;
     }
     .onboarding-primary-btn:hover {
-      background: var(--accent-hover);
+      background: #241f72;
+      border-color: #241f72;
     }
     .onboarding-primary-btn:disabled {
       opacity: 0.5;
@@ -2790,7 +2811,7 @@
     :root {
       --bg: #ececeb;
       --text: #18181a;
-      --accent: #dc6d47;
+      --accent: #e75a00;
       --charcoal: #18181a;
       --surface: #f2eee8;
       --surface-muted: #ece7e1;
@@ -2938,9 +2959,9 @@
     .action-secondary,
     .cb-secondary-btn,
     .template-secondary-btn {
-      background: var(--surface);
-      border-color: var(--border-subtle);
-      color: var(--text-dark);
+      background: #e75a00;
+      border-color: #e75a00;
+      color: #ffffff;
     }
 
     .grid {
@@ -3014,7 +3035,14 @@
     .favourite-btn,
     .reveal-btn,
     .cb-load-btn,
-    .cb-delete-btn,
+    .cb-delete-btn {
+      border-radius: 999px;
+      border: 1px solid #e75a00;
+      background: #e75a00;
+      color: #ffffff;
+      box-shadow: none;
+      text-decoration: none;
+    }
     .workspace-index-link {
       border-radius: 999px;
       border: none;
@@ -3028,7 +3056,11 @@
     .favourite-btn:hover,
     .reveal-btn:hover,
     .cb-load-btn:hover,
-    .cb-delete-btn:hover,
+    .cb-delete-btn:hover {
+      border: 1px solid #241f72;
+      background: #241f72;
+      color: #ffffff;
+    }
     .workspace-index-link:hover {
       border: none;
       color: var(--accent);
@@ -3384,7 +3416,7 @@
     :root {
       --bg: #e6e3de;
       --text: #17181b;
-      --accent: #e06000;
+      --accent: #e75a00;
       --surface: #ece8e1;
       --surface-muted: #e3ded5;
       --text-dark: #17181b;

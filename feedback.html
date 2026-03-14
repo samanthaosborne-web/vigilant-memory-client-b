@@ -89,20 +89,29 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid var(--accent);
-      background: var(--accent);
-      color: #241f72;
+      border: 2px solid #e75a00;
+      background: #e75a00;
+      color: #ffffff;
       border-radius: 10px;
       padding: 10px 14px;
       font: inherit;
       font-weight: 700;
       text-decoration: none;
       cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    button:hover, a.btn:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
     a.btn.secondary {
-      background: var(--text-dark);
-      border-color: var(--text-dark);
-      color: var(--bg);
+      background: #e75a00;
+      border-color: #e75a00;
+      color: #ffffff;
+    }
+    a.btn.secondary:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
     .status {
       min-height: 20px;

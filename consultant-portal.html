@@ -439,20 +439,29 @@
       margin-top: 12px;
     }
     .cp-settings-btn {
-      border: 1px solid var(--border-subtle);
+      border: 1px solid #e75a00;
       border-radius: 8px;
       padding: 8px 16px;
       font: inherit;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      background: var(--surface);
-      color: var(--text-muted);
+      background: #e75a00;
+      color: #ffffff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .cp-settings-btn:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
     .cp-settings-btn.primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #241f72;
+      background: #e75a00;
+      border-color: #e75a00;
+      color: #ffffff;
+    }
+    .cp-settings-btn.primary:hover {
+      background: #241f72;
+      border-color: #241f72;
     }
     .cp-preview-section {
       margin-top: 16px;

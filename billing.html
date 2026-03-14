@@ -184,9 +184,9 @@
     }
 
     button {
-      background: var(--accent);
-      color: #241f72;
-      border: 1px solid var(--accent);
+      background: #e75a00;
+      color: #ffffff;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
       padding: 9px 16px;
       font: inherit;
@@ -194,11 +194,12 @@
       font-weight: 700;
       cursor: pointer;
       box-shadow: var(--shadow-sm);
-      transition: background 0.15s;
+      transition: background 0.15s, border-color 0.15s;
     }
 
     button:hover {
-      background: var(--accent-hover);
+      background: #241f72;
+      border-color: #241f72;
     }
 
     button:disabled {
@@ -214,13 +215,14 @@
     }
 
     .btn-secondary {
-      background: var(--surface);
-      color: var(--accent);
-      border-color: var(--border-subtle);
+      background: #e75a00;
+      color: #ffffff;
+      border-color: #e75a00;
     }
 
     .btn-secondary:hover {
-      border-color: var(--accent);
+      background: #241f72;
+      border-color: #241f72;
     }
 
     .message {
