@@ -18,12 +18,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f9faff;
-      --surface: #f9faff;
-      --accent: #e75a00;
-      --text-dark: #313131;
-      --text-muted: #555;
-      --text-light: #f9faff;
+      --bg: #f0eeeb;
+      --surface: #f7f6f3;
+      --card-bg: #ece9e4;
+      --accent: #c7612e;
+      --accent-hover: #b35425;
+      --text-dark: #2d2a26;
+      --text-muted: #7a756e;
+      --text-light: #a39e96;
+      --border-subtle: #ddd9d3;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --shadow-sm: 0 1px 2px rgba(45, 42, 38, 0.06);
+      --shadow-md: 0 4px 12px rgba(45, 42, 38, 0.08);
     }
 
     * { box-sizing: border-box; }
@@ -36,43 +43,48 @@
       padding: 24px;
       font-family: "Roboto", system-ui, sans-serif;
       background: var(--bg);
-      color: var(--text-light);
+      color: var(--text-dark);
     }
 
     .auth-card {
-      width: min(740px, 100%);
+      width: min(560px, 100%);
       background: var(--surface);
       color: var(--text-dark);
-      border: 4px solid var(--accent);
-      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
       padding: 28px;
-      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+      box-shadow: var(--shadow-md);
     }
 
     .form-shell {
-      max-width: 560px;
+      max-width: 480px;
       width: 100%;
     }
 
-    h1 { margin: 0 0 8px; color: var(--accent); font-size: clamp(34px, 5vw, 50px); line-height: 1; }
-    .sub { margin: 0 0 20px; font-size: 15px; color: var(--text-muted); }
-    form { display: grid; gap: 16px; }
-    label { display: grid; gap: 7px; font-size: 14px; font-weight: 700; color: var(--accent); line-height: 1; }
+    h1 { margin: 0 0 6px; color: var(--text-dark); font-size: clamp(24px, 4vw, 32px); line-height: 1.1; }
+    .sub { margin: 0 0 20px; font-size: 14px; color: var(--text-muted); }
+    form { display: grid; gap: 14px; }
+    label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: var(--text-muted); line-height: 1; }
     input {
       width: 100%;
-      border: 3px solid var(--text-dark);
-      border-radius: 16px;
-      padding: 12px 14px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
       font: inherit;
-      font-size: 20px;
+      font-size: 16px;
       color: var(--text-dark);
       background: var(--surface);
     }
 
+    input:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
     .field-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--text-muted);
       line-height: 1;
       margin-top: 2px;
     }
@@ -80,27 +92,32 @@
     .forgot-row {
       display: flex;
       justify-content: flex-end;
-      margin-top: -6px;
+      margin-top: -4px;
     }
 
     .forgot-link {
       color: var(--accent);
-      font-weight: 700;
-      font-size: 16px;
+      font-weight: 600;
+      font-size: 13px;
     }
 
     button {
       justify-self: start;
       background: var(--accent);
-      border: 2px solid var(--accent);
-      border-radius: 14px;
-      color: var(--text-light);
-      padding: 12px 26px;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
+      color: #fff;
+      padding: 10px 20px;
       font: inherit;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 15px;
       cursor: pointer;
-      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.24);
+      box-shadow: var(--shadow-sm);
+      transition: background 0.15s;
+    }
+
+    button:hover {
+      background: var(--accent-hover);
     }
 
     button:disabled {
@@ -108,48 +125,47 @@
       cursor: default;
     }
 
-    .status { min-height: 20px; font-size: 14px; font-weight: 600; }
+    .status { min-height: 18px; font-size: 13px; font-weight: 600; }
     .status.error { color: #b30000; }
-    .links { margin-top: 14px; font-size: 16px; color: var(--text-dark); }
-    a { color: var(--accent); font-weight: 700; }
+    .links { margin-top: 14px; font-size: 14px; color: var(--text-muted); }
+    a { color: var(--accent); font-weight: 600; }
 
     .portal-toggle {
       display: flex;
       gap: 0;
       margin-bottom: 20px;
-      border: 2px solid var(--accent);
-      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
       overflow: hidden;
     }
     .portal-toggle-btn {
       flex: 1;
-      padding: 12px 16px;
+      padding: 10px 14px;
       font: inherit;
       font-weight: 700;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
       border: none;
       border-radius: 0;
       box-shadow: none;
-      background: #fff;
-      color: var(--text-dark);
+      background: var(--surface);
+      color: var(--text-muted);
       transition: background 0.15s, color 0.15s;
     }
     .portal-toggle-btn.active {
       background: var(--accent);
-      color: var(--text-light);
+      color: #fff;
     }
     .portal-toggle-btn:not(.active):hover {
-      background: #fff3ec;
+      background: var(--card-bg);
     }
 
     @media (max-width: 640px) {
-      .auth-card { padding: 18px; }
-      h1 { font-size: 34px; }
-      .sub { font-size: 14px; }
-      .field-title { font-size: 14px; }
-      input { font-size: 16px; padding: 10px 12px; border-width: 2px; }
-      button { font-size: 18px; padding: 10px 18px; }
+      .auth-card { padding: 20px; }
+      h1 { font-size: 24px; }
+      .sub { font-size: 13px; }
+      input { font-size: 16px; padding: 10px 12px; }
+      button { font-size: 15px; padding: 10px 18px; }
     }
   </style>
 </head>
@@ -181,16 +197,16 @@
       </form>
 
       <div id="mfaSection" style="display:none;">
-        <h2 style="color:var(--accent); margin:0 0 8px;">Check your email</h2>
-        <p style="font-size:14px; color:var(--text-muted); margin:0 0 16px;">We've sent a 6-digit verification code to your email address. Enter it below to complete sign-in.</p>
-        <form id="mfaForm" style="display:grid; gap:16px;">
+        <h2 style="color:var(--text-dark); margin:0 0 6px; font-size:20px;">Check your email</h2>
+        <p style="font-size:13px; color:var(--text-muted); margin:0 0 14px;">We've sent a 6-digit verification code to your email address. Enter it below to complete sign-in.</p>
+        <form id="mfaForm" style="display:grid; gap:14px;">
           <label for="mfaCode">
             <span class="field-title">Verification Code</span>
             <input id="mfaCode" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="000000" required style="letter-spacing:0.3em; text-align:center;" />
           </label>
-          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
             <button id="mfaVerifyBtn" type="submit">Verify</button>
-            <button id="resendBtn" type="button" style="background:#fff; color:var(--accent); font-size:16px; padding:10px 18px;">Resend code</button>
+            <button id="resendBtn" type="button" style="background:var(--surface); color:var(--accent); border-color:var(--border-subtle); font-size:14px; padding:10px 16px;">Resend code</button>
           </div>
         </form>
       </div>
