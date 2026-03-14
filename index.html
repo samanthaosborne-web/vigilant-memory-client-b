@@ -1057,39 +1057,6 @@
       }
     }
 
-    /* ── Compact view ── */
-    .grid-compact { gap: var(--space-2); }
-    .grid-compact .card { grid-column: span 12; }
-
-    @media (min-width: 640px) {
-      .grid-compact .card { grid-column: span 6; }
-    }
-    @media (min-width: 860px) {
-      .grid-compact .card { grid-column: span 4; }
-    }
-
-    .grid-compact .card:not(.open) .card-head {
-      padding: 10px var(--space-3);
-      border-bottom: none;
-    }
-    .grid-compact .card:not(.open) .card-head h3 {
-      font-size: var(--font-md);
-      margin-bottom: var(--space-1);
-    }
-    .grid-compact .card:not(.open) .card-subline {
-      margin-bottom: 2px;
-      font-size: var(--font-xs);
-    }
-    .grid-compact .card:not(.open) .card-when {
-      margin-bottom: 0;
-      font-size: 11px;
-    }
-    .grid-compact .card:not(.open) .cb-card-top-actions { display: none; }
-    .grid-compact .card:not(.open) .reveal-btn { display: none; }
-    .grid-compact .card:not(.open) .kv { display: none; }
-    .grid-compact .card.open { grid-column: span 12; }
-    .grid-compact .card-group-heading { grid-column: span 12; }
-
     .card.open {
       background: var(--card-bg);
       box-shadow: var(--shadow-md);
@@ -3181,77 +3148,6 @@
       background: transparent;
     }
 
-    .grid-compact {
-      gap: 16px;
-    }
-
-    .grid-compact .card {
-      background: var(--card-bg);
-    }
-
-    @media (min-width: 640px) {
-      .grid-compact .card { grid-column: span 6; }
-    }
-
-    @media (min-width: 980px) {
-      .grid-compact .card { grid-column: span 4; }
-    }
-
-    .grid-compact .card:not(.open) .card-head {
-      padding: 16px 16px 14px;
-      min-height: 158px;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 0;
-    }
-
-    .grid-compact .card:not(.open) .cb-card-top-actions {
-      display: flex;
-      margin-bottom: 12px;
-    }
-
-    .grid-compact .card:not(.open) .cb-card-top-btn,
-    .grid-compact .card:not(.open) .favourite-btn {
-      padding: 8px 12px;
-      font-size: 12px;
-    }
-
-    .grid-compact .card:not(.open) .card-head h3 {
-      font-size: 18px;
-      margin: 0 0 8px;
-      line-height: 1.2;
-    }
-
-    .grid-compact .card:not(.open) .card-subline {
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      min-height: 40px;
-      margin: 0 0 8px;
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .grid-compact .card:not(.open) .card-when {
-      font-size: 12px;
-      line-height: 1.35;
-      min-height: 32px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .grid-compact .card:not(.open) .kv,
-    .grid-compact .card:not(.open) .reveal-btn {
-      display: none;
-    }
-
-    .grid-compact .card.open {
-      grid-column: 1 / -1;
-    }
-
     .cb-saved-section {
       border-top: 1px solid var(--border-subtle);
       padding-top: 18px;
@@ -3297,10 +3193,6 @@
 
       .workspace-saved-open {
         width: 100%;
-      }
-
-      .grid-compact .card:not(.open) .card-head {
-        min-height: 0;
       }
     }
 
@@ -3706,33 +3598,6 @@
       gap: 18px;
     }
 
-    .grid-compact {
-      gap: 12px;
-    }
-
-    .grid-compact .card:not(.open) {
-      min-height: 136px;
-    }
-
-    .grid-compact .card:not(.open) .card-head {
-      padding: 16px 16px 14px;
-      gap: 8px;
-      min-height: 0;
-    }
-
-    .grid-compact .card:not(.open) .card-head h3 {
-      font-size: 18px;
-      line-height: 1.22;
-      margin: 0;
-    }
-
-    .grid-compact .card:not(.open) .card-subline,
-    .grid-compact .card:not(.open) .card-when {
-      font-size: 14px;
-      line-height: 1.4;
-      color: #7c7367;
-    }
-
     footer {
       padding: 6px 20px 28px;
     }
@@ -3904,44 +3769,7 @@
         </div>
       </div>
 
-      <div class="settings-section">
-        <div class="settings-section-label">Consultant branding</div>
-        <p class="app-settings-sub">Customise how the app looks for your clients. Changes apply to this browser only.</p>
-
-        <div class="brand-fields">
-          <div class="global-field">
-            <label for="brandDisplayName">Display name <span class="brand-hint">(replaces header tagline)</span></label>
-            <input type="text" id="brandDisplayName" placeholder="e.g. Tradie Growth Co" />
-          </div>
-          <div class="global-field">
-            <label for="brandLogoUrl">Logo URL <span class="brand-hint">(direct image link — PNG or SVG)</span></label>
-            <input type="url" id="brandLogoUrl" placeholder="https://example.com/logo.png" />
-          </div>
-          <div class="brand-colour-row">
-            <label for="brandAccentColour">Accent colour</label>
-            <div class="brand-colour-input-wrap">
-              <input type="color" id="brandAccentColour" value="#e75a00" class="brand-colour-picker" />
-              <input type="text" id="brandAccentHex" placeholder="#e75a00" maxlength="7" class="brand-colour-hex" />
-            </div>
-          </div>
-        </div>
-
-        <div class="brand-preview">
-          <div class="brand-preview-label">Preview</div>
-          <div class="brand-preview-header" id="brandPreviewHeader">
-            <img class="brand-preview-logo" id="brandPreviewLogo" src="./Advisastacks Logo White.png" alt="" />
-            <div class="brand-preview-name" id="brandPreviewName">The Ultimate Toolkit for Tradies</div>
-          </div>
-          <div class="brand-preview-accent" id="brandPreviewAccent"></div>
-        </div>
-
-        <div class="brand-actions">
-          <button type="button" class="brand-reset-btn" id="brandResetBtn">Reset to default branding</button>
-        </div>
-      </div>
-
       <div class="app-settings-actions">
-        <button type="button" class="cb-submit-btn" id="resetDefaultsBtn">Reset defaults</button>
         <button type="button" class="cb-submit-btn" id="appSettingsCloseBtn">Close</button>
       </div>
     </div>
@@ -4244,36 +4072,6 @@
             "example": {"input":"Email · Good/Better/Best · James · outdoor lighting","output":[{"label":"Version 1","text":"Hi James,\n\nAs discussed, here are three options for the outdoor lighting:\n\nGood — $1,200: 4x LED floodlights on existing circuits, basic timer switch.\n\nBetter — $1,800: 6x LED floodlights, dedicated circuit, smart timer you can control from your phone.\n\nBest — $2,600: Full landscape lighting package (8 fittings), dedicated circuit, smart control, plus sensor lights at the front entry.\n\nAll options include labour, materials and a compliance certificate. Most customers go with the Better option. Let me know which suits and I’ll get you booked in.\n\nCheers,\nMatt — Cooper Electrical"}]}
           },
           {
-            "subtitle": "Invoice Reminder (Firm — 7+ days overdue)",
-            "chatbot": "AI assistant",
-            "front": {
-              "when": "7+ days overdue or multiple follow-ups.",
-              "goodFor": "Clients stalling.",
-              "roi": "Protects cashflow, reduces time chasing.",
-              "tip": "Be calm + specific. Ask for a payment time."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Firm", "Very firm"]
-                },
-                {
-                  "label": "Next step",
-                  "options": ["Pay today", "Confirm payment time", "Call required"]
-                }
-              ],
-              "fields": ["[Client name]", "[Invoice #]", "[Amount]", "[Due date]", "[X days]", "[Payment link or bank details]"]
-            },
-            "prompts": [
-              "Write a [Channel]. Situation: Invoice is [X days] overdue and I need a clear payment time.\n\nTone: [Tone]. Calm, professional. No threats, no AI language.\n\nDetails:\nClient: [Client name]\nInvoice: [Invoice #]\nAmount: [Amount]\nDue date: [Due date]\nPayment info: [Payment link or bank details]\n\nWrite a message that:\n- states the invoice is overdue\n- asks for: [Next step]\n- is firm but not rude\n- includes one clear call to action\n\nReturn 2 versions."
-            ],
-            "example": {"input":"SMS · Friendly · Ben · INV-0042 · $1,450","output":[{"label":"Version 1","text":"Hi Ben, just a quick reminder that invoice #INV-0042 for $1,450 was due a couple of days ago. No stress — it might’ve slipped through. You can pay via bank transfer or the link in the invoice. Let me know if there are any questions. Cheers, Matt"},{"label":"Version 2","text":"Hey Ben, friendly heads up — invoice #INV-0042 ($1,450) is now a couple of days past due. Just wanted to make sure it’s on your radar. Payment details are in the invoice. Give me a shout if anything needs sorting. Matt"}]}
-          },
-          {
             "subtitle": "Final Notice (Still professional)",
             "chatbot": "AI assistant",
             "front": {
@@ -4326,63 +4124,7 @@
             "example": {"input":"Email · Mark · INV-0031 · $4,100 · 30 days overdue","output":[{"label":"Version 1","text":"Hi Mark,\n\nThis is a final notice regarding invoice #INV-0031 for $4,100, which is now 30 days overdue.\n\nI’ve sent two previous reminders and haven’t heard back. I’d like to resolve this directly before taking further steps.\n\nPlease arrange payment within 7 days or contact me to discuss a payment plan. I’m happy to work something out, but I do need a response.\n\nRegards,\nMatt — Cooper Electrical\nABN: 37 131 434 727"}]}
           },
           {
-            "subtitle": "Progress Payment Request (Mid-job)",
-            "chatbot": "AI assistant",
-            "front": {
-              "when": "Milestone reached, staged payments.",
-              "goodFor": "Larger jobs, multi-day work.",
-              "roi": "Stops cashflow crunch mid-job.",
-              "tip": "Tie it to progress and next steps."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Milestone",
-                  "options": ["Rough-in complete", "Materials delivered", "Day X complete"]
-                }
-              ],
-              "fields": ["[Client name]", "[Job type]", "[Amount]", "[Today / date]", "[Payment link or bank details]"]
-            },
-            "prompts": [
-              "Write a [Channel] requesting a progress payment.\n\nTone: Direct but polite. No AI language.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nMilestone completed: [Milestone]\nProgress payment amount: [Amount]\nDue: [Today / date]\nPayment info: [Payment link or bank details]\n\nWrite a message that:\n- confirms milestone completed\n- requests the progress payment\n- states what’s next once paid (continue work / schedule next stage)\n\nReturn 2 versions."
-            ],
-            "example": {"input":"SMS · Both · Emma · pool house wiring · 30% · $900","output":[{"label":"Version 1","text":"Hi Emma, great news — the pool house wiring job is locked in! To confirm your booking and order materials, I just need a 30% deposit of $900. You can pay by bank transfer to: Cooper Electrical, BSB 062-000, Acc 1234 5678. Once that’s through I’ll confirm your start date. Cheers, Matt"},{"label":"Version 2","text":"Hey Emma, thanks for going ahead with the pool house job. To get you booked in and order the parts, there’s a 30% deposit of $900. Bank details: Cooper Electrical, BSB 062-000, Acc 1234 5678. I’ll confirm the schedule as soon as it comes through. Matt"}]}
-          },
-          {
-            "subtitle": "Payment Terms (Set expectations upfront)",
-            "chatbot": "AI assistant",
-            "front": {
-              "when": "Before starting work / sending quote.",
-              "goodFor": "Reducing disputes later.",
-              "roi": "Fewer late payments.",
-              "tip": "Keep it simple: due date, method, late fees (if used)."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Where used",
-                  "options": ["Quote", "Invoice", "Booking confirmation"]
-                },
-                {
-                  "label": "Terms",
-                  "options": ["Due on completion", "7 days", "Deposit required"]
-                },
-                {
-                  "label": "Late policy",
-                  "options": ["Late fee", "Pause work", "None"]
-                }
-              ],
-              "fields": ["[card/bank transfer/etc]"]
-            },
-            "prompts": [
-              "Write a short “Payment Terms” section.\n\nWhere this will appear: [Where used]\nTerms: [Terms]\nAccepted payment methods: [card/bank transfer/etc]\nLate policy (optional): [Late policy]\n\nMake it plain English, short, and easy to understand.\nReturn:\n- a short version (3–4 lines)\n- a longer version (6–8 lines)"
-            ],
-            "example": {"input":"SMS · Rough-in complete · Phil · commercial fitout · $5,200","output":[{"label":"Version 1","text":"Hi Phil, quick update — the rough-in is now complete on the commercial fitout. As per our agreement, the progress payment of $5,200 is now due. Bank details: Cooper Electrical, BSB 062-000, Acc 1234 5678. Once that’s sorted I’ll get the next stage underway. Cheers, Matt"},{"label":"Version 2","text":"Hey Phil, rough-in is done and looking good. The progress payment of $5,200 is due at this stage. Payment to: BSB 062-000, Acc 1234 5678 (Cooper Electrical). I’ll kick off the next phase once it’s through. Matt"}]}
-          },
-          {
-            "subtitle": "Reply to “I’ll pay next week”",
+            “subtitle”: “Reply to “I’ll pay next week””,
             "chatbot": "AI assistant",
             "front": {
               "when": "They acknowledge but delay.",
@@ -4558,33 +4300,6 @@
             "example": {"input":"SMS · Friendly · Helen · 30 mins · previous job ran over","output":[{"label":"Version 1","text":"Hi Helen, really sorry but I’m running about 30 minutes behind — the previous job ran over a bit. I’ll be there as soon as I can. Apologies for the delay. Matt"},{"label":"Version 2","text":"Hey Helen, heads up — I’m running about 30 mins late, the last job took a bit longer than expected. On my way shortly. Sorry about that! Matt"}]}
           },
           {
-            "subtitle": "Job Update During Work",
-            "chatbot": "AI assistant",
-            "front": {
-              "outcome": "Let the customer know what’s happening on site.",
-              "when": "End of day on a multi-day job, or if the client isn't on site.",
-              "goodFor": "Showing progress and proving value.",
-              "roi": "Massive trust boost, stops them nagging.",
-              "tip": "Highlight what's done, what's next, and any roadblocks."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Roadblocks",
-                  "options": ["None", "Need a decision", "Need site access"]
-                }
-              ],
-              "fields": ["[Client name]", "[Completed today]", "[Plan for tomorrow]"]
-            },
-            "prompts": [
-              "Write a [Channel] update.\n\nSituation: Updating the client on today's progress.\n\nDetails:\nClient: [Client name]\nDone today: [Completed today]\nPlan for tomorrow: [Plan for tomorrow]\nRoadblocks: [Roadblocks]\n\nRules:\n- No AI language\n- Plain English\n- Dot points are good for readability.\n\nReturn 2 versions."
-            ],
-            "example": {"input":"SMS · Friendly · Andrew · Wednesday · parts on backorder","output":[{"label":"Version 1","text":"Hi Andrew, just letting you know I need to push our Wednesday job back — the switchboard parts are on backorder and I don’t want to start without the right gear. I’ll let you know as soon as they’re in and we’ll rebook. Sorry for the inconvenience. Matt"},{"label":"Version 2","text":"Hey Andrew, unfortunately I need to reschedule Wednesday. The parts I ordered are on backorder and I’d rather wait than use a substitute. I’ll be in touch as soon as they arrive. Apologies, Matt"}]}
-          },
-          {
             "subtitle": "Job Complete Message",
             "chatbot": "AI assistant",
             "front": {
@@ -4610,37 +4325,6 @@
               "Write a [Channel].\n\nSituation: Job is finished and we have left the site.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nNext step: [Next step]\n\nRules:\n- Friendly, proud of the work\n- Plain English\n- No AI language\n\nReturn 2 versions."
             ],
             "example": {"input":"SMS · Friendly · Rob · found old wiring that needs replacing","output":[{"label":"Version 1","text":"Hi Rob, quick update while I’m on site — I’ve found some old wiring behind the wall that’s not up to current standards. I’d recommend replacing it while I’m here. It’ll add about $350 and an extra hour. Let me know if you’re happy to go ahead. Matt"},{"label":"Version 2","text":"Hey Rob, just found some dodgy wiring behind the wall that really should be replaced for safety. Extra cost would be around $350. Want me to sort it while I’m here? Much cheaper than coming back later. Matt"}]}
-          },
-          {
-            "subtitle": "Request Info Before Arrival",
-            "chatbot": "AI assistant",
-            "front": {
-              "outcome": "Ask for photos, access details, or measurements.",
-              "when": "When you need details before you can quote or start.",
-              "goodFor": "Stopping blind call-outs.",
-              "roi": "Saves fuel and time.",
-              "tip": "Tell them exactly what to photograph or measure."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Helpful", "Direct"]
-                },
-                {
-                  "label": "Needed",
-                  "options": ["Site photos", "Measurements", "Access code"]
-                }
-              ],
-              "fields": ["[Client name]", "[Job type]"]
-            },
-            "prompts": [
-              "Write a [Channel].\n\nSituation: Need more info before arriving.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nInfo needed: [Needed]\nTone: [Tone]\n\nRules:\n- Plain English\n- No AI language\n- Explain that providing this helps us prepare better and faster.\n\nReturn 2 versions."
-            ],
-            "example": {"input":"SMS · Friendly · Jess · downlight installation","output":[{"label":"Version 1","text":"Hi Jess, all done! The downlights are in and everything’s tested and working. I’ve tidied up and locked the front door behind me. Invoice will come through shortly. Let me know if you have any questions. Cheers, Matt"},{"label":"Version 2","text":"Hey Jess, job’s wrapped up — downlights are all installed and tested. Left everything clean and tidy. I’ll send the invoice through today. Give me a shout if you need anything. Matt"}]}
           },
           {
             "subtitle": "Set Expectations (Scope / Access / Prep)",
@@ -4674,36 +4358,6 @@
       "Reviews & Referrals": {
         "title": "Reviews & Referrals",
         "cards": [{
-            "subtitle": "Google Review Request (Same day)",
-            "chatbot": "AI assistant",
-            "front": {
-              "when": "Right after you finish the job (best conversion).",
-              "goodFor": "Happy customers on-site.",
-              "roi": "More reviews, more enquiries.",
-              "tip": "Keep it short. Include the link."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Direct"]
-                },
-                {
-                  "label": "Include",
-                  "options": ["Link only", "Suggest what to mention", "Both"]
-                }
-              ],
-              "fields": ["[Client name]", "[Job type]", "[Review link]", "[what you did / outcome]"]
-            },
-            "prompts": [
-              "Write a [Channel] asking for a Google review.\n\nTone: [Tone]. No AI language. Keep it short.\n\nDetails:\nClient: [Client name]\nJob: [Job type]\nOne-line result (optional): [what you did / outcome]\nGoogle review link: [Review link]\nInclude: [Include]\n\nWrite a message that:\n- thanks them\n- asks for a quick Google review\n- includes the link\n- optional: suggests 1–2 things they could mention (punctual, tidy, quality, communication)\n\nReturn 2 versions."
-            ],
-            "example": {"input":"Email · Power off · move cars · Paul · switchboard upgrade","output":[{"label":"Version 1","text":"Hi Paul,\n\nJust a heads up ahead of the switchboard upgrade on Thursday.\n\nThe power will need to be off for around 3–4 hours during the work. I’d recommend charging devices beforehand and if possible, moving any cars out of the garage so I’ve got clear access to the meter box.\n\nI’ll let you know once everything’s back up and running.\n\nCheers,\nMatt — Cooper Electrical"},{"label":"Version 2","text":"Hi Paul,\n\nQuick note about Thursday’s switchboard job: the power will be off for roughly 3–4 hours. If you can clear the garage and move any cars from the driveway before I arrive, that’ll help things run smoothly.\n\nI’ll keep you posted on timing on the day.\n\nCheers,\nMatt"}]}
-          },
-          {
             "subtitle": "Ask for a Referral (Without being pushy)",
             "chatbot": "AI assistant",
             "front": {
@@ -4734,33 +4388,7 @@
             "example": {"input":"SMS · Friendly · Link only · Amy · fan installation","output":[{"label":"Version 1","text":"Hi Amy, glad we got the fan sorted for you today! If you’ve got 30 seconds, a quick Google review would really help us out: [review link]. No pressure at all — cheers, Matt"},{"label":"Version 2","text":"Hey Amy, thanks for having us in today. If you’re happy with the work, we’d really appreciate a quick Google review: [review link]. It makes a big difference for a small business. Thanks! Matt"}]}
           },
           {
-            "subtitle": "Review Follow-up (They didn’t do it)",
-            "chatbot": "AI assistant",
-            "front": {
-              "when": "3–7 days after you asked.",
-              "goodFor": "Busy customers who forgot.",
-              "roi": "Converts “intention” into action.",
-              "tip": "One gentle nudge only."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Direct"]
-                }
-              ],
-              "fields": ["[Client name]", "[Review link]"]
-            },
-            "prompts": [
-              "Write a short follow-up [Channel].\n\nContext: I previously asked for a Google review and they haven’t done it yet.\nTone: [Tone]. No AI language. Keep it polite.\n\nDetails:\nClient: [Client name]\nGoogle review link: [Review link]\n\nWrite a message that:\n- is friendly\n- acknowledges they’re busy\n- includes the link again\n- makes it easy to do now\n\nReturn 2 versions."
-            ],
-            "example": {"input":"SMS · Friendly · Neighbour/friend · Grant · electrical work","output":[{"label":"Version 1","text":"Hi Grant, glad you’re happy with the work. If you know anyone — neighbour, mate, family — who might need an electrician, I’d really appreciate you passing on my number: 0412 345 678. Cheers, Matt"},{"label":"Version 2","text":"Hey Grant, really appreciate the kind words. If you happen to know one person who might need electrical work done, feel free to flick them my number: 0412 345 678. Word of mouth means a lot. Matt"}]}
-          },
-          {
-            "subtitle": "Reply to a Negative Review (Calm + professional)",
+            “subtitle”: “Reply to a Negative Review (Calm + professional)”,
             "chatbot": "AI assistant",
             "front": {
               "when": "Negative review appears.",
@@ -4883,70 +4511,6 @@
               "Rewrite this customer review into 3 short testimonial versions.\n\nUse for: [Use for]\nTone: [Tone]\nBusiness: [Business name]\nService type: [Service type]\n\nReview text:\n[PASTE REVIEW]\n\nRules:\n- keep it believable (no hype)\n- keep it short\nReturn:\n1) 1 sentence version\n2) 2 sentence version\n3) 1 punchy version (max 12 words)"
             ],
             "example": {"input":"SMS · Friendly · Brendan","output":[{"label":"Version 1","text":"Hey Brendan, just wanted to say thanks for the referral — really appreciate you thinking of us. We’ll take good care of them. If you ever need anything, you know where to find me. Cheers, Matt"},{"label":"Version 2","text":"Brendan, thanks legend for sending your mate my way. Word of mouth means everything for a small business. I’ll look after them. Cheers, Matt"}]}
-          },
-          {
-            "subtitle": "Ask for Photos of the Job (For socials)",
-            "chatbot": "AI assistant",
-            "front": {
-              "when": "After completing a job (or when customer shares photos).",
-              "goodFor": "Marketing content without effort.",
-              "roi": "Better content, more enquiries.",
-              "tip": "Make it easy: “Can you text them to me?”"
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Direct"]
-                },
-                {
-                  "label": "How to send",
-                  "options": ["Text them to me", "Email them", "Send via message"]
-                },
-                {
-                  "label": "What photos",
-                  "options": ["Before/after", "Finished result", "Install"]
-                }
-              ],
-              "fields": ["[Client name]"]
-            },
-            "prompts": [
-              "Write a [Channel] asking a customer for photos of the completed job.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nWhat photos: [What photos]\nHow to send: [How to send]\n\nWrite a message that:\n- thanks them\n- asks for photos\n- explains it helps the business\nReturn 2 versions."
-            ],
-            "example": {"input":"5-star review from Claire about a ceiling fan install","output":[{"label":"Example output","text":"“Matt was on time, super tidy and the ceiling fan looks great. Would definitely recommend Cooper Electrical.” — Claire, Drummoyne\n\n(Shortened from original Google review. Suitable for website or social media.)"}]}
-          },
-          {
-            "subtitle": "“Can I use this as a case study?” (Permission message)",
-            "chatbot": "AI assistant",
-            "front": {
-              "when": "Great job, you want permission to use it in marketing.",
-              "goodFor": "Compliance + trust.",
-              "roi": "Stronger social proof.",
-              "tip": "Keep it simple and give them an easy yes."
-            },
-            "ui": {
-              "quickInputs": [{
-                  "label": "Channel",
-                  "options": ["SMS", "Email"]
-                },
-                {
-                  "label": "Tone",
-                  "options": ["Friendly", "Professional"]
-                },
-                {
-                  "label": "Permission requested",
-                  "options": ["Photos", "Testimonial", "Both"]
-                }
-              ],
-              "fields": ["[Client name]", "[Job type]"]
-            },
-            "prompts": [
-              "Write a [Channel] asking permission to use a completed job as a case study.\n\nTone: [Tone]. No AI language.\n\nDetails:\nClient: [Client name]\nJob type: [Job type]\nPermission requested: [Permission requested]\n\nWrite a message that:\n- thanks them\n- asks permission clearly\n- reassures them you won’t share private details\n- makes it easy to say yes/no\n\nReturn 2 versions."
-            ],
-            "example": {"input":"SMS · Friendly · Before/after · Sue","output":[{"label":"Version 1","text":"Hi Sue, hope you’re loving the new setup! Would you mind sending through a couple of photos — before and after if you have them? We’d love to share the result on our socials (no personal details). Just text them to this number. Cheers, Matt"},{"label":"Version 2","text":"Hey Sue, quick favour — do you have any before/after photos of the job? Would love to use them on our page to show off the work. Just flick them through to this number whenever suits. Thanks! Matt"}]}
           }
         ]
       },
@@ -5244,7 +4808,6 @@
     };
     let current = "Home";
     let savedOnlyFilter = false;
-    let compactView = false;
     const VOICE_TONE_GUIDE = "Use a straightforward, grounded Australian tone that feels warm, capable, and no fuss. Keep the language natural, clear, and friendly, with a bit of dry wit where it fits.";
     const COMMUNICATION_CATEGORIES = new Set(["Winning Work", "Getting Paid", "Job Updates", "Reviews & Referrals", "Fix My Message"]);
     const PREFS_KEY = "businessToolkitPrefsV1";
@@ -5257,7 +4820,6 @@
 
     const globalFirstNameInput = document.getElementById("globalFirstName");
     const globalBizNameInput = document.getElementById("globalBizName");
-    const resetDefaultsBtn = document.getElementById("resetDefaultsBtn");
 
     function readPrefs() {
       try {
@@ -6948,32 +6510,8 @@ $("cb-submit-btn").addEventListener("click", async () => {
         });
         pageControlsEl.appendChild(savedFilterBtn);
       }
-      if (filterEligibleCategories.includes(current)) {
-        const compactToggle = document.createElement("button");
-        compactToggle.type = "button";
-        compactToggle.className = "page-filter-btn" + (compactView ? " active" : "");
-        compactToggle.textContent = "▤ Compact view";
-        if (compactView) compactToggle.classList.add("active");
-        compactToggle.addEventListener("click", () => {
-          compactView = !compactView;
-          writePrefs({ compactView });
-          render();
-        });
-        pageControlsEl.appendChild(compactToggle);
-      }
-      if (current === "Home") {
-        helpEl.innerHTML = "";
-        helpEl.style.display = "none";
-      } else {
-        const showPrimaryGuidance = ["Winning Work", "Manage Jobs", "Getting Paid", "Grow"].includes(current);
-        if (showPrimaryGuidance) {
-          helpEl.style.display = "";
-          helpEl.innerHTML = "<div class=\"help-text\" style=\"margin-bottom:6px; color:#292727;\">" + c.why + "</div><div class=\"help-tip\">Tip: " + c.how + "</div>";
-        } else {
-          helpEl.innerHTML = "";
-          helpEl.style.display = "none";
-        }
-      }
+      helpEl.innerHTML = "";
+      helpEl.style.display = "none";
       const grid = document.getElementById("cardGrid");
       grid.innerHTML = "";
       const cardRefreshers = [];
@@ -7218,7 +6756,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
       }
 
       let activeGroupHeading = "";
-      grid.classList.toggle("grid-compact", compactView && filterEligibleCategories.includes(current));
 
       cardsToRender.forEach((card, cIndex) => {
         if (card.__groupLabel && card.__groupLabel !== activeGroupHeading) {
@@ -7237,14 +6774,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
         head.setAttribute("aria-expanded", "false");
         const h = document.createElement("h3");
         h.textContent = card.subtitle;
-        const cardSubline = document.createElement("p");
-        cardSubline.className = "card-subline";
-        const sublineText = card.front?.goodFor || card.front?.outcome || "";
-        if (sublineText) {
-          cardSubline.textContent = sublineText;
-        } else {
-          cardSubline.style.display = "none";
-        }
         const sourceCategory = card.__category || current;
         const isCustomBuilderCard = sourceCategory === "Custom Builder";
         const topActions = document.createElement("div");
@@ -7285,7 +6814,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
         topActions.appendChild(favouriteBtn);
         head.appendChild(topActions);
         head.appendChild(h);
-        head.appendChild(cardSubline);
         const selections = {};
         const kv = document.createElement("div");
         const cardWhenLine = document.createElement("p");
@@ -8301,20 +7829,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
 
     globalFirstNameInput.addEventListener("input", handleGlobalDefaultsChange);
     globalBizNameInput.addEventListener("input", handleGlobalDefaultsChange);
-    resetDefaultsBtn.addEventListener("click", () => {
-      clearPrefs();
-      globalFirstNameInput.value = "";
-      globalBizNameInput.value = "";
-      refreshPromptText();
-
-      const bizNameField = document.getElementById('qb-biz-name');
-      if (bizNameField) {
-         bizNameField.value = "";
-         bizNameField.dispatchEvent(new Event('input'));
-      }
-
-      compactView = false;
-    });
 
     // --- ONBOARDING ---
     function initOnboarding() {
@@ -8720,7 +8234,6 @@ $("cb-submit-btn").addEventListener("click", async () => {
       globalBizNameInput.value = savedPrefs.businessName;
     }
     savedOnlyFilter = !!savedPrefs.savedOnlyFilter;
-    compactView = !!savedPrefs.compactView;
 
     // Set header to show user's name
     function updateHeaderName() {
