@@ -5538,6 +5538,54 @@
       runBtn.className = "templates-run-btn";
       runBtn.innerHTML = '<span class="tpl-spinner"></span><span>\u2726 Run with AI</span>';
 
+      function markdownToHtml(md) {
+        let html = md
+          .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+          .replace(/^### (.+)$/gm, "<h3>$1</h3>")
+          .replace(/^## (.+)$/gm, "<h2>$1</h2>")
+          .replace(/^# (.+)$/gm, "<h1>$1</h1>")
+          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+          .replace(/^[-•] (.+)$/gm, "<li>$1</li>")
+          .replace(/^---+$/gm, "<hr/>")
+          .replace(/\n{2,}/g, "</p><p>")
+          .replace(/\n/g, "<br/>");
+        html = html.replace(/(<li>.*?<\/li>)+/gs, function (m) { return "<ul>" + m + "</ul>"; });
+        return "<p>" + html + "</p>";
+      }
+
+      function downloadQuotePdf() {
+        const content = aiResponseArea.innerText || "";
+        if (!content.trim()) return;
+        const bizName = globalBizNameInput ? globalBizNameInput.value.trim() : "Quote";
+        const clientName = state.fields["[Client name]"] || "";
+        const brandColour = state.fields["[Brand Colour]"] || "#122033";
+        const logoSrc = (state.fields["[Include Logo]"] === "Yes" && state.logoBase64 && state.logoMimeType)
+          ? "data:" + state.logoMimeType + ";base64," + state.logoBase64 : "";
+        const htmlDoc = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Quote' +
+          (clientName ? " - " + clientName : "") +
+          '</title><style>' +
+          'body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;max-width:720px;margin:40px auto;padding:0 30px;color:#1a1a2e;line-height:1.6;font-size:15px;}' +
+          'h1,h2,h3{color:' + brandColour + ';margin:18px 0 8px;}' +
+          'h1{font-size:24px;border-bottom:2px solid ' + brandColour + ';padding-bottom:8px;}' +
+          'h2{font-size:18px;}h3{font-size:15px;}' +
+          'hr{border:none;border-top:1px solid #ddd;margin:20px 0;}' +
+          'ul{padding-left:20px;}li{margin:4px 0;}' +
+          'strong{color:#1a1a2e;}' +
+          '.quote-logo{max-height:60px;max-width:200px;margin-bottom:16px;}' +
+          '@media print{body{margin:20px;}}' +
+          '</style></head><body>' +
+          (logoSrc ? '<img class="quote-logo" src="' + logoSrc + '" alt="Logo"/>' : '') +
+          markdownToHtml(content) +
+          '</body></html>';
+        const printWin = window.open("", "_blank");
+        if (!printWin) return;
+        printWin.document.write(htmlDoc);
+        printWin.document.close();
+        printWin.onload = function () {
+          setTimeout(function () { printWin.print(); }, 300);
+        };
+      }
+
       const copyResponseBtn = document.createElement("button");
       copyResponseBtn.type = "button";
       copyResponseBtn.className = "templates-copy-btn";
@@ -5554,6 +5602,17 @@
         } else { fallbackCopy(textToCopy, copyResponseBtn); }
       });
 
+      const downloadBtn = document.createElement("button");
+      downloadBtn.type = "button";
+      downloadBtn.className = "templates-run-btn";
+      downloadBtn.style.background = "#122033";
+      downloadBtn.innerHTML = "\u2193 Download PDF";
+      downloadBtn.style.display = "none";
+      downloadBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        downloadQuotePdf();
+      });
+
       runBtn.addEventListener("click", async function (e) {
         e.stopPropagation();
         const promptText = getPromptText();
@@ -5563,6 +5622,7 @@
         aiResponseArea.classList.remove("hidden");
         aiResponseArea.textContent = "Generating your quote...";
         copyResponseBtn.style.display = "none";
+        downloadBtn.style.display = "none";
         bumpUsageStat("aiRuns", 1);
 
         const msgContent = [{ type: "text", text: promptText }];
@@ -5613,6 +5673,7 @@
             }
           }
           copyResponseBtn.style.display = "";
+          downloadBtn.style.display = "";
         } catch (err) {
           aiResponseArea.textContent = "\u26a0\ufe0f " + (err.message || "Something went wrong. Please try again.");
         } finally {
@@ -5624,6 +5685,7 @@
       footer.appendChild(copyBtn);
       footer.appendChild(runBtn);
       footer.appendChild(copyResponseBtn);
+      footer.appendChild(downloadBtn);
       wrap.appendChild(footer);
 
       body.appendChild(wrap);
