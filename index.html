@@ -168,14 +168,6 @@
       line-height: 1.2;
       text-align: left;
     }
-    .header-subtagline {
-      margin: 0;
-      color: var(--text-muted);
-      font-size: var(--font-xs);
-      font-style: normal;
-      line-height: 1.3;
-      text-align: left;
-    }
 
     .menu-btn {
       position: absolute;
@@ -551,14 +543,6 @@
       font-size: var(--font-sm);
       line-height: 1.5;
       max-width: 600px;
-    }
-    .home-value-note {
-      margin: var(--space-2) auto 0;
-      max-width: 680px;
-      text-align: center;
-      color: var(--text-muted);
-      font-size: var(--font-sm);
-      line-height: 1.55;
     }
     @media (max-width: 980px) {
       .desktop-nav {
@@ -1082,12 +1066,6 @@
       font-size: var(--font-lg);
       font-weight: 700;
       color: var(--text-dark);
-    }
-    .card-subline {
-      margin: -2px 0 var(--space-2);
-      color: var(--text-muted);
-      font-size: var(--font-sm);
-      line-height: 1.4;
     }
     .card-when {
       margin: -2px 0 var(--space-2);
@@ -2227,9 +2205,6 @@
       .header-tagline {
         font-size: var(--font-sm);
       }
-      .header-subtagline {
-        font-size: 11px;
-      }
 
       .menu-panel {
         width: min(340px, 94vw);
@@ -2830,11 +2805,6 @@
       font-weight: 800;
     }
 
-    .header-subtagline {
-      color: var(--text-muted);
-      font-size: 13px;
-    }
-
     .menu-btn {
       background: #ffffff;
       border: 1px solid var(--border-subtle);
@@ -2899,10 +2869,8 @@
 
     .page-help,
     .home-subcopy,
-    .home-value-note,
     .workspace-muted,
     .help-tip,
-    .card-subline,
     .card-when,
     .footer-contact-info,
     .cb-saved-item-meta {
@@ -2973,12 +2941,6 @@
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -0.02em;
-    }
-
-    .card-subline {
-      margin: 0 0 8px;
-      font-size: 14px;
-      line-height: 1.45;
     }
 
     .card-when {
@@ -3234,10 +3196,8 @@
     }
 
     .card:hover .card-head h3,
-    .card:hover .card-subline,
     .card:hover .card-when,
     .card-head:hover h3,
-    .card-head:hover .card-subline,
     .card-head:hover .card-when {
       color: inherit;
     }
@@ -3386,12 +3346,7 @@
       color: var(--text-dark);
     }
 
-    .header-subtagline {
-      text-align: left;
-      color: #8b8174;
-      font-style: normal;
-      font-size: 13px;
-    }
+
 
     .header-utility-btn,
     .desktop-nav-btn,
@@ -3447,10 +3402,8 @@
 
     .page-help,
     .home-subcopy,
-    .home-value-note,
     .workspace-muted,
     .help-tip,
-    .card-subline,
     .card-when,
     .app-settings-sub,
     .footer-contact-info {
@@ -3501,10 +3454,8 @@
     }
 
     .card:hover .card-head h3,
-    .card:hover .card-subline,
     .card:hover .card-when,
     .card-head:hover h3,
-    .card-head:hover .card-subline,
     .card-head:hover .card-when {
       color: var(--text-dark) !important;
     }
@@ -4737,36 +4688,6 @@
       }
     }
 
-    const DEFAULT_ACCENT = "#e75a00";
-    const DEFAULT_TAGLINE = "The Ultimate Toolkit for Tradies";
-    const DEFAULT_LOGO_SRC = "./advisastacks-logo.png.png";
-    const DEFAULT_COPYRIGHT = "AdvisaStacks";
-
-    function isValidHexColour(str) {
-      return /^#[0-9A-Fa-f]{6}$/.test(str);
-    }
-
-    function readBrandPrefs() {
-      const prefs = readPrefs();
-      return {
-        displayName: prefs.brandDisplayName || "",
-        logoUrl: prefs.brandLogoUrl || "",
-        accentColour: prefs.brandAccentColour || DEFAULT_ACCENT
-      };
-    }
-
-    function writeBrandPrefs(patch) {
-      const prefPatch = {};
-      if ("displayName" in patch) prefPatch.brandDisplayName = patch.displayName;
-      if ("logoUrl" in patch) prefPatch.brandLogoUrl = patch.logoUrl;
-      if ("accentColour" in patch) prefPatch.brandAccentColour = patch.accentColour;
-      writePrefs(prefPatch);
-    }
-
-    function applyBranding() {
-      // Branding customization removed — use fixed defaults
-    }
-
     function readUsageStats() {
       try {
         const raw = localStorage.getItem(USAGE_STATS_KEY);
@@ -4999,248 +4920,92 @@
           "[Client email]": "",
           "[Project title]": "",
           "[Scope of work]": "",
-          "[Inclusions]": "",
           "[Timeline]": "",
           "[Terms]": "",
           "[Notes]": "",
-          "[Line items]": "",
           "[Formatting reference notes]": "",
-          "[Subtotal]": "0.00",
           "[Discount]": "0.00",
           "[Include GST]": "Yes",
-          "[Payment Due]": "",
+          "[Deposit Due]": "",
+          "[Deposit Percent]": "",
           "[Account Name]": "",
           "[BSB]": "",
           "[Account Number]": "",
           "[Include Pay Now Button]": "No",
-          "[Include Review Button]": "No"
-        }
+          "[Pay Now Link]": "",
+          "[Include Review Button]": "No",
+          "[Review Link]": "",
+          "[Brand Colour]": "",
+          "[Include Logo]": "No"
+        },
+        items: [{ name: "", units: "", cost: "" }],
+        logoBase64: null,
+        logoMimeType: null
       };
 
       function ensureTemplateStyles() {
         if (document.getElementById("templates-card-styles")) return;
-
         const style = document.createElement("style");
         style.id = "templates-card-styles";
         style.textContent = `
-          .templates-custom-card {
-            background: #f4f5f7;
-            border: 1px solid #cfd5dc;
-            border-radius: 16px;
-            padding: 28px;
-            color: #122033;
-          }
-
-          .templates-builder-title {
-            margin: 0 0 22px;
-            font-size: 24px;
-            font-weight: 700;
-            color: #122033;
-          }
-
-          .templates-section {
-            margin-top: 26px;
-            padding-top: 22px;
-            border-top: 1px solid #cfd5dc;
-          }
-
-          .templates-section:first-of-type {
-            margin-top: 0;
-            padding-top: 0;
-            border-top: 0;
-          }
-
-          .templates-section-title {
-            margin: 0 0 14px;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-            color: #6d7e94;
-          }
-
-          .templates-grid-2,
-          .templates-grid-3 {
-            display: grid;
-            gap: 14px;
-          }
-
-          .templates-grid-2 {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-
-          .templates-grid-3 {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-          }
-
-          .templates-field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-          }
-
-          .templates-field.full {
-            grid-column: 1 / -1;
-          }
-
-          .templates-field label {
-            font-size: 13px;
-            font-weight: 600;
-            color: #122033;
-          }
-
-          .templates-field input,
-          .templates-field textarea {
-            width: 100%;
-            border: 2px solid #d5dbe2;
-            border-radius: 8px;
-            background: #f4f5f7;
-            color: #61748b;
-            font-family: inherit;
-            font-size: 14px;
-            padding: 12px 12px;
-            outline: none;
-            box-sizing: border-box;
-          }
-
-          .templates-field textarea {
-            min-height: 90px;
-            resize: vertical;
-          }
-
-          .templates-field input:focus,
-          .templates-field textarea:focus {
-            border-color: #b9c4d0;
-          }
-
-          .templates-toggle-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            margin: 8px 0 14px;
-          }
-
-          .templates-toggle-text {
-            font-size: 14px;
-            font-weight: 600;
-            color: #122033;
-          }
-
-          .templates-toggle {
-            width: 44px;
-            height: 24px;
-            border: 0;
-            border-radius: 999px;
-            background: var(--accent);
-            position: relative;
-            cursor: pointer;
-            padding: 0;
-            flex: 0 0 auto;
-          }
-
-          .templates-toggle.off {
-            background: var(--border-strong);
-          }
-
-          .templates-toggle-knob {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #fff;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            transition: transform 0.18s ease;
-          }
-
-          .templates-toggle.on .templates-toggle-knob {
-            transform: translateX(20px);
-          }
-
-          .templates-total-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #e9ebee;
-            border-radius: 8px;
-            padding: 14px 12px;
-            margin-top: 8px;
-            font-size: 14px;
-            color: #5f6f82;
-          }
-
-          .templates-total-row strong {
-            color: var(--text-dark);
-            font-size: 22px;
-            font-weight: 700;
-          }
-
-          .templates-prompt-wrap {
-            margin-top: 24px;
-            border-top: 1px solid #cfd5dc;
-            padding-top: 20px;
-          }
-
-          .templates-prompt-title {
-            margin: 0 0 10px;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: #6d7e94;
-          }
-
-          .templates-output {
-            white-space: pre-wrap;
-            background: #ffffff;
-            border: 1px solid #d7dde5;
-            border-radius: 12px;
-            padding: 16px;
-            color: #122033;
-            font-size: 14px;
-            line-height: 1.5;
-          }
-
-          .templates-copy-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 18px;
-            flex-wrap: wrap;
-            margin-top: 18px;
-          }
-
-          .templates-copy-btn {
-            background: var(--accent);
-            color: #fff;
-            border: 1px solid var(--accent);
-            border-radius: var(--radius-md);
-            padding: 10px 18px;
-            font-family: inherit;
-            font-size: var(--font-md);
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-          }
-
-          .templates-ai-link {
-            color: #122033;
-            text-decoration: none;
-            border-bottom: 1px solid #122033;
-            padding-bottom: 3px;
-            font-size: 16px;
-            white-space: nowrap;
-          }
-
-          .templates-ai-link strong {
-            font-weight: 700;
-          }
-
-          @media (max-width: 760px) {
-            .templates-grid-2,
-            .templates-grid-3 {
-              grid-template-columns: 1fr;
-            }
+          .templates-custom-card { background:#f4f5f7; border:1px solid #cfd5dc; border-radius:16px; padding:28px; color:#122033; }
+          .templates-builder-title { margin:0 0 22px; font-size:24px; font-weight:700; color:#122033; }
+          .templates-section { margin-top:26px; padding-top:22px; border-top:1px solid #cfd5dc; }
+          .templates-section:first-of-type { margin-top:0; padding-top:0; border-top:0; }
+          .templates-section-title { margin:0 0 14px; font-size:14px; font-weight:700; letter-spacing:0.03em; text-transform:uppercase; color:#6d7e94; }
+          .templates-grid-2, .templates-grid-3 { display:grid; gap:14px; }
+          .templates-grid-2 { grid-template-columns:repeat(2,minmax(0,1fr)); }
+          .templates-grid-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+          .templates-field { display:flex; flex-direction:column; gap:8px; }
+          .templates-field.full { grid-column:1/-1; }
+          .templates-field label { font-size:13px; font-weight:600; color:#122033; }
+          .templates-field input, .templates-field textarea { width:100%; border:2px solid #d5dbe2; border-radius:8px; background:#f4f5f7; color:#61748b; font-family:inherit; font-size:14px; padding:12px; outline:none; box-sizing:border-box; }
+          .templates-field textarea { min-height:90px; resize:vertical; }
+          .templates-field input:focus, .templates-field textarea:focus { border-color:#b9c4d0; }
+          .templates-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:16px; margin:8px 0 14px; }
+          .templates-toggle-text { font-size:14px; font-weight:600; color:#122033; }
+          .templates-toggle { width:44px; height:24px; border:0; border-radius:999px; background:var(--accent); position:relative; cursor:pointer; padding:0; flex:0 0 auto; }
+          .templates-toggle.off { background:var(--border-strong); }
+          .templates-toggle-knob { width:20px; height:20px; border-radius:50%; background:#fff; position:absolute; top:2px; left:2px; transition:transform 0.18s ease; }
+          .templates-toggle.on .templates-toggle-knob { transform:translateX(20px); }
+          .templates-total-row { display:flex; align-items:center; justify-content:space-between; background:#e9ebee; border-radius:8px; padding:14px 12px; margin-top:8px; font-size:14px; color:#5f6f82; }
+          .templates-total-row strong { color:var(--text-dark); font-size:22px; font-weight:700; }
+          .templates-prompt-wrap { margin-top:24px; border-top:1px solid #cfd5dc; padding-top:20px; }
+          .templates-prompt-title { margin:0 0 10px; font-size:14px; font-weight:700; text-transform:uppercase; color:#6d7e94; }
+          .templates-output { white-space:pre-wrap; background:#fff; border:1px solid #d7dde5; border-radius:12px; padding:16px; color:#122033; font-size:14px; line-height:1.5; }
+          .templates-copy-footer { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:18px; }
+          .templates-copy-btn, .templates-run-btn { border:1px solid var(--accent); border-radius:var(--radius-md); padding:10px 18px; font-family:inherit; font-size:var(--font-md); font-weight:700; cursor:pointer; box-shadow:var(--shadow-sm); }
+          .templates-copy-btn { background:transparent; color:var(--accent); }
+          .templates-run-btn { background:var(--accent); color:#fff; display:inline-flex; align-items:center; gap:8px; }
+          .templates-run-btn:disabled { opacity:0.6; cursor:not-allowed; }
+          .templates-run-btn .tpl-spinner { display:none; width:14px; height:14px; border:2px solid rgba(255,255,255,0.3); border-top-color:#fff; border-radius:50%; animation:tpl-spin 0.6s linear infinite; }
+          .templates-run-btn.loading .tpl-spinner { display:inline-block; }
+          @keyframes tpl-spin { to { transform:rotate(360deg); } }
+          .templates-ai-response { margin-top:16px; white-space:pre-wrap; background:#fff; border:1px solid #d7dde5; border-radius:12px; padding:16px; color:#122033; font-size:14px; line-height:1.5; min-height:60px; }
+          .templates-ai-response.hidden { display:none; }
+          .templates-item-row { display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:10px; align-items:end; margin-bottom:10px; }
+          .templates-item-row .templates-field { margin:0; }
+          .templates-item-remove { background:none; border:1px solid #d5dbe2; border-radius:8px; width:36px; height:42px; cursor:pointer; color:#6d7e94; font-size:18px; display:flex; align-items:center; justify-content:center; }
+          .templates-item-remove:hover { border-color:var(--accent); color:var(--accent); }
+          .templates-add-item-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#6d7e94; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-top:4px; }
+          .templates-add-item-btn:hover { border-color:var(--accent); color:var(--accent); }
+          .templates-inline-link { display:flex; gap:10px; align-items:end; margin-top:6px; margin-bottom:10px; }
+          .templates-inline-link .templates-field { flex:1; margin:0; }
+          .templates-colour-row { display:flex; gap:10px; align-items:end; margin-top:8px; margin-bottom:10px; }
+          .templates-colour-row .templates-field { flex:1; margin:0; }
+          .templates-colour-preview { width:42px; height:42px; border-radius:8px; border:2px solid #d5dbe2; flex:0 0 auto; }
+          .templates-colour-link { font-size:12px; color:#6d7e94; text-decoration:underline; white-space:nowrap; align-self:center; }
+          .templates-deposit-row { display:flex; gap:10px; align-items:end; }
+          .templates-deposit-row .templates-field { flex:1; }
+          .templates-deposit-info { font-size:13px; color:#6d7e94; margin-top:6px; }
+          .templates-logo-note { font-size:13px; color:#6d7e94; margin-top:6px; line-height:1.4; }
+          .templates-upload-area { margin-top:10px; }
+          .templates-upload-btn { background:none; border:1px dashed #b9c4d0; border-radius:8px; padding:10px 16px; color:#6d7e94; font-family:inherit; font-size:14px; cursor:pointer; }
+          .templates-upload-btn:hover { border-color:var(--accent); color:var(--accent); }
+          .templates-logo-preview { margin-top:8px; max-width:120px; max-height:80px; border-radius:6px; border:1px solid #d5dbe2; }
+          @media (max-width:760px) {
+            .templates-grid-2, .templates-grid-3 { grid-template-columns:1fr; }
+            .templates-item-row { grid-template-columns:1fr; }
           }
         `;
         document.head.appendChild(style);
@@ -5248,24 +5013,51 @@
 
       ensureTemplateStyles();
 
-      function money(n) {
-        return "$" + Number(n || 0).toFixed(2);
+      function money(n) { return "$" + Number(n || 0).toFixed(2); }
+
+      function getSubtotal() {
+        let sum = 0;
+        state.items.forEach(function (item) {
+          const units = Number(item.units) || 0;
+          const cost = Number(item.cost) || 0;
+          sum += units * cost;
+        });
+        return sum;
       }
 
       function getTotal() {
-        const subtotal = Number(state.fields["[Subtotal]"] || 0);
+        const subtotal = getSubtotal();
         const discount = Number(state.fields["[Discount]"] || 0);
         const base = Math.max(subtotal - discount, 0);
-        const total = state.fields["[Include GST]"] === "Yes" ? base * 1.1 : base;
-        return total;
+        return state.fields["[Include GST]"] === "Yes" ? base * 1.1 : base;
+      }
+
+      function getDepositAmount() {
+        const pct = Number(state.fields["[Deposit Percent]"] || 0);
+        if (pct <= 0) return 0;
+        return getTotal() * (pct / 100);
+      }
+
+      function getItemsText() {
+        return state.items.filter(function (i) { return i.name; }).map(function (i) {
+          const units = Number(i.units) || 0;
+          const cost = Number(i.cost) || 0;
+          return i.name + " x" + units + " @ " + money(cost) + " = " + money(units * cost);
+        }).join("\n");
       }
 
       function getPromptText() {
+        const bizName = globalBizNameInput ? globalBizNameInput.value.trim() : "";
+        const myName = globalFirstNameInput ? globalFirstNameInput.value.trim() : "";
+        const subtotal = getSubtotal();
+        const total = getTotal();
+        const depositAmt = getDepositAmount();
+
         let text =
-          "Create a clean, editable client ready quote using the details below.\n\n" +
+          "Create a clean, editable client-ready quote using the details below.\n\n" +
           "Business context\n" +
-          "Business name from defaults above: " + (globalBizNameInput ? globalBizNameInput.value.trim() : "") + "\n" +
-          "My name from defaults above: " + (globalFirstNameInput ? globalFirstNameInput.value.trim() : "") + "\n\n" +
+          "Business name: " + bizName + "\n" +
+          "My name: " + myName + "\n\n" +
           "Quote details\n" +
           "Job Name: " + state.fields["[Job Name]"] + "\n" +
           "ABN: " + state.fields["[ABN]"] + "\n" +
@@ -5276,93 +5068,110 @@
           "Client email: " + state.fields["[Client email]"] + "\n" +
           "Project title: " + state.fields["[Project title]"] + "\n" +
           "Scope of work: " + state.fields["[Scope of work]"] + "\n" +
-          "Inclusions: " + state.fields["[Inclusions]"] + "\n" +
           "Timeline: " + state.fields["[Timeline]"] + "\n" +
           "Terms: " + state.fields["[Terms]"] + "\n" +
-          "Notes: " + state.fields["[Notes]"] + "\n" +
-          "Line items: " + state.fields["[Line items]"] + "\n" +
-          "Subtotal ex GST: " + money(state.fields["[Subtotal]"]) + "\n" +
+          "Notes: " + state.fields["[Notes]"] + "\n\n" +
+          "Items\n" + (getItemsText() || "(none)") + "\n\n" +
+          "Pricing\n" +
+          "Subtotal (ex GST): " + money(subtotal) + "\n" +
           "Discount: " + money(state.fields["[Discount]"]) + "\n" +
           "Include GST: " + state.fields["[Include GST]"] + "\n" +
-          "Total inc GST: " + money(getTotal()) + "\n" +
-          "Payment due: " + state.fields["[Payment Due]"] + "\n" +
+          "Total (inc GST): " + money(total) + "\n\n" +
+          "Payment\n" +
+          "Deposit due: " + (state.fields["[Deposit Due]"] || "N/A") + "\n";
+
+        if (depositAmt > 0) {
+          text += "Deposit amount: " + money(depositAmt) + " (" + state.fields["[Deposit Percent]"] + "% of total)\n";
+        }
+
+        text +=
           "Account name: " + state.fields["[Account Name]"] + "\n" +
           "BSB: " + state.fields["[BSB]"] + "\n" +
-          "Account number: " + state.fields["[Account Number]"] + "\n" +
-          "Include Pay now via credit card button: " + state.fields["[Include Pay Now Button]"] + "\n" +
-          "Include Leave a Google review button: " + state.fields["[Include Review Button]"] + "\n" +
-          "Formatting reference notes: " + state.fields["[Formatting reference notes]"] + "\n\n" +
+          "Account number: " + state.fields["[Account Number]"] + "\n\n" +
+          "Extras\n" +
+          "Include Pay now button: " + state.fields["[Include Pay Now Button]"];
+        if (state.fields["[Include Pay Now Button]"] === "Yes" && state.fields["[Pay Now Link]"]) {
+          text += " (link: " + state.fields["[Pay Now Link]"] + ")";
+        }
+        text += "\nInclude Google review button: " + state.fields["[Include Review Button]"];
+        if (state.fields["[Include Review Button]"] === "Yes" && state.fields["[Review Link]"]) {
+          text += " (link: " + state.fields["[Review Link]"] + ")";
+        }
+        if (state.fields["[Brand Colour]"]) {
+          text += "\nBrand colour: " + state.fields["[Brand Colour]"];
+        }
+        if (state.fields["[Include Logo]"] === "Yes") {
+          text += "\nInclude uploaded logo: Yes (see attached image)";
+        }
+        text += "\n" + "Formatting reference notes: " + state.fields["[Formatting reference notes]"] + "\n\n" +
           "Requirements\n" +
           "Use clear headings.\n" +
-          "Make it look polished and client ready.\n" +
+          "Make it look polished and client-ready.\n" +
           "Return only the finished quote.";
-
         return text;
       }
 
+      let output, totalValue, subtotalValue, depositInfoEl;
+
       function updatePrompt() {
-        output.textContent = getPromptText();
-        totalValue.textContent = money(getTotal());
+        if (output) output.textContent = getPromptText();
+        if (totalValue) totalValue.textContent = money(getTotal());
+        if (subtotalValue) subtotalValue.textContent = money(getSubtotal());
+        if (depositInfoEl) {
+          const amt = getDepositAmount();
+          depositInfoEl.textContent = amt > 0 ? "Deposit amount: " + money(amt) : "";
+        }
       }
 
       function addField(grid, labelText, key, placeholder, multiline, rows, type) {
         const field = document.createElement("div");
         field.className = "templates-field";
         if (multiline) field.classList.add("full");
-
         const label = document.createElement("label");
         label.textContent = labelText;
-
         const input = document.createElement(multiline ? "textarea" : "input");
         if (!multiline) input.type = type || "text";
         if (multiline) input.rows = rows || 3;
         input.placeholder = placeholder || "";
         input.value = state.fields[key] || "";
-
         input.addEventListener("input", function (e) {
           state.fields[key] = e.target.value || "";
           updatePrompt();
         });
-
         field.appendChild(label);
         field.appendChild(input);
         grid.appendChild(field);
+        return input;
       }
 
-      function createToggleRow(labelText, key, isLight) {
+      function createToggleRow(labelText, key) {
         const row = document.createElement("div");
         row.className = "templates-toggle-row";
-
         const text = document.createElement("div");
         text.className = "templates-toggle-text";
         text.textContent = labelText;
-
         const toggle = document.createElement("button");
         toggle.type = "button";
         toggle.className = "templates-toggle " + (state.fields[key] === "Yes" ? "on" : "off");
         toggle.innerHTML = '<span class="templates-toggle-knob"></span>';
-
-        function sync() {
-          const on = state.fields[key] === "Yes";
-          toggle.className = "templates-toggle " + (on ? "on" : "off");
-        }
-
+        function sync() { toggle.className = "templates-toggle " + (state.fields[key] === "Yes" ? "on" : "off"); }
         toggle.addEventListener("click", function () {
           state.fields[key] = state.fields[key] === "Yes" ? "No" : "Yes";
           sync();
           updatePrompt();
         });
-
         row.appendChild(text);
         row.appendChild(toggle);
-        return row;
+        return { row, toggle };
       }
 
+      // ── Title ──
       const title = document.createElement("h3");
       title.className = "templates-builder-title";
       title.textContent = "Quote Builder";
       wrap.appendChild(title);
 
+      // ── Business Details ──
       const businessSection = document.createElement("div");
       businessSection.className = "templates-section";
       businessSection.innerHTML = '<div class="templates-section-title">Your Business Details</div>';
@@ -5375,6 +5184,7 @@
       addField(businessGrid, "Email", "[Business email]", "you@example.com");
       wrap.appendChild(businessSection);
 
+      // ── Client Details ──
       const clientSection = document.createElement("div");
       clientSection.className = "templates-section";
       clientSection.innerHTML = '<div class="templates-section-title">Client Details</div>';
@@ -5387,6 +5197,7 @@
       addField(clientGrid, "Project Title", "[Project title]", "Project title");
       wrap.appendChild(clientSection);
 
+      // ── Job Details ──
       const jobSection = document.createElement("div");
       jobSection.className = "templates-section";
       jobSection.innerHTML = '<div class="templates-section-title">Job Details</div>';
@@ -5394,66 +5205,316 @@
       jobGrid.className = "templates-grid-2";
       jobSection.appendChild(jobGrid);
       addField(jobGrid, "Scope of Work", "[Scope of work]", "Describe the work...", true, 4);
-      addField(jobGrid, "Inclusions", "[Inclusions]", "Inclusions", true, 4);
       addField(jobGrid, "Timeline", "[Timeline]", "Timeline");
       addField(jobGrid, "Terms", "[Terms]", "Terms");
       addField(jobGrid, "Notes", "[Notes]", "Notes", true, 4);
-      addField(jobGrid, "Line Items", "[Line items]", "Line items", true, 5);
       addField(jobGrid, "Formatting Reference Notes", "[Formatting reference notes]", "Formatting notes", true, 3);
       wrap.appendChild(jobSection);
 
+      // ── Scope Items (dynamic rows) ──
+      const itemsSection = document.createElement("div");
+      itemsSection.className = "templates-section";
+      itemsSection.innerHTML = '<div class="templates-section-title">Scope of Work Items</div>';
+      const itemsContainer = document.createElement("div");
+
+      function renderItemRows() {
+        itemsContainer.innerHTML = "";
+        state.items.forEach(function (item, idx) {
+          const row = document.createElement("div");
+          row.className = "templates-item-row";
+
+          const nameField = document.createElement("div");
+          nameField.className = "templates-field";
+          nameField.innerHTML = idx === 0 ? "<label>Item</label>" : "";
+          const nameInput = document.createElement("input");
+          nameInput.type = "text";
+          nameInput.placeholder = "e.g. Install LED downlights";
+          nameInput.value = item.name;
+          nameInput.addEventListener("input", function (e) { item.name = e.target.value; updatePrompt(); });
+          nameField.appendChild(nameInput);
+
+          const unitsField = document.createElement("div");
+          unitsField.className = "templates-field";
+          unitsField.innerHTML = idx === 0 ? "<label>Item Units</label>" : "";
+          const unitsInput = document.createElement("input");
+          unitsInput.type = "number";
+          unitsInput.placeholder = "Qty";
+          unitsInput.value = item.units;
+          unitsInput.addEventListener("input", function (e) { item.units = e.target.value; updatePrompt(); });
+          unitsField.appendChild(unitsInput);
+
+          const costField = document.createElement("div");
+          costField.className = "templates-field";
+          costField.innerHTML = idx === 0 ? "<label>Cost per Item</label>" : "";
+          const costInput = document.createElement("input");
+          costInput.type = "number";
+          costInput.placeholder = "$0.00";
+          costInput.value = item.cost;
+          costInput.addEventListener("input", function (e) { item.cost = e.target.value; updatePrompt(); });
+          costField.appendChild(costInput);
+
+          const removeBtn = document.createElement("button");
+          removeBtn.type = "button";
+          removeBtn.className = "templates-item-remove";
+          removeBtn.textContent = "\u00d7";
+          removeBtn.title = "Remove item";
+          if (idx === 0) removeBtn.style.marginTop = "22px";
+          removeBtn.addEventListener("click", function () {
+            if (state.items.length <= 1) return;
+            state.items.splice(idx, 1);
+            renderItemRows();
+            updatePrompt();
+          });
+
+          row.appendChild(nameField);
+          row.appendChild(unitsField);
+          row.appendChild(costField);
+          row.appendChild(removeBtn);
+          itemsContainer.appendChild(row);
+        });
+      }
+      renderItemRows();
+      itemsSection.appendChild(itemsContainer);
+
+      const addItemBtn = document.createElement("button");
+      addItemBtn.type = "button";
+      addItemBtn.className = "templates-add-item-btn";
+      addItemBtn.textContent = "+ Add another item";
+      addItemBtn.addEventListener("click", function () {
+        state.items.push({ name: "", units: "", cost: "" });
+        renderItemRows();
+      });
+      itemsSection.appendChild(addItemBtn);
+      wrap.appendChild(itemsSection);
+
+      // ── Pricing (auto-calculated) ──
       const pricingSection = document.createElement("div");
       pricingSection.className = "templates-section";
       pricingSection.innerHTML = '<div class="templates-section-title">Pricing</div>';
-      const pricingGrid = document.createElement("div");
-      pricingGrid.className = "templates-grid-2";
-      pricingSection.appendChild(pricingGrid);
-      addField(pricingGrid, "Subtotal (ex GST)", "[Subtotal]", "0.00", false, 0, "number");
-      addField(pricingGrid, "Discount ($)", "[Discount]", "0.00", false, 0, "number");
-      pricingSection.appendChild(createToggleRow("Include GST (10%)", "[Include GST]"));
+
+      const subtotalRow = document.createElement("div");
+      subtotalRow.className = "templates-total-row";
+      subtotalRow.style.marginTop = "0";
+      subtotalRow.innerHTML = '<span>Subtotal (ex GST)</span><strong>$0.00</strong>';
+      subtotalValue = subtotalRow.querySelector("strong");
+      subtotalValue.style.fontSize = "16px";
+      pricingSection.appendChild(subtotalRow);
+
+      const discountGrid = document.createElement("div");
+      discountGrid.className = "templates-grid-2";
+      discountGrid.style.marginTop = "14px";
+      pricingSection.appendChild(discountGrid);
+      addField(discountGrid, "Discount ($)", "[Discount]", "0.00", false, 0, "number");
+
+      const gstToggle = createToggleRow("Include GST (10%)", "[Include GST]");
+      pricingSection.appendChild(gstToggle.row);
+
       const totalRow = document.createElement("div");
       totalRow.className = "templates-total-row";
       totalRow.innerHTML = '<span>Total (inc GST)</span><strong>$0.00</strong>';
-      const totalValue = totalRow.querySelector("strong");
+      totalValue = totalRow.querySelector("strong");
       pricingSection.appendChild(totalRow);
       wrap.appendChild(pricingSection);
 
+      // ── Payment / Deposit ──
       const paymentSection = document.createElement("div");
       paymentSection.className = "templates-section";
       paymentSection.innerHTML = '<div class="templates-section-title">Payment</div>';
-      const paymentTop = document.createElement("div");
-      paymentTop.className = "templates-grid-2";
-      paymentSection.appendChild(paymentTop);
-      addField(paymentTop, "Payment Due", "[Payment Due]", "dd/mm/yyyy");
+
+      const depositRow = document.createElement("div");
+      depositRow.className = "templates-deposit-row";
+
+      const depositDateField = document.createElement("div");
+      depositDateField.className = "templates-field";
+      const depositDateLabel = document.createElement("label");
+      depositDateLabel.textContent = "Deposit Due";
+      const depositDateInput = document.createElement("input");
+      depositDateInput.type = "date";
+      depositDateInput.value = state.fields["[Deposit Due]"];
+      depositDateInput.addEventListener("input", function (e) { state.fields["[Deposit Due]"] = e.target.value; updatePrompt(); });
+      depositDateField.appendChild(depositDateLabel);
+      depositDateField.appendChild(depositDateInput);
+
+      const depositPctField = document.createElement("div");
+      depositPctField.className = "templates-field";
+      const depositPctLabel = document.createElement("label");
+      depositPctLabel.textContent = "Deposit %";
+      const depositPctInput = document.createElement("input");
+      depositPctInput.type = "number";
+      depositPctInput.placeholder = "e.g. 30";
+      depositPctInput.min = "0";
+      depositPctInput.max = "100";
+      depositPctInput.value = state.fields["[Deposit Percent]"];
+      depositPctInput.addEventListener("input", function (e) { state.fields["[Deposit Percent]"] = e.target.value; updatePrompt(); });
+      depositPctField.appendChild(depositPctLabel);
+      depositPctField.appendChild(depositPctInput);
+
+      depositRow.appendChild(depositDateField);
+      depositRow.appendChild(depositPctField);
+      paymentSection.appendChild(depositRow);
+
+      depositInfoEl = document.createElement("div");
+      depositInfoEl.className = "templates-deposit-info";
+      paymentSection.appendChild(depositInfoEl);
+
       const bankGrid = document.createElement("div");
       bankGrid.className = "templates-grid-3";
+      bankGrid.style.marginTop = "14px";
       paymentSection.appendChild(bankGrid);
       addField(bankGrid, "Account Name", "[Account Name]", "Account name");
       addField(bankGrid, "BSB", "[BSB]", "000-000");
       addField(bankGrid, "Account Number", "[Account Number]", "00000000");
       wrap.appendChild(paymentSection);
 
+      // ── Extras ──
       const extrasSection = document.createElement("div");
       extrasSection.className = "templates-section";
       extrasSection.innerHTML = '<div class="templates-section-title">Extras</div>';
-      extrasSection.appendChild(createToggleRow('Include "Pay now via credit card" button', "[Include Pay Now Button]"));
-      extrasSection.appendChild(createToggleRow('Include "Leave a Google review" button', "[Include Review Button]"));
+
+      // Pay Now toggle + link
+      const payToggle = createToggleRow('Include "Pay now via credit card" button', "[Include Pay Now Button]");
+      extrasSection.appendChild(payToggle.row);
+      const payLinkWrap = document.createElement("div");
+      payLinkWrap.className = "templates-inline-link";
+      payLinkWrap.style.display = state.fields["[Include Pay Now Button]"] === "Yes" ? "flex" : "none";
+      const payLinkField = document.createElement("div");
+      payLinkField.className = "templates-field";
+      payLinkField.innerHTML = '<label>Payment link URL</label>';
+      const payLinkInput = document.createElement("input");
+      payLinkInput.type = "url";
+      payLinkInput.placeholder = "https://...";
+      payLinkInput.value = state.fields["[Pay Now Link]"];
+      payLinkInput.addEventListener("input", function (e) { state.fields["[Pay Now Link]"] = e.target.value; updatePrompt(); });
+      payLinkField.appendChild(payLinkInput);
+      payLinkWrap.appendChild(payLinkField);
+      extrasSection.appendChild(payLinkWrap);
+      payToggle.toggle.addEventListener("click", function () {
+        payLinkWrap.style.display = state.fields["[Include Pay Now Button]"] === "Yes" ? "flex" : "none";
+      });
+
+      // Review toggle + link
+      const reviewToggle = createToggleRow('Include "Leave a Google review" button', "[Include Review Button]");
+      extrasSection.appendChild(reviewToggle.row);
+      const reviewLinkWrap = document.createElement("div");
+      reviewLinkWrap.className = "templates-inline-link";
+      reviewLinkWrap.style.display = state.fields["[Include Review Button]"] === "Yes" ? "flex" : "none";
+      const reviewLinkField = document.createElement("div");
+      reviewLinkField.className = "templates-field";
+      reviewLinkField.innerHTML = '<label>Google review link URL</label>';
+      const reviewLinkInput = document.createElement("input");
+      reviewLinkInput.type = "url";
+      reviewLinkInput.placeholder = "https://...";
+      reviewLinkInput.value = state.fields["[Review Link]"];
+      reviewLinkInput.addEventListener("input", function (e) { state.fields["[Review Link]"] = e.target.value; updatePrompt(); });
+      reviewLinkField.appendChild(reviewLinkInput);
+      reviewLinkWrap.appendChild(reviewLinkField);
+      extrasSection.appendChild(reviewLinkWrap);
+      reviewToggle.toggle.addEventListener("click", function () {
+        reviewLinkWrap.style.display = state.fields["[Include Review Button]"] === "Yes" ? "flex" : "none";
+      });
+
+      // Brand Colour
+      const colourRow = document.createElement("div");
+      colourRow.className = "templates-colour-row";
+      const colourField = document.createElement("div");
+      colourField.className = "templates-field";
+      colourField.innerHTML = '<label>Brand Colour (hex)</label>';
+      const colourInput = document.createElement("input");
+      colourInput.type = "text";
+      colourInput.placeholder = "#e75a00";
+      colourInput.value = state.fields["[Brand Colour]"];
+      const colourPreview = document.createElement("div");
+      colourPreview.className = "templates-colour-preview";
+      colourPreview.style.background = state.fields["[Brand Colour]"] || "#e6e6e6";
+      colourInput.addEventListener("input", function (e) {
+        state.fields["[Brand Colour]"] = e.target.value;
+        colourPreview.style.background = /^#[0-9A-Fa-f]{3,8}$/.test(e.target.value) ? e.target.value : "#e6e6e6";
+        updatePrompt();
+      });
+      colourField.appendChild(colourInput);
+      colourRow.appendChild(colourField);
+      colourRow.appendChild(colourPreview);
+      const colourHelpLink = document.createElement("a");
+      colourHelpLink.className = "templates-colour-link";
+      colourHelpLink.href = "https://imagecolorpicker.com/color-code/e6e6e6";
+      colourHelpLink.target = "_blank";
+      colourHelpLink.rel = "noopener noreferrer";
+      colourHelpLink.textContent = "Find your colour";
+      colourRow.appendChild(colourHelpLink);
+      extrasSection.appendChild(colourRow);
+
+      // Logo Upload toggle
+      const logoToggle = createToggleRow("Include your logo", "[Include Logo]");
+      extrasSection.appendChild(logoToggle.row);
+      const logoArea = document.createElement("div");
+      logoArea.className = "templates-upload-area";
+      logoArea.style.display = state.fields["[Include Logo]"] === "Yes" ? "block" : "none";
+
+      const logoNote = document.createElement("div");
+      logoNote.className = "templates-logo-note";
+      logoNote.textContent = "Upload your logo below. It will be sent to the AI along with your quote details.";
+      logoArea.appendChild(logoNote);
+
+      const logoUploadBtn = document.createElement("button");
+      logoUploadBtn.type = "button";
+      logoUploadBtn.className = "templates-upload-btn";
+      logoUploadBtn.textContent = "Choose logo image...";
+      const logoFileInput = document.createElement("input");
+      logoFileInput.type = "file";
+      logoFileInput.accept = "image/png,image/jpeg,image/gif,image/webp";
+      logoFileInput.style.display = "none";
+      logoUploadBtn.addEventListener("click", function () { logoFileInput.click(); });
+
+      const logoPreviewImg = document.createElement("img");
+      logoPreviewImg.className = "templates-logo-preview";
+      logoPreviewImg.style.display = "none";
+
+      logoFileInput.addEventListener("change", function () {
+        const file = logoFileInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (ev) {
+          const dataUrl = ev.target.result;
+          const mimeMatch = dataUrl.match(/^data:(image\/[a-z+]+);base64,/);
+          if (!mimeMatch) return;
+          state.logoMimeType = mimeMatch[1];
+          state.logoBase64 = dataUrl.split(",")[1];
+          logoPreviewImg.src = dataUrl;
+          logoPreviewImg.style.display = "block";
+          logoUploadBtn.textContent = file.name;
+          updatePrompt();
+        };
+        reader.readAsDataURL(file);
+      });
+
+      logoArea.appendChild(logoUploadBtn);
+      logoArea.appendChild(logoFileInput);
+      logoArea.appendChild(logoPreviewImg);
+      extrasSection.appendChild(logoArea);
+      logoToggle.toggle.addEventListener("click", function () {
+        logoArea.style.display = state.fields["[Include Logo]"] === "Yes" ? "block" : "none";
+      });
+
       wrap.appendChild(extrasSection);
 
+      // ── Generated Prompt ──
       const promptWrap = document.createElement("div");
       promptWrap.className = "templates-prompt-wrap";
-
       const promptTitle = document.createElement("div");
       promptTitle.className = "templates-prompt-title";
       promptTitle.textContent = "Generated Prompt";
-
-      const output = document.createElement("div");
+      output = document.createElement("div");
       output.className = "templates-output";
-
       promptWrap.appendChild(promptTitle);
       promptWrap.appendChild(output);
       wrap.appendChild(promptWrap);
 
+      // ── AI Response Area ──
+      const aiResponseArea = document.createElement("div");
+      aiResponseArea.className = "templates-ai-response hidden";
+      wrap.appendChild(aiResponseArea);
+
+      // ── Footer: Copy + Run with AI ──
       const footer = document.createElement("div");
       footer.className = "templates-copy-footer";
 
@@ -5461,35 +5522,108 @@
       copyBtn.type = "button";
       copyBtn.className = "templates-copy-btn";
       copyBtn.textContent = "Copy prompt";
-
       copyBtn.addEventListener("click", function (e) {
         e.stopPropagation();
         const textToCopy = output.textContent;
-
         if (navigator.clipboard && window.isSecureContext) {
           navigator.clipboard.writeText(textToCopy).then(function () {
-            const oldText = copyBtn.textContent;
-            copyBtn.textContent = "Copied ✓";
-            setTimeout(function () {
-              copyBtn.textContent = oldText;
-            }, 1200);
-          }).catch(function () {
-            fallbackCopy(textToCopy, copyBtn);
+            copyBtn.textContent = "Copied \u2713";
+            setTimeout(function () { copyBtn.textContent = "Copy prompt"; }, 1200);
+          }).catch(function () { fallbackCopy(textToCopy, copyBtn); });
+        } else { fallbackCopy(textToCopy, copyBtn); }
+      });
+
+      const runBtn = document.createElement("button");
+      runBtn.type = "button";
+      runBtn.className = "templates-run-btn";
+      runBtn.innerHTML = '<span class="tpl-spinner"></span><span>\u2726 Run with AI</span>';
+
+      const copyResponseBtn = document.createElement("button");
+      copyResponseBtn.type = "button";
+      copyResponseBtn.className = "templates-copy-btn";
+      copyResponseBtn.textContent = "Copy result";
+      copyResponseBtn.style.display = "none";
+      copyResponseBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        const textToCopy = aiResponseArea.textContent;
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(textToCopy).then(function () {
+            copyResponseBtn.textContent = "Copied \u2713";
+            setTimeout(function () { copyResponseBtn.textContent = "Copy result"; }, 1200);
+          }).catch(function () { fallbackCopy(textToCopy, copyResponseBtn); });
+        } else { fallbackCopy(textToCopy, copyResponseBtn); }
+      });
+
+      runBtn.addEventListener("click", async function (e) {
+        e.stopPropagation();
+        const promptText = getPromptText();
+        if (!promptText.trim()) return;
+        runBtn.disabled = true;
+        runBtn.classList.add("loading");
+        aiResponseArea.classList.remove("hidden");
+        aiResponseArea.textContent = "Generating your quote...";
+        copyResponseBtn.style.display = "none";
+        bumpUsageStat("aiRuns", 1);
+
+        const msgContent = [{ type: "text", text: promptText }];
+        if (state.fields["[Include Logo]"] === "Yes" && state.logoBase64 && state.logoMimeType) {
+          msgContent.unshift({
+            type: "image",
+            source: { type: "base64", media_type: state.logoMimeType, data: state.logoBase64 }
           });
-        } else {
-          fallbackCopy(textToCopy, copyBtn);
+        }
+
+        try {
+          const resp = await fetch("/api/claude", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model: "claude-sonnet-4-20250514",
+              max_tokens: 2000,
+              stream: true,
+              system: "You are a practical AI assistant helping Australian tradies and small business owners create professional quotes. Write in plain, professional Australian English. Be direct, clear, and concise. If a logo image is provided, acknowledge it and note where it should be placed in the quote layout. Return only the finished quote document.",
+              messages: [{ role: "user", content: msgContent }]
+            })
+          });
+
+          if (!resp.ok) {
+            const errData = await resp.json().catch(function () { return {}; });
+            throw new Error((errData.error && errData.error.message) || "API error " + resp.status);
+          }
+
+          aiResponseArea.textContent = "";
+          const reader = resp.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = "";
+          while (true) {
+            const chunk = await reader.read();
+            if (chunk.done) break;
+            buffer += decoder.decode(chunk.value, { stream: true });
+            const lines = buffer.split("\n");
+            buffer = lines.pop();
+            for (const line of lines) {
+              if (!line.startsWith("data: ")) continue;
+              const data = line.slice(6).trim();
+              if (data === "[DONE]") continue;
+              try {
+                const parsed = JSON.parse(data);
+                const delta = (parsed.delta && parsed.delta.text) || "";
+                if (delta) aiResponseArea.textContent += delta;
+              } catch (_) {}
+            }
+          }
+          copyResponseBtn.style.display = "";
+        } catch (err) {
+          aiResponseArea.textContent = "\u26a0\ufe0f " + (err.message || "Something went wrong. Please try again.");
+        } finally {
+          runBtn.disabled = false;
+          runBtn.classList.remove("loading");
         }
       });
 
-      const openLink = document.createElement("a");
-      openLink.className = "templates-ai-link";
-      openLink.href = "https://claude.ai/";
-      openLink.target = "_blank";
-      openLink.rel = "noopener noreferrer";
-      openLink.innerHTML = 'Open: <strong>AI assistant &rarr;</strong>';
-
       footer.appendChild(copyBtn);
-      footer.appendChild(openLink);
+      footer.appendChild(runBtn);
+      footer.appendChild(copyResponseBtn);
       wrap.appendChild(footer);
 
       body.appendChild(wrap);
