@@ -12,14 +12,25 @@
     :root {
       --bg: #faf5ed;
       --surface: #faf5ed;
-      --accent: #c7612e;
+      --card-bg: #faf5ed;
+      --accent: #e75a00;
+      --accent-hover: #241f72;
+      --text-dark: #292727;
       --text-light: #292727;
       --text-muted: #292727;
-      --border-subtle: #a89b8b;
-      --green: #22c55e;
-      --red: #ef4444;
+      --border-subtle: #dcdcdc;
+      --status-ok: #e75a00;
+      --status-error: #241f72;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --shadow-md: 0 4px 12px rgba(41, 39, 39, 0.08);
     }
-    * { box-sizing: border-box; margin: 0; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+
     body {
       font-family: "Roboto", system-ui, sans-serif;
       background: var(--bg);
@@ -29,23 +40,29 @@
       place-items: center;
       padding: 24px;
     }
+
     .admin-card {
       width: min(560px, 100%);
-      background: var(--surface);
+      background: var(--card-bg);
       border: 1px solid var(--border-subtle);
-      border-radius: 16px;
+      border-radius: var(--radius-md);
       padding: 28px;
+      box-shadow: var(--shadow-md);
     }
+
     .admin-card h1 {
       color: var(--accent);
       font-size: 24px;
       margin-bottom: 6px;
     }
+
     .admin-card .sub {
       color: var(--text-muted);
       font-size: 14px;
       margin-bottom: 24px;
+      line-height: 1.5;
     }
+
     label {
       display: grid;
       gap: 6px;
@@ -54,57 +71,102 @@
       color: var(--accent);
       margin-bottom: 16px;
     }
+
     input[type="email"] {
       width: 100%;
       background: var(--bg);
       border: 2px solid var(--border-subtle);
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       padding: 12px 14px;
       font: inherit;
       font-size: 16px;
       color: var(--text-light);
     }
-    input[type="email"]::placeholder { color: var(--text-muted); }
+
+    input[type="email"]::placeholder {
+      color: var(--text-muted);
+    }
+
     input[type="email"]:focus {
       outline: none;
       border-color: var(--accent);
     }
+
     .invite-btn {
       background: var(--accent);
-      color: #241f72;
-      border: none;
-      border-radius: 10px;
+      color: var(--bg);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
       padding: 12px 24px;
       font: inherit;
       font-weight: 700;
       font-size: 16px;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      box-shadow: var(--shadow-md);
+      transition: background 0.15s, border-color 0.15s;
     }
-    .invite-btn:disabled { opacity: 0.6; cursor: default; }
+
+    .invite-btn:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .invite-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+
     .status {
       margin-top: 16px;
       min-height: 22px;
       font-size: 14px;
       font-weight: 600;
     }
-    .status.ok { color: var(--green); }
-    .status.error { color: var(--red); }
-    .status.info { color: var(--text-muted); }
-    a { color: var(--accent); font-weight: 700; text-decoration: none; }
-    .back-link { display: inline-block; margin-top: 20px; font-size: 14px; }
 
-    /* Auth gate */
+    .status.ok {
+      color: var(--status-ok);
+    }
+
+    .status.error {
+      color: var(--status-error);
+    }
+
+    .status.info {
+      color: var(--text-muted);
+    }
+
+    a {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
     .auth-gate {
       text-align: center;
       padding: 20px 0;
     }
+
     .spinner {
-      display: inline-block; width: 24px; height: 24px;
-      border: 3px solid #e2e8f0; border-top-color: var(--accent);
-      border-radius: 50%; animation: spin 0.7s linear infinite;
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid var(--border-subtle);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 <body>
@@ -113,19 +175,16 @@
     <h1>Invite Consultant</h1>
     <p class="sub">Send an invite to a consultant's email. They'll receive a link to set up their account and access the Consultant Portal.</p>
 
-    <!-- Loading state while checking permissions -->
     <div id="authGate" class="auth-gate">
       <span class="spinner"></span>
       <p style="color:var(--text-muted); margin-top:12px; font-size:14px;">Checking permissions...</p>
     </div>
 
-    <!-- Blocked state -->
     <div id="blockedState" style="display:none;">
       <p class="status error" id="blockedMessage">You do not have permission to invite consultants.</p>
       <a class="back-link" href="./login.html">Go to login</a>
     </div>
 
-    <!-- Invite form -->
     <div id="inviteSection" style="display:none;">
       <form id="inviteForm">
         <label for="consultantEmail">
@@ -184,7 +243,6 @@
 
         activeToken = result.data.session.access_token;
 
-        // Check consultant access (must be admin or consultant with portal_access)
         try {
           var resp = await fetch("/api/check-consultant-access", {
             method: "POST",
@@ -241,7 +299,6 @@
           if (result.note) msg += " " + result.note;
           setStatus(msg, "ok");
 
-          // Clear email field for next invite
           document.getElementById("consultantEmail").value = "";
           inviteBtn.disabled = false;
         } catch (err) {
