@@ -191,12 +191,13 @@
 
     verifyCode(activeToken, code).then(function (result) {
       if (result.verified) {
+        setStatus("Verified! Redirecting...", "ok");
         if (portalTypeInput.value === "consultant") {
           resolveConsultantRedirect(activeToken).then(function (url) {
-            window.location.href = url;
+            window.location.replace(url);
           });
         } else {
-          window.location.href = "./index.html";
+          window.location.replace("./index.html");
         }
         return;
       }
