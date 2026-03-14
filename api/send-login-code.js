@@ -25,6 +25,7 @@ async function sendEmail(to, code) {
   const FROM_EMAIL = process.env.FROM_EMAIL || "AdvisaStacks <noreply@advisastacks.com>";
 
   if (!RESEND_API_KEY) {
+    console.error("send-login-code: RESEND_API_KEY environment variable is not set");
     return false;
   }
 
