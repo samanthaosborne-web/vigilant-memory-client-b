@@ -2138,7 +2138,7 @@
     }
     .help-tip {
       margin: 4px 0 0;
-      color: #94a3b8;
+      color: #292727;
       font-size: 13px;
       line-height: 1.4;
     }
@@ -2333,7 +2333,7 @@
       margin-left: auto;
       font-size: 12px;
       font-weight: 500;
-      color: #64748b;
+      color: #292727;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -2395,7 +2395,7 @@
     .example-footer {
       margin: 10px 0 0;
       font-size: 12px;
-      color: #64748b;
+      color: #292727;
       font-style: italic;
     }
     @media (max-width: 640px) {
@@ -2474,7 +2474,7 @@
     .onboarding-step-label {
       margin-left: 12px;
       font-size: 0.85rem;
-      color: #94a3b8;
+      color: #292727;
       font-family: var(--font-body);
     }
     .onboarding-step-content {
@@ -2513,7 +2513,7 @@
       font-family: var(--font-body);
       font-size: 0.85rem;
       font-weight: 600;
-      color: #64748b;
+      color: #292727;
       margin-bottom: 6px;
     }
     .onboarding-field input {
@@ -2576,7 +2576,7 @@
       transition: color 200ms;
     }
     .onboarding-skip-link:hover {
-      color: #94a3b8;
+      color: #292727;
     }
 
     /* Step 2 — Card preview */
@@ -2592,7 +2592,7 @@
       align-items: center;
       gap: 8px;
       font-size: 0.8rem;
-      color: #64748b;
+      color: #292727;
       margin-bottom: 16px;
       flex-wrap: wrap;
     }
@@ -2606,7 +2606,7 @@
     .onboarding-chips-label {
       font-size: 0.8rem;
       font-weight: 600;
-      color: #94a3b8;
+      color: #292727;
       margin-bottom: 6px;
       font-family: var(--font-body);
     }
@@ -2622,7 +2622,7 @@
       font-family: var(--font-body);
       border: 1px solid var(--border-subtle);
       background: var(--bg);
-      color: #94a3b8;
+      color: #292727;
       cursor: default;
     }
     .onboarding-chip.selected {
@@ -2640,7 +2640,7 @@
       display: block;
       font-size: 0.78rem;
       font-weight: 600;
-      color: #94a3b8;
+      color: #292727;
       margin-bottom: 4px;
       font-family: var(--font-body);
     }
@@ -2658,7 +2658,7 @@
     .onboarding-prompt-toggle {
       background: none;
       border: none;
-      color: #64748b;
+      color: #292727;
       font-size: 0.82rem;
       cursor: pointer;
       padding: 4px 0;
@@ -2667,7 +2667,7 @@
       transition: color 200ms;
     }
     .onboarding-prompt-toggle:hover {
-      color: #94a3b8;
+      color: #292727;
     }
     .onboarding-prompt-preview {
       background: var(--bg);
@@ -2675,7 +2675,7 @@
       border-radius: 8px;
       padding: 12px;
       font-size: 0.82rem;
-      color: #94a3b8;
+      color: #292727;
       white-space: pre-wrap;
       font-family: var(--font-body);
       margin-bottom: 16px;
@@ -2706,7 +2706,7 @@
     .onboarding-response-label {
       font-size: 0.82rem;
       font-weight: 600;
-      color: #94a3b8;
+      color: #292727;
       font-family: var(--font-body);
     }
     .onboarding-copy-btn {
@@ -2714,7 +2714,7 @@
       background: transparent;
       border: 1px solid var(--border-subtle);
       border-radius: 4px;
-      color: #94a3b8;
+      color: #292727;
       font-size: 0.78rem;
       cursor: pointer;
       font-family: var(--font-body);
@@ -2749,7 +2749,7 @@
     }
     .onboarding-status {
       font-size: 0.85rem;
-      color: #94a3b8;
+      color: #292727;
       margin-top: 8px;
     }
 
@@ -2777,13 +2777,13 @@
       display: block;
       font-family: var(--font-heading);
       font-size: 0.95rem;
-      color: #f1f5f9;
+      color: #ffffff;
       margin-bottom: 4px;
     }
     .onboarding-category-btn span {
       font-family: var(--font-body);
       font-size: 0.82rem;
-      color: #64748b;
+      color: #ffffff;
       line-height: 1.4;
     }
 
@@ -3783,6 +3783,48 @@
       .page-title {
         font-size: 48px;
       }
+    }
+
+    /* ── Contrast fixes: buttons with light-on-light ── */
+    .reveal-btn,
+    .cb-submit-btn,
+    .cb-save-btn,
+    .builder-submit-btn,
+    .template-action-btn,
+    .onboarding-copy-btn,
+    .onboarding-prompt-toggle,
+    .onboarding-skip-link,
+    .example-toggle,
+    .qb-add-btn,
+    .custom-delete-card-btn,
+    .qb-remove-line,
+    .ai-preview-btn,
+    .onboarding-category-btn {
+      background: #e75a00 !important;
+      color: #ffffff !important;
+      border-color: #e75a00 !important;
+    }
+    .reveal-btn:hover,
+    .cb-submit-btn:hover,
+    .cb-save-btn:hover,
+    .builder-submit-btn:hover,
+    .template-action-btn:hover,
+    .onboarding-copy-btn:hover,
+    .onboarding-prompt-toggle:hover,
+    .onboarding-skip-link:hover,
+    .example-toggle:hover,
+    .qb-add-btn:hover,
+    .custom-delete-card-btn:hover,
+    .qb-remove-line:hover,
+    .ai-preview-btn:hover,
+    .onboarding-category-btn:hover {
+      background: #241f72 !important;
+      color: #ffffff !important;
+      border-color: #241f72 !important;
+    }
+    .example-toggle[aria-expanded="true"] {
+      background: #241f72 !important;
+      border-color: #241f72 !important;
     }
 
   </style>
@@ -5800,7 +5842,7 @@
 
           <!-- SECTION 4: Rules & Examples (optional) -->
           <div class="cb-section">
-            <div class="cb-section-title">Rules &amp; Examples <span style="font-weight:400; color:#94a3b8;">(optional)</span></div>
+            <div class="cb-section-title">Rules &amp; Examples <span style="font-weight:400; color:#292727;">(optional)</span></div>
             <div class="cb-field">
               <label for="cb-rules">Rules or constraints</label>
               <span class="cb-hint">e.g. No AI language, keep under 100 words, always end with a question</span>
@@ -6379,7 +6421,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
         const showPrimaryGuidance = ["Winning Work", "Manage Jobs", "Getting Paid", "Grow"].includes(current);
         if (showPrimaryGuidance) {
           helpEl.style.display = "";
-          helpEl.innerHTML = "<div class=\"help-text\" style=\"margin-bottom:6px; color:#cbd5e1;\">" + c.why + "</div><div class=\"help-tip\">Tip: " + c.how + "</div>";
+          helpEl.innerHTML = "<div class=\"help-text\" style=\"margin-bottom:6px; color:#292727;\">" + c.why + "</div><div class=\"help-tip\">Tip: " + c.how + "</div>";
         } else {
           helpEl.innerHTML = "";
           helpEl.style.display = "none";
