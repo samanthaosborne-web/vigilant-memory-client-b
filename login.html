@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AdvisaStacks - Login</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="AdvisaStacks | Practical AI Toolkits for Tradie Consultants" />
+  <meta property="og:description" content="We're looking for consultants to take part in beta testing for AdvisaStacks, a new AI App for tradie and small business support." />
+  <meta property="og:image" content="https://advisastacks.com/AdvisaStacks%20Socials%20Feature.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AdvisaStacks | Practical AI Toolkits for Tradie Consultants" />
+  <meta name="twitter:description" content="We're looking for consultants to take part in beta testing for AdvisaStacks, a new AI App for tradie and small business support." />
+  <meta name="twitter:image" content="https://advisastacks.com/AdvisaStacks%20Socials%20Feature.png" />
+  <link rel="icon" type="image/png" href="./advisastacks-logo-favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #faf5ed;
+      --surface: #faf5ed;
+      --card-bg: #faf5ed;
+      --accent: #c7612e;
+      --accent-hover: #b35425;
+      --text-dark: #292727;
+      --text-muted: #292727;
+      --text-light: #292727;
+      --border-subtle: #a89b8b;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --shadow-sm: 0 1px 2px rgba(45, 42, 38, 0.06);
+      --shadow-md: 0 4px 12px rgba(45, 42, 38, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Roboto", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+    }
+
+    .auth-card {
+      width: min(560px, 100%);
+      background: var(--surface);
+      color: var(--text-dark);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-shell {
+      max-width: 480px;
+      width: 100%;
+    }
+
+    h1 { margin: 0 0 6px; color: var(--text-dark); font-size: clamp(24px, 4vw, 32px); line-height: 1.1; }
+    .sub { margin: 0 0 20px; font-size: 14px; color: var(--text-muted); }
+    form { display: grid; gap: 14px; }
+    label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: var(--text-muted); line-height: 1; }
+    input {
+      width: 100%;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 16px;
+      color: var(--text-dark);
+      background: var(--surface);
+    }
+
+    input:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 1px;
+    }
+
+    .field-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .forgot-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -4px;
+    }
+
+    .forgot-link {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    button {
+      justify-self: start;
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
+      color: #faf5ed;
+      padding: 10px 20px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: background 0.15s;
+    }
+
+    button:hover {
+      background: var(--accent-hover);
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: default;
+    }
+
+    .status { min-height: 18px; font-size: 13px; font-weight: 600; }
+    .status.error { color: #b30000; }
+    .links { margin-top: 14px; font-size: 14px; color: var(--text-muted); }
+    a { color: var(--accent); font-weight: 600; }
+
+    .portal-toggle {
+      display: flex;
+      gap: 0;
+      margin-bottom: 20px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .portal-toggle-btn {
+      flex: 1;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      background: var(--surface);
+      color: var(--text-muted);
+      transition: background 0.15s, color 0.15s;
+    }
+    .portal-toggle-btn.active {
+      background: var(--accent);
+      color: #faf5ed;
+    }
+    .portal-toggle-btn:not(.active):hover {
+      background: var(--card-bg);
+    }
+
+    @media (max-width: 640px) {
+      .auth-card { padding: 20px; }
+      h1 { font-size: 24px; }
+      .sub { font-size: 13px; }
+      input { font-size: 16px; padding: 10px 12px; }
+      button { font-size: 15px; padding: 10px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="auth-card">
+    <div class="form-shell">
+      <img src="./advisastacks-logo.png" alt="AdvisaStacks" style="width:180px; height:auto; margin-bottom:16px;" />
+      <div class="portal-toggle">
+        <button type="button" class="portal-toggle-btn active" id="clientToggle">Client Login</button>
+        <button type="button" class="portal-toggle-btn" id="consultantToggle">Consultant Portal</button>
+      </div>
+      <h1 id="loginHeading">Sign in</h1>
+      <p class="sub" id="loginSub">Use your AdvisaStacks account credentials.</p>
+      <input type="hidden" id="portalType" value="client" />
+      <form id="loginForm">
+        <label for="email">
+          <span class="field-title">Email</span>
+          <input id="email" type="email" autocomplete="email" required />
+        </label>
+        <label for="password">
+          <span class="field-title">Password</span>
+          <input id="password" type="password" autocomplete="current-password" required />
+        </label>
+        <div class="forgot-row">
+          <a class="forgot-link" href="./forgot-password.html">Forgot password?</a>
+        </div>
+        <button id="loginBtn" type="submit">Log in</button>
+        <div id="statusMessage" class="status" aria-live="polite"></div>
+      </form>
+
+      <div id="mfaSection" style="display:none;">
+        <h2 style="color:var(--text-dark); margin:0 0 6px; font-size:20px;">Check your email</h2>
+        <p style="font-size:13px; color:var(--text-muted); margin:0 0 14px;">We've sent a 6-digit verification code to your email address. Enter it below to complete sign-in.</p>
+        <form id="mfaForm" style="display:grid; gap:14px;">
+          <label for="mfaCode">
+            <span class="field-title">Verification Code</span>
+            <input id="mfaCode" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="000000" required style="letter-spacing:0.3em; text-align:center;" />
+          </label>
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+            <button id="mfaVerifyBtn" type="submit">Verify</button>
+            <button id="resendBtn" type="button" style="background:var(--surface); color:var(--accent); border-color:var(--border-subtle); font-size:14px; padding:10px 16px;">Resend code</button>
+          </div>
+        </form>
+      </div>
+
+      <p class="links" id="loginLinks">No account yet? <a href="./signup.html">Create account</a> | <a href="./home.html">Learn more</a></p>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./auth-config.js"></script>
+  <script src="./login.js"></script>
+</body>
+</html>
