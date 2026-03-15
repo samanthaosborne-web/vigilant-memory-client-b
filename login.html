@@ -19,23 +19,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
-      --surface: #FFFFFF;
-      --card-bg: #FFFFFF;
       --accent: #0A7AFF;
       --accent-hover: #0862CC;
-      --text-dark: #1E293B;
-      --text-muted: #64748B;
-      --text-light: #94A3B8;
-      --border-subtle: #E2E8F0;
-      --border-input: #E2E8F0;
-      --bg-input: #F8FAFC;
       --radius-sm: 12px;
       --radius-md: 16px;
       --radius-lg: 20px;
-      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04);
-      --shadow-focus: 0 0 0 4px rgba(10, 122, 255, 0.08);
     }
 
     * { 
@@ -44,25 +32,50 @@
       padding: 0;
     }
 
+    /* Mobile-first: Dark background with image */
     body {
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 40px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
-      color: var(--text-dark);
+      background: #000000 url('./AdvisaStacks_Login_BG_Image.png') no-repeat center center;
+      background-size: cover;
+      color: #FFFFFF;
     }
 
+    /* Desktop: Clean white background */
+    @media (min-width: 768px) {
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+        padding: 40px 24px;
+        color: #1E293B;
+      }
+    }
+
+    /* Mobile: Transparent container, blends with background */
     .auth-card {
-      width: min(460px, 100%);
-      background: var(--surface);
-      border-radius: 24px;
-      padding: 40px 36px;
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.08),
-        0 8px 16px rgba(0, 0, 0, 0.04);
-      border: 1px solid rgba(226, 232, 240, 0.8);
+      width: 100%;
+      max-width: 460px;
+      background: transparent;
+      border-radius: 0;
+      padding: 40px 24px;
+      box-shadow: none;
+      border: none;
+    }
+
+    /* Desktop: White card with shadow */
+    @media (min-width: 768px) {
+      .auth-card {
+        background: #FFFFFF;
+        border-radius: 24px;
+        padding: 40px 36px;
+        box-shadow: 
+          0 20px 60px rgba(0, 0, 0, 0.08),
+          0 8px 16px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+      }
     }
 
     .form-shell {
@@ -70,29 +83,53 @@
       width: 100%;
     }
 
-    .form-shell > img {
-      width: 180px !important;
-      height: auto !important;
-      margin-bottom: 28px !important;
+    .logo-img {
+      width: 180px;
+      height: auto;
+      margin-bottom: 28px;
       display: block;
+      content: url('./AdvisaStacks_White_and_Black_Logo.png');
     }
 
+    /* Desktop: Use blue logo */
+    @media (min-width: 768px) {
+      .logo-img {
+        content: url('./AdvisaStacks_Blue_Logo.png');
+      }
+    }
+
+    /* Mobile: White text */
     h1 { 
       margin: 0 0 8px; 
-      color: var(--text-dark); 
+      color: #FFFFFF;
       font-family: 'Outfit', sans-serif;
       font-size: clamp(28px, 5vw, 36px);
       font-weight: 700;
       line-height: 1.1;
       letter-spacing: -0.02em;
     }
+
+    /* Desktop: Dark text */
+    @media (min-width: 768px) {
+      h1 {
+        color: #1E293B;
+      }
+    }
     
+    /* Mobile: Light text */
     .sub { 
       margin: 0 0 28px; 
       font-size: 15px; 
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.8);
       font-weight: 500;
       line-height: 1.5;
+    }
+
+    /* Desktop: Muted dark text */
+    @media (min-width: 768px) {
+      .sub {
+        color: #64748B;
+      }
     }
     
     form { 
@@ -100,42 +137,76 @@
       gap: 18px; 
     }
     
+    /* Mobile: White text for labels */
     label { 
       display: grid; 
       gap: 8px; 
       font-size: 14px; 
       font-weight: 600; 
-      color: var(--text-dark); 
+      color: #FFFFFF; 
       line-height: 1;
     }
+
+    /* Desktop: Dark text for labels */
+    @media (min-width: 768px) {
+      label {
+        color: #1E293B;
+      }
+    }
     
+    /* Mobile: Dark inputs with light border */
     input {
       width: 100%;
-      border: 2px solid var(--border-input);
+      border: 2px solid rgba(255, 255, 255, 0.2);
       border-radius: 14px;
       padding: 14px 16px;
       font-family: 'DM Sans', sans-serif;
       font-size: 15px;
-      color: var(--text-dark);
-      background: var(--bg-input);
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.1);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* Desktop: Light inputs */
+    @media (min-width: 768px) {
+      input {
+        border: 2px solid #E2E8F0;
+        color: #1E293B;
+        background: #F8FAFC;
+      }
+    }
+
+    /* Mobile: Blue focus state */
     input:focus {
       outline: none;
       border-color: var(--accent);
-      background: #FFFFFF;
-      box-shadow: var(--shadow-focus);
+      background: rgba(10, 122, 255, 0.15);
+      box-shadow: 0 0 0 4px rgba(10, 122, 255, 0.15);
     }
 
+    /* Desktop: Blue focus with white background */
+    @media (min-width: 768px) {
+      input:focus {
+        background: #FFFFFF;
+        box-shadow: 0 0 0 4px rgba(10, 122, 255, 0.08);
+      }
+    }
+
+    /* Mobile: Light placeholder */
     input::placeholder {
-      color: var(--text-light);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Desktop: Muted placeholder */
+    @media (min-width: 768px) {
+      input::placeholder {
+        color: #94A3B8;
+      }
     }
 
     .field-title {
       font-size: 14px;
       font-weight: 600;
-      color: var(--text-dark);
       line-height: 1;
       margin: 0;
     }
@@ -195,17 +266,38 @@
       font-size: 14px; 
       font-weight: 600;
       margin-top: 8px;
+      color: #FFFFFF;
+    }
+
+    @media (min-width: 768px) {
+      .status {
+        color: #1E293B;
+      }
     }
     
     .status.error { 
-      color: #DC2626; 
+      color: #FCA5A5;
+    }
+
+    @media (min-width: 768px) {
+      .status.error {
+        color: #DC2626;
+      }
     }
     
+    /* Mobile: White text for links */
     .links { 
       margin-top: 24px; 
       font-size: 14px; 
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.8);
       text-align: center;
+    }
+
+    /* Desktop: Muted dark text for links */
+    @media (min-width: 768px) {
+      .links {
+        color: #64748B;
+      }
     }
     
     a { 
@@ -219,15 +311,24 @@
       color: var(--accent-hover);
     }
 
+    /* Mobile: Dark toggle with light inactive state */
     .portal-toggle {
       display: flex;
       gap: 6px;
       margin-bottom: 28px;
-      background: #F1F3F6;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 16px;
       padding: 6px;
     }
+
+    /* Desktop: Light toggle */
+    @media (min-width: 768px) {
+      .portal-toggle {
+        background: #F1F3F6;
+      }
+    }
     
+    /* Mobile: Light text for inactive */
     .portal-toggle-btn {
       flex: 1;
       padding: 14px 20px;
@@ -239,8 +340,15 @@
       border-radius: 12px;
       box-shadow: none;
       background: transparent;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.6);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Desktop: Muted dark text for inactive */
+    @media (min-width: 768px) {
+      .portal-toggle-btn {
+        color: #64748B;
+      }
     }
     
     .portal-toggle-btn.active {
@@ -249,9 +357,18 @@
       box-shadow: 0 2px 8px rgba(10, 122, 255, 0.25);
     }
     
+    /* Mobile: Hover state */
     .portal-toggle-btn:not(.active):hover {
-      background: rgba(10, 122, 255, 0.08);
-      color: var(--text-dark);
+      background: rgba(10, 122, 255, 0.15);
+      color: #FFFFFF;
+    }
+
+    /* Desktop: Different hover state */
+    @media (min-width: 768px) {
+      .portal-toggle-btn:not(.active):hover {
+        background: rgba(10, 122, 255, 0.08);
+        color: #1E293B;
+      }
     }
 
     #mfaSection h2 {
@@ -349,31 +466,94 @@
         padding: 12px 16px;
       }
     }
+
+    /* MFA Section Styles */
+    /* Mobile: White text for MFA */
+    #mfaSection h2 {
+      color: #FFFFFF;
+      font-family: 'Outfit', sans-serif;
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    #mfaSection p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0 0 20px;
+      line-height: 1.6;
+    }
+
+    /* Desktop: Dark text for MFA */
+    @media (min-width: 768px) {
+      #mfaSection h2 {
+        color: #1E293B;
+      }
+
+      #mfaSection p {
+        color: #64748B;
+      }
+    }
+
+    #mfaForm {
+      display: grid;
+      gap: 18px;
+    }
+
+    #mfaCode {
+      letter-spacing: 0.3em;
+      text-align: center;
+      font-family: 'DM Sans', monospace;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    #mfaForm > div {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    /* Mobile: Dark resend button */
+    #resendBtn {
+      width: auto;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--accent);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      font-size: 14px;
+      padding: 14px 20px;
+      box-shadow: none;
+    }
+
+    #resendBtn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--accent);
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Desktop: Light resend button */
+    @media (min-width: 768px) {
+      #resendBtn {
+        background: #F8FAFC;
+        border-color: #E2E8F0;
+      }
+
+      #resendBtn:hover {
+        background: #F1F3F6;
+        border-color: var(--accent);
+      }
+    }
   </style>
 </head>
 <body>
   <main class="auth-card">
     <div class="form-shell">
-      <img src="./AdvisaStacks_Blue_Logo.png" alt="AdvisaStacks" style="width:180px; height:auto; margin-bottom:16px;" />
+      <img src="./AdvisaStacks_White_and_Black_Logo.png" alt="AdvisaStacks" class="logo-img" />
       <div class="portal-toggle">
         <button type="button" class="portal-toggle-btn active" id="clientToggle">Tradie</button>
         <button type="button" class="portal-toggle-btn" id="consultantToggle">Consultant</button>
-      </div>
-      
-      <!-- Hero Illustration -->
-      <div style="margin: 30px 0; height: 200px; display: flex; align-items: center; justify-content: center; position: relative;">
-        <div style="position: relative; width: 200px; height: 200px;">
-          <img 
-            src="./AdvisaStacks_Gear_Image.png"
-            alt="Tools"
-            style="position: absolute; width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1)); top: 20px; left: 10px; animation: float1 3s ease-in-out infinite;"
-          />
-          <img 
-            src="./AdvisaStacks_Hammer_Image.png"
-            alt="Tools"
-            style="position: absolute; width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1)); bottom: 20px; right: 10px; animation: float2 3s ease-in-out infinite;"
-          />
-        </div>
       </div>
       
       <h1 id="loginHeading">Login</h1>
@@ -391,21 +571,21 @@
         <div class="forgot-row">
           <a class="forgot-link" href="./forgot-password.html">Forgot password?</a>
         </div>
-        <button id="loginBtn" type="submit">Log in</button>
+        <button id="loginBtn" type="submit">LOGIN</button>
         <div id="statusMessage" class="status" aria-live="polite"></div>
       </form>
 
       <div id="mfaSection" style="display:none;">
-        <h2 style="color:var(--text-dark); margin:0 0 6px; font-size:20px;">Check your email</h2>
-        <p style="font-size:13px; color:var(--text-muted); margin:0 0 14px;">We've sent a 6-digit verification code to your email address. Enter it below to complete sign-in.</p>
-        <form id="mfaForm" style="display:grid; gap:14px;">
+        <h2>Check your email</h2>
+        <p>We've sent a 6-digit verification code to your email address. Enter it below to complete sign-in.</p>
+        <form id="mfaForm">
           <label for="mfaCode">
             <span class="field-title">Verification Code</span>
-            <input id="mfaCode" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="000000" required style="letter-spacing:0.3em; text-align:center;" />
+            <input id="mfaCode" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" placeholder="000000" required />
           </label>
-          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <div>
             <button id="mfaVerifyBtn" type="submit">Verify</button>
-            <button id="resendBtn" type="button" style="background:var(--surface); color:var(--accent); border-color:var(--border-subtle); font-size:14px; padding:10px 16px;">Resend code</button>
+            <button id="resendBtn" type="button">Resend code</button>
           </div>
         </form>
       </div>
@@ -419,3 +599,4 @@
   <script src="./login.js"></script>
 </body>
 </html>
+
