@@ -18,29 +18,29 @@
   <link rel="icon" type="image/png" href="./advisastacks-logo-favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
   <style>
     :root {
-      /* ── Premium blue palette ── */
-      --bg: #F8FAFC;
-      --text: #1E293B;
-      --accent: #0A7AFF;
-      --accent-hover: #0862CC;
-      --accent-light: rgba(10, 122, 255, 0.10);
-      --surface: #FFFFFF;
-      --surface-muted: #F1F3F6;
-      --text-dark: #1E293B;
-      --text-muted: #64748B;
-      --text-light: #94A3B8;
-      --border-subtle: #E2E8F0;
-      --border-strong: #CBD5E1;
-      --panel: #FFFFFF;
-      --panel-soft: #F8FAFC;
-      --card-bg: #FFFFFF;
+      /* ── Warm light palette ── */
+      --bg: #faf5ed;
+      --text: #292727;
+      --accent: #e75a00;
+      --accent-hover: #241f72;
+      --accent-light: rgba(231, 90, 0, 0.10);
+      --surface: #faf5ed;
+      --surface-muted: #b8ab9b;
+      --text-dark: #292727;
+      --text-muted: #292727;
+      --text-light: #292727;
+      --border-subtle: #a89b8b;
+      --border-strong: #9d907f;
+      --panel: #faf5ed;
+      --panel-soft: #bdb0a0;
+      --card-bg: #faf5ed;
 
       /* ── Spacing scale (4px base) ── */
       --space-1: 4px;
@@ -53,26 +53,26 @@
       --space-8: 40px;
 
       /* ── Radii ── */
-      --radius-sm: 12px;
-      --radius-md: 16px;
-      --radius-lg: 20px;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
 
       /* ── Shadows (subtle) ── */
-      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --shadow-sm: 0 1px 2px rgba(45, 42, 38, 0.06);
+      --shadow-md: 0 4px 12px rgba(45, 42, 38, 0.08);
+      --shadow-lg: 0 8px 20px rgba(45, 42, 38, 0.10);
 
       /* ── Motion ── */
-      --motion-fast: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-      --motion-med: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      --motion-fast: 150ms ease;
+      --motion-med: 200ms ease;
 
       /* ── Typography ── */
       --font-xs: 12px;
       --font-sm: 13px;
       --font-md: 15px;
       --font-lg: 17px;
-      --font-body: "DM Sans", "Inter", system-ui, sans-serif;
-      --font-heading: "Outfit", "Manrope", "Inter", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-heading: "Manrope", "Inter", system-ui, sans-serif;
     }
 
     * {
@@ -88,20 +88,20 @@
       line-height: 1.55;
     }
 
-    /* Global button colours: #fff text on #0A7AFF bg (except menu/nav buttons) */
+    /* Global button colours: #fff text on #e75a00 bg (except menu/nav buttons) */
     .reveal-btn, .home-defaults-btn, .home-cta-btn.primary,
     .welcome-primary-btn, .ai-run-now-btn, .ai-run-btn,
     .cb-submit-btn, .onboarding-primary-btn,
     button:not(.menu-item):not(.menu-btn):not(.desktop-nav-btn):not(.page-filter-btn):not(.home-task-btn):not(.home-cta-btn):not(.workspace-index-link):not(.workspace-saved-open):not(.favourite-btn):not(.cb-card-top-btn):not(.cb-load-btn):not(.cb-delete-btn):not(.header-utility-btn):not(.brand-reset-btn):not(.reset-defaults-btn):not(.menu-item-logout) {
       color: #ffffff;
     }
-    /* Hover: button background & border becomes #0862CC */
+    /* Hover: button background & border becomes #241f72 */
     .reveal-btn:hover, .home-defaults-btn:hover, .home-cta-btn.primary:hover,
     .welcome-primary-btn:hover, .ai-run-now-btn:hover,
     .cb-submit-btn:hover, .onboarding-primary-btn:hover,
     button:not(.menu-item):not(.menu-btn):not(.desktop-nav-btn):not(.page-filter-btn):not(.home-task-btn):not(.home-cta-btn):not(.workspace-index-link):not(.workspace-saved-open):not(.favourite-btn):not(.cb-card-top-btn):not(.cb-load-btn):not(.cb-delete-btn):not(.header-utility-btn):not(.brand-reset-btn):not(.reset-defaults-btn):not(.menu-item-logout):hover {
-      background: #0862CC !important;
-      border-color: #0862CC !important;
+      background: #241f72 !important;
+      border-color: #241f72 !important;
       color: #ffffff !important;
     }
 
@@ -120,11 +120,10 @@
       position: sticky;
       top: 0;
       z-index: 10000;
-      background: linear-gradient(135deg, #0A7AFF 0%, #0862CC 100%);
-      border-bottom: none;
-      backdrop-filter: none;
+      background: rgba(247, 246, 243, 0.92);
+      border-bottom: 1px solid var(--border-subtle);
+      backdrop-filter: blur(10px);
       padding-top: env(safe-area-inset-top);
-      box-shadow: 0 4px 20px rgba(10, 122, 255, 0.15);
     }
 
     .header-inner {
@@ -434,41 +433,38 @@
     /* ── Home / Hero ── */
     .home-explainer {
       display: grid;
-      gap: 32px;
-      padding: 20px 0;
+      gap: var(--space-4);
     }
     .home-intro-center {
       display: grid;
       justify-items: center;
       text-align: center;
-      gap: 16px;
+      gap: var(--space-2);
     }
     .home-kicker {
       margin: 0;
-      color: #1E293B;
-      font-family: 'Outfit', var(--font-heading);
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+      color: var(--text-dark);
+      font-family: var(--font-heading);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
       line-height: 1.15;
     }
     .home-defaults-btn {
-      background: linear-gradient(135deg, #0A7AFF 0%, #0862CC 100%);
-      color: #ffffff;
-      border: none;
-      border-radius: 12px;
-      padding: 12px 24px;
+      background: var(--accent);
+      color: #fff;
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-md);
+      padding: 8px 16px;
       font: inherit;
-      font-family: 'Outfit', sans-serif;
-      font-size: 14px;
+      font-size: var(--font-sm);
       font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(10, 122, 255, 0.3);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background var(--motion-fast);
     }
     .home-defaults-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(10, 122, 255, 0.4);
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
     .welcome-panel {
       background: var(--panel-soft);
@@ -529,10 +525,8 @@
     /* ── Task cards grid (home) ── */
     .home-task-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-      max-width: 800px;
-      margin: 0 auto;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-3);
     }
     .home-secondary-row {
       display: flex;
@@ -545,11 +539,10 @@
     }
     .home-subcopy {
       margin: 0;
-      color: #64748B;
-      font-size: 15px;
-      line-height: 1.6;
+      color: var(--text-muted);
+      font-size: var(--font-sm);
+      line-height: 1.5;
       max-width: 600px;
-      font-weight: 500;
     }
     @media (max-width: 980px) {
       .desktop-nav {
@@ -577,36 +570,32 @@
       }
     }
     .home-task-btn {
-      border: 1px solid #F1F3F6;
-      background: #FFFFFF;
-      border-radius: 20px;
-      color: #1E293B;
+      border: 1px solid var(--border-subtle);
+      background: var(--card-bg);
+      border-radius: var(--radius-md);
+      color: var(--text-dark);
       text-align: left;
-      padding: 24px 20px;
+      padding: var(--space-4);
       font: inherit;
       cursor: pointer;
       display: grid;
-      gap: 12px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-      position: relative;
+      gap: var(--space-1);
+      transition: border-color var(--motion-fast), transform var(--motion-fast), box-shadow var(--motion-fast);
     }
     .home-task-btn strong {
-      font-size: 16px;
+      font-size: var(--font-md);
       font-weight: 700;
-      color: #1E293B;
-      font-family: 'Outfit', var(--font-heading);
+      color: var(--text-dark);
     }
     .home-task-btn span {
-      font-size: 14px;
-      color: #64748B;
-      line-height: 1.5;
-      font-weight: 500;
+      font-size: var(--font-sm);
+      color: var(--text-muted);
+      line-height: 1.45;
     }
     .home-task-btn:hover {
-      border-color: #0A7AFF;
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
     }
     .home-cta-row {
       display: flex;
@@ -615,9 +604,9 @@
       margin-top: var(--space-1);
     }
     .home-cta-btn {
-      background: #0A7AFF;
+      background: #e75a00;
       color: #ffffff;
-      border: 1px solid #0A7AFF;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-md);
       padding: 8px 14px;
       font: inherit;
@@ -627,17 +616,17 @@
       transition: background var(--motion-fast), border-color var(--motion-fast);
     }
     .home-cta-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
     }
     .home-cta-btn.primary {
-      background: #0A7AFF;
-      border-color: #0A7AFF;
+      background: #e75a00;
+      border-color: #e75a00;
       color: #fff;
     }
     .home-cta-btn.primary:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
     }
     .workspace-grid {
       display: grid;
@@ -1138,9 +1127,9 @@
     .favourite-btn {
       margin-top: var(--space-3);
       margin-bottom: var(--space-2);
-      background: #0A7AFF;
+      background: #e75a00;
       color: #ffffff;
-      border: 1px solid #0A7AFF;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
       font-weight: 700;
       padding: 7px 12px;
@@ -1149,8 +1138,8 @@
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
     .favourite-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
     }
     .cb-card-top-actions {
       display: flex;
@@ -1169,13 +1158,13 @@
       border-radius: var(--radius-sm);
       width: auto;
       white-space: nowrap;
-      background: #0A7AFF;
+      background: #e75a00;
       color: #ffffff;
-      border: 1px solid #0A7AFF;
+      border: 1px solid #e75a00;
     }
     .cb-card-top-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
     }
     .custom-card-footer {
       display: flex;
@@ -1220,8 +1209,8 @@
     }
 
     .reveal-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(36, 31, 114, 0.25);
     }
@@ -1446,9 +1435,9 @@
     }
 
     .copy-btn {
-      background: #0A7AFF;
+      background: #e75a00;
       color: #ffffff;
-      border: 1px solid #0A7AFF;
+      border: 1px solid #e75a00;
       padding: 7px 14px;
       cursor: pointer;
       font-weight: 700;
@@ -1462,8 +1451,8 @@
     }
 
     .copy-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
       color: #ffffff;
     }
 
@@ -1554,8 +1543,8 @@
       transition: transform var(--motion-fast), box-shadow var(--motion-fast), background var(--motion-fast);
     }
     .ai-run-now-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(36,31,114,0.25);
     }
@@ -1591,8 +1580,8 @@
     }
     .ai-run-btn:hover:not(:disabled) {
       transform: translateY(-1px);
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
       box-shadow: 0 4px 14px rgba(36,31,114,0.30);
     }
     .ai-run-btn:active:not(:disabled) { transform: translateY(0); }
@@ -1649,8 +1638,8 @@
       letter-spacing: 0.5px;
     }
     .ai-copy-response-btn {
-      background: #0A7AFF;
-      border: 1px solid #0A7AFF;
+      background: #e75a00;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
       color: #ffffff;
       font-family: inherit;
@@ -1661,8 +1650,8 @@
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
     .ai-copy-response-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
     }
     .ai-response-box-actions {
@@ -1947,9 +1936,9 @@
       align-items: center;
       gap: var(--space-2);
       padding: 9px 16px;
-      background: #0A7AFF;
+      background: #e75a00;
       color: #ffffff;
-      border: 1px solid #0A7AFF;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
       font-size: var(--font-sm);
       font-weight: 700;
@@ -1957,15 +1946,15 @@
       font-family: inherit;
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
-    .cb-save-btn:hover { background: #0862CC; border-color: #0862CC; transform: translateY(-1px); }
+    .cb-save-btn:hover { background: #241f72; border-color: #241f72; transform: translateY(-1px); }
     .cb-submit-btn {
       display: inline-flex;
       align-items: center;
       gap: var(--space-2);
       padding: 9px 16px;
-      background: #0A7AFF;
+      background: #e75a00;
       color: #ffffff;
-      border: 1px solid #0A7AFF;
+      border: 1px solid #e75a00;
       border-radius: var(--radius-sm);
       font-size: var(--font-sm);
       font-weight: 700;
@@ -1974,8 +1963,8 @@
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast), color var(--motion-fast);
     }
     .cb-submit-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
     }
     .cb-action-row .cb-submit-btn,
@@ -1986,8 +1975,8 @@
     }
     .cb-action-row .cb-submit-btn:hover,
     .cb-action-row .cb-save-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
       transform: translateY(-1px);
     }
     @media (max-width: 640px) {
@@ -2048,30 +2037,30 @@
       font-weight: 600;
       padding: 4px 10px;
       border-radius: 7px;
-      border: 1px solid #0A7AFF;
+      border: 1px solid #e75a00;
       color: #ffffff;
-      background: #0A7AFF;
+      background: #e75a00;
       cursor: pointer;
       font-family: inherit;
       transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
     }
-    .cb-load-btn:hover { background: #0862CC; border-color: #0862CC; transform: translateY(-1px); }
+    .cb-load-btn:hover { background: #241f72; border-color: #241f72; transform: translateY(-1px); }
     .cb-delete-btn {
       font-size: 12px;
       font-weight: 600;
       padding: 4px 10px;
       border-radius: 7px;
-      border: 1px solid #0A7AFF;
+      border: 1px solid #e75a00;
       color: #ffffff;
-      background: #0A7AFF;
+      background: #e75a00;
       cursor: pointer;
       font-family: inherit;
       transition: transform var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast);
     }
     .cb-delete-btn:hover {
-      border-color: #0862CC;
+      border-color: #241f72;
       color: #ffffff;
-      background: #0862CC;
+      background: #241f72;
       transform: translateY(-1px);
     }
 
@@ -2593,8 +2582,8 @@
       transition: background 200ms, opacity 200ms;
     }
     .onboarding-primary-btn:hover {
-      background: #0862CC;
-      border-color: #0862CC;
+      background: #241f72;
+      border-color: #241f72;
     }
     .onboarding-primary-btn:disabled {
       opacity: 0.5;
@@ -2850,7 +2839,7 @@
     :root {
       --bg: #faf5ed;
       --text: #18181a;
-      --accent: #0A7AFF;
+      --accent: #e75a00;
       --charcoal: #18181a;
       --surface: #f2eee8;
       --surface-muted: #ece7e1;
@@ -2991,8 +2980,8 @@
     .action-secondary,
     .cb-secondary-btn,
     .template-secondary-btn {
-      background: #0A7AFF;
-      border-color: #0A7AFF;
+      background: #e75a00;
+      border-color: #e75a00;
       color: #ffffff;
     }
 
@@ -3063,8 +3052,8 @@
     .cb-load-btn,
     .cb-delete-btn {
       border-radius: 999px;
-      border: 1px solid #0A7AFF;
-      background: #0A7AFF;
+      border: 1px solid #e75a00;
+      background: #e75a00;
       color: #ffffff;
       box-shadow: none;
       text-decoration: none;
@@ -3083,8 +3072,8 @@
     .reveal-btn:hover,
     .cb-load-btn:hover,
     .cb-delete-btn:hover {
-      border: 1px solid #0862CC;
-      background: #0862CC;
+      border: 1px solid #241f72;
+      background: #241f72;
       color: #ffffff;
     }
     .workspace-index-link:hover {
@@ -3365,7 +3354,7 @@
     :root {
       --bg: #faf5ed;
       --text: #17181b;
-      --accent: #0A7AFF;
+      --accent: #e75a00;
       --surface: #faf5ed;
       --surface-muted: #e3ded5;
       --text-dark: #17181b;
@@ -3717,9 +3706,9 @@
     .qb-remove-line,
     .ai-preview-btn,
     .onboarding-category-btn {
-      background: #0A7AFF !important;
+      background: #e75a00 !important;
       color: #ffffff !important;
-      border-color: #0A7AFF !important;
+      border-color: #e75a00 !important;
     }
     .reveal-btn:hover,
     .cb-submit-btn:hover,
@@ -3735,13 +3724,13 @@
     .qb-remove-line:hover,
     .ai-preview-btn:hover,
     .onboarding-category-btn:hover {
-      background: #0862CC !important;
+      background: #241f72 !important;
       color: #ffffff !important;
-      border-color: #0862CC !important;
+      border-color: #241f72 !important;
     }
     .example-toggle[aria-expanded="true"] {
-      background: #0862CC !important;
-      border-color: #0862CC !important;
+      background: #241f72 !important;
+      border-color: #241f72 !important;
     }
 
   </style>
@@ -3839,11 +3828,9 @@
         <div><img src="./advisastacks-logo.png.png" alt="AdvisaStacks" style="width:100px; height:auto;" /></div>
       </div>
       <div class="footer-right-actions">
+        <button class="footer-cancel-btn" id="cancelMembershipBtn" type="button" style="display:none;">Cancel My Membership</button>
         <button class="footer-logout-btn" id="footerLogoutBtn" type="button">Log out</button>
       </div>
-    </div>
-    <div style="display:flex; justify-content:flex-end; max-width:1040px; margin:12px auto 0; padding:0 20px;">
-      <button class="footer-cancel-btn" id="cancelMembershipBtn" type="button" style="display:none;">Cancel My Membership</button>
     </div>
   </footer>
 
@@ -4947,7 +4934,7 @@
         if (btn) {
           const oldText = btn.innerHTML;
           btn.innerHTML = "Copied ✓";
-          btn.style.background = "#0A7AFF";
+          btn.style.background = "#e75a00";
           btn.style.color = "#fff";
           setTimeout(() => {
             btn.innerHTML = oldText;
@@ -5102,7 +5089,7 @@
           .templates-item-row .templates-field { margin:0; }
           .templates-item-remove { background:none; border:1px solid #d5dbe2; border-radius:8px; width:36px; height:42px; cursor:pointer; color:#6d7e94; font-size:18px; display:flex; align-items:center; justify-content:center; }
           .templates-item-remove:hover { border-color:var(--accent); color:var(--accent); }
-          .templates-add-item-btn { background:#0A7AFF; border:1px solid #0A7AFF; border-radius:8px; padding:10px 16px; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-top:4px; }
+          .templates-add-item-btn { background:#e75a00; border:1px solid #e75a00; border-radius:8px; padding:10px 16px; color:#fff; font-family:inherit; font-size:14px; font-weight:600; cursor:pointer; width:100%; margin-top:4px; }
           .templates-add-item-btn:hover { border-color:var(--accent); color:#fff; }
           .templates-inline-link { display:flex; gap:10px; align-items:end; margin-top:6px; margin-bottom:10px; }
           .templates-inline-link .templates-field { flex:1; margin:0; }
@@ -5115,7 +5102,7 @@
           .templates-deposit-info { font-size:13px; color:#6d7e94; margin-top:6px; }
           .templates-logo-note { font-size:13px; color:#6d7e94; margin-top:6px; line-height:1.4; }
           .templates-upload-area { margin-top:10px; }
-          .templates-upload-btn { background:#0A7AFF; border:1px solid #0A7AFF; border-radius:8px; padding:10px 16px; color:#fff; font-family:inherit; font-size:14px; cursor:pointer; }
+          .templates-upload-btn { background:#e75a00; border:1px solid #e75a00; border-radius:8px; padding:10px 16px; color:#fff; font-family:inherit; font-size:14px; cursor:pointer; }
           .templates-upload-btn:hover { border-color:var(--accent); color:#fff; }
           .templates-logo-preview { margin-top:8px; max-width:250px; max-height:250px; border-radius:6px; border:1px solid #d5dbe2; }
           @media (max-width:760px) {
@@ -5534,7 +5521,7 @@
       colourField.innerHTML = '<label>Brand Colour (hex)</label>';
       const colourInput = document.createElement("input");
       colourInput.type = "text";
-      colourInput.placeholder = "#0A7AFF";
+      colourInput.placeholder = "#e75a00";
       colourInput.value = state.fields["[Brand Colour]"];
       const colourPreview = document.createElement("div");
       colourPreview.className = "templates-colour-preview";
@@ -5673,7 +5660,7 @@
         if (!aiContent.trim()) return;
         const bizName = globalBizNameInput ? globalBizNameInput.value.trim() : "";
         const myName = globalFirstNameInput ? globalFirstNameInput.value.trim() : "";
-        const brandColour = state.fields["[Brand Colour]"] || "#0A7AFF";
+        const brandColour = state.fields["[Brand Colour]"] || "#e75a00";
         const logoSrc = (state.fields["[Include Logo]"] === "Yes" && state.logoBase64 && state.logoMimeType)
           ? "data:" + state.logoMimeType + ";base64," + state.logoBase64 : "";
         const clientName = state.fields["[Client name]"] || "";
@@ -5994,7 +5981,7 @@
               model: "claude-sonnet-4-20250514",
               max_tokens: 2000,
               stream: true,
-              system: "You are a professional quote writer for Australian tradies and small business owners. Write in plain, professional Australian English. Be direct and concise.\n\nYour output will be inserted into a premium branded Word document template that already handles: the business logo (250x250px, top left, high resolution), QUOTE heading and number, From/Prepared For two-column layout, job summary row, line-item pricing table with styled headers, totals box (subtotal, GST 10%, total incl GST), bank details in a bordered box, action buttons (Pay Now, Google Review), and footer contact details.\n\nYour job is to write ONLY the descriptive content:\n- A polished scope-of-work summary\n- Any relevant project notes\n- Terms and conditions summary\n- A professional closing line\n\nRules:\n- Do NOT output headers with business names or addresses\n- Do NOT recreate pricing tables or totals\n- Do NOT mention logo placement or output text like 'logo goes here'\n- Use ## markdown headings to structure sections\n- Keep it concise and client-ready\n- Use plain Australian English — direct, warm, professional\n- If no logo is uploaded, the template gracefully falls back to a text business name header\n- The final document must be editable in Microsoft Word with proper tables, clickable hyperlinks, consistent margins, and good A4 print formatting\n- Use the brand colour for headings and accents; default to AdvisaStacks orange (#0A7AFF) if none provided\n- Typography should feel modern and professional\n- Do not use excessive borders — use subtle grey lines and clean section separation",
+              system: "You are a professional quote writer for Australian tradies and small business owners. Write in plain, professional Australian English. Be direct and concise.\n\nYour output will be inserted into a premium branded Word document template that already handles: the business logo (250x250px, top left, high resolution), QUOTE heading and number, From/Prepared For two-column layout, job summary row, line-item pricing table with styled headers, totals box (subtotal, GST 10%, total incl GST), bank details in a bordered box, action buttons (Pay Now, Google Review), and footer contact details.\n\nYour job is to write ONLY the descriptive content:\n- A polished scope-of-work summary\n- Any relevant project notes\n- Terms and conditions summary\n- A professional closing line\n\nRules:\n- Do NOT output headers with business names or addresses\n- Do NOT recreate pricing tables or totals\n- Do NOT mention logo placement or output text like 'logo goes here'\n- Use ## markdown headings to structure sections\n- Keep it concise and client-ready\n- Use plain Australian English — direct, warm, professional\n- If no logo is uploaded, the template gracefully falls back to a text business name header\n- The final document must be editable in Microsoft Word with proper tables, clickable hyperlinks, consistent margins, and good A4 print formatting\n- Use the brand colour for headings and accents; default to AdvisaStacks orange (#e75a00) if none provided\n- Typography should feel modern and professional\n- Do not use excessive borders — use subtle grey lines and clean section separation",
               messages: [{ role: "user", content: msgContent }]
             })
           });
@@ -6341,7 +6328,7 @@
           <div class="cb-section">
             <div class="cb-section-title">The Task</div>
             <div class="cb-field">
-              <label for="cb-problem">Problem to solve <span style="color:#0A7AFF">*</span></label>
+              <label for="cb-problem">Problem to solve <span style="color:#e75a00">*</span></label>
               <span class="cb-hint">What do you need AI to help you with?</span>
               <textarea class="cb-input" id="cb-problem" placeholder="e.g. Write a follow-up message to a client who hasn't responded to my quote" rows="2"></textarea>
             </div>
@@ -7937,7 +7924,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
               navigator.clipboard.writeText(textToCopy).then(() => {
                 const oldText = btn.innerHTML;
                 btn.innerHTML = "Copied ✓";
-                btn.style.background = "#0A7AFF";
+                btn.style.background = "#e75a00";
                 btn.style.color = "#fff";
                 setTimeout(() => { btn.innerHTML = oldText; btn.style.background = ""; btn.style.color = ""; }, 1200);
               }).catch(() => fallbackCopy(textToCopy, btn));
@@ -8404,7 +8391,7 @@ $("cb-submit-btn").addEventListener("click", async () => {
           navigator.clipboard.writeText(text).then(() => {
             const old = btn.textContent;
             btn.textContent = "Copied \u2713";
-            btn.style.background = "#0A7AFF";
+            btn.style.background = "#e75a00";
             btn.style.color = "#fff";
             setTimeout(() => { btn.textContent = old; btn.style.background = ""; btn.style.color = ""; }, 1200);
           }).catch(() => fallbackCopy(text, btn));
