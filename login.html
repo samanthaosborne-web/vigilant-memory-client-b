@@ -306,6 +306,16 @@
       box-shadow: none;
     }
 
+    @keyframes float1 {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+
+    @keyframes float2 {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(-5deg); }
+    }
+
     @media (max-width: 640px) {
       body {
         padding: 24px 16px;
@@ -344,13 +354,30 @@
 <body>
   <main class="auth-card">
     <div class="form-shell">
-      <img src="./advisastacks-logo.png" alt="AdvisaStacks" style="width:180px; height:auto; margin-bottom:16px;" />
+      <img src="./AdvisaStacks_Blue_Logo.png" alt="AdvisaStacks" style="width:180px; height:auto; margin-bottom:16px;" />
       <div class="portal-toggle">
-        <button type="button" class="portal-toggle-btn active" id="clientToggle">Client Login</button>
-        <button type="button" class="portal-toggle-btn" id="consultantToggle">Consultant Portal</button>
+        <button type="button" class="portal-toggle-btn active" id="clientToggle">Tradie</button>
+        <button type="button" class="portal-toggle-btn" id="consultantToggle">Consultant</button>
       </div>
-      <h1 id="loginHeading">Sign in</h1>
-      <p class="sub" id="loginSub">Use your AdvisaStacks account credentials.</p>
+      
+      <!-- Hero Illustration -->
+      <div style="margin: 30px 0; height: 200px; display: flex; align-items: center; justify-content: center; position: relative;">
+        <div style="position: relative; width: 200px; height: 200px;">
+          <img 
+            src="./AdvisaStacks_Gear_Image.png"
+            alt="Tools"
+            style="position: absolute; width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1)); top: 20px; left: 10px; animation: float1 3s ease-in-out infinite;"
+          />
+          <img 
+            src="./AdvisaStacks_Hammer_Image.png"
+            alt="Tools"
+            style="position: absolute; width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1)); bottom: 20px; right: 10px; animation: float2 3s ease-in-out infinite;"
+          />
+        </div>
+      </div>
+      
+      <h1 id="loginHeading">Login</h1>
+      <p class="sub" id="loginSub">Welcome Back!</p>
       <input type="hidden" id="portalType" value="client" />
       <form id="loginForm">
         <label for="email">
