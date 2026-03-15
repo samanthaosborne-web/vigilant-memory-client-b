@@ -16,156 +16,328 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #faf5ed;
-      --surface: #faf5ed;
-      --card-bg: #faf5ed;
-      --accent: #c7612e;
-      --accent-hover: #b35425;
-      --text-dark: #292727;
-      --text-muted: #292727;
-      --text-light: #292727;
-      --border-subtle: #a89b8b;
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --shadow-sm: 0 1px 2px rgba(45, 42, 38, 0.06);
-      --shadow-md: 0 4px 12px rgba(45, 42, 38, 0.08);
+      --bg: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+      --surface: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --accent: #0A7AFF;
+      --accent-hover: #0862CC;
+      --text-dark: #1E293B;
+      --text-muted: #64748B;
+      --text-light: #94A3B8;
+      --border-subtle: #E2E8F0;
+      --border-input: #E2E8F0;
+      --bg-input: #F8FAFC;
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.04);
+      --shadow-focus: 0 0 0 4px rgba(10, 122, 255, 0.08);
     }
 
-    * { box-sizing: border-box; }
+    * { 
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
-      margin: 0;
       min-height: 100vh;
       display: grid;
       place-items: center;
-      padding: 24px;
-      font-family: "Roboto", system-ui, sans-serif;
-      background: var(--bg);
+      padding: 40px 24px;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
       color: var(--text-dark);
     }
 
     .auth-card {
-      width: min(560px, 100%);
+      width: min(460px, 100%);
       background: var(--surface);
-      color: var(--text-dark);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 28px;
-      box-shadow: var(--shadow-md);
+      border-radius: 24px;
+      padding: 40px 36px;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.08),
+        0 8px 16px rgba(0, 0, 0, 0.04);
+      border: 1px solid rgba(226, 232, 240, 0.8);
     }
 
     .form-shell {
-      max-width: 480px;
+      max-width: 100%;
       width: 100%;
     }
 
-    h1 { margin: 0 0 6px; color: var(--text-dark); font-size: clamp(24px, 4vw, 32px); line-height: 1.1; }
-    .sub { margin: 0 0 20px; font-size: 14px; color: var(--text-muted); }
-    form { display: grid; gap: 14px; }
-    label { display: grid; gap: 6px; font-size: 13px; font-weight: 700; color: var(--text-muted); line-height: 1; }
+    .form-shell > img {
+      width: 180px !important;
+      height: auto !important;
+      margin-bottom: 28px !important;
+      display: block;
+    }
+
+    h1 { 
+      margin: 0 0 8px; 
+      color: var(--text-dark); 
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(28px, 5vw, 36px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    
+    .sub { 
+      margin: 0 0 28px; 
+      font-size: 15px; 
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    
+    form { 
+      display: grid; 
+      gap: 18px; 
+    }
+    
+    label { 
+      display: grid; 
+      gap: 8px; 
+      font-size: 14px; 
+      font-weight: 600; 
+      color: var(--text-dark); 
+      line-height: 1;
+    }
+    
     input {
       width: 100%;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      font: inherit;
-      font-size: 16px;
+      border: 2px solid var(--border-input);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
       color: var(--text-dark);
-      background: var(--surface);
+      background: var(--bg-input);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     input:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 1px;
+      outline: none;
+      border-color: var(--accent);
+      background: #FFFFFF;
+      box-shadow: var(--shadow-focus);
+    }
+
+    input::placeholder {
+      color: var(--text-light);
     }
 
     .field-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-dark);
       line-height: 1;
-      margin-top: 2px;
+      margin: 0;
     }
 
     .forgot-row {
       display: flex;
       justify-content: flex-end;
-      margin-top: -4px;
+      margin-top: -6px;
+      margin-bottom: 6px;
     }
 
     .forgot-link {
       color: var(--accent);
       font-weight: 600;
-      font-size: 13px;
+      font-size: 14px;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .forgot-link:hover {
+      color: var(--accent-hover);
     }
 
     button {
-      justify-self: start;
-      background: var(--accent);
-      border: 1px solid var(--accent);
-      border-radius: var(--radius-sm);
-      color: #faf5ed;
-      padding: 10px 20px;
-      font: inherit;
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      border: none;
+      border-radius: 14px;
+      color: #FFFFFF;
+      padding: 16px 24px;
+      font-family: 'Outfit', sans-serif;
       font-weight: 700;
-      font-size: 15px;
+      font-size: 16px;
+      letter-spacing: 0.03em;
       cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      transition: background 0.15s;
+      box-shadow: 0 4px 16px rgba(10, 122, 255, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    button:hover {
-      background: var(--accent-hover);
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(10, 122, 255, 0.4);
+    }
+
+    button:active:not(:disabled) {
+      transform: translateY(0);
     }
 
     button:disabled {
-      opacity: 0.7;
-      cursor: default;
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
     }
 
-    .status { min-height: 18px; font-size: 13px; font-weight: 600; }
-    .status.error { color: #b30000; }
-    .links { margin-top: 14px; font-size: 14px; color: var(--text-muted); }
-    a { color: var(--accent); font-weight: 600; }
+    .status { 
+      min-height: 20px; 
+      font-size: 14px; 
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    
+    .status.error { 
+      color: #DC2626; 
+    }
+    
+    .links { 
+      margin-top: 24px; 
+      font-size: 14px; 
+      color: var(--text-muted);
+      text-align: center;
+    }
+    
+    a { 
+      color: var(--accent); 
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
 
     .portal-toggle {
       display: flex;
-      gap: 0;
-      margin-bottom: 20px;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
+      gap: 6px;
+      margin-bottom: 28px;
+      background: #F1F3F6;
+      border-radius: 16px;
+      padding: 6px;
     }
+    
     .portal-toggle-btn {
       flex: 1;
-      padding: 10px 14px;
-      font: inherit;
-      font-weight: 700;
-      font-size: 14px;
+      padding: 14px 20px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
       cursor: pointer;
       border: none;
-      border-radius: 0;
+      border-radius: 12px;
       box-shadow: none;
-      background: var(--surface);
+      background: transparent;
       color: var(--text-muted);
-      transition: background 0.15s, color 0.15s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    
     .portal-toggle-btn.active {
       background: var(--accent);
-      color: #faf5ed;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(10, 122, 255, 0.25);
     }
+    
     .portal-toggle-btn:not(.active):hover {
-      background: var(--card-bg);
+      background: rgba(10, 122, 255, 0.08);
+      color: var(--text-dark);
+    }
+
+    #mfaSection h2 {
+      color: var(--text-dark);
+      font-family: 'Outfit', sans-serif;
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    #mfaSection p {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 0 0 20px;
+      line-height: 1.6;
+    }
+
+    #mfaForm {
+      display: grid;
+      gap: 18px;
+    }
+
+    #mfaCode {
+      letter-spacing: 0.3em;
+      text-align: center;
+      font-family: 'DM Sans', monospace;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    #mfaForm > div {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    #resendBtn {
+      width: auto;
+      background: #F8FAFC;
+      color: var(--accent);
+      border: 2px solid var(--border-subtle);
+      font-size: 14px;
+      padding: 14px 20px;
+      box-shadow: none;
+    }
+
+    #resendBtn:hover {
+      background: #F1F3F6;
+      border-color: var(--accent);
+      transform: none;
+      box-shadow: none;
     }
 
     @media (max-width: 640px) {
-      .auth-card { padding: 20px; }
-      h1 { font-size: 24px; }
-      .sub { font-size: 13px; }
-      input { font-size: 16px; padding: 10px 12px; }
-      button { font-size: 15px; padding: 10px 18px; }
+      body {
+        padding: 24px 16px;
+      }
+      
+      .auth-card { 
+        padding: 32px 24px;
+        border-radius: 20px;
+      }
+      
+      h1 { 
+        font-size: 28px; 
+      }
+      
+      .sub { 
+        font-size: 14px; 
+      }
+      
+      input { 
+        font-size: 16px; 
+        padding: 14px 16px; 
+      }
+      
+      button { 
+        font-size: 16px; 
+        padding: 16px 20px; 
+      }
+
+      .portal-toggle-btn {
+        font-size: 14px;
+        padding: 12px 16px;
+      }
     }
   </style>
 </head>
